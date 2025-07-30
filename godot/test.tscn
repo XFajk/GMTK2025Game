@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://dldv0yut1qrbp"]
+[gd_scene load_steps=16 format=3 uid="uid://ce0hrrfsg6c57"]
 
 [ext_resource type="Script" uid="uid://dokxcoil8uadv" path="res://prebuilds/src/loader.gd" id="1_6uqi0"]
 [ext_resource type="Script" uid="uid://doj2lvkbqx5o0" path="res://prebuilds/src/nodes/Saver.cs" id="1_8uh7m"]
