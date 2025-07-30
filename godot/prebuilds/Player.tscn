@@ -1,0 +1,168 @@
+[gd_scene load_steps=15 format=3 uid="uid://b0jnnj2b0u0cg"]
+
+[ext_resource type="Script" path="res://src/Player.gd" id="1_dqc7k"]
+[ext_resource type="PackedScene" uid="uid://dtmo3ahg8vh6x" path="res://entities/Radar.tscn" id="3_obdw2"]
+[ext_resource type="FontFile" uid="uid://lfke2fc11udm" path="res://assets/Fonts/prstartk.ttf" id="4_xb8ew"]
+[ext_resource type="Texture2D" uid="uid://3ekwtx6picii" path="res://assets/Misc/circle.svg" id="5_74ql2"]
+[ext_resource type="AudioStream" uid="uid://cfq14d5oud0no" path="res://assets/Music/ambience_outside.wav" id="6_cjgtg"]
+[ext_resource type="PackedScene" uid="uid://t66mrmfhd273" path="res://scenes/2D/PauseMenu.tscn" id="6_mq37b"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4jeoj"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_w28sf"]
+radius = 0.3
+height = 1.8
+radial_segments = 8
+rings = 6
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_52p76"]
+radius = 0.3
+height = 1.8
+
+[sub_resource type="Texture2DRD" id="Texture2DRD_v8rap"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_0q0ar"]
+color = Color(0, 0, 0, 0)
+thickness = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5uwik"]
+bg_color = Color(0.87451, 0.439216, 0.14902, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_shxdg"]
+font = ExtResource("4_xb8ew")
+font_size = 8
+outline_size = 2
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_001jw"]
+size = Vector3(0.01, 0.01, 10)
+
+[node name="Player" type="CharacterBody3D" groups=["Player", "Savable"]]
+collision_layer = 5
+collision_mask = 5
+script = ExtResource("1_dqc7k")
+running_speed = 300
+
+[node name="PlayerMesh" type="MeshInstance3D" parent="."]
+layers = 524288
+material_override = SubResource("StandardMaterial3D_4jeoj")
+mesh = SubResource("CapsuleMesh_w28sf")
+skeleton = NodePath("../Collision")
+
+[node name="Collision" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_52p76")
+
+[node name="Head" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.598592, 0)
+
+[node name="Eyes" type="Camera3D" parent="Head"]
+cull_mask = 524287
+
+[node name="PlayerUI" type="Control" parent="Head/Eyes"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="StaminaBar" type="HSlider" parent="Head/Eyes/PlayerUI"]
+layout_mode = 0
+offset_left = 69.0
+offset_top = 250.0
+offset_right = 344.0
+offset_bottom = 266.0
+theme_override_icons/grabber_disabled = SubResource("Texture2DRD_v8rap")
+theme_override_styles/slider = SubResource("StyleBoxLine_0q0ar")
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_5uwik")
+step = 0.01
+value = 100.0
+editable = false
+scrollable = false
+
+[node name="Radar" parent="Head/Eyes/PlayerUI" instance=ExtResource("3_obdw2")]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -1.0
+offset_right = -1.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Points" parent="Head/Eyes/PlayerUI/Radar" index="1"]
+zoom = 2.0
+
+[node name="SubTitles" type="Label" parent="Head/Eyes/PlayerUI"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -183.0
+offset_top = -68.0
+offset_right = 112.0
+offset_bottom = -33.0
+grow_horizontal = 2
+grow_vertical = 0
+label_settings = SubResource("LabelSettings_shxdg")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+clip_text = true
+
+[node name="TextureRect" type="TextureRect" parent="Head/Eyes/PlayerUI"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -2.0
+offset_top = -2.0
+offset_right = 2.0
+offset_bottom = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_74ql2")
+expand_mode = 1
+
+[node name="PauseMenu" parent="Head/Eyes/PlayerUI" instance=ExtResource("6_mq37b")]
+visible = false
+layout_mode = 1
+
+[node name="InteractionRay" type="RayCast3D" parent="Head"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+target_position = Vector3(0, -1.8, 0)
+
+[node name="PersceptionShape" type="Area3D" parent="Head" groups=["Player"]]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Head/PersceptionShape"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5)
+shape = SubResource("BoxShape3D_001jw")
+
+[node name="VoiceLinePlayer" type="AudioStreamPlayer" parent="."]
+bus = &"Sounds"
+
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_cjgtg")
+autoplay = true
+bus = &"Music"
+
+[node name="FeetSounds" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.697032, 0)
+volume_db = -5.0
+max_distance = 5.0
+bus = &"Sounds"
+
+[connection signal="finished" from="VoiceLinePlayer" to="." method="delete_after_voice_line_finish"]
+[connection signal="finished" from="MusicPlayer" to="." method="_on_music_player_finished"]
+
+[editable path="Head/Eyes/PlayerUI/Radar"]
