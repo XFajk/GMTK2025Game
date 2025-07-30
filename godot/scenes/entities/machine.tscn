@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=3 uid="uid://b2nsbfgse4534"]
+
+[ext_resource type="Script" uid="uid://dx4b8dlivs2dq" path="res://src/Machines/Machine.cs" id="1_orw1l"]
+[ext_resource type="Script" uid="uid://dck4iuol8dehj" path="res://src/Machines/InputOutput.cs" id="2_orw1l"]
+
+[node name="TemplateMachine" type="Node3D" node_paths=PackedStringArray("inputsNode", "outputsNode")]
+script = ExtResource("1_orw1l")
+inputsNode = NodePath("Inputs")
+outputsNode = NodePath("Outputs")
+
+[node name="Inputs" type="Node" parent="."]
+
+[node name="TemplateInput" type="Node" parent="Inputs"]
+script = ExtResource("2_orw1l")
+Resource = 4
+Quantity = 10
+MaxQuantity = 10
+QuantityChangeInReceipe = 1
+
+[node name="Outputs" type="Node" parent="."]
+
+[node name="TemplateOutput" type="Node" parent="Outputs"]
+script = ExtResource("2_orw1l")
+Resource = 5
+Quantity = 2
+MaxQuantity = 100
+QuantityChangeInReceipe = 1
