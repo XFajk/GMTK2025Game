@@ -12,14 +12,14 @@ public partial class Machine : Connectable {
     /// Every cycle executes the changes defined by the inputs and outputs once
     private float _processingPerSecond = 1;
     
-    /// the inputs and outputs of the receipe
-    private List<InputOutput> _receipeParts = new();
+    /// the inputs and outputs of the recipe
+    private List<InputOutput> _recipeParts = new();
 
     /// avoid rounding errors
     private float _processProgress = 0;
 
-    public override IEnumerable<InputOutput> Inputs() => _receipeParts.Where(c => c.QuantityChangeInReceipe < 0);
-    public override IEnumerable<InputOutput> Outputs() => _receipeParts.Where(c => c.QuantityChangeInReceipe > 0);
+    public override IEnumerable<InputOutput> Inputs() => _recipeParts.Where(c => c.QuantityChangeInReceipe < 0);
+    public override IEnumerable<InputOutput> Outputs() => _recipeParts.Where(c => c.QuantityChangeInReceipe > 0);
 
     public override void _Ready() {
         base._Ready();
@@ -27,24 +27,24 @@ public partial class Machine : Connectable {
             if (child is InputOutput input) {
                 // we just add the inputs as a negative quantity change resulting from running the receipe
                 input.QuantityChangeInReceipe *= -1;
-                _receipeParts.Add(input);
+                _recipeParts.Add(input);
             }
         }
 
         foreach (Node child in GetNode("Outputs").GetChildren()) {
             if (child is InputOutput output) {
-                _receipeParts.Add(output);
+                _recipeParts.Add(output);
             }
         }
 
-        if (!Resources.IsLossless(_receipeParts)) {
+        if (!Resources.IsLossless(_recipeParts)) {
             throw new Exception($"Machine {Name} is not lossless");
         }
     }
 
     public override void _Process(double deltaTime) {
         // check if all ingredients are present and enough output space available
-        foreach (InputOutput container in _receipeParts) {
+        foreach (InputOutput container in _recipeParts) {
             if (!CanCycle(container)) {
                 _processProgress = 0;
                 return;
@@ -57,12 +57,12 @@ public partial class Machine : Connectable {
         while (_processProgress > 1) {
             _processProgress -= 1;
 
-            foreach (InputOutput container in _receipeParts) {
+            foreach (InputOutput container in _recipeParts) {
                 container.Quantity += container.QuantityChangeInReceipe;
             }
 
             // check again if we can continue to cycle
-            foreach (InputOutput container in _receipeParts) {
+            foreach (InputOutput container in _recipeParts) {
                 if (!CanCycle(container)) {
                     _processProgress = 0;
                     return;

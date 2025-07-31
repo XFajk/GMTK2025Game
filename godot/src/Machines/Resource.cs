@@ -39,13 +39,13 @@ public class Resources {
 
     public static string ToUnit(Resource resource, int quantity) {
         return resource switch {
-            Resource.CoolantHot or Resource.CoolantCold => $"{quantity * 4} l",
+            Resource.CoolantHot or Resource.CoolantCold => $"{quantity * 4} L",
             Resource.Humidity => $"{quantity} %",
-            Resource.Water => $"{quantity} l",
-            Resource.Food => $"{quantity / 4} kg",
-            Resource.SolidWaste => $"{quantity / 4} kg",
-            Resource.FluidWaste => $"{quantity} l",
-            Resource.Oxygen => $"{20 + quantity * AirPercentageFactor} l",
+            Resource.Water => $"{quantity / 10} L",
+            Resource.Food => $"{quantity / 5.0f} KG",
+            Resource.SolidWaste => $"{quantity / 10.0f} KG",
+            Resource.FluidWaste => $"{quantity / 10} L",
+            Resource.Oxygen => $"{quantity * AirPercentageFactor} %",
             Resource.CarbonDioxide => $"{quantity * AirPercentageFactor} %",
             Resource.Disposables => $"{quantity}",
             Resource.Garbage => $"{quantity}",
