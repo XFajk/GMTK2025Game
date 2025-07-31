@@ -17,25 +17,26 @@ public partial class Person : PathFollow3D {
 
     private RandomNumberGenerator _rng = new RandomNumberGenerator();
 
-    private Timer _recalulateTimer;
-    private float _targetRatio = 0.0f; // the target ration on the currect floor the person is at
+    private Timer _recalculateTimer;
+    private float _targetRatio = 0.0f; // the target ration on the correct floor the person is at
     private float _globalTargetRation = 0.0f; // the  target that is cupled with the _targetFloor aka this target only applies if on the correct floor 
 
     private int? _targetFloor = null;
 
     public int? TargetFloor { get { return _targetFloor; } }
 
+    public Door DoorInFront;
 
     public override void _Ready() {
         _rng.Randomize();
 
         ProgressRatio = _rng.Randf();
-        _recalulateTimer = GetNode<Timer>("RecalulateTimer");
+        _recalculateTimer = GetNode<Timer>("RecalculateTimer");
 
         // This sets a callback that resets everything and sets a new target
-        _recalulateTimer.Timeout += () => {
+        _recalculateTimer.Timeout += () => {
             _targetRatio = _rng.Randf();
-            _recalulateTimer.Stop();
+            _recalculateTimer.Stop();
             _globalTargetRation = 0.0f;
             _targetFloor = null;
         };
@@ -47,12 +48,15 @@ public partial class Person : PathFollow3D {
         if (InElevator) {
             return;
         }
+        if (DoorInFront != null && !DoorInFront.DoorOpen) {
+            return;
+        }
         if (_targetFloor != null && _targetFloor == FloorNumber) {
             _targetRatio = _globalTargetRation;
         }
         ProgressRatio = Mathf.MoveToward(ProgressRatio, _targetRatio, (float)delta * Speed);
-        if (Mathf.IsEqualApprox(ProgressRatio, _targetRatio) && _recalulateTimer.IsStopped()) {
-            _recalulateTimer.Start(_rng.RandfRange(MinRecalculationTime, MaxRecalculationTime));
+        if (Mathf.IsEqualApprox(ProgressRatio, _targetRatio) && _recalculateTimer.IsStopped()) {
+            _recalculateTimer.Start(_rng.RandfRange(MinRecalculationTime, MaxRecalculationTime));
         }
     }
 
@@ -62,7 +66,7 @@ public partial class Person : PathFollow3D {
             GD.PrintErr("Person Node is not attached to a FloorPath can't set target at current point");
             return;
         }
-        _recalulateTimer.Stop();
+        _recalculateTimer.Stop();
         _targetRatio = parentPath.ElevatorRatio;
         _targetFloor = floor;
         _globalTargetRation = ratio;
