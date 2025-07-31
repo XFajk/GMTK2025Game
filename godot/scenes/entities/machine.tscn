@@ -1,15 +1,21 @@
-[gd_scene load_steps=3 format=3 uid="uid://b2nsbfgse4534"]
+[gd_scene load_steps=4 format=3 uid="uid://b2nsbfgse4534"]
 
 [ext_resource type="Script" uid="uid://dx4b8dlivs2dq" path="res://src/Machines/Machine.cs" id="1_orw1l"]
+[ext_resource type="PackedScene" uid="uid://5knr05qpwauj" path="res://scenes/entities/connection_node.tscn" id="2_orw1l"]
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_orw1l"]
+[sub_resource type="BoxMesh" id="BoxMesh_f23tx"]
 
 [node name="TemplateMachine" type="Node3D"]
 script = ExtResource("1_orw1l")
 
-[node name="Area3D" type="Area3D" parent="."]
+[node name="ConnectionPoint" parent="." instance=ExtResource("2_orw1l")]
+transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, 0.433435, 0.444798, -0.268033)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
-shape = SubResource("SphereShape3D_orw1l")
+[node name="ConnectionPoint2" parent="." instance=ExtResource("2_orw1l")]
+transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, 0.433435, 0.444798, 0.258213)
 
-[connection signal="input_event" from="Area3D" to="." method="HandleConnectionClicked"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_f23tx")
+
+[connection signal="OnConnectionClick" from="ConnectionPoint" to="." method="HandleConnectionClicked"]
+[connection signal="OnConnectionClick" from="ConnectionPoint2" to="." method="HandleConnectionClicked"]

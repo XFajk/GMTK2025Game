@@ -13,7 +13,7 @@ public partial class Machine : Connectable {
     private float _processingPerSecond = 1;
     
     /// the inputs and outputs of the receipe
-    private List<InputOutput> _receipeParts;
+    private List<InputOutput> _receipeParts = new();
 
     /// avoid rounding errors
     private float _processProgress = 0;

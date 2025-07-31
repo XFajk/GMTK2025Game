@@ -3,13 +3,9 @@
 [ext_resource type="Script" uid="uid://bp0g8sc4t5qhs" path="res://src/Game.cs" id="1_yqjtg"]
 [ext_resource type="PackedScene" uid="uid://cgccmqaeo11dk" path="res://scenes/ship.tscn" id="2_lnu2h"]
 
-[node name="Game" type="Control"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="Game" type="Node"]
 script = ExtResource("1_yqjtg")
 
 [node name="Ship" parent="." instance=ExtResource("2_lnu2h")]
+
+[node name="Connections" type="Node" parent="."]

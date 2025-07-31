@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public partial class Game : Control {
+public partial class Game : Node {
     private Ship _shipNode;
     private Node _connectionsNode;
 
@@ -18,7 +18,7 @@ public partial class Game : Control {
         _connectionsNode = GetNode("Connections");
     }
     
-    private void OnConnectionClick(Connectable machine) {
+    private void OnConnectionClick(Connectable machine, ConnectionNode point) {
         if (_selectedMachine == null) {
             _selectedMachine = machine;
         } else {

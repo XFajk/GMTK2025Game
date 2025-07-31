@@ -8,12 +8,12 @@ public partial class Ship : Node {
     [Export]
     public float ConnectionTransferRate = 10;
 
-    public List<Machine> Machines { get; private set; }
-    public List<StorageContainer> Containers { get; private set; }
+    public List<Machine> Machines { get; private set; } = new();
+    public List<StorageContainer> Containers { get; private set; } = new();
     /// all machines and containers
     public List<Connectable> Connectables => [.. Machines, .. Containers];
 
-    private List<Connection> _connections;
+    private List<Connection> _connections = new();
 
     public override void _Ready() {
         foreach (Node node in GetChildren()) {
@@ -52,6 +52,7 @@ public partial class Ship : Node {
     }
 
     public void AddConnection(Connectable a, Connectable b) {
+        GD.Print($"Connected {a.Name} and {b.Name}");
         _connections.Add(new Connection(a, b));
     }
 }

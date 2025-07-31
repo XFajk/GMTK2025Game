@@ -1,13 +1,28 @@
-[gd_scene load_steps=4 format=3 uid="uid://cgccmqaeo11dk"]
+[gd_scene load_steps=7 format=3 uid="uid://cgccmqaeo11dk"]
 
 [ext_resource type="Script" uid="uid://c41j8f7y8s5pn" path="res://src/Ship.cs" id="1_q631a"]
-[ext_resource type="PackedScene" uid="uid://b2nsbfgse4534" path="res://scenes/entities/machine.tscn" id="2_2gnfn"]
+[ext_resource type="Script" uid="uid://dx4b8dlivs2dq" path="res://src/Machines/Machine.cs" id="2_gudjc"]
 [ext_resource type="Script" uid="uid://dck4iuol8dehj" path="res://src/Machines/InputOutput.cs" id="3_4tobq"]
+[ext_resource type="PackedScene" uid="uid://5knr05qpwauj" path="res://scenes/entities/connection_node.tscn" id="3_7j21i"]
+[ext_resource type="Script" uid="uid://csrpfcmiycc06" path="res://src/Machines/StorageContainer.cs" id="4_tfsc7"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_f23tx"]
 
 [node name="Ship" type="Node3D"]
 script = ExtResource("1_q631a")
 
-[node name="ExampleMachine" parent="." instance=ExtResource("2_2gnfn")]
+[node name="ExampleMachine" type="Node3D" parent="."]
+transform = Transform3D(-0.0163356, 0, -0.999866, 0, 1, 0, 0.999866, 0, -0.0163356, 0, 0, -1.34698)
+script = ExtResource("2_gudjc")
+
+[node name="ConnectionPoint" parent="ExampleMachine" instance=ExtResource("3_7j21i")]
+transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, 0.433435, 0.444798, -0.268033)
+
+[node name="ConnectionPoint2" parent="ExampleMachine" instance=ExtResource("3_7j21i")]
+transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, 0.433435, 0.444798, 0.258213)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ExampleMachine"]
+mesh = SubResource("BoxMesh_f23tx")
 
 [node name="Inputs" type="Node" parent="ExampleMachine"]
 
@@ -36,3 +51,23 @@ script = ExtResource("3_4tobq")
 Resource = 9
 MaxQuantity = 100
 QuantityChangeInReceipe = 2
+
+[node name="ExampleContainer" type="Node3D" parent="."]
+transform = Transform3D(-0.0321259, 0, 0.999484, 0, 1, 0, -0.999484, 0, -0.0321259, 0, 0, 1.53516)
+script = ExtResource("4_tfsc7")
+Resource = 3
+MaxQuantity = 2000
+
+[node name="ConnectionPoint" parent="ExampleContainer" instance=ExtResource("3_7j21i")]
+transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, 0.433435, 0.444798, -0.268033)
+
+[node name="ConnectionPoint2" parent="ExampleContainer" instance=ExtResource("3_7j21i")]
+transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, 0.433435, 0.444798, 0.258213)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ExampleContainer"]
+mesh = SubResource("BoxMesh_f23tx")
+
+[connection signal="OnConnectionClick" from="ExampleMachine/ConnectionPoint" to="ExampleMachine" method="HandleConnectionClicked"]
+[connection signal="OnConnectionClick" from="ExampleMachine/ConnectionPoint2" to="ExampleMachine" method="HandleConnectionClicked"]
+[connection signal="OnConnectionClick" from="ExampleContainer/ConnectionPoint" to="ExampleContainer" method="HandleConnectionClicked"]
+[connection signal="OnConnectionClick" from="ExampleContainer/ConnectionPoint2" to="ExampleContainer" method="HandleConnectionClicked"]
