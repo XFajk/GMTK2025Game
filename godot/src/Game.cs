@@ -5,15 +5,14 @@ using System.Linq;
 
 public partial class Game : Node {
     private Ship _shipNode;
-    private FloatingResourceManager _floatingResourceManager = new();
+    private GameUi _ui;
 
     private Connectable _selectedMachine;
     private ConnectionNode _selectedNode;
 
     public override void _Ready() {
         _shipNode = GetNode<Ship>("Ship");
-
-        _floatingResourceManager.Ready(_shipNode, GetNode("FloatingResources"));
+        _ui = GetNode<GameUi>("Player/GameUI");
 
         // _Ready of child nodes will always be first
         foreach (Connectable connectable in _shipNode.Connectables) {
@@ -22,7 +21,10 @@ public partial class Game : Node {
     }
 
     public override void _Process(double delta) {
-        _floatingResourceManager.Process(delta);
+        var quantities = _shipNode.GetTotalResourceQuantities();
+        foreach (KeyValuePair<Resource, float> pair in quantities) {
+            _ui.ResourceLables[pair.Key].SetAmount((int) Mathf.Round(pair.Value));
+        }
     }
 
 

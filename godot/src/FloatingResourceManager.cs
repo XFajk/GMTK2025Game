@@ -1,10 +1,13 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public partial class FloatingResourceManager {
     private Dictionary<FloatingResource, List<InputOutput>> _floatingInputs = new();
     private Dictionary<FloatingResource, List<InputOutput>> _floatingOutputs = new();
+
+    public IEnumerable<FloatingResource> Resources() => _floatingInputs.Keys.Concat(_floatingOutputs.Keys).Distinct();
 
     public void Ready(Ship shipNode, Node floatingResourcesNode) {
         foreach (Node node in floatingResourcesNode.GetChildren()) {

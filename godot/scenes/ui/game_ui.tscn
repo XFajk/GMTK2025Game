@@ -1,6 +1,7 @@
-[gd_scene load_steps=13 format=3 uid="uid://kv1h8f6jesp"]
+[gd_scene load_steps=15 format=3 uid="uid://kv1h8f6jesp"]
 
 [ext_resource type="PackedScene" uid="uid://bqyjx3w8kmd7v" path="res://scenes/ui/resource_lable.tscn" id="1_gwk6t"]
+[ext_resource type="Script" uid="uid://duklq3ywprpea" path="res://src/ui/GameUi.cs" id="1_v1bdg"]
 [ext_resource type="Script" uid="uid://eno67lob8bbv" path="res://src/ui/ResourceExpandButton.cs" id="2_fct72"]
 [ext_resource type="Theme" uid="uid://slxggstqjbqr" path="res://misc/core_ui_theame.tres" id="2_xjfbv"]
 [ext_resource type="Texture2D" uid="uid://bvxmt552pkv6w" path="res://assets/misc/arrow_icon.svg" id="3_bma8u"]
@@ -123,7 +124,7 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("Resources/Waste:visible")
+tracks/5/path = NodePath("Resources/FluidWaste:visible")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -139,7 +140,7 @@ tracks/6/path = NodePath("Resources/Oxygen:visible")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
-"times": PackedFloat32Array(0.8),
+"times": PackedFloat32Array(0.966667),
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [false]
@@ -151,7 +152,7 @@ tracks/7/path = NodePath("Resources/CarbonDioxide:visible")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
-"times": PackedFloat32Array(0.933333),
+"times": PackedFloat32Array(1.1),
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [false]
@@ -163,7 +164,7 @@ tracks/8/path = NodePath("Resources/Disposables:visible")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/keys = {
-"times": PackedFloat32Array(1.03333),
+"times": PackedFloat32Array(1.2),
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [false]
@@ -175,7 +176,19 @@ tracks/9/path = NodePath("Resources/Garbage:visible")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/keys = {
-"times": PackedFloat32Array(1.16667),
+"times": PackedFloat32Array(1.33334),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("Resources/SolidWaste:visible")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0.8),
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [false]
@@ -247,7 +260,7 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("Resources/Waste:visible")
+tracks/5/path = NodePath("Resources/FluidWaste:visible")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -263,7 +276,7 @@ tracks/6/path = NodePath("Resources/Oxygen:visible")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
-"times": PackedFloat32Array(0.8),
+"times": PackedFloat32Array(0.933333),
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [true]
@@ -275,7 +288,7 @@ tracks/7/path = NodePath("Resources/CarbonDioxide:visible")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
-"times": PackedFloat32Array(0.933333),
+"times": PackedFloat32Array(1.06667),
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [true]
@@ -287,7 +300,7 @@ tracks/8/path = NodePath("Resources/Disposables:visible")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/keys = {
-"times": PackedFloat32Array(1.03333),
+"times": PackedFloat32Array(1.16666),
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [true]
@@ -299,21 +312,50 @@ tracks/9/path = NodePath("Resources/Garbage:visible")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/keys = {
-"times": PackedFloat32Array(1.16667),
+"times": PackedFloat32Array(1.3),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("Resources/SolidWaste:visible")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0.8),
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [true]
 }
 
+[sub_resource type="Animation" id="Animation_yvtb5"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Resources/SolidWaste:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_qrkc0"]
 _data = {
 &"Close": SubResource("Animation_qrkc0"),
-&"Open": SubResource("Animation_v1bdg")
+&"Open": SubResource("Animation_v1bdg"),
+&"RESET": SubResource("Animation_yvtb5")
 }
 
 [node name="GameUI" type="Control"]
 layout_mode = 3
 anchors_preset = 0
+script = ExtResource("1_v1bdg")
 
 [node name="ResourceExpandButton" type="Button" parent="." node_paths=PackedStringArray("MissionDialog")]
 layout_mode = 0
@@ -367,13 +409,15 @@ text = "Hot Coolant : "
 [node name="Cold Coolant" parent="ResourceExpandButton/Resources" instance=ExtResource("1_gwk6t")]
 visible = false
 layout_mode = 2
+Resource = 1
 
 [node name="ResourceName" parent="ResourceExpandButton/Resources/Cold Coolant" index="1"]
-text = "Coold Coolant : "
+text = "Cold Coolant : "
 
 [node name="Humidity" parent="ResourceExpandButton/Resources" instance=ExtResource("1_gwk6t")]
 visible = false
 layout_mode = 2
+Resource = 2
 
 [node name="ResourceName" parent="ResourceExpandButton/Resources/Humidity" index="1"]
 text = "Humidity : "
@@ -381,6 +425,7 @@ text = "Humidity : "
 [node name="Water" parent="ResourceExpandButton/Resources" instance=ExtResource("1_gwk6t")]
 visible = false
 layout_mode = 2
+Resource = 3
 
 [node name="ResourceName" parent="ResourceExpandButton/Resources/Water" index="1"]
 text = "Water : "
@@ -388,20 +433,31 @@ text = "Water : "
 [node name="Food" parent="ResourceExpandButton/Resources" instance=ExtResource("1_gwk6t")]
 visible = false
 layout_mode = 2
+Resource = 4
 
 [node name="ResourceName" parent="ResourceExpandButton/Resources/Food" index="1"]
 text = "Food : "
 
-[node name="Waste" parent="ResourceExpandButton/Resources" instance=ExtResource("1_gwk6t")]
+[node name="FluidWaste" parent="ResourceExpandButton/Resources" instance=ExtResource("1_gwk6t")]
 visible = false
 layout_mode = 2
+Resource = 5
 
-[node name="ResourceName" parent="ResourceExpandButton/Resources/Waste" index="1"]
-text = "Waste : "
+[node name="ResourceName" parent="ResourceExpandButton/Resources/FluidWaste" index="1"]
+text = "Liquid waste : "
+
+[node name="SolidWaste" parent="ResourceExpandButton/Resources" instance=ExtResource("1_gwk6t")]
+visible = false
+layout_mode = 2
+Resource = 6
+
+[node name="ResourceName" parent="ResourceExpandButton/Resources/SolidWaste" index="1"]
+text = "Solid waste : "
 
 [node name="Oxygen" parent="ResourceExpandButton/Resources" instance=ExtResource("1_gwk6t")]
 visible = false
 layout_mode = 2
+Resource = 7
 
 [node name="ResourceName" parent="ResourceExpandButton/Resources/Oxygen" index="1"]
 text = "Oxygen : "
@@ -409,6 +465,7 @@ text = "Oxygen : "
 [node name="CarbonDioxide" parent="ResourceExpandButton/Resources" instance=ExtResource("1_gwk6t")]
 visible = false
 layout_mode = 2
+Resource = 8
 
 [node name="ResourceName" parent="ResourceExpandButton/Resources/CarbonDioxide" index="1"]
 text = "CarbonDioxide : "
@@ -416,6 +473,7 @@ text = "CarbonDioxide : "
 [node name="Disposables" parent="ResourceExpandButton/Resources" instance=ExtResource("1_gwk6t")]
 visible = false
 layout_mode = 2
+Resource = 9
 
 [node name="ResourceName" parent="ResourceExpandButton/Resources/Disposables" index="1"]
 text = "Disposables : "
@@ -423,6 +481,7 @@ text = "Disposables : "
 [node name="Garbage" parent="ResourceExpandButton/Resources" instance=ExtResource("1_gwk6t")]
 visible = false
 layout_mode = 2
+Resource = 10
 
 [node name="ResourceName" parent="ResourceExpandButton/Resources/Garbage" index="1"]
 text = "Garbage : "
@@ -462,7 +521,8 @@ metadata/_edit_use_anchors_ = true
 [editable path="ResourceExpandButton/Resources/Humidity"]
 [editable path="ResourceExpandButton/Resources/Water"]
 [editable path="ResourceExpandButton/Resources/Food"]
-[editable path="ResourceExpandButton/Resources/Waste"]
+[editable path="ResourceExpandButton/Resources/FluidWaste"]
+[editable path="ResourceExpandButton/Resources/SolidWaste"]
 [editable path="ResourceExpandButton/Resources/Oxygen"]
 [editable path="ResourceExpandButton/Resources/CarbonDioxide"]
 [editable path="ResourceExpandButton/Resources/Disposables"]
