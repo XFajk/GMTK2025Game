@@ -113,6 +113,34 @@ public partial class Ship : Node {
         }
     }
 
+    public void AddResource(Resource resource, int quantity) {
+        // first check floating resources
+        foreach (FloatingResource res in _floatingResourceManager.Resources()) {
+            if (res.Resource == resource) {
+                res.Quantity += quantity;
+                return;
+            }
+        }
+
+        // then check storages
+        foreach (StorageContainer container in Containers) {
+            if (container.Resource == resource) {
+                (container as IContainer).AddQuantity(quantity);
+                return;
+            }
+        }
+
+        // then check machine inputs
+        foreach (Machine m in Machines) {
+            foreach (InputOutput buffer in m.Inputs()) {
+                buffer.Quantity += quantity;
+                return;
+            }
+        }
+
+        // otherwise it is lost
+    }
+
     public void AddConnection(Connectable a, Connectable b) {
         GD.Print($"Connected {a.Name} and {b.Name}");
         Connection connection = new(a, b);

@@ -10,7 +10,7 @@ public partial class Machine : Connectable, IRepairable {
     [Export]
     /// number of times per second a cycle is executed.
     /// Every cycle executes the changes defined by the inputs and outputs once
-    private float _processingPerSecond = 1;
+    protected float _processingPerSecond = 1;
     
     /// the inputs and outputs of the recipe
     private List<InputOutput> _recipeParts = new();
