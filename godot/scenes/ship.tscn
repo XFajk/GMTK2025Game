@@ -14,7 +14,7 @@ script = ExtResource("1_q631a")
 [node name="Connections" type="Node" parent="."]
 
 [node name="ExampleMachine" type="Node3D" parent="."]
-transform = Transform3D(-0.0163356, 0, -0.999866, 0, 1, 0, 0.999866, 0, -0.0163356, 0, 0, -1.34698)
+transform = Transform3D(0.622897, 0, -0.782304, 0, 1, 0, 0.782304, 0, 0.622897, 0, 0, -1.34698)
 script = ExtResource("2_gudjc")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="ExampleMachine"]
@@ -48,16 +48,16 @@ Resource = 9
 MaxQuantity = 100
 QuantityChangeInReceipe = 2
 
-[node name="ConnectionNodes" type="Node" parent="ExampleMachine"]
+[node name="ConnectionNodes" type="Node3D" parent="ExampleMachine"]
 
 [node name="ConnectionNode" parent="ExampleMachine/ConnectionNodes" instance=ExtResource("3_7j21i")]
-transform = Transform3D(-0.00669759, 0, -0.409945, 0, 0.41, 0, 0.409945, 0, -0.00669759, 0.260917, 0.444798, -0.90922)
+transform = Transform3D(0.41, 0, -1.86265e-09, 0, 0.41, 0, 1.86265e-09, 0, 0.41, 0.473625, 0.518023, 0.217917)
 
 [node name="ConnectionNode2" parent="ExampleMachine/ConnectionNodes" instance=ExtResource("3_7j21i")]
-transform = Transform3D(-0.00669759, 0, -0.409945, 0, 0.41, 0, 0.409945, 0, -0.00669759, -0.25788, 0.444798, -0.90922)
+transform = Transform3D(0.41, 0, -2.32831e-09, 0, 0.41, 0, 2.32831e-09, 0, 0.41, 0.46617, 0.518023, -0.238381)
 
 [node name="ExampleContainer" type="Node3D" parent="."]
-transform = Transform3D(-0.0321259, 0, 0.999484, 0, 1, 0, -0.999484, 0, -0.0321259, 0, 0, 1.53516)
+transform = Transform3D(0.627053, 0, 0.778977, 0, 1, 0, -0.778977, 0, 0.627053, 0, 0, 1.53516)
 script = ExtResource("4_tfsc7")
 Resource = 3
 MaxQuantity = 2000
@@ -65,10 +65,10 @@ MaxQuantity = 2000
 [node name="MeshInstance3D" type="MeshInstance3D" parent="ExampleContainer"]
 mesh = SubResource("BoxMesh_f23tx")
 
-[node name="ConnectionNodes" type="Node" parent="ExampleContainer"]
+[node name="ConnectionNodes" type="Node3D" parent="ExampleContainer"]
 
 [node name="ConnectionNode" parent="ExampleContainer/ConnectionNodes" instance=ExtResource("3_7j21i")]
-transform = Transform3D(-0.00669759, 0, -0.409945, 0, 0.41, 0, 0.409945, 0, -0.00669759, 0.246087, 0.444798, 1.07243)
+transform = Transform3D(0.41, 0, -1.86265e-09, 0, 0.41, 0, 1.86265e-09, 0, 0.41, 0.473625, 0.518023, 0.217917)
 
 [node name="ConnectionNode2" parent="ExampleContainer/ConnectionNodes" instance=ExtResource("3_7j21i")]
-transform = Transform3D(-0.00669759, 0, -0.409945, 0, 0.41, 0, 0.409945, 0, -0.00669759, -0.256891, 0.444798, 1.07243)
+transform = Transform3D(0.41, 0, -2.32831e-09, 0, 0.41, 0, 2.32831e-09, 0, 0.41, 0.46617, 0.518023, -0.238381)
