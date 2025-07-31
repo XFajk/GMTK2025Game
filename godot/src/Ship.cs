@@ -4,7 +4,11 @@ using System;
 using System.Collections.Generic;
 
 public partial class Ship : Node {
+    [Export]
+    public float ConnectionTransferRate = 10;
+
     public List<Machine> Machines;
+    private List<Connection> _connectedMachines;
 
     public override void _Ready() {
         foreach (Node node in GetChildren()) {
@@ -15,5 +19,32 @@ public partial class Ship : Node {
     }
 
     public override void _Process(double deltaTime) {
+        foreach (Connection connection in _connectedMachines) {
+            foreach (InputOutput aInput in connection.MachineA.Inputs) {
+                foreach (InputOutput bOutput in connection.MachineB.Outputs) {
+                    TryFlow(bOutput, aInput, (float) deltaTime);
+                }
+            }
+            foreach (InputOutput bInput in connection.MachineB.Inputs) {
+                foreach (InputOutput aOutput in connection.MachineA.Outputs) {
+                    TryFlow(aOutput, bInput, (float) deltaTime);
+                }
+            }
+        }
+    }
+
+    private void TryFlow(InputOutput output, InputOutput input, float deltaTime) {
+        if (output.Resource == input.Resource) {
+            float TransferQuantity = ConnectionTransferRate * deltaTime;
+
+            if (output.Quantity > TransferQuantity && input.Quantity + TransferQuantity < input.MaxQuantity) {
+                output.Quantity -= TransferQuantity;
+                input.Quantity += TransferQuantity;
+            }
+        }
+    }
+
+    public void AddConnection(Machine a, Machine b) {
+        _connectedMachines.Add(new Connection(a, b));
     }
 }

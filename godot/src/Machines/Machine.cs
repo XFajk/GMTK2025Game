@@ -2,6 +2,7 @@ using Godot;
 using Godot.Collections;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 /// a connectable machine that processes receipes
 public partial class Machine : Node3D {
@@ -20,6 +21,9 @@ public partial class Machine : Node3D {
 
     /// avoid rounding errors
     private float _processProgress = 0;
+
+    public IEnumerable<InputOutput> Inputs => _receipeParts.Where(c => c.QuantityChangeInReceipe < 0);
+    public IEnumerable<InputOutput> Outputs => _receipeParts.Where(c => c.QuantityChangeInReceipe > 0);
 
     public override void _Ready() {
         foreach (Node child in GetNode("Inputs").GetChildren()) {
@@ -76,7 +80,7 @@ public partial class Machine : Node3D {
     // returns true if we can execute the receipe at least once
     // returns false if we don't have ingredients or space
     private static bool CanCycle(InputOutput container) {
-        int quantityAfterCycle = container.Quantity + container.QuantityChangeInReceipe;
+        int quantityAfterCycle = (int) container.Quantity + container.QuantityChangeInReceipe;
         return quantityAfterCycle >= 0 && quantityAfterCycle <= container.MaxQuantity;
     }
 

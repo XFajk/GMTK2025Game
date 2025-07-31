@@ -7,7 +7,6 @@ public partial class Game : Control {
     private Node _connectionsNode;
 
     private Machine _selectedMachine;
-    private List<Connection> _connectedMachines;
 
     public override void _Ready() {
         _shipNode = GetNode<Ship>("Ship");
@@ -23,8 +22,7 @@ public partial class Game : Control {
         if (_selectedMachine == null) {
             _selectedMachine = machine;
         } else {
-            Connection connection = new(_selectedMachine, machine);
-            _connectedMachines.Add(connection);
+            _shipNode.AddConnection(_selectedMachine, machine);
             _selectedMachine = null;
         }
     }

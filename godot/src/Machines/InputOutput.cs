@@ -13,5 +13,6 @@ public partial class InputOutput : Node {
     /// change caused by a single execution cycle of the machine
     public int QuantityChangeInReceipe;
 
-    public int Quantity;
+    // floating-point to avoid rounding errors
+    public float Quantity;
 }
