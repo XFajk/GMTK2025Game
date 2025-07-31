@@ -14,6 +14,7 @@ public abstract partial class Connectable : Node3D {
                 node.InputEvent += (_, eventType, _, _, _) => {
                     if (eventType.IsActionPressed("interact")) {
                         EmitSignal(SignalName.OnConnectionClick, this, node);
+                        GD.Print($"Clicked on {node.Name}");
                     }
                 };
 
