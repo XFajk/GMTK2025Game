@@ -3,17 +3,18 @@ using Godot.Collections;
 using System;
 using System.Collections.Generic;
 
+/// a connectable machine that processes receipes
 public partial class Machine : Node3D {
     /// the inputs and outputs of the receipe
-    private List<InputOutput> receipeParts;
+    private List<InputOutput> _receipeParts;
 
     [Export]
     /// number of times per second a cycle is executed.
     /// Every cycle executes the changes defined by the inputs and outputs once
-    private float processingPerSecond = 1;
+    private float _processingPerSecond = 1;
 
     /// avoid rounding errors
-    private float processProgress = 0;
+    private float _processProgress = 0;
 
     public override void _Ready() {
 
@@ -21,40 +22,40 @@ public partial class Machine : Node3D {
             if (child is InputOutput input) {
                 // we just add the inputs as a negative quantity change resulting from running the receipe
                 input.QuantityChangeInReceipe *= -1;
-                receipeParts.Add(input);
+                _receipeParts.Add(input);
             }
         }
 
         foreach (Node child in GetNode("Outputs").GetChildren()) {
             if (child is InputOutput output) {
-                receipeParts.Add(output);
+                _receipeParts.Add(output);
             }
         }
     }
 
     public override void _Process(double deltaTime) {
         // check if all ingredients are present and enough output space available
-        foreach (InputOutput container in receipeParts) {
+        foreach (InputOutput container in _receipeParts) {
             if (!CanCycle(container)) {
-                processProgress = 0;
+                _processProgress = 0;
                 return;
             }
         }
 
         // now run the machine
-        processProgress += processingPerSecond * (float)deltaTime;
+        _processProgress += _processingPerSecond * (float)deltaTime;
 
-        while (processProgress > 1) {
-            processProgress -= 1;
+        while (_processProgress > 1) {
+            _processProgress -= 1;
 
-            foreach (InputOutput container in receipeParts) {
+            foreach (InputOutput container in _receipeParts) {
                 container.Quantity += container.QuantityChangeInReceipe;
             }
-            
+
             // check again if we can continue to cycle
-            foreach (InputOutput container in receipeParts) {
+            foreach (InputOutput container in _receipeParts) {
                 if (!CanCycle(container)) {
-                    processProgress = 0;
+                    _processProgress = 0;
                     return;
                 }
             }

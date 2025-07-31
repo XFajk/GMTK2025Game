@@ -1,6 +1,7 @@
 using Godot;
 using System;
 
+/// input or output resource container of a machine
 public partial class InputOutput : Node {
     [Export]
     public Resource Resource;
