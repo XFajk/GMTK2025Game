@@ -80,8 +80,6 @@ func write_data(file: FileAccess, data: Dictionary) -> void:
 	var json_string: String = Marshalls.utf8_to_base64(JSON.stringify(data))
 	file.store_string(json_string)
 
-	get_tree().connect("tree_exiting", Callable(self, "_on_exit"))
-
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
 		print("Quit requested — saving game…")

@@ -1,0 +1,42 @@
+[gd_scene load_steps=5 format=3 uid="uid://fvs5t3eobei"]
+
+[ext_resource type="Script" uid="uid://bi3g7ky6yx8tv" path="res://src/entities/Person.cs" id="1_rlyp3"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_cb15b"]
+radius = 0.1
+height = 0.4
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_rlyp3"]
+height = 0.398224
+radius = 0.270508
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_lgq1u"]
+radius = 0.1
+height = 0.4
+
+[node name="Preson" type="PathFollow3D"]
+script = ExtResource("1_rlyp3")
+Speed = 0.03
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.200046, 0)
+mesh = SubResource("CapsuleMesh_cb15b")
+
+[node name="DoorDetector" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.21857, 0)
+collision_layer = 4
+collision_mask = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DoorDetector"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0188751, 0)
+shape = SubResource("CylinderShape3D_rlyp3")
+
+[node name="ElevatorDetector" type="Area3D" parent="."]
+collision_layer = 2
+collision_mask = 6
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ElevatorDetector"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+shape = SubResource("CapsuleShape3D_lgq1u")
+
+[node name="RecalulateTimer" type="Timer" parent="."]

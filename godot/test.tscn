@@ -1,8 +1,112 @@
-[gd_scene load_steps=2 format=3 uid="uid://bogly7d7dwlb3"]
+[gd_scene load_steps=9 format=3 uid="uid://bogly7d7dwlb3"]
 
 [ext_resource type="PackedScene" uid="uid://6cj8en2hqm8j" path="res://scenes/player.tscn" id="1_37kl0"]
+[ext_resource type="PackedScene" uid="uid://btfhevum5xp06" path="res://scenes/entities/elevator.tscn" id="2_6uqi0"]
+[ext_resource type="PackedScene" uid="uid://fvs5t3eobei" path="res://scenes/entities/preson.tscn" id="2_8uh7m"]
+[ext_resource type="Script" uid="uid://c27surc38gk72" path="res://src/entities/Floor.cs" id="3_ppyta"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_37kl0"]
+size = Vector3(5.29, 0.135, 2.04)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_6uqi0"]
+height = 2.37598
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_ppyta"]
+height = 0.92
+cap_top = false
+cap_bottom = false
+
+[sub_resource type="Curve3D" id="Curve3D_37kl0"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -2.34121, -0.0546507, -0.0528288, 0, 0, 0, 0, 0, 0, -1.97483, -0.0547016, 0.143518, 0, 0, 0, 0, 0, 0, -1.51016, -0.0547016, -0.0963106, 0, 0, 0, 0, 0, 0, -1.00052, -0.0547016, -0.0213642, 0, 0, 0, 0, 0, 0, -0.483392, -0.0547016, -0.0288591, 0, 0, 0, 0, 0, 0, 0.116178, -0.0547016, -0.0213642, 0, 0, 0, 0, 0, 0, 0.513394, -0.0547016, -0.238708, 0, 0, 0, 0, 0, 0, 1.2029, -0.0547016, 0.121034, 0, 0, 0, 0, 0, 0, 1.71254, -0.0547016, -0.0288591, 0, 0, 0, 0, 0, 0, 2.19969, -0.0547016, -0.133783),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+}
+point_count = 10
 
 [node name="Node3D" type="Node3D"]
 
 [node name="Player" parent="." instance=ExtResource("1_37kl0")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.77021)
+transform = Transform3D(1, 0, 0, 0, 0.996382, 0.0849822, 0, -0.0849822, 0.996382, 0, 1.02831, -0.0479854)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00703239, -0.0085392, -4.18286)
+mesh = SubResource("BoxMesh_37kl0")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00703239, 1.67734, -4.18286)
+mesh = SubResource("BoxMesh_37kl0")
+
+[node name="Elevator" parent="." instance=ExtResource("2_6uqi0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.162445, 0.544844, -4.01493)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Elevator"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.592285, 0)
+shape = SubResource("CylinderShape3D_6uqi0")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Elevator/CollisionShape3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0606829, 0)
+mesh = SubResource("CylinderMesh_ppyta")
+skeleton = NodePath("../..")
+
+[node name="Floor" type="Node3D" parent="Elevator" node_paths=PackedStringArray("FloorPath")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.404304, 0)
+script = ExtResource("3_ppyta")
+FloorPath = NodePath("../../Floor1Path")
+metadata/_custom_type_script = "uid://c27surc38gk72"
+
+[node name="Floor2" type="Node3D" parent="Elevator" node_paths=PackedStringArray("FloorPath")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.30784, 0)
+script = ExtResource("3_ppyta")
+FloorNumber = 1
+FloorPath = NodePath("../../Floor2Path")
+metadata/_custom_type_script = "uid://c27surc38gk72"
+
+[node name="Floor2Path" type="Path3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.82352, -4.04687)
+curve = SubResource("Curve3D_37kl0")
+
+[node name="Preson" parent="Floor2Path" instance=ExtResource("2_8uh7m")]
+transform = Transform3D(-0.472354, 0.000107926, -0.881402, -3.63796e-12, 0.999998, 0.000122447, 0.881404, 5.78389e-05, -0.472353, -2.33772, -0.0546512, -0.0509605)
+progress = 0.00724583
+FloorNumber = 1
+
+[node name="Preson2" parent="Floor2Path" instance=ExtResource("2_8uh7m")]
+transform = Transform3D(-0.472354, 0.000107926, -0.881402, -3.63796e-12, 0.999998, 0.000122447, 0.881404, 5.78389e-05, -0.472353, -2.33772, -0.0546512, -0.0509605)
+progress = 0.00724583
+FloorNumber = 1
+
+[node name="Preson3" parent="Floor2Path" instance=ExtResource("2_8uh7m")]
+transform = Transform3D(-0.472354, 0.000107926, -0.881402, -3.63796e-12, 0.999998, 0.000122447, 0.881404, 5.78389e-05, -0.472353, -2.33772, -0.0546512, -0.0509605)
+progress = 0.00724583
+FloorNumber = 1
+
+[node name="Preson4" parent="Floor2Path" instance=ExtResource("2_8uh7m")]
+transform = Transform3D(-0.472354, 0.000107926, -0.881402, -3.63796e-12, 0.999998, 0.000122447, 0.881404, 5.78389e-05, -0.472353, -2.33772, -0.0546512, -0.0509605)
+progress = 0.00724583
+FloorNumber = 1
+
+[node name="Floor1Path" type="Path3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.131335, -4.04687)
+curve = SubResource("Curve3D_37kl0")
+
+[node name="Preson" parent="Floor1Path" instance=ExtResource("2_8uh7m")]
+transform = Transform3D(-0.472354, 0.000107926, -0.881403, -3.63797e-12, 0.999998, 0.000122447, 0.881405, 5.78389e-05, -0.472353, -2.33772, -0.0546512, -0.0509605)
+progress = 0.00724583
+
+[node name="Preson2" parent="Floor1Path" instance=ExtResource("2_8uh7m")]
+transform = Transform3D(-0.472354, 0.000107926, -0.881403, -3.63797e-12, 0.999998, 0.000122447, 0.881405, 5.78389e-05, -0.472353, -2.33772, -0.0546512, -0.0509605)
+progress = 0.00724583
+
+[node name="Preson3" parent="Floor1Path" instance=ExtResource("2_8uh7m")]
+transform = Transform3D(-0.472354, 0.000107926, -0.881403, -3.63797e-12, 0.999998, 0.000122447, 0.881405, 5.78389e-05, -0.472353, -2.33772, -0.0546512, -0.0509605)
+progress = 0.00724583
+
+[node name="Preson4" parent="Floor1Path" instance=ExtResource("2_8uh7m")]
+transform = Transform3D(-0.472354, 0.000107926, -0.881403, -3.63797e-12, 0.999998, 0.000122447, 0.881405, 5.78389e-05, -0.472353, -2.33772, -0.0546512, -0.0509605)
+progress = 0.00724583
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.10016, -4.31554)
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.7254, -4.31554)
