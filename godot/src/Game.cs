@@ -10,9 +10,11 @@ public partial class Game : Node {
 
     public override void _Ready() {
         _shipNode = GetNode<Ship>("Ship");
+        int connectableCount = 0;
         // _Ready of child nodes will always be first
         foreach (Connectable connectable in _shipNode.Connectables) {
             connectable.OnConnectionClick += OnConnectionClick;
+            connectableCount++;
         }
     }
     
@@ -23,6 +25,11 @@ public partial class Game : Node {
         } else {
             _shipNode.AddConnection(_selectedMachine, machine);
             _selectedMachine = null;
+            _selectedNode = null;
         }
+
+        string nameOfSelectedMachine = (_selectedMachine != null) ? _selectedMachine.Name : "null";
+        string nameOfSelectedNode = (_selectedNode != null) ? _selectedNode.Name : "null";
+        GD.Print($"_selectedMachine = {nameOfSelectedMachine}, _selectedNode = {nameOfSelectedNode}");
     }
 }
