@@ -1,9 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://6cj8en2hqm8j"]
+[gd_scene load_steps=2 format=3 uid="uid://6cj8en2hqm8j"]
 
 [ext_resource type="Script" uid="uid://dteevyjj2n7qh" path="res://src/player/PlayerContoller.cs" id="1_3vyb7"]
-[ext_resource type="PackedScene" uid="uid://kv1h8f6jesp" path="res://scenes/ui/game_ui.tscn" id="2_g2els"]
 
 [node name="Player" type="Camera3D"]
 script = ExtResource("1_3vyb7")
-
-[node name="GameUI" parent="." instance=ExtResource("2_g2els")]

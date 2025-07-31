@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="GMTK2025Game"
-run/main_scene="uid://cclojhc0mpl6s"
+run/main_scene="uid://csgg8332v5t7v"
 config/features=PackedStringArray("4.4", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
