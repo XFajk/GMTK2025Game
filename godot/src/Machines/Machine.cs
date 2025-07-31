@@ -36,6 +36,10 @@ public partial class Machine : Connectable {
                 _receipeParts.Add(output);
             }
         }
+
+        if (!Resources.IsLossless(_receipeParts)) {
+            throw new Exception($"Machine {Name} is not lossless");
+        }
     }
 
     public override void _Process(double deltaTime) {
