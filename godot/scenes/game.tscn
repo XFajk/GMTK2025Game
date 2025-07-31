@@ -9,6 +9,7 @@ script = ExtResource("1_yqjtg")
 
 [node name="Player" parent="." instance=ExtResource("3_lnu2h")]
 transform = Transform3D(1, 0, 0, 0, 0.941129, 0.338048, 0, -0.338048, 0.941129, 0, 0.858249, 2.44454)
+BoundingBox = AABB(-1, -1, 1.16, 2, 2, 2.235)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Player"]
 transform = Transform3D(0.938324, 0.116882, -0.325402, -0.122798, 0.992429, 0.00237733, 0.323216, 0.0377278, 0.945573, 0, 0, 0)
