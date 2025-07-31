@@ -60,7 +60,8 @@ public class Resources {
         foreach (InputOutput io in receipe) {
             var parts = GetParts(io.Resource);
             foreach (ResourcePart p in parts) {
-                totals[p] += io.QuantityChangeInReceipe;
+                int current = totals.GetValueOrDefault(p);
+                totals[p] = current + io.QuantityChangeInReceipe;
             }
         }
 
@@ -78,7 +79,7 @@ public class Resources {
             Resource.Oxygen => [ResourcePart.Oxygen],
             Resource.CarbonDioxide => [ResourcePart.Carbon, ResourcePart.Oxygen],
             Resource.Disposables or Resource.Garbage => [.. Enumerable.Repeat(ResourcePart.Carbon, 8)],
-            _ => throw new NotImplementedException()
+            _ => throw new ArgumentOutOfRangeException(nameof(resource), resource, null),
         };
     }
 

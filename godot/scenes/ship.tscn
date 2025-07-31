@@ -25,28 +25,28 @@ mesh = SubResource("BoxMesh_f23tx")
 [node name="ExampleInput" type="Node" parent="ExampleMachine/Inputs"]
 script = ExtResource("3_4tobq")
 Resource = 4
-MaxQuantity = 10
+MaxQuantity = 20
 QuantityChangeInReceipe = 1
 
 [node name="ExampleInput2" type="Node" parent="ExampleMachine/Inputs"]
 script = ExtResource("3_4tobq")
-Resource = 3
+Resource = 7
 MaxQuantity = 20
-QuantityChangeInReceipe = 2
+QuantityChangeInReceipe = 1
 
 [node name="Outputs" type="Node" parent="ExampleMachine"]
 
 [node name="ExampleOutput" type="Node" parent="ExampleMachine/Outputs"]
 script = ExtResource("3_4tobq")
-Resource = 5
+Resource = 8
 MaxQuantity = 100
 QuantityChangeInReceipe = 1
 
 [node name="ExampleOutput2" type="Node" parent="ExampleMachine/Outputs"]
 script = ExtResource("3_4tobq")
-Resource = 9
+Resource = 3
 MaxQuantity = 100
-QuantityChangeInReceipe = 2
+QuantityChangeInReceipe = 1
 
 [node name="ConnectionNodes" type="Node3D" parent="ExampleMachine"]
 
