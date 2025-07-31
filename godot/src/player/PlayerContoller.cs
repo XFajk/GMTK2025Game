@@ -7,7 +7,7 @@ public partial class PlayerContoller : Camera3D {
     public float DragScalar = 0.01f;
 
     [Export]
-    public float ZoomSpeed = 0.01f;
+    public float ZoomSpeed = 120.0f;
 
     private Vector2 _previousePosition = Vector2.Zero;
     private Vector2 _previouseMousePosition = Vector2.Zero;
@@ -29,10 +29,10 @@ public partial class PlayerContoller : Camera3D {
 
 
         if (Input.IsActionPressed("zoom_in")) {
-            Fov -= ZoomSpeed;
+            Fov -= ZoomSpeed * (float)delta;
         }
         if (Input.IsActionPressed("zoom_out")) {
-            Fov += ZoomSpeed;
+            Fov += ZoomSpeed * (float)delta;
         }
 
         Fov = float.Clamp(Fov, 20.0f, 100.0f);

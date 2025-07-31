@@ -1,0 +1,477 @@
+[gd_scene load_steps=13 format=3 uid="uid://kv1h8f6jesp"]
+
+[ext_resource type="PackedScene" uid="uid://bqyjx3w8kmd7v" path="res://scenes/ui/resource_lable.tscn" id="1_gwk6t"]
+[ext_resource type="Script" uid="uid://eno67lob8bbv" path="res://src/ui/ResourceExpandButton.cs" id="2_fct72"]
+[ext_resource type="Theme" uid="uid://slxggstqjbqr" path="res://misc/core_ui_theame.tres" id="2_xjfbv"]
+[ext_resource type="Texture2D" uid="uid://bvxmt552pkv6w" path="res://assets/misc/arrow_icon.svg" id="3_bma8u"]
+[ext_resource type="Script" uid="uid://cud78w8qt4qsb" path="res://src/ui/MissionDialog.cs" id="5_ru5ln"]
+
+[sub_resource type="Animation" id="Animation_ru5ln"]
+resource_name = "Close"
+length = 0.25
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(-1.5708, -0.25, 0, 0.25, 0, -3.141, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.233333)
+}
+
+[sub_resource type="Animation" id="Animation_bma8u"]
+resource_name = "Open"
+length = 0.25
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(-3.14159, -0.25, 0, 0.25, 0, -1.5708, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.233333)
+}
+
+[sub_resource type="Animation" id="Animation_fct72"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(-3.14159, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_fct72"]
+_data = {
+&"Close": SubResource("Animation_ru5ln"),
+&"Open": SubResource("Animation_bma8u"),
+&"RESET": SubResource("Animation_fct72")
+}
+
+[sub_resource type="Animation" id="Animation_qrkc0"]
+resource_name = "Close"
+length = 1.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Resources/HotCoolant:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.166667),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Resources/Cold Coolant:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.233333),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Resources/Humidity:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.333333),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Resources/Water:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.433333),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Resources/Food:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.533333),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Resources/Waste:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0.666667),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Resources/Oxygen:visible")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0.8),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Resources/CarbonDioxide:visible")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0.933333),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("Resources/Disposables:visible")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(1.03333),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("Resources/Garbage:visible")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(1.16667),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_v1bdg"]
+resource_name = "Open"
+length = 1.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Resources/HotCoolant:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.166667),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Resources/Cold Coolant:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.233333),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Resources/Humidity:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.333333),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Resources/Water:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.433333),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Resources/Food:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.533333),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Resources/Waste:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0.666667),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Resources/Oxygen:visible")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0.8),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Resources/CarbonDioxide:visible")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0.933333),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("Resources/Disposables:visible")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(1.03333),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("Resources/Garbage:visible")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(1.16667),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_qrkc0"]
+_data = {
+&"Close": SubResource("Animation_qrkc0"),
+&"Open": SubResource("Animation_v1bdg")
+}
+
+[node name="GameUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 5.0
+offset_right = 4.0
+offset_bottom = 5.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ResourceExpandButton" type="Button" parent="." node_paths=PackedStringArray("MissionDialog")]
+layout_mode = 0
+offset_left = 62.0
+offset_top = 37.0
+offset_right = 157.0
+offset_bottom = 71.0
+theme = ExtResource("2_xjfbv")
+toggle_mode = true
+text = "Resources
+"
+script = ExtResource("2_fct72")
+MissionDialog = NodePath("../MissionDialog")
+
+[node name="Panel" type="Panel" parent="ResourceExpandButton"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -31.0
+offset_top = -15.0
+offset_right = -2.0
+offset_bottom = 14.0
+grow_vertical = 2
+
+[node name="ArrowIcon" type="Sprite2D" parent="ResourceExpandButton"]
+position = Vector2(-16, 17)
+rotation = -3.14159
+scale = Vector2(0.655311, 0.655311)
+texture = ExtResource("3_bma8u")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="ResourceExpandButton/ArrowIcon"]
+libraries = {
+&"": SubResource("AnimationLibrary_fct72")
+}
+
+[node name="Resources" type="VBoxContainer" parent="ResourceExpandButton"]
+layout_mode = 1
+offset_left = -28.4
+offset_top = 40.66
+offset_right = 201.6
+offset_bottom = 476.66
+
+[node name="HotCoolant" parent="ResourceExpandButton/Resources" instance=ExtResource("1_gwk6t")]
+visible = false
+layout_mode = 2
+
+[node name="ResourceName" parent="ResourceExpandButton/Resources/HotCoolant" index="1"]
+text = "Hot Coolant : "
+
+[node name="Cold Coolant" parent="ResourceExpandButton/Resources" instance=ExtResource("1_gwk6t")]
+visible = false
+layout_mode = 2
+
+[node name="ResourceName" parent="ResourceExpandButton/Resources/Cold Coolant" index="1"]
+text = "Coold Coolant : "
+
+[node name="Humidity" parent="ResourceExpandButton/Resources" instance=ExtResource("1_gwk6t")]
+visible = false
+layout_mode = 2
+
+[node name="ResourceName" parent="ResourceExpandButton/Resources/Humidity" index="1"]
+text = "Humidity : "
+
+[node name="Water" parent="ResourceExpandButton/Resources" instance=ExtResource("1_gwk6t")]
+visible = false
+layout_mode = 2
+
+[node name="ResourceName" parent="ResourceExpandButton/Resources/Water" index="1"]
+text = "Water : "
+
+[node name="Food" parent="ResourceExpandButton/Resources" instance=ExtResource("1_gwk6t")]
+visible = false
+layout_mode = 2
+
+[node name="ResourceName" parent="ResourceExpandButton/Resources/Food" index="1"]
+text = "Food : "
+
+[node name="Waste" parent="ResourceExpandButton/Resources" instance=ExtResource("1_gwk6t")]
+visible = false
+layout_mode = 2
+
+[node name="ResourceName" parent="ResourceExpandButton/Resources/Waste" index="1"]
+text = "Waste : "
+
+[node name="Oxygen" parent="ResourceExpandButton/Resources" instance=ExtResource("1_gwk6t")]
+visible = false
+layout_mode = 2
+
+[node name="ResourceName" parent="ResourceExpandButton/Resources/Oxygen" index="1"]
+text = "Oxygen : "
+
+[node name="CarbonDioxide" parent="ResourceExpandButton/Resources" instance=ExtResource("1_gwk6t")]
+visible = false
+layout_mode = 2
+
+[node name="ResourceName" parent="ResourceExpandButton/Resources/CarbonDioxide" index="1"]
+text = "CarbonDioxide : "
+
+[node name="Disposables" parent="ResourceExpandButton/Resources" instance=ExtResource("1_gwk6t")]
+visible = false
+layout_mode = 2
+
+[node name="ResourceName" parent="ResourceExpandButton/Resources/Disposables" index="1"]
+text = "Disposables : "
+
+[node name="Garbage" parent="ResourceExpandButton/Resources" instance=ExtResource("1_gwk6t")]
+visible = false
+layout_mode = 2
+
+[node name="ResourceName" parent="ResourceExpandButton/Resources/Garbage" index="1"]
+text = "Garbage : "
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="ResourceExpandButton/Resources"]
+root_node = NodePath("../..")
+libraries = {
+&"": SubResource("AnimationLibrary_qrkc0")
+}
+
+[node name="MissionDialog" type="AcceptDialog" parent="."]
+title = "ALERT!"
+position = Vector2i(802, 471)
+size = Vector2i(300, 150)
+exclusive = false
+unresizable = true
+theme = ExtResource("2_xjfbv")
+script = ExtResource("5_ru5ln")
+
+[node name="Description" type="RichTextLabel" parent="MissionDialog"]
+anchors_preset = -1
+anchor_left = 0.0266667
+anchor_top = 0.0533333
+anchor_right = 0.973333
+anchor_bottom = 0.653333
+grow_horizontal = 2
+grow_vertical = 2
+text = "Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.
+
+Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.
+
+Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos."
+metadata/_edit_use_anchors_ = true
+
+[editable path="ResourceExpandButton/Resources/HotCoolant"]
+[editable path="ResourceExpandButton/Resources/Cold Coolant"]
+[editable path="ResourceExpandButton/Resources/Humidity"]
+[editable path="ResourceExpandButton/Resources/Water"]
+[editable path="ResourceExpandButton/Resources/Food"]
+[editable path="ResourceExpandButton/Resources/Waste"]
+[editable path="ResourceExpandButton/Resources/Oxygen"]
+[editable path="ResourceExpandButton/Resources/CarbonDioxide"]
+[editable path="ResourceExpandButton/Resources/Disposables"]
+[editable path="ResourceExpandButton/Resources/Garbage"]

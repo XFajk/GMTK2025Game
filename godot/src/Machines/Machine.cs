@@ -5,11 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 /// a connectable machine that processes receipes
-public partial class Machine : Node3D {
-
-    [Signal]
-    // Handled by Game.cs
-    public delegate void OnConnectionClickEventHandler(Machine machine);
+public partial class Machine : Connectable {
 
     [Export]
     /// number of times per second a cycle is executed.
@@ -17,15 +13,16 @@ public partial class Machine : Node3D {
     private float _processingPerSecond = 1;
     
     /// the inputs and outputs of the receipe
-    private List<InputOutput> _receipeParts;
+    private List<InputOutput> _receipeParts = new();
 
     /// avoid rounding errors
     private float _processProgress = 0;
 
-    public IEnumerable<InputOutput> Inputs => _receipeParts.Where(c => c.QuantityChangeInReceipe < 0);
-    public IEnumerable<InputOutput> Outputs => _receipeParts.Where(c => c.QuantityChangeInReceipe > 0);
+    public override IEnumerable<InputOutput> Inputs() => _receipeParts.Where(c => c.QuantityChangeInReceipe < 0);
+    public override IEnumerable<InputOutput> Outputs() => _receipeParts.Where(c => c.QuantityChangeInReceipe > 0);
 
     public override void _Ready() {
+        base._Ready();
         foreach (Node child in GetNode("Inputs").GetChildren()) {
             if (child is InputOutput input) {
                 // we just add the inputs as a negative quantity change resulting from running the receipe
@@ -38,6 +35,10 @@ public partial class Machine : Node3D {
             if (child is InputOutput output) {
                 _receipeParts.Add(output);
             }
+        }
+
+        if (!Resources.IsLossless(_receipeParts)) {
+            throw new Exception($"Machine {Name} is not lossless");
         }
     }
 
@@ -70,18 +71,10 @@ public partial class Machine : Node3D {
         }
     }
 
-    // camera: Node, event: InputEvent, event_position: Vector3, normal: Vector3, shape_idx: int
-    public void HandleConnectionClicked(Node camera, InputEvent eventType, Vector3 clickPosition, Vector3 clickNormal, int shapeIndex) {
-        if (eventType.IsActionPressed("left_click")) {
-            EmitSignal(SignalName.OnConnectionClick, this);
-        }
-    }
-
     // returns true if we can execute the receipe at least once
     // returns false if we don't have ingredients or space
     private static bool CanCycle(InputOutput container) {
         int quantityAfterCycle = (int) container.Quantity + container.QuantityChangeInReceipe;
         return quantityAfterCycle >= 0 && quantityAfterCycle <= container.MaxQuantity;
     }
-
 }
