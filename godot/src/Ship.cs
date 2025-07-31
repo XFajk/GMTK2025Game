@@ -20,14 +20,16 @@ public partial class Ship : Node {
 
     public override void _Process(double deltaTime) {
         foreach (Connection connection in _connectedMachines) {
-            foreach (InputOutput aInput in connection.MachineA.Inputs) {
-                foreach (InputOutput bOutput in connection.MachineB.Outputs) {
-                    TryFlow(bOutput, aInput, (float) deltaTime);
+            // flow a -> b
+            foreach (InputOutput aOutput in connection.MachineA.Outputs) {
+                foreach (InputOutput bInput in connection.MachineB.Inputs) {
+                    TryFlow(aOutput, bInput, (float)deltaTime);
                 }
             }
-            foreach (InputOutput bInput in connection.MachineB.Inputs) {
-                foreach (InputOutput aOutput in connection.MachineA.Outputs) {
-                    TryFlow(aOutput, bInput, (float) deltaTime);
+            // flow b -> a
+            foreach (InputOutput bOutput in connection.MachineB.Outputs) {
+                foreach (InputOutput aInput in connection.MachineA.Inputs) {
+                    TryFlow(bOutput, aInput, (float)deltaTime);
                 }
             }
         }
