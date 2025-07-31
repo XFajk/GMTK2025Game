@@ -45,7 +45,8 @@ public class Resources {
                 return $"{quantity} l";
             case Resource.Food:
                 return $"{quantity} kg";
-            case Resource.Waste:
+            case Resource.SolidWaste:
+            case Resource.FluidWaste:
                 return $"{quantity} kg";
             case Resource.Oxygen:
                 return $"{quantity} l";
