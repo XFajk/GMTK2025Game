@@ -2,13 +2,18 @@ using Godot;
 using Godot.Collections;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public partial class Ship : Node {
     [Export]
     public float ConnectionTransferRate = 10;
 
-    public List<Machine> Machines;
-    private List<Connection> _connectedMachines;
+    public List<Machine> Machines { get; private set; }
+    public List<StorageContainer> Containers { get; private set; }
+    /// all machines and containers
+    public List<Connectable> Connectables => [.. Machines, .. Containers];
+
+    private List<Connection> _connections;
 
     public override void _Ready() {
         foreach (Node node in GetChildren()) {
@@ -19,16 +24,16 @@ public partial class Ship : Node {
     }
 
     public override void _Process(double deltaTime) {
-        foreach (Connection connection in _connectedMachines) {
+        foreach (Connection connection in _connections) {
             // flow a -> b
-            foreach (InputOutput aOutput in connection.MachineA.Outputs) {
-                foreach (InputOutput bInput in connection.MachineB.Inputs) {
+            foreach (InputOutput aOutput in connection.A.Outputs()) {
+                foreach (InputOutput bInput in connection.B.Inputs()) {
                     TryFlow(aOutput, bInput, (float)deltaTime);
                 }
             }
             // flow b -> a
-            foreach (InputOutput bOutput in connection.MachineB.Outputs) {
-                foreach (InputOutput aInput in connection.MachineA.Inputs) {
+            foreach (InputOutput bOutput in connection.B.Outputs()) {
+                foreach (InputOutput aInput in connection.A.Inputs()) {
                     TryFlow(bOutput, aInput, (float)deltaTime);
                 }
             }
@@ -46,7 +51,7 @@ public partial class Ship : Node {
         }
     }
 
-    public void AddConnection(Machine a, Machine b) {
-        _connectedMachines.Add(new Connection(a, b));
+    public void AddConnection(Connectable a, Connectable b) {
+        _connections.Add(new Connection(a, b));
     }
 }
