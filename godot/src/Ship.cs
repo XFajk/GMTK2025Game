@@ -10,6 +10,7 @@ public partial class Ship : Node {
 
     public List<Machine> Machines { get; private set; } = new();
     public List<StorageContainer> Containers { get; private set; } = new();
+    public List<FloatingResource> FloatingResources { get; private set; } = new();
     /// all machines and containers
     public List<Connectable> Connectables => [.. Machines, .. Containers];
 
