@@ -65,7 +65,7 @@ public partial class FloatingResourceManager {
                 resource.Quantity -= quantityToMove;
                 io.Quantity += quantityToMove;
 
-                if (resource.Quantity < 0 || io.Quantity < io.MaxQuantity) {
+                if (resource.Quantity < 0 || io.Quantity > io.MaxQuantity) {
                     throw new Exception("quantities out of bounds");
                 }
             }

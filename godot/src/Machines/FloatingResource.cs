@@ -7,7 +7,7 @@ public partial class FloatingResource : Node {
     public Resource Resource;
 
     [Export]
-    public int MaxQuantity;
+    public int MaxQuantity = 1000;
 
     // floating-point to avoid rounding errors
     public float Quantity;

@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://0rmy461ykeb"]
+[gd_scene load_steps=5 format=3 uid="uid://0rmy461ykeb"]
 
 [ext_resource type="Script" uid="uid://bp0g8sc4t5qhs" path="res://src/Game.cs" id="1_yqjtg"]
 [ext_resource type="PackedScene" uid="uid://cgccmqaeo11dk" path="res://scenes/ship.tscn" id="2_lnu2h"]
 [ext_resource type="PackedScene" uid="uid://6cj8en2hqm8j" path="res://scenes/player.tscn" id="3_lnu2h"]
+[ext_resource type="Script" uid="uid://crs06kmuc1fi1" path="res://src/Machines/FloatingResource.cs" id="4_lbhrr"]
 
 [node name="Game" type="Node"]
 script = ExtResource("1_yqjtg")
@@ -14,3 +15,17 @@ transform = Transform3D(1, 0, 0, 0, 0.941129, 0.338048, 0, -0.338048, 0.941129, 
 transform = Transform3D(0.938324, 0.116882, -0.325402, -0.122798, 0.992429, 0.00237733, 0.323216, 0.0377278, 0.945573, 0, 0, 0)
 
 [node name="Ship" parent="." instance=ExtResource("2_lnu2h")]
+
+[node name="FloatingResources" type="Node" parent="."]
+
+[node name="Oxygen" type="Node" parent="FloatingResources"]
+script = ExtResource("4_lbhrr")
+Resource = 7
+
+[node name="CarbonDioxide" type="Node" parent="FloatingResources"]
+script = ExtResource("4_lbhrr")
+Resource = 8
+
+[node name="Humidity" type="Node" parent="FloatingResources"]
+script = ExtResource("4_lbhrr")
+Resource = 2
