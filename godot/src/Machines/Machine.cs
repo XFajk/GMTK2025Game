@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 /// a connectable machine that processes receipes
-public partial class Machine : Connectable {
+public partial class Machine : Connectable, IRepairable {
 
     [Export]
     /// number of times per second a cycle is executed.
@@ -20,6 +20,8 @@ public partial class Machine : Connectable {
 
     public override IEnumerable<InputOutput> Inputs() => _recipeParts.Where(c => c.QuantityChangeInReceipe < 0);
     public override IEnumerable<InputOutput> Outputs() => _recipeParts.Where(c => c.QuantityChangeInReceipe > 0);
+
+    public bool IsWorking = true;
 
     public override void _Ready() {
         base._Ready();
@@ -43,6 +45,8 @@ public partial class Machine : Connectable {
     }
 
     public override void _Process(double deltaTime) {
+        if (!IsWorking) return;
+
         // check if all ingredients are present and enough output space available
         foreach (InputOutput container in _recipeParts) {
             if (!CanCycle(container)) {
@@ -77,4 +81,10 @@ public partial class Machine : Connectable {
         int quantityAfterCycle = (int) container.Quantity + container.QuantityChangeInReceipe;
         return quantityAfterCycle >= 0 && quantityAfterCycle <= container.MaxQuantity;
     }
+
+    bool IRepairable.IsWorking() => IsWorking;
+
+    Node3D IRepairable.AsNode() => this;
+
+    void IRepairable.SetRepaired() => IsWorking = true;
 }

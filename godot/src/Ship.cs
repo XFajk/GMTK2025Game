@@ -16,6 +16,8 @@ public partial class Ship : Node {
     /// all machines and containers
     public List<Connectable> Connectables => [.. Machines, .. Containers];
 
+    public List<IEventEffect> ActiveEffects;
+
     private List<Connection> _connections = new();
     private Node _connectionsNode;
 
@@ -41,6 +43,13 @@ public partial class Ship : Node {
         }
     }
 
+    public FloatingResource GetFloatingResource(Resource resource) {
+        foreach (var res in _floatingResourceManager.Resources()) {
+            if (res.Resource == resource) return res;
+        }
+        return null;
+    }
+
     public override void _Process(double deltaTime) {
         _floatingResourceManager.Process(deltaTime);
 
@@ -58,6 +67,10 @@ public partial class Ship : Node {
                 }
             }
         }
+
+        foreach (IEventEffect effect in ActiveEffects) {
+            effect.Process(deltaTime);
+        }
     }
 
     public IEnumerable<IContainer> AllContainers() {
@@ -69,11 +82,11 @@ public partial class Ship : Node {
                 yield return buffer;
             }
         }
-        
+
         foreach (StorageContainer c in Containers) {
             yield return c;
         }
-        
+
         foreach (FloatingResource r in _floatingResourceManager.Resources()) {
             yield return r;
         }
