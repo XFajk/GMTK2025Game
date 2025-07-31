@@ -33,24 +33,10 @@ public partial class Ship : Node {
         _floatingResourceManager.Ready(this, GetNode("FloatingResources"));
 
         // initialize resource buffers
-        foreach (Machine m in Machines) {
-            foreach (InputOutput buffer in m.Inputs()) {
-                if (_initialResources.TryGetValue(buffer.Resource, out float fraction)) {
-                    buffer.Quantity = buffer.MaxQuantity * fraction;
-                    GD.Print($"Set buffer {buffer.Name} of {m.Name} to {buffer.Quantity} {buffer.Resource}");
-                }
-            }
-        }
-        foreach (StorageContainer c in Containers) {
-            if (_initialResources.TryGetValue(c.Resource, out float fraction)) {
-                c.Contents.Quantity = c.MaxQuantity * fraction;
-                GD.Print($"Set {c.Name} to {c.Contents.Quantity} {c.Resource}");
-            }
-        }
-        foreach (FloatingResource r in _floatingResourceManager.Resources()) {
-            if (_initialResources.TryGetValue(r.Resource, out float fraction)) {
-                r.Quantity = r.MaxQuantity * fraction;
-                GD.Print($"Set {r.Resource} to {r.Quantity}");
+        foreach (IContainer buffer in AllContainers()) {
+            if (_initialResources.TryGetValue(buffer.GetResource(), out float fraction)) {
+                buffer.SetQuantity(buffer.GetMaxQuantity() * fraction);
+                GD.Print($"Set {buffer.GetName()} to {buffer.GetQuantity()} {buffer.GetResource()}");
             }
         }
     }
@@ -74,25 +60,30 @@ public partial class Ship : Node {
         }
     }
 
-    public Dictionary<Resource, float> GetTotalResourceQuantities() {
-        Dictionary<Resource, float> totals = new();
+    public IEnumerable<IContainer> AllContainers() {
         foreach (Machine m in Machines) {
             foreach (InputOutput buffer in m.Inputs()) {
-                float current = totals.GetValueOrDefault(buffer.Resource, 0);
-                totals[buffer.Resource] = current + buffer.Quantity;
+                yield return buffer;
             }
             foreach (InputOutput buffer in m.Outputs()) {
-                float current = totals.GetValueOrDefault(buffer.Resource, 0);
-                totals[buffer.Resource] = current + buffer.Quantity;
+                yield return buffer;
             }
         }
+        
         foreach (StorageContainer c in Containers) {
-            float current = totals.GetValueOrDefault(c.Resource, 0);
-            totals[c.Resource] = current + c.Contents.Quantity;
+            yield return c;
         }
+        
         foreach (FloatingResource r in _floatingResourceManager.Resources()) {
-            float current = totals.GetValueOrDefault(r.Resource, 0);
-            totals[r.Resource] = current + r.Quantity;
+            yield return r;
+        }
+    }
+
+    public Dictionary<Resource, float> GetTotalResourceQuantities() {
+        Dictionary<Resource, float> totals = new();
+        foreach (IContainer buffer in AllContainers()) {
+            float current = totals.GetValueOrDefault(buffer.GetResource(), 0);
+            totals[buffer.GetResource()] = current + buffer.GetQuantity();
         }
 
         return totals;

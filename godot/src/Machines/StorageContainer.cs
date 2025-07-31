@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public partial class StorageContainer : Connectable {
+public partial class StorageContainer : Connectable, IContainer {
     [Export]
     public Resource Resource;
 
@@ -27,4 +27,15 @@ public partial class StorageContainer : Connectable {
         };
         AddChild(Contents);
     }
+
+    public int GetMaxQuantity() => MaxQuantity;
+
+    public float GetQuantity() => Contents.GetQuantity();
+
+    public Resource GetResource() => Resource;
+
+    public void SetQuantity(float newValue) => Contents.SetQuantity(newValue);
+
+    string IContainer.GetName() => GetName();
+
 }
