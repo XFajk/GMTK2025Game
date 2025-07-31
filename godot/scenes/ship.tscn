@@ -1,0 +1,38 @@
+[gd_scene load_steps=4 format=3 uid="uid://cgccmqaeo11dk"]
+
+[ext_resource type="Script" uid="uid://c41j8f7y8s5pn" path="res://src/Ship.cs" id="1_q631a"]
+[ext_resource type="PackedScene" uid="uid://b2nsbfgse4534" path="res://scenes/entities/machine.tscn" id="2_2gnfn"]
+[ext_resource type="Script" uid="uid://dck4iuol8dehj" path="res://src/Machines/InputOutput.cs" id="3_4tobq"]
+
+[node name="Ship" type="Node3D"]
+script = ExtResource("1_q631a")
+
+[node name="ExampleMachine" parent="." instance=ExtResource("2_2gnfn")]
+
+[node name="Inputs" type="Node" parent="ExampleMachine"]
+
+[node name="ExampleInput" type="Node" parent="ExampleMachine/Inputs"]
+script = ExtResource("3_4tobq")
+Resource = 4
+MaxQuantity = 10
+QuantityChangeInReceipe = 1
+
+[node name="ExampleInput2" type="Node" parent="ExampleMachine/Inputs"]
+script = ExtResource("3_4tobq")
+Resource = 3
+MaxQuantity = 20
+QuantityChangeInReceipe = 2
+
+[node name="Outputs" type="Node" parent="ExampleMachine"]
+
+[node name="ExampleOutput" type="Node" parent="ExampleMachine/Outputs"]
+script = ExtResource("3_4tobq")
+Resource = 5
+MaxQuantity = 100
+QuantityChangeInReceipe = 1
+
+[node name="ExampleOutput2" type="Node" parent="ExampleMachine/Outputs"]
+script = ExtResource("3_4tobq")
+Resource = 9
+MaxQuantity = 100
+QuantityChangeInReceipe = 2
