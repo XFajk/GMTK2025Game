@@ -35,6 +35,34 @@ public class Resources {
         _ => false,
     };
 
+    public static string ToUnit(Resource resource, int quantity) {
+        switch (resource) {
+            case Resource.CoolantHot:
+                return $"{quantity} l";
+            case Resource.CoolantCold:
+                return $"{quantity} l";
+            case Resource.Humidity:
+                return $"{quantity} %";
+            case Resource.Water:
+                return $"{quantity} l";
+            case Resource.Food:
+                return $"{quantity} kg";
+            case Resource.SolidWaste:
+            case Resource.FluidWaste:
+                return $"{quantity} kg";
+            case Resource.Oxygen:
+                return $"{quantity} l";
+            case Resource.CarbonDioxide:
+                return $"{quantity} l";
+            case Resource.Disposables:
+                return $"{quantity}";
+            case Resource.Garbage:
+                return $"{quantity}";
+            default:
+                throw new ArgumentOutOfRangeException(nameof(resource), resource, null);
+        }
+    }
+
     public static bool IsLossless(IList<InputOutput> receipe) {
         Dictionary<ResourcePart, int> totals = new();
 

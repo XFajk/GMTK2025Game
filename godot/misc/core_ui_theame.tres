@@ -1,0 +1,11 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://slxggstqjbqr"]
+
+[ext_resource type="FontFile" uid="uid://rs5nkn4vh4tx" path="res://assets/fonts/wwDigital.ttf" id="1_77ltn"]
+
+[resource]
+AcceptDialog/font_sizes/title_font_size = 18
+AcceptDialog/fonts/title_font = ExtResource("1_77ltn")
+Button/font_sizes/font_size = 20
+Button/fonts/font = ExtResource("1_77ltn")
+Label/font_sizes/font_size = 16
+Label/fonts/font = ExtResource("1_77ltn")
