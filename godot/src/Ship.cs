@@ -14,13 +14,18 @@ public partial class Ship : Node {
     public List<Connectable> Connectables => [.. Machines, .. Containers];
 
     private List<Connection> _connections = new();
+    private Node _connectionsNode;
 
     public override void _Ready() {
         foreach (Node node in GetChildren()) {
             if (node is Machine machine) {
                 Machines.Add(machine);
             }
+            if (node is StorageContainer container) {
+                Containers.Add(container);
+            }
         }
+        _connectionsNode = GetNode("Connections");
     }
 
     public override void _Process(double deltaTime) {
@@ -53,6 +58,8 @@ public partial class Ship : Node {
 
     public void AddConnection(Connectable a, Connectable b) {
         GD.Print($"Connected {a.Name} and {b.Name}");
-        _connections.Add(new Connection(a, b));
+        Connection connection = new(a, b);
+        _connections.Add(connection);
+        // TODO add connection node to _connectionsNode
     }
 }

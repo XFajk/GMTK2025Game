@@ -6,7 +6,7 @@
 
 [sub_resource type="SphereMesh" id="SphereMesh_fci2i"]
 
-[node name="ConnectionPoint" type="Area3D"]
+[node name="ConnectionNode" type="Area3D"]
 script = ExtResource("1_1g3g4")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]

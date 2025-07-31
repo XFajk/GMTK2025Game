@@ -20,6 +20,7 @@ public partial class StorageContainer : Connectable {
     }
 
     public override void _Ready() {
+        base._Ready();
         Contents = new() {
             Resource = Resource,
             MaxQuantity = MaxQuantity

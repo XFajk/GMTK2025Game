@@ -22,6 +22,7 @@ public partial class Machine : Connectable {
     public override IEnumerable<InputOutput> Outputs() => _receipeParts.Where(c => c.QuantityChangeInReceipe > 0);
 
     public override void _Ready() {
+        base._Ready();
         foreach (Node child in GetNode("Inputs").GetChildren()) {
             if (child is InputOutput input) {
                 // we just add the inputs as a negative quantity change resulting from running the receipe
