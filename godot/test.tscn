@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://bogly7d7dwlb3"]
+[gd_scene load_steps=11 format=3 uid="uid://bogly7d7dwlb3"]
 
 [ext_resource type="PackedScene" uid="uid://6cj8en2hqm8j" path="res://scenes/player.tscn" id="1_37kl0"]
 [ext_resource type="PackedScene" uid="uid://btfhevum5xp06" path="res://scenes/entities/elevator.tscn" id="2_6uqi0"]
 [ext_resource type="PackedScene" uid="uid://fvs5t3eobei" path="res://scenes/entities/preson.tscn" id="2_8uh7m"]
 [ext_resource type="Script" uid="uid://c27surc38gk72" path="res://src/entities/Floor.cs" id="3_ppyta"]
+[ext_resource type="Script" uid="uid://c2i027eoql8i6" path="res://src/entities/FloorPath.cs" id="4_ykrsh"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_37kl0"]
 size = Vector3(5.29, 0.135, 2.04)
@@ -15,6 +16,10 @@ height = 2.37598
 height = 0.92
 cap_top = false
 cap_bottom = false
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ykrsh"]
+cull_mode = 2
+albedo_color = Color(0.798791, 0.798791, 0.798791, 1)
 
 [sub_resource type="Curve3D" id="Curve3D_37kl0"]
 _data = {
@@ -39,15 +44,6 @@ mesh = SubResource("BoxMesh_37kl0")
 [node name="Elevator" parent="." instance=ExtResource("2_6uqi0")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.162445, 0.544844, -4.01493)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Elevator"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.592285, 0)
-shape = SubResource("CylinderShape3D_6uqi0")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Elevator/CollisionShape3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0606829, 0)
-mesh = SubResource("CylinderMesh_ppyta")
-skeleton = NodePath("../..")
-
 [node name="Floor" type="Node3D" parent="Elevator" node_paths=PackedStringArray("FloorPath")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.404304, 0)
 script = ExtResource("3_ppyta")
@@ -61,49 +57,34 @@ FloorNumber = 1
 FloorPath = NodePath("../../Floor2Path")
 metadata/_custom_type_script = "uid://c27surc38gk72"
 
-[node name="Floor2Path" type="Path3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.82352, -4.04687)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Elevator"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.592285, 0)
+shape = SubResource("CylinderShape3D_6uqi0")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Elevator/CollisionShape3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0606829, 0)
+mesh = SubResource("CylinderMesh_ppyta")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_ykrsh")
+
+[node name="Floor2Path" type="Path3D" parent="." node_paths=PackedStringArray("FloorElevator")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0199118, 1.8367, -4.05169)
 curve = SubResource("Curve3D_37kl0")
-
-[node name="Preson" parent="Floor2Path" instance=ExtResource("2_8uh7m")]
-transform = Transform3D(-0.472354, 0.000107926, -0.881402, -3.63796e-12, 0.999998, 0.000122447, 0.881404, 5.78389e-05, -0.472353, -2.33772, -0.0546512, -0.0509605)
-progress = 0.00724583
+script = ExtResource("4_ykrsh")
+FloorElevator = NodePath("../Elevator")
 FloorNumber = 1
+metadata/_custom_type_script = "uid://c2i027eoql8i6"
 
-[node name="Preson2" parent="Floor2Path" instance=ExtResource("2_8uh7m")]
-transform = Transform3D(-0.472354, 0.000107926, -0.881402, -3.63796e-12, 0.999998, 0.000122447, 0.881404, 5.78389e-05, -0.472353, -2.33772, -0.0546512, -0.0509605)
-progress = 0.00724583
-FloorNumber = 1
-
-[node name="Preson3" parent="Floor2Path" instance=ExtResource("2_8uh7m")]
-transform = Transform3D(-0.472354, 0.000107926, -0.881402, -3.63796e-12, 0.999998, 0.000122447, 0.881404, 5.78389e-05, -0.472353, -2.33772, -0.0546512, -0.0509605)
-progress = 0.00724583
-FloorNumber = 1
-
-[node name="Preson4" parent="Floor2Path" instance=ExtResource("2_8uh7m")]
-transform = Transform3D(-0.472354, 0.000107926, -0.881402, -3.63796e-12, 0.999998, 0.000122447, 0.881404, 5.78389e-05, -0.472353, -2.33772, -0.0546512, -0.0509605)
-progress = 0.00724583
-FloorNumber = 1
-
-[node name="Floor1Path" type="Path3D" parent="."]
+[node name="Floor1Path" type="Path3D" parent="." node_paths=PackedStringArray("FloorElevator")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.131335, -4.04687)
 curve = SubResource("Curve3D_37kl0")
+script = ExtResource("4_ykrsh")
+FloorElevator = NodePath("../Elevator")
+metadata/_custom_type_script = "uid://c2i027eoql8i6"
 
 [node name="Preson" parent="Floor1Path" instance=ExtResource("2_8uh7m")]
-transform = Transform3D(-0.472354, 0.000107926, -0.881403, -3.63797e-12, 0.999998, 0.000122447, 0.881405, 5.78389e-05, -0.472353, -2.33772, -0.0546512, -0.0509605)
-progress = 0.00724583
-
-[node name="Preson2" parent="Floor1Path" instance=ExtResource("2_8uh7m")]
-transform = Transform3D(-0.472354, 0.000107926, -0.881403, -3.63797e-12, 0.999998, 0.000122447, 0.881405, 5.78389e-05, -0.472353, -2.33772, -0.0546512, -0.0509605)
-progress = 0.00724583
-
-[node name="Preson3" parent="Floor1Path" instance=ExtResource("2_8uh7m")]
-transform = Transform3D(-0.472354, 0.000107926, -0.881403, -3.63797e-12, 0.999998, 0.000122447, 0.881405, 5.78389e-05, -0.472353, -2.33772, -0.0546512, -0.0509605)
-progress = 0.00724583
-
-[node name="Preson4" parent="Floor1Path" instance=ExtResource("2_8uh7m")]
-transform = Transform3D(-0.472354, 0.000107926, -0.881403, -3.63797e-12, 0.999998, 0.000122447, 0.881405, 5.78389e-05, -0.472353, -2.33772, -0.0546512, -0.0509605)
-progress = 0.00724583
+transform = Transform3D(-0.472356, 0.000107927, -0.881408, -3.63798e-12, 1, 0.000122448, 0.881408, 5.7839e-05, -0.472356, -2.34121, -0.0546507, -0.0528288)
+Speed = 0.1
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.10016, -4.31554)

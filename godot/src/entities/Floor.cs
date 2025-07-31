@@ -7,5 +7,5 @@ public partial class Floor : Node3D {
     public int FloorNumber = 0;
 
     [Export]
-    public Path3D FloorPath;
+    public FloorPath FloorPath;
 }
