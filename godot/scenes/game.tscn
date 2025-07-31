@@ -8,4 +8,9 @@ script = ExtResource("1_yqjtg")
 
 [node name="Ship" parent="." instance=ExtResource("2_lnu2h")]
 
-[node name="Connections" type="Node" parent="."]
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-0.063756, -0.487311, 0.870898, -0.0355795, 0.873228, 0.486011, -0.997331, -1.49407e-08, -0.0730118, 2.58859, 1.71309, 0)
+current = true
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Camera3D"]
+transform = Transform3D(0.895564, 0.213122, -0.390568, -0.21962, 0.975168, 0.0285385, 0.386951, 0.0602183, 0.920132, 0, 0, 0)
