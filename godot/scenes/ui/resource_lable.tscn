@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://bqyjx3w8kmd7v"]
+[gd_scene load_steps=7 format=3 uid="uid://bqyjx3w8kmd7v"]
 
 [ext_resource type="Texture2D" uid="uid://cdwh4c8y3kr7b" path="res://icon.svg" id="1_bh6qd"]
 [ext_resource type="Theme" uid="uid://slxggstqjbqr" path="res://misc/core_ui_theame.tres" id="1_hcg0y"]
+[ext_resource type="Script" uid="uid://bcukv1e4vufk1" path="res://src/ui/ResourceLable.cs" id="2_nt3qu"]
 [ext_resource type="FontFile" uid="uid://rs5nkn4vh4tx" path="res://assets/fonts/wwDigital.ttf" id="3_y24sm"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_y24sm"]
@@ -18,6 +19,7 @@ anchors_preset = 0
 offset_right = 230.0
 offset_bottom = 40.0
 theme = ExtResource("1_hcg0y")
+script = ExtResource("2_nt3qu")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 1
@@ -61,6 +63,6 @@ offset_bottom = 11.5
 grow_horizontal = 0
 grow_vertical = 2
 theme = ExtResource("1_hcg0y")
-text = "00000"
+text = "--"
 label_settings = SubResource("LabelSettings_vsvyc")
 vertical_alignment = 1
