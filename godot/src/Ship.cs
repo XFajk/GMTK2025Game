@@ -21,7 +21,15 @@ public partial class Ship : Node {
     private List<Connection> _connections = new();
     private Node _connectionsNode;
 
+    public List<Floor> Floors; 
+    public List<Person> Crew;
+    private List<Person> _crewDoingTasks;
+
+    private RandomNumberGenerator _rng = new();
+
     public override void _Ready() {
+        _rng.Randomize();
+
         foreach (Node node in GetChildren()) {
             if (node is Machine machine) {
                 Machines.Add(machine);
@@ -41,6 +49,9 @@ public partial class Ship : Node {
                 GD.Print($"Set {buffer.GetName()} to {buffer.GetQuantity()} {buffer.GetResource()}");
             }
         }
+
+        Crew = GetTree().GetNodesInGroup("Crew").OfType<Person>().ToList();
+        Floors = GetTree().GetNodesInGroup("Floors").OfType<Floor>().ToList();
     }
 
     public FloatingResource GetFloatingResource(Resource resource) {
@@ -167,5 +178,24 @@ public partial class Ship : Node {
         Connection connection = new(a, b);
         _connections.Add(connection);
         // TODO add connection node to _connectionsNode
+    }
+
+    public void HireForTask(CrewTask task) {
+        foreach (Person person in Crew) {
+            if (!_crewDoingTasks.Contains(person)) {
+                _crewDoingTasks.Add(person);
+                person.SetTarget(ShipLocation.ClosesToPoint(task.Location, Floors));
+
+                person.ReachedDestination += OnPersonReachedDestination;
+                person.RecalculateTimer.WaitTime = task.Duration;
+            }
+        }
+    }
+
+    private void OnPersonReachedDestination(Person person) {
+        _crewDoingTasks.Remove(person);
+        person.ReachedDestination -= OnPersonReachedDestination;
+
+        person.RecalculateTimer.Start();
     }
 }

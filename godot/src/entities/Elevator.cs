@@ -24,24 +24,8 @@ public partial class Elevator : Area3D {
             if (person.InElevator) {
                 return;
             }
-            bool goIntoElevator = false;
-            int newFloorIndex;
-            if (person.TargetFloor != null && person.FloorNumber != person.TargetFloor) {
-                goIntoElevator = true;
-                newFloorIndex = (int)person.TargetFloor;
-            } else {
-                goIntoElevator = _rng.RandWeighted([0.5f, 0.5f]) == 0;
-                // This code makes sure that the new floor we want to transport the player to is different than the floor he is currently on
-                int count = Floors.Count;
-                if (count < 2) {
-                    return;
-                } else {
-                    int idx = _rng.RandiRange(0, count - 2);
-                    newFloorIndex = idx >= person.FloorNumber ? idx + 1 : idx;
-                }
-            }
-            if (goIntoElevator) {
 
+            if (person.ShipTargets[0].IsElevator) {
                 var tween = GetTree().CreateTween();
                 Node personParent = person.GetParent();
                 person.InElevator = true;
@@ -55,7 +39,7 @@ public partial class Elevator : Area3D {
                 Floor currentFloor = Floors[person.FloorNumber];
                 tween.TweenProperty(person, "global_position", currentFloor.GlobalPosition, 1.0);
 
-                Floor targetFloor = Floors[newFloorIndex];
+                Floor targetFloor = Floors[person.ShipTargets[1].Floor];
                 tween.TweenProperty(person, "global_position", targetFloor.GlobalPosition, 2.0).SetTrans(Tween.TransitionType.Sine);
 
                 Vector3 GlobalPathPoint = targetFloor.FloorPath.ToGlobal(targetFloor.FloorPath.ClosestPointToElevator);
@@ -68,6 +52,7 @@ public partial class Elevator : Area3D {
                     person.ProgressRatio = targetFloor.FloorPath.ElevatorRatio;
                     person.InElevator = false;
                     person.FloorNumber = targetFloor.FloorNumber;
+                    person.ShipTargets.RemoveAt(0);
                 }));
             }
         }
