@@ -8,10 +8,10 @@ Mission 1: Preparation
 
 Mission 2: Travel to a new solar system
 	"Today we will travel to the {TargetName} solar system. "
-    "We will run the engine at {TargetEnginePower * 100}% capacity, rather than the usual {Engine.DefaultEnginePower * 100}%. "
-    "Make sure the engine has enough coolant, and keep an eye on the water supply. "
-    "We will leave in {PreparationTime} seconds",
-    "End of Brief"
+	"We will run the engine at {TargetEnginePower * 100}% capacity, rather than the usual {Engine.DefaultEnginePower * 100}%. "
+	"Make sure the engine has enough coolant, and keep an eye on the water supply. "
+	"We will leave in {PreparationTime} seconds",
+	"End of Brief"
 	> engine processing speed is set from 10% to 100% for the duration of the mission
 	
 Mission 3: High-power scan
@@ -19,10 +19,10 @@ Mission 3: High-power scan
 	
 Mission 4: Astroid mining
 	"Today we will be running an astroid minig operation. "
-    "For this mission we will need {RequiredDisposables} plastic materials, "
-    "and the operation will consume up to {OxygenDrainPerSecond * 60} oxygen per minute"
-    "The operation begins in {PreparationTime} seconds",
-    "End of Brief"
+	"For this mission we will need {RequiredDisposables} plastic materials, "
+	"and the operation will consume up to {OxygenDrainPerSecond * 60} oxygen per minute"
+	"The operation begins in {PreparationTime} seconds",
+	"End of Brief"
 	> will return CO2 back to the ship afterwards
 	 
 Mission 5-10: ???
@@ -37,6 +37,7 @@ Mission 11: Among us
 	
 Mission 12: Pizza
 	"Hey Ship, new captain here. From now on, we're eating Pizza. "
+	"Make sure we have about {TargetFoodQuantity} of pizza before tomorrow. "
 	> all food is transformed into solid and liquid waste (nothing is lost)
 	> plants now only produces half food
 	> crew produces doulbe waste (to close the loop again)
@@ -53,4 +54,12 @@ Mission 14: Resupply
 	"We found an ice astroid, so we will be mining water today"
 	> similar to the Astroid mining mission, but will add water back into the system
 	> in fact, it will add so much water that you run out of space if you're not prepared
+	
+---
+	 
+Mission: Pirates!
+	> depending on our (time) budget, we can make this very fancy
+	> oxygen use is increased (due to stress)
+	> air leaks pop up frequently
+	> power dies every once in a while to shoot the ship's death-lazer
 	
