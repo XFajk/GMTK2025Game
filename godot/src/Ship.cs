@@ -114,32 +114,36 @@ public partial class Ship : Node {
     }
 
     public void AddResource(Resource resource, int quantity) {
+        float leftToAdd = quantity;
+
         // first check floating resources
         foreach (FloatingResource res in _floatingResourceManager.Resources()) {
             if (res.Resource == resource) {
-                res.Quantity += quantity;
-                return;
+                leftToAdd = (res as IContainer).RemainderOfAdd(leftToAdd);
+                if (leftToAdd == 0) return;
             }
         }
 
         // then check storages
         foreach (StorageContainer container in Containers) {
             if (container.Resource == resource) {
-                (container as IContainer).AddQuantity(quantity);
-                return;
+                leftToAdd = (container as IContainer).RemainderOfAdd(leftToAdd);
+                if (leftToAdd == 0) return;
             }
         }
 
         // then check machine inputs
         foreach (Machine m in Machines) {
             foreach (InputOutput buffer in m.Inputs()) {
-                buffer.Quantity += quantity;
-                return;
+                leftToAdd = (buffer as IContainer).RemainderOfAdd(leftToAdd);
+                if (leftToAdd == 0) return;
             }
         }
 
         // otherwise it is lost
     }
+
+    public void RemoveResource(Resource resource, int quantity) => AddResource(resource, -quantity);
 
     public void AddConnection(Connectable a, Connectable b) {
         GD.Print($"Connected {a.Name} and {b.Name}");
@@ -147,4 +151,5 @@ public partial class Ship : Node {
         _connections.Add(connection);
         // TODO add connection node to _connectionsNode
     }
+
 }

@@ -16,6 +16,7 @@ public partial class MissionAstroidMining : Node3D, IMission {
     public int RequiredDisposables;
 
     public float OxygenDrainPerSecond;
+    public float OxygenDrainTotal;
     public float CarbonDioxideReturnQuantity;
 
     void IMission.Ready() {
@@ -23,10 +24,8 @@ public partial class MissionAstroidMining : Node3D, IMission {
         float disposablesToCarbon = Resources.GetRatio(Resource.Disposables, Resource.CarbonDioxide);
 
         CarbonDioxideReturnQuantity = RequiredDisposables * disposablesToCarbon;
-        OxygenDrainPerSecond = (CarbonDioxideReturnQuantity * carbonToOxygen) / Duration;
-    }
-
-    public void ApplyEffect(Ship ship) {
+        OxygenDrainTotal = (CarbonDioxideReturnQuantity * carbonToOxygen);
+        OxygenDrainPerSecond = OxygenDrainTotal / Duration;
     }
 
     public string[] Briefing() => [
@@ -37,9 +36,19 @@ public partial class MissionAstroidMining : Node3D, IMission {
         "End of Brief"
     ];
 
-    public float GetDuration() => Duration;
+    IList<KeyValuePair<Resource, int>> IMission.GetMaterialRequirements() => [KeyValuePair.Create(Resource.Disposables, RequiredDisposables)];
 
     public float GetPreparationTime() => PreparationTime;
+
+    public void ApplyEffect(Ship ship) {
+        ship.ActiveEffects.Add(new EventEffectResource() {
+            AdditionPerSecond = -OxygenDrainPerSecond,
+            MaxResourcesToAdd = OxygenDrainTotal,
+            Target = ship.GetFloatingResource(Resource.Oxygen)
+        });
+    }
+
+    public float GetDuration() => Duration;
 
     public void OnCompletion(Ship ship) {
         ship.ActiveEffects.Add(new EventEffectResource() {

@@ -16,9 +16,15 @@ public interface IMission : IEvent {
     void Ready() { }
     // TODO maybe return something smarter
     string[] Briefing();
-    Dictionary<Resource, int> GetMaterialRequirements() => [];
+    IList<KeyValuePair<Resource, int>> GetMaterialRequirements() => [];
     float GetPreparationTime();
     float GetDuration();
     string[] Debrief();
 
+    // TODO
+    // void RemoveMaterialRequirements(Ship ship) {
+    //     foreach (var pair in mission.GetMaterialRequirements()) {
+    //         ship.RemoveResource(pair.Key, pair.Value);
+    //     }
+    // }
 }
