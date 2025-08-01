@@ -16,7 +16,7 @@ public partial class Ship : Node {
     /// all machines and containers
     public List<Connectable> Connectables => [.. Machines, .. Containers];
 
-    public List<IEventEffect> ActiveEffects;
+    public List<IEventEffect> ActiveEffects = new();
 
     private List<Connection> _connections = new();
     private Node _connectionsNode;
@@ -151,5 +151,4 @@ public partial class Ship : Node {
         _connections.Add(connection);
         // TODO add connection node to _connectionsNode
     }
-
 }
