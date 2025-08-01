@@ -14,7 +14,7 @@ radius = 0.270508
 radius = 0.1
 height = 0.4
 
-[node name="Preson" type="PathFollow3D"]
+[node name="Person" type="PathFollow3D"]
 script = ExtResource("1_rlyp3")
 Speed = 0.03
 

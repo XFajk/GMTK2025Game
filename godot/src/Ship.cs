@@ -105,6 +105,8 @@ public partial class Ship : Node {
             if (output.Quantity > TransferQuantity && input.Quantity + TransferQuantity < input.MaxQuantity) {
                 output.Quantity -= TransferQuantity;
                 input.Quantity += TransferQuantity;
+
+                GD.Print($"Transferred {TransferQuantity} from {input.Name} to {output.Name}");
             }
         }
     }
