@@ -24,7 +24,11 @@ public partial class PlayerContoller : Camera3D {
         if (Input.IsActionPressed("drag")) {
             Vector2 mousePositionDifference = _previouseMousePosition - GetViewport().GetMousePosition();
             Vector2 positionOffset = _previousePosition + mousePositionDifference;
-            Position = new Vector3(_previousePosition.X + positionOffset.X * DragScalar * (Fov * 0.01f), _previousePosition.Y - positionOffset.Y * DragScalar * (Fov * 0.01f), Position.Z);
+            Position = new Vector3(
+                _previousePosition.X + positionOffset.X * DragScalar * (Fov * 0.01f), 
+                _previousePosition.Y - positionOffset.Y * DragScalar * (Fov * 0.01f), 
+                Position.Z
+            );
         } else {
             _previouseMousePosition = GetViewport().GetMousePosition();
             _previousePosition = new Vector2(Position.X, Position.Y);

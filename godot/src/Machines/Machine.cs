@@ -6,6 +6,8 @@ using System.Linq;
 
 /// a connectable machine that processes receipes
 public partial class Machine : Connectable, IRepairable {
+    [Export]
+    private bool _isLossless = true;
 
     [Export]
     /// number of times per second a cycle is executed.
@@ -39,9 +41,7 @@ public partial class Machine : Connectable, IRepairable {
             }
         }
 
-        if (!Resources.IsLossless(_recipeParts)) {
-            throw new Exception($"Machine {Name} is not lossless");
-        }
+        if (_isLossless) Resources.VerifyLossless(_recipeParts, Name);
     }
 
     public override void _Process(double deltaTime) {

@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cgccmqaeo11dk"]
+[gd_scene load_steps=10 format=3 uid="uid://cgccmqaeo11dk"]
 
 [ext_resource type="Script" uid="uid://c41j8f7y8s5pn" path="res://src/Ship.cs" id="1_q631a"]
 [ext_resource type="Script" uid="uid://dx4b8dlivs2dq" path="res://src/Machines/Machine.cs" id="2_gudjc"]
@@ -6,68 +6,414 @@
 [ext_resource type="PackedScene" uid="uid://5knr05qpwauj" path="res://scenes/entities/connection_node.tscn" id="3_7j21i"]
 [ext_resource type="Script" uid="uid://csrpfcmiycc06" path="res://src/Machines/StorageContainer.cs" id="4_tfsc7"]
 [ext_resource type="Script" uid="uid://crs06kmuc1fi1" path="res://src/Machines/FloatingResource.cs" id="6_7j21i"]
+[ext_resource type="Script" uid="uid://cktjf2cpg2cwg" path="res://src/Machines/Process.cs" id="7_3m36u"]
+[ext_resource type="Script" uid="uid://dchlx4kc4xldy" path="res://src/Machines/InputOutput.cs" id="8_8qiel"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_f23tx"]
 
 [node name="Ship" type="Node3D"]
 script = ExtResource("1_q631a")
 _initialResources = Dictionary[int, float]({
-1: 0.5,
-2: 0.5,
-3: 0.8,
-4: 0.2,
-7: 0.5
+4: 0.5,
+5: 0.1,
+8: 0.4
 })
 
 [node name="Connections" type="Node" parent="."]
 
-[node name="FoodBurner" type="Node3D" parent="."]
-transform = Transform3D(0.782358, 0, 0.622829, 0, 1, 0, -0.622829, 0, 0.782358, -1.57013, 0.27009, -0.943247)
-script = ExtResource("2_gudjc")
+[node name="FloatingResources" type="Node" parent="."]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="FoodBurner"]
-mesh = SubResource("BoxMesh_f23tx")
+[node name="Oxygen" type="Node" parent="FloatingResources"]
+script = ExtResource("6_7j21i")
+Resource = 8
+MaxQuantity = 500
 
-[node name="Inputs" type="Node" parent="FoodBurner"]
+[node name="CarbonDioxide" type="Node" parent="FloatingResources"]
+script = ExtResource("6_7j21i")
+Resource = 9
+MaxQuantity = 100
 
-[node name="ExampleInput" type="Node" parent="FoodBurner/Inputs"]
-script = ExtResource("3_4tobq")
-Resource = 4
-MaxQuantity = 20
-QuantityChangeInReceipe = 1
+[node name="Humidity" type="Node" parent="FloatingResources"]
+script = ExtResource("6_7j21i")
+Resource = 3
 
-[node name="ExampleInput2" type="Node" parent="FoodBurner/Inputs"]
-script = ExtResource("3_4tobq")
-Resource = 7
-MaxQuantity = 4
+[node name="CrewFoodProcess" type="Node3D" parent="."]
+script = ExtResource("7_3m36u")
+_processingPerSecond = 2.0
+
+[node name="Inputs" type="Node" parent="CrewFoodProcess"]
+
+[node name="WaterInput" type="Node" parent="CrewFoodProcess/Inputs" node_paths=PackedStringArray("Source")]
+script = ExtResource("8_8qiel")
+Source = NodePath("../../../WaterStorage")
 QuantityChangeInReceipe = 2
 
-[node name="Outputs" type="Node" parent="FoodBurner"]
+[node name="OxygenInput" type="Node" parent="CrewFoodProcess/Inputs" node_paths=PackedStringArray("Source")]
+script = ExtResource("8_8qiel")
+Source = NodePath("../../../FloatingResources/Oxygen")
+QuantityChangeInReceipe = 1
 
-[node name="ExampleOutput" type="Node" parent="FoodBurner/Outputs"]
+[node name="FoodInput" type="Node" parent="CrewFoodProcess/Inputs" node_paths=PackedStringArray("Source")]
+script = ExtResource("8_8qiel")
+Source = NodePath("../../../FoodStorage")
+QuantityChangeInReceipe = 1
+
+[node name="Outputs" type="Node" parent="CrewFoodProcess"]
+
+[node name="FluidWasteOutput" type="Node" parent="CrewFoodProcess/Outputs" node_paths=PackedStringArray("Source")]
+script = ExtResource("8_8qiel")
+Source = NodePath("../../../FluidWasteStorage")
+QuantityChangeInReceipe = 2
+
+[node name="SolidWasteOutput" type="Node" parent="CrewFoodProcess/Outputs" node_paths=PackedStringArray("Source")]
+script = ExtResource("8_8qiel")
+Source = NodePath("../../../SolidWasteStorage")
+QuantityChangeInReceipe = 1
+
+[node name="HumidityOutput" type="Node" parent="CrewFoodProcess/Outputs" node_paths=PackedStringArray("Source")]
+script = ExtResource("8_8qiel")
+Source = NodePath("../../../FloatingResources/Humidity")
+QuantityChangeInReceipe = 1
+
+[node name="CrewConsumableProcess" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 10, 0)
+script = ExtResource("7_3m36u")
+_processingPerSecond = 2.0
+
+[node name="Inputs" type="Node" parent="CrewConsumableProcess"]
+
+[node name="DisposablesInput" type="Node" parent="CrewConsumableProcess/Inputs" node_paths=PackedStringArray("Source")]
+script = ExtResource("8_8qiel")
+Source = NodePath("../../../CarbonScrubber/Outputs/DisposablesOutput")
+QuantityChangeInReceipe = 1
+
+[node name="Outputs" type="Node" parent="CrewConsumableProcess"]
+
+[node name="GarbageOutput" type="Node" parent="CrewConsumableProcess/Outputs" node_paths=PackedStringArray("Source")]
+script = ExtResource("8_8qiel")
+Source = NodePath("../../../Garbage")
+QuantityChangeInReceipe = 1
+
+[node name="FluidReprocessor" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 2, 0)
+script = ExtResource("2_gudjc")
+_processingPerSecond = 0.2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="FluidReprocessor"]
+mesh = SubResource("BoxMesh_f23tx")
+
+[node name="Inputs" type="Node" parent="FluidReprocessor"]
+
+[node name="FluidWasteInput" type="Node" parent="FluidReprocessor/Inputs"]
+script = ExtResource("3_4tobq")
+Resource = 6
+MaxQuantity = 2
+QuantityChangeInReceipe = 1
+
+[node name="Outputs" type="Node" parent="FluidReprocessor"]
+
+[node name="WaterOutput" type="Node" parent="FluidReprocessor/Outputs"]
+script = ExtResource("3_4tobq")
+Resource = 4
+MaxQuantity = 2
+QuantityChangeInReceipe = 1
+
+[node name="ConnectionNodes" type="Node3D" parent="FluidReprocessor"]
+
+[node name="ConnectionNode" parent="FluidReprocessor/ConnectionNodes" instance=ExtResource("3_7j21i")]
+transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, -0.195845, 0.455998, 0.397518)
+
+[node name="ConnectionNode2" parent="FluidReprocessor/ConnectionNodes" instance=ExtResource("3_7j21i")]
+transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, 0.258973, 0.455998, 0.397518)
+
+[node name="Hydrolysis" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 0)
+script = ExtResource("2_gudjc")
+_isLossless = false
+_processingPerSecond = 0.2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Hydrolysis"]
+mesh = SubResource("BoxMesh_f23tx")
+
+[node name="Inputs" type="Node" parent="Hydrolysis"]
+
+[node name="WaterInput" type="Node" parent="Hydrolysis/Inputs"]
+script = ExtResource("3_4tobq")
+Resource = 4
+MaxQuantity = 2
+QuantityChangeInReceipe = 1
+
+[node name="Outputs" type="Node" parent="Hydrolysis"]
+
+[node name="OxygenOutput" type="Node" parent="Hydrolysis/Outputs"]
 script = ExtResource("3_4tobq")
 Resource = 8
 MaxQuantity = 2
 QuantityChangeInReceipe = 1
 
-[node name="ExampleOutput2" type="Node" parent="FoodBurner/Outputs"]
+[node name="ConnectionNodes" type="Node3D" parent="Hydrolysis"]
+
+[node name="ConnectionNode" parent="Hydrolysis/ConnectionNodes" instance=ExtResource("3_7j21i")]
+transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, -0.195845, 0.455998, 0.397518)
+
+[node name="ConnectionNode2" parent="Hydrolysis/ConnectionNodes" instance=ExtResource("3_7j21i")]
+transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, 0.258973, 0.455998, 0.397518)
+
+[node name="Condensator" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 6, 0)
+script = ExtResource("2_gudjc")
+_processingPerSecond = 10.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Condensator"]
+mesh = SubResource("BoxMesh_f23tx")
+
+[node name="Inputs" type="Node" parent="Condensator"]
+
+[node name="HumidityInput" type="Node" parent="Condensator/Inputs"]
+script = ExtResource("3_4tobq")
+Resource = 3
+MaxQuantity = 12
+QuantityChangeInReceipe = 10
+
+[node name="Outputs" type="Node" parent="Condensator"]
+
+[node name="WaterOutput" type="Node" parent="Condensator/Outputs"]
+script = ExtResource("3_4tobq")
+Resource = 4
+MaxQuantity = 100
+QuantityChangeInReceipe = 10
+
+[node name="ConnectionNodes" type="Node3D" parent="Condensator"]
+
+[node name="ConnectionNode" parent="Condensator/ConnectionNodes" instance=ExtResource("3_7j21i")]
+transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, -0.195845, 0.455998, 0.397518)
+
+[node name="ConnectionNode2" parent="Condensator/ConnectionNodes" instance=ExtResource("3_7j21i")]
+transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, 0.258973, 0.455998, 0.397518)
+
+[node name="CoolantCooler" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 6, 0)
+script = ExtResource("2_gudjc")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CoolantCooler"]
+mesh = SubResource("BoxMesh_f23tx")
+
+[node name="Inputs" type="Node" parent="CoolantCooler"]
+
+[node name="CoolantHotInput" type="Node" parent="CoolantCooler/Inputs"]
+script = ExtResource("3_4tobq")
+Resource = 1
+MaxQuantity = 100
+QuantityChangeInReceipe = 1
+
+[node name="WaterInput" type="Node" parent="CoolantCooler/Inputs"]
+script = ExtResource("3_4tobq")
+Resource = 4
+MaxQuantity = 10
+QuantityChangeInReceipe = 4
+
+[node name="Outputs" type="Node" parent="CoolantCooler"]
+
+[node name="CoolantColdOutput" type="Node" parent="CoolantCooler/Outputs"]
 script = ExtResource("3_4tobq")
 Resource = 2
+MaxQuantity = 100
+QuantityChangeInReceipe = 1
+
+[node name="ConnectionNodes" type="Node3D" parent="CoolantCooler"]
+
+[node name="ConnectionNode" parent="CoolantCooler/ConnectionNodes" instance=ExtResource("3_7j21i")]
+transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, -0.195845, 0.455998, 0.397518)
+
+[node name="ConnectionNode2" parent="CoolantCooler/ConnectionNodes" instance=ExtResource("3_7j21i")]
+transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, 0.258973, 0.455998, 0.397518)
+
+[node name="Engine" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 8, 0)
+script = ExtResource("2_gudjc")
+_processingPerSecond = 0.1
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Engine"]
+mesh = SubResource("BoxMesh_f23tx")
+
+[node name="Inputs" type="Node" parent="Engine"]
+
+[node name="CoolantColdInput" type="Node" parent="Engine/Inputs"]
+script = ExtResource("3_4tobq")
+Resource = 2
+MaxQuantity = 5
+QuantityChangeInReceipe = 1
+
+[node name="Outputs" type="Node" parent="Engine"]
+
+[node name="CoolantHotOutput" type="Node" parent="Engine/Outputs"]
+script = ExtResource("3_4tobq")
+Resource = 1
+MaxQuantity = 100
+QuantityChangeInReceipe = 1
+
+[node name="HumidityOutput" type="Node" parent="Engine/Outputs"]
+script = ExtResource("3_4tobq")
+Resource = 3
+MaxQuantity = 5
+QuantityChangeInReceipe = 4
+
+[node name="ConnectionNodes" type="Node3D" parent="Engine"]
+
+[node name="ConnectionNode" parent="Engine/ConnectionNodes" instance=ExtResource("3_7j21i")]
+transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, -0.195845, 0.455998, 0.397518)
+
+[node name="ConnectionNode2" parent="Engine/ConnectionNodes" instance=ExtResource("3_7j21i")]
+transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, 0.258973, 0.455998, 0.397518)
+
+[node name="SolidWasteBurner" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 4, 0)
+script = ExtResource("2_gudjc")
+_processingPerSecond = 0.1
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SolidWasteBurner"]
+mesh = SubResource("BoxMesh_f23tx")
+
+[node name="Inputs" type="Node" parent="SolidWasteBurner"]
+
+[node name="1" type="Node" parent="SolidWasteBurner/Inputs"]
+script = ExtResource("3_4tobq")
+Resource = 7
 MaxQuantity = 2
 QuantityChangeInReceipe = 1
 
-[node name="ConnectionNodes" type="Node3D" parent="FoodBurner"]
+[node name="2" type="Node" parent="SolidWasteBurner/Inputs"]
+script = ExtResource("3_4tobq")
+Resource = 8
+MaxQuantity = 2
+QuantityChangeInReceipe = 1
 
-[node name="ConnectionNode" parent="FoodBurner/ConnectionNodes" instance=ExtResource("3_7j21i")]
+[node name="Outputs" type="Node" parent="SolidWasteBurner"]
+
+[node name="1" type="Node" parent="SolidWasteBurner/Outputs"]
+script = ExtResource("3_4tobq")
+Resource = 9
+MaxQuantity = 2
+QuantityChangeInReceipe = 1
+
+[node name="ConnectionNodes" type="Node3D" parent="SolidWasteBurner"]
+
+[node name="ConnectionNode" parent="SolidWasteBurner/ConnectionNodes" instance=ExtResource("3_7j21i")]
 transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, -0.195845, 0.455998, 0.397518)
 
-[node name="ConnectionNode2" parent="FoodBurner/ConnectionNodes" instance=ExtResource("3_7j21i")]
+[node name="ConnectionNode2" parent="SolidWasteBurner/ConnectionNodes" instance=ExtResource("3_7j21i")]
 transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, 0.258973, 0.455998, 0.397518)
 
-[node name="FoodStorage" type="Node3D" parent="."]
-transform = Transform3D(0.607833, 0, -0.794065, 0, 1, 0, 0.794065, 0, 0.607833, 1.58563, 0.27009, -0.856496)
+[node name="GarbageBurner" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 6, 0)
+script = ExtResource("2_gudjc")
+_processingPerSecond = 0.1
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="GarbageBurner"]
+mesh = SubResource("BoxMesh_f23tx")
+
+[node name="Inputs" type="Node" parent="GarbageBurner"]
+
+[node name="1" type="Node" parent="GarbageBurner/Inputs"]
+script = ExtResource("3_4tobq")
+Resource = 11
+MaxQuantity = 100
+QuantityChangeInReceipe = 1
+
+[node name="2" type="Node" parent="GarbageBurner/Inputs"]
+script = ExtResource("3_4tobq")
+Resource = 8
+MaxQuantity = 18
+QuantityChangeInReceipe = 16
+
+[node name="Outputs" type="Node" parent="GarbageBurner"]
+
+[node name="1" type="Node" parent="GarbageBurner/Outputs"]
+script = ExtResource("3_4tobq")
+Resource = 9
+MaxQuantity = 10
+QuantityChangeInReceipe = 8
+
+[node name="ConnectionNodes" type="Node3D" parent="GarbageBurner"]
+
+[node name="ConnectionNode" parent="GarbageBurner/ConnectionNodes" instance=ExtResource("3_7j21i")]
+transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, -0.195845, 0.455998, 0.397518)
+
+[node name="ConnectionNode2" parent="GarbageBurner/ConnectionNodes" instance=ExtResource("3_7j21i")]
+transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, 0.258973, 0.455998, 0.397518)
+
+[node name="CarbonScrubber" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 8, 0)
+script = ExtResource("2_gudjc")
+_processingPerSecond = 0.1
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CarbonScrubber"]
+mesh = SubResource("BoxMesh_f23tx")
+
+[node name="Inputs" type="Node" parent="CarbonScrubber"]
+
+[node name="1" type="Node" parent="CarbonScrubber/Inputs"]
+script = ExtResource("3_4tobq")
+Resource = 9
+MaxQuantity = 10
+QuantityChangeInReceipe = 8
+
+[node name="Outputs" type="Node" parent="CarbonScrubber"]
+
+[node name="OxygenOutput" type="Node" parent="CarbonScrubber/Outputs"]
+script = ExtResource("3_4tobq")
+Resource = 8
+MaxQuantity = 18
+QuantityChangeInReceipe = 16
+
+[node name="DisposablesOutput" type="Node" parent="CarbonScrubber/Outputs"]
+script = ExtResource("3_4tobq")
+Resource = 10
+MaxQuantity = 100
+QuantityChangeInReceipe = 1
+
+[node name="ConnectionNodes" type="Node3D" parent="CarbonScrubber"]
+
+[node name="ConnectionNode" parent="CarbonScrubber/ConnectionNodes" instance=ExtResource("3_7j21i")]
+transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, -0.195845, 0.455998, 0.397518)
+
+[node name="ConnectionNode2" parent="CarbonScrubber/ConnectionNodes" instance=ExtResource("3_7j21i")]
+transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, 0.258973, 0.455998, 0.397518)
+
+[node name="WaterStorage" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 4, 0)
 script = ExtResource("4_tfsc7")
 Resource = 4
+MaxQuantity = 1000
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WaterStorage"]
+transform = Transform3D(-0.0176618, 0, -0.999844, 0, 1, 0, 0.999844, 0, -0.0176618, 0, 0, 0)
+mesh = SubResource("BoxMesh_f23tx")
+
+[node name="ConnectionNodes" type="Node3D" parent="WaterStorage"]
+
+[node name="ConnectionNode" parent="WaterStorage/ConnectionNodes" instance=ExtResource("3_7j21i")]
+transform = Transform3D(-0.00724131, 0, -0.409936, 0, 0.41, 0, 0.409936, 0, -0.00724131, -0.255433, 0.484256, 0.480624)
+
+[node name="ColdCoolantStorage" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 6, 0)
+script = ExtResource("4_tfsc7")
+Resource = 2
+MaxQuantity = 1000
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ColdCoolantStorage"]
+transform = Transform3D(-0.0176618, 0, -0.999844, 0, 1, 0, 0.999844, 0, -0.0176618, 0, 0, 0)
+mesh = SubResource("BoxMesh_f23tx")
+
+[node name="ConnectionNodes" type="Node3D" parent="ColdCoolantStorage"]
+
+[node name="ConnectionNode" parent="ColdCoolantStorage/ConnectionNodes" instance=ExtResource("3_7j21i")]
+transform = Transform3D(-0.00724131, 0, -0.409936, 0, 0.41, 0, 0.409936, 0, -0.00724131, -0.255433, 0.484256, 0.480624)
+
+[node name="FoodStorage" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 2, 0)
+script = ExtResource("4_tfsc7")
+Resource = 5
 MaxQuantity = 1000
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="FoodStorage"]
@@ -79,21 +425,83 @@ mesh = SubResource("BoxMesh_f23tx")
 [node name="ConnectionNode" parent="FoodStorage/ConnectionNodes" instance=ExtResource("3_7j21i")]
 transform = Transform3D(-0.00724131, 0, -0.409936, 0, 0.41, 0, 0.409936, 0, -0.00724131, -0.255433, 0.484256, 0.480624)
 
-[node name="ConnectionNode2" parent="FoodStorage/ConnectionNodes" instance=ExtResource("3_7j21i")]
-transform = Transform3D(-0.00724131, 0, -0.409936, 0, 0.41, 0, 0.409936, 0, -0.00724131, 0.221509, 0.484256, 0.489049)
-
-[node name="FloatingResources" type="Node" parent="."]
-
-[node name="Oxygen" type="Node" parent="FloatingResources"]
-script = ExtResource("6_7j21i")
+[node name="SolidWasteStorage" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0)
+script = ExtResource("4_tfsc7")
 Resource = 7
-MaxQuantity = 500
+MaxQuantity = 1000
 
-[node name="CarbonDioxide" type="Node" parent="FloatingResources"]
-script = ExtResource("6_7j21i")
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SolidWasteStorage"]
+transform = Transform3D(-0.0176618, 0, -0.999844, 0, 1, 0, 0.999844, 0, -0.0176618, 0, 0, 0)
+mesh = SubResource("BoxMesh_f23tx")
+
+[node name="ConnectionNodes" type="Node3D" parent="SolidWasteStorage"]
+
+[node name="ConnectionNode" parent="SolidWasteStorage/ConnectionNodes" instance=ExtResource("3_7j21i")]
+transform = Transform3D(-0.00724131, 0, -0.409936, 0, 0.41, 0, 0.409936, 0, -0.00724131, -0.255433, 0.484256, 0.480624)
+
+[node name="FluidWasteStorage" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 0)
+script = ExtResource("4_tfsc7")
+Resource = 6
+MaxQuantity = 1000
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="FluidWasteStorage"]
+transform = Transform3D(-0.0176618, 0, -0.999844, 0, 1, 0, 0.999844, 0, -0.0176618, 0, 0, 0)
+mesh = SubResource("BoxMesh_f23tx")
+
+[node name="ConnectionNodes" type="Node3D" parent="FluidWasteStorage"]
+
+[node name="ConnectionNode" parent="FluidWasteStorage/ConnectionNodes" instance=ExtResource("3_7j21i")]
+transform = Transform3D(-0.00724131, 0, -0.409936, 0, 0.41, 0, 0.409936, 0, -0.00724131, -0.255433, 0.484256, 0.480624)
+
+[node name="Plants" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 4, 0)
+script = ExtResource("2_gudjc")
+
+[node name="Inputs" type="Node" parent="Plants"]
+
+[node name="1" type="Node" parent="Plants/Inputs"]
+script = ExtResource("3_4tobq")
+Resource = 4
+MaxQuantity = 10
+QuantityChangeInReceipe = 1
+
+[node name="2" type="Node" parent="Plants/Inputs"]
+script = ExtResource("3_4tobq")
+Resource = 9
+MaxQuantity = 2
+QuantityChangeInReceipe = 1
+
+[node name="Outputs" type="Node" parent="Plants"]
+
+[node name="1" type="Node" parent="Plants/Outputs"]
+script = ExtResource("3_4tobq")
 Resource = 8
+MaxQuantity = 3
+QuantityChangeInReceipe = 2
+
+[node name="2" type="Node" parent="Plants/Outputs"]
+script = ExtResource("3_4tobq")
+Resource = 5
+MaxQuantity = 20
+QuantityChangeInReceipe = 1
+
+[node name="ConnectionNodes" type="Node3D" parent="Plants"]
+
+[node name="ConnectionNode" parent="Plants/ConnectionNodes" instance=ExtResource("3_7j21i")]
+transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, -0.195845, 0.455998, 0.397518)
+
+[node name="ConnectionNode2" parent="Plants/ConnectionNodes" instance=ExtResource("3_7j21i")]
+transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, 0.258973, 0.455998, 0.397518)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Plants"]
+transform = Transform3D(-0.0176618, 0, -0.999844, 0, 1, 0, 0.999844, 0, -0.0176618, 0, 0, 0)
+mesh = SubResource("BoxMesh_f23tx")
+
+[node name="Garbage" type="Node3D" parent="."]
+script = ExtResource("4_tfsc7")
+Resource = 11
 MaxQuantity = 100
 
-[node name="Humidity" type="Node" parent="FloatingResources"]
-script = ExtResource("6_7j21i")
-Resource = 2
+[node name="ConnectionNodes" type="Node3D" parent="Garbage"]
