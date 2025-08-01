@@ -38,7 +38,7 @@ grow_vertical = 2
 
 [node name="ArrowIcon" type="Sprite2D" parent="ResourceExpandButton"]
 position = Vector2(-16, 17)
-rotation = -1.5708
+rotation = -3.14159
 scale = Vector2(0.655311, 0.655311)
 texture = ExtResource("3_bma8u")
 
