@@ -52,6 +52,7 @@ offset_bottom = 476.66
 [node name="HotCoolant" parent="ResourceExpandButton/Resources" instance=ExtResource("1_gwk6t")]
 visible = false
 layout_mode = 2
+Resource = 1
 
 [node name="ResourceName" parent="ResourceExpandButton/Resources/HotCoolant" index="1"]
 text = "Hot Coolant : "
@@ -59,7 +60,7 @@ text = "Hot Coolant : "
 [node name="Cold Coolant" parent="ResourceExpandButton/Resources" instance=ExtResource("1_gwk6t")]
 visible = false
 layout_mode = 2
-Resource = 1
+Resource = 2
 
 [node name="ResourceName" parent="ResourceExpandButton/Resources/Cold Coolant" index="1"]
 text = "Cold Coolant : "
@@ -67,7 +68,7 @@ text = "Cold Coolant : "
 [node name="Humidity" parent="ResourceExpandButton/Resources" instance=ExtResource("1_gwk6t")]
 visible = false
 layout_mode = 2
-Resource = 2
+Resource = 3
 
 [node name="ResourceName" parent="ResourceExpandButton/Resources/Humidity" index="1"]
 text = "Humidity : "
@@ -75,7 +76,7 @@ text = "Humidity : "
 [node name="Water" parent="ResourceExpandButton/Resources" instance=ExtResource("1_gwk6t")]
 visible = false
 layout_mode = 2
-Resource = 3
+Resource = 4
 
 [node name="ResourceName" parent="ResourceExpandButton/Resources/Water" index="1"]
 text = "Water : "
@@ -83,7 +84,7 @@ text = "Water : "
 [node name="Food" parent="ResourceExpandButton/Resources" instance=ExtResource("1_gwk6t")]
 visible = false
 layout_mode = 2
-Resource = 4
+Resource = 5
 
 [node name="ResourceName" parent="ResourceExpandButton/Resources/Food" index="1"]
 text = "Food : "
@@ -91,7 +92,7 @@ text = "Food : "
 [node name="FluidWaste" parent="ResourceExpandButton/Resources" instance=ExtResource("1_gwk6t")]
 visible = false
 layout_mode = 2
-Resource = 5
+Resource = 6
 
 [node name="ResourceName" parent="ResourceExpandButton/Resources/FluidWaste" index="1"]
 text = "Liquid waste : "
@@ -99,7 +100,7 @@ text = "Liquid waste : "
 [node name="SolidWaste" parent="ResourceExpandButton/Resources" instance=ExtResource("1_gwk6t")]
 visible = false
 layout_mode = 2
-Resource = 6
+Resource = 7
 
 [node name="ResourceName" parent="ResourceExpandButton/Resources/SolidWaste" index="1"]
 text = "Solid waste : "
@@ -107,7 +108,7 @@ text = "Solid waste : "
 [node name="Oxygen" parent="ResourceExpandButton/Resources" instance=ExtResource("1_gwk6t")]
 visible = false
 layout_mode = 2
-Resource = 7
+Resource = 8
 
 [node name="ResourceName" parent="ResourceExpandButton/Resources/Oxygen" index="1"]
 text = "Oxygen : "
@@ -115,7 +116,7 @@ text = "Oxygen : "
 [node name="CarbonDioxide" parent="ResourceExpandButton/Resources" instance=ExtResource("1_gwk6t")]
 visible = false
 layout_mode = 2
-Resource = 8
+Resource = 9
 
 [node name="ResourceName" parent="ResourceExpandButton/Resources/CarbonDioxide" index="1"]
 text = "CarbonDioxide : "
@@ -123,7 +124,7 @@ text = "CarbonDioxide : "
 [node name="Disposables" parent="ResourceExpandButton/Resources" instance=ExtResource("1_gwk6t")]
 visible = false
 layout_mode = 2
-Resource = 9
+Resource = 10
 
 [node name="ResourceName" parent="ResourceExpandButton/Resources/Disposables" index="1"]
 text = "Disposables : "
@@ -131,7 +132,7 @@ text = "Disposables : "
 [node name="Garbage" parent="ResourceExpandButton/Resources" instance=ExtResource("1_gwk6t")]
 visible = false
 layout_mode = 2
-Resource = 10
+Resource = 11
 
 [node name="ResourceName" parent="ResourceExpandButton/Resources/Garbage" index="1"]
 text = "Garbage : "
