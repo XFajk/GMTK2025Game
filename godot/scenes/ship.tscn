@@ -196,11 +196,16 @@ mesh = SubResource("BoxMesh_f23tx")
 
 [node name="HumidityInput" type="Node" parent="Condensator/Inputs"]
 script = ExtResource("3_4tobq")
+Resource = 3
+MaxQuantity = 12
+QuantityChangeInReceipe = 10
 
 [node name="Outputs" type="Node" parent="Condensator"]
 
 [node name="WaterOutput" type="Node" parent="Condensator/Outputs"]
 script = ExtResource("3_4tobq")
+MaxQuantity = 100
+QuantityChangeInReceipe = 10
 
 [node name="ConnectionNodes" type="Node3D" parent="Condensator"]
 
