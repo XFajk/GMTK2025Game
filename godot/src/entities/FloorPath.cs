@@ -15,13 +15,13 @@ public partial class FloorPath : Path3D {
     public override void _Ready() {
         Floor floor = FloorElevator.Floors[FloorNumber];
 
-        Vector3 floorPositon = floor.GlobalPosition;
-        Vector3 floorPositionInOurLocalSpace = ToLocal(floorPositon);
+        Vector3 floorPosition = floor.GlobalPosition;
+        Vector3 floorPositionInOurLocalSpace = ToLocal(floorPosition);
         ClosestPointToElevator = Curve.GetClosestPoint(floorPositionInOurLocalSpace);
 
         float offset = Curve.GetClosestOffset(ClosestPointToElevator);
         float length = Curve.GetBakedLength();
 
-        ElevatorRatio = length > 0f ? offset / length : 0f; 
+        ElevatorRatio = length > 0f ? offset / length : 0f;
     }
 }

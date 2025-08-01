@@ -5,9 +5,11 @@ using System.Dynamic;
 
 public partial class Person : PathFollow3D {
 
+    [Signal]
+    public delegate void ReachedDestinationEventHandler(Person person);
+
     [Export]
     public float Speed = 0.01f;
-
     [Export]
     public float MinRecalculationTime = 1.0f;
     [Export]
@@ -19,7 +21,7 @@ public partial class Person : PathFollow3D {
 
     private RandomNumberGenerator _rng = new();
 
-    private Timer _recalculateTimer;
+    public Timer RecalculateTimer;
 
     public List<ShipLocation> ShipTargets = [];
     private FloorPath ParentFloorPath;
@@ -28,6 +30,9 @@ public partial class Person : PathFollow3D {
 
     public override void _Ready() {
         _rng.Randomize();
+
+        AddToGroup("Crew");
+
         FloorPath parent = GetParent<FloorPath>();
         if (parent != null) {
             ParentFloorPath = parent;
@@ -38,12 +43,11 @@ public partial class Person : PathFollow3D {
         }
 
         ProgressRatio = _rng.Randf();
-        _recalculateTimer = GetNode<Timer>("RecalculateTimer");
-
+        RecalculateTimer = GetNode<Timer>("RecalculateTimer");
 
         // This sets a callback that resets everything and sets a new target
-        _recalculateTimer.Timeout += () => {
-            _recalculateTimer.Stop();
+        RecalculateTimer.Timeout += () => {
+            RecalculateTimer.Stop();
             // This code makes sure that the new floor we want to transport the player to is different than the floor he is currently on
             int targetFloor;
             if (NumberOfFloors < 2) {
@@ -67,15 +71,16 @@ public partial class Person : PathFollow3D {
 
         if (ShipTargets[0].IsElevator) return;
 
-        if (Mathf.IsEqualApprox(ProgressRatio, ShipTargets[0].Ratio) && _recalculateTimer.IsStopped()) {
-            _recalculateTimer.Start(_rng.RandfRange(MinRecalculationTime, MaxRecalculationTime));
+        if (Mathf.IsEqualApprox(ProgressRatio, ShipTargets[0].Ratio) && RecalculateTimer.IsStopped()) {
+            RecalculateTimer.Start(_rng.RandfRange(MinRecalculationTime, MaxRecalculationTime));
             ShipTargets.Clear();
+            EmitSignalReachedDestination(this);
         }
     }
 
     public void SetTarget(ShipLocation location) {
         ShipTargets.Clear();
-        _recalculateTimer.Stop();
+        RecalculateTimer.Stop();
         if (location.Floor == FloorNumber) {
             ShipTargets.Add(location);
             return;

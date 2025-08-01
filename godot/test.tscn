@@ -111,7 +111,7 @@ metadata/_custom_type_script = "uid://c2i027eoql8i6"
 transform = Transform3D(-0.472356, 0.000107927, -0.881408, -3.63798e-12, 1, 0.000122448, 0.881408, 5.7839e-05, -0.472356, -2.34121, -0.0546507, -0.0528288)
 Speed = 0.1
 
-[node name="Preson2" parent="Floor1Path" instance=ExtResource("2_8uh7m")]
+[node name="Preson2" parent="Floor1Path" groups=["Interactable"] instance=ExtResource("2_8uh7m")]
 transform = Transform3D(-0.472356, 0.000107927, -0.881408, -3.63798e-12, 1, 0.000122448, 0.881408, 5.7839e-05, -0.472356, -2.34121, -0.0546507, -0.0528288)
 Speed = 0.1
 

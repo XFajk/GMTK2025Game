@@ -35,7 +35,9 @@ enabled=PackedStringArray()
 [global_group]
 
 Savers="This gorup is only for Saver nodes and it exist's to make looking up these node from the root node easier"
-Interactable="For Nodes that are Interactable"
+Crew=""
+Interactables="For Nodes that are Interactable"
+Floors=""
 
 [input]
 
