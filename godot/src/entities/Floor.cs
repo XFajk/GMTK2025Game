@@ -8,4 +8,9 @@ public partial class Floor : Node3D {
 
     [Export]
     public FloorPath FloorPath;
+
+
+    public override void _Ready() {
+        AddToGroup("Floors");
+    }
 }
