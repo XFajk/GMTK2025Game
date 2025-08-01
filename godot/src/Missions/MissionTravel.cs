@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public partial class MissionTravel : Node3D, IMission {
+public partial class MissionTravel : Node, IMission {
 
     [Export]
     public string TargetName = "nearest";
@@ -16,7 +16,16 @@ public partial class MissionTravel : Node3D, IMission {
     [Export(PropertyHint.Range, "0,1,0.05")]
     public float TargetEnginePower;
 
+    private ulong _preparationStartTime;
+    private ulong _startTime;
+
+    void IMission.Ready() {
+        _preparationStartTime = Time.GetTicksUsec();
+    }
+
     public void ApplyEffect(Ship ship) {
+        _startTime = Time.GetTicksUsec();
+
         foreach (Machine m in ship.Machines) {
             if (m is Engine e) {
                 e.EnginePower = TargetEnginePower;
@@ -32,10 +41,6 @@ public partial class MissionTravel : Node3D, IMission {
         "End of Brief"
     ];
 
-    public float GetDuration() => Duration;
-
-    public float GetPreparationTime() => PreparationTime;
-
     public void OnCompletion(Ship ship) {
         foreach (Machine m in ship.Machines) {
             if (m is Engine e) {
@@ -47,4 +52,18 @@ public partial class MissionTravel : Node3D, IMission {
     public string[] Debrief() => [
         $"We have arrived! The engine will return to {Engine.DefaultEnginePower * 100}% power."
     ];
+
+    public bool IsPreparationFinished() {
+        double timePassed = (double)(Time.GetTicksUsec() - _preparationStartTime) / 1E6;
+        return _preparationStartTime != 0 && timePassed > PreparationTime;
+    }
+
+    public bool IsMissionFinised() {
+        double timePassed = (double)(Time.GetTicksUsec() - _startTime) / 1E6;
+        return _startTime != 0 && timePassed > Duration;
+    }
+
+    public void OnCompletion() {
+        throw new NotImplementedException();
+    }
 }

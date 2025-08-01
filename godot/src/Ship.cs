@@ -21,9 +21,11 @@ public partial class Ship : Node {
     private List<Connection> _connections = new();
     private Node _connectionsNode;
 
-    public List<Floor> Floors; 
+    public List<Floor> Floors;
     public List<Person> Crew;
     private RandomNumberGenerator _rng = new();
+
+    private List<IMission> _queuedMissions = new();
 
     public override void _Ready() {
         _rng.Randomize();
@@ -171,6 +173,36 @@ public partial class Ship : Node {
 
     public void RemoveResource(Resource resource, int quantity) => AddResource(resource, -quantity);
 
+    public bool HasResource(Resource resource, int quantity) {
+        float leftToGet = quantity;
+
+        // first check floating resources
+        foreach (FloatingResource res in _floatingResourceManager.Resources()) {
+            if (res.Resource == resource) {
+                leftToGet -= (res as IContainer).GetQuantity();
+                if (leftToGet <= 0) return true;
+            }
+        }
+
+        // then check storages
+        foreach (StorageContainer container in Containers) {
+            if (container.Resource == resource) {
+                leftToGet = (container as IContainer).GetQuantity();
+                if (leftToGet <= 0) return true;
+            }
+        }
+
+        // check all machine outputs
+        foreach (Machine m in Machines) {
+            foreach (IContainer buffer in m.Outputs()) {
+                leftToGet = buffer.GetQuantity();
+                if (leftToGet <= 0) return true;
+            }
+        }
+
+        return false;
+    }
+
     public void AddConnection(Connectable a, Connectable b) {
         GD.Print($"Connected {a.Name} and {b.Name}");
         Connection connection = new(a, b);
@@ -186,5 +218,15 @@ public partial class Ship : Node {
                 person.SetTarget(ShipLocation.ClosesToPoint(task.Location, Floors));
             }
         }
+    }
+
+    public void ScheduleMission(IMission mission) {
+        _queuedMissions.Add(mission);
+    }
+
+    public IMission TryTakeMission() {
+        IMission mission = _queuedMissions.FirstOrDefault();
+        _queuedMissions.RemoveAt(0);
+        return mission;
     }
 }

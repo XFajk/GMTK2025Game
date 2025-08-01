@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public partial class MissionAstroidMining : Node3D, IMission {
+public partial class MissionAstroidMining : Node, IMission {
     // measured in 0.1% per second
     private const float CarbonDumpPerSecond = 10f;
 
@@ -19,6 +19,9 @@ public partial class MissionAstroidMining : Node3D, IMission {
     public float OxygenDrainTotal;
     public float CarbonDioxideReturnQuantity;
 
+    private ulong _preparationStartTime;
+    private ulong _startTime;
+
     void IMission.Ready() {
         float carbonToOxygen = Resources.GetRatio(Resource.CarbonDioxide, Resource.Oxygen);
         float disposablesToCarbon = Resources.GetRatio(Resource.Disposables, Resource.CarbonDioxide);
@@ -26,6 +29,8 @@ public partial class MissionAstroidMining : Node3D, IMission {
         CarbonDioxideReturnQuantity = RequiredDisposables * disposablesToCarbon;
         OxygenDrainTotal = (CarbonDioxideReturnQuantity * carbonToOxygen);
         OxygenDrainPerSecond = OxygenDrainTotal / Duration;
+
+        _preparationStartTime = Time.GetTicksUsec();
     }
 
     public string[] Briefing() => [
@@ -38,9 +43,12 @@ public partial class MissionAstroidMining : Node3D, IMission {
 
     IList<KeyValuePair<Resource, int>> IMission.GetMaterialRequirements() => [KeyValuePair.Create(Resource.Disposables, RequiredDisposables)];
 
-    public float GetPreparationTime() => PreparationTime;
-
     public void ApplyEffect(Ship ship) {
+        foreach (var pair in (this as IMission).GetMaterialRequirements()) {
+            ship.RemoveResource(pair.Key, pair.Value);
+        }
+        _startTime = Time.GetTicksUsec();
+    
         ship.ActiveEffects.Add(new EventEffectResource() {
             AdditionPerSecond = -OxygenDrainPerSecond,
             MaxResourcesToAdd = OxygenDrainTotal,
@@ -48,7 +56,15 @@ public partial class MissionAstroidMining : Node3D, IMission {
         });
     }
 
-    public float GetDuration() => Duration;
+    public bool IsPreparationFinished() {
+        double timePassed = (double)(Time.GetTicksUsec() - _preparationStartTime) / 1E6;
+        return _preparationStartTime != 0 && timePassed > PreparationTime;
+    }
+
+    public bool IsMissionFinised() {
+        double timePassed = (double)(Time.GetTicksUsec() - _startTime) / 1E6;
+        return _startTime != 0 && timePassed > Duration;
+    }
 
     public void OnCompletion(Ship ship) {
         ship.ActiveEffects.Add(new EventEffectResource() {

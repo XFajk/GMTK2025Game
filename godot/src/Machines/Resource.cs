@@ -90,10 +90,9 @@ public class Resources {
         throw new Exception(reportingName + " has loss: " + string.Join(", ", losses));
     }
 
-    // returns how many of r2 you can make from r1
-    // if no parts are shared, this function returns float.MaxValue
-    // if multiple parts are shared, this function returns the lowest ratio
-
+    /// returns how many of r2 you can make from r1
+    /// if no parts are shared, this function returns float.MaxValue
+    /// if multiple parts are shared, this function returns the lowest ratio
     public static float GetRatio(Resource r1, Resource r2) {
         var parts1 = GetParts(r1);
         var parts2 = GetParts(r2);
