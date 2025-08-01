@@ -11,7 +11,7 @@ using System.Collections.Generic;
 /// 6: `OnCompletion` is called
 /// 7: the player sees the Debrief
 public interface IMission : IEvent {
-    // gives some time 
+    // will be called just before the Briefing. _Ready is called way earlier
     void Ready() { }
     // TODO maybe return something smarter
     string[] Briefing();
