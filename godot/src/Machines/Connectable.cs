@@ -24,4 +24,21 @@ public abstract partial class Connectable : Node3D {
 
     public abstract IEnumerable<IContainer> Inputs();
     public abstract IEnumerable<IContainer> Outputs();
+
+    public static bool CanConnect(Connectable a, Connectable b) {
+        // a -> b
+        foreach (IContainer output in a.Outputs()) {
+            foreach (IContainer input in b.Inputs()) {
+                if (output.GetResource() == input.GetResource()) return true;
+            }
+        }
+        // b -> a
+        foreach (IContainer output in b.Outputs()) {
+            foreach (IContainer input in a.Inputs()) {
+                if (output.GetResource() == input.GetResource()) return true;
+            }
+        }
+
+        return false;
+    }
 }

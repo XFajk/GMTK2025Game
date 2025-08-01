@@ -3,20 +3,30 @@ using System;
 
 public partial class ConnectionNode : Area3D {
     [Export]
-    private Material _highlightMaterial;
+    private Color _highlightColor;
     [Export]
-    private Material _connectedMaterial;
-    private Material _disconnectedMaterial;
+    private Color _connectedColor;
+    [Export]
+    private Color _declineColor;
+    // not exported; use values of MeshInstance3D
+    private Color _defaultColor;
+    private StandardMaterial3D _material;
 
     private MeshInstance3D _meshNode;
     private GpuParticles3D _particlesNode;
     public ConnectionNode ConnectedTo = null;
     public bool _isHovered = false;
 
+    private Tween _activeTween;
+
     public override void _Ready() {
         _meshNode = GetNode<MeshInstance3D>("MeshInstance3D");
         _particlesNode = GetNode<GpuParticles3D>("GpuParticles3D");
-        _disconnectedMaterial = _meshNode.GetSurfaceOverrideMaterial(0);
+
+        // explicity make our own copy of the material
+        _material = (StandardMaterial3D)_meshNode.GetSurfaceOverrideMaterial(0).Duplicate();
+        _meshNode.SetSurfaceOverrideMaterial(0, _material);
+        _defaultColor = _material.AlbedoColor;
 
         // explicity make our own copy of the material
         ParticleProcessMaterial processMaterial = (ParticleProcessMaterial)_particlesNode.ProcessMaterial;
@@ -35,11 +45,17 @@ public partial class ConnectionNode : Area3D {
 
     private void UpdateMaterial() {
         if (_isHovered) {
-            _meshNode.SetSurfaceOverrideMaterial(0, _highlightMaterial);
+            if (_activeTween != null) {
+                _material.AlbedoColor = _highlightColor;
+            }
         } else if (ConnectedTo != null) {
-            _meshNode.SetSurfaceOverrideMaterial(0, _connectedMaterial);
+            _activeTween?.Kill();
+            _material.AlbedoColor = _connectedColor;
         } else {
-            _meshNode.SetSurfaceOverrideMaterial(0, _disconnectedMaterial);
+            if (_activeTween != null) {
+                _material.AlbedoColor = _defaultColor;
+            }
+
         }
     }
 
@@ -50,9 +66,8 @@ public partial class ConnectionNode : Area3D {
     }
 
     private void ConnectToNode(ConnectionNode other) {
-        if (ConnectedTo != null) {
-            ConnectedTo.DisconnectNode();
-        }
+        ConnectedTo?.DisconnectNode();
+
         ConnectedTo = other;
         UpdateMaterial();
 
@@ -69,5 +84,11 @@ public partial class ConnectionNode : Area3D {
         ConnectedTo = null;
         _particlesNode.Emitting = false;
         UpdateMaterial();
+    }
+
+    public void DeclineConnection() {
+        _material.AlbedoColor = _declineColor;
+        _activeTween = GetTree().CreateTween();
+        _activeTween.TweenProperty(_material, "albedo_color", _defaultColor, 1);
     }
 }

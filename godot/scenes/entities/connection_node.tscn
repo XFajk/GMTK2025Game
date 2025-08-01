@@ -1,12 +1,6 @@
-[gd_scene load_steps=9 format=3 uid="uid://5knr05qpwauj"]
+[gd_scene load_steps=7 format=3 uid="uid://5knr05qpwauj"]
 
 [ext_resource type="Script" uid="uid://cjc04ylpxhx0o" path="res://src/Machines/ConnectionNode.cs" id="1_1g3g4"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5afpi"]
-albedo_color = Color(1, 0.27, 0.27, 1)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ojigq"]
-albedo_color = Color(0, 0.1, 1, 1)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_orw1l"]
 
@@ -27,8 +21,9 @@ scale_max = 0.2
 
 [node name="ConnectionNode" type="Area3D"]
 script = ExtResource("1_1g3g4")
-_highlightMaterial = SubResource("StandardMaterial3D_5afpi")
-_connectedMaterial = SubResource("StandardMaterial3D_ojigq")
+_highlightColor = Color(0.966667, 1, 0, 1)
+_connectedColor = Color(0, 0.0333333, 1, 1)
+_declineColor = Color(1, 0, 0, 1)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_orw1l")
