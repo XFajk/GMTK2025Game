@@ -16,7 +16,7 @@ albedo_color = Color(0, 0.1, 1, 1)
 albedo_color = Color(0.76, 0.784, 1, 1)
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fci2i"]
-spread = 0.05
+spread = 0.0
 initial_velocity_min = 1.0
 initial_velocity_max = 1.0
 gravity = Vector3(0, 0, 0)
@@ -39,7 +39,9 @@ surface_material_override/0 = SubResource("StandardMaterial3D_fci2i")
 
 [node name="GpuParticles3D" type="GPUParticles3D" parent="."]
 emitting = false
-amount = 3
+amount = 4
+lifetime = 2.4
+speed_scale = 4.0
 process_material = SubResource("ParticleProcessMaterial_fci2i")
 draw_pass_1 = SubResource("BoxMesh_5afpi")
 
