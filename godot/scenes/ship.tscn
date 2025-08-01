@@ -299,16 +299,23 @@ mesh = SubResource("BoxMesh_f23tx")
 
 [node name="1" type="Node" parent="SolidWasteBurner/Inputs"]
 script = ExtResource("3_4tobq")
-Resource = 6
+Resource = 7
+MaxQuantity = 2
+QuantityChangeInReceipe = 1
 
 [node name="2" type="Node" parent="SolidWasteBurner/Inputs"]
 script = ExtResource("3_4tobq")
-Resource = 7
+Resource = 8
+MaxQuantity = 2
+QuantityChangeInReceipe = 1
 
 [node name="Outputs" type="Node" parent="SolidWasteBurner"]
 
 [node name="1" type="Node" parent="SolidWasteBurner/Outputs"]
 script = ExtResource("3_4tobq")
+Resource = 9
+MaxQuantity = 2
+QuantityChangeInReceipe = 1
 
 [node name="ConnectionNodes" type="Node3D" parent="SolidWasteBurner"]
 
@@ -330,16 +337,23 @@ mesh = SubResource("BoxMesh_f23tx")
 
 [node name="1" type="Node" parent="GarbageBurner/Inputs"]
 script = ExtResource("3_4tobq")
-Resource = 10
+Resource = 11
+MaxQuantity = 100
+QuantityChangeInReceipe = 1
 
 [node name="2" type="Node" parent="GarbageBurner/Inputs"]
 script = ExtResource("3_4tobq")
-Resource = 7
+Resource = 8
+MaxQuantity = 18
+QuantityChangeInReceipe = 16
 
 [node name="Outputs" type="Node" parent="GarbageBurner"]
 
 [node name="1" type="Node" parent="GarbageBurner/Outputs"]
 script = ExtResource("3_4tobq")
+Resource = 9
+MaxQuantity = 10
+QuantityChangeInReceipe = 8
 
 [node name="ConnectionNodes" type="Node3D" parent="GarbageBurner"]
 
