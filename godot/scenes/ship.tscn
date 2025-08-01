@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cgccmqaeo11dk"]
+[gd_scene load_steps=11 format=3 uid="uid://cgccmqaeo11dk"]
 
 [ext_resource type="Script" uid="uid://c41j8f7y8s5pn" path="res://src/Ship.cs" id="1_q631a"]
 [ext_resource type="Script" uid="uid://dx4b8dlivs2dq" path="res://src/Machines/Machine.cs" id="2_gudjc"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://crs06kmuc1fi1" path="res://src/Machines/FloatingResource.cs" id="6_7j21i"]
 [ext_resource type="Script" uid="uid://cktjf2cpg2cwg" path="res://src/Machines/Process.cs" id="7_3m36u"]
 [ext_resource type="Script" uid="uid://dchlx4kc4xldy" path="res://src/Machines/InputOutput.cs" id="8_8qiel"]
+[ext_resource type="Script" uid="uid://dc7fa1reuuwmu" path="res://src/Machines/Plants.cs" id="9_itrim"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_f23tx"]
 
@@ -387,7 +388,6 @@ Resource = 4
 MaxQuantity = 1000
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="WaterStorage"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 mesh = SubResource("BoxMesh_f23tx")
 
 [node name="ConnectionNodes" type="Node3D" parent="WaterStorage"]
@@ -402,7 +402,6 @@ Resource = 2
 MaxQuantity = 1000
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="ColdCoolantStorage"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 mesh = SubResource("BoxMesh_f23tx")
 
 [node name="ConnectionNodes" type="Node3D" parent="ColdCoolantStorage"]
@@ -417,7 +416,6 @@ Resource = 5
 MaxQuantity = 1000
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="FoodStorage"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 mesh = SubResource("BoxMesh_f23tx")
 
 [node name="ConnectionNodes" type="Node3D" parent="FoodStorage"]
@@ -432,7 +430,6 @@ Resource = 7
 MaxQuantity = 1000
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="SolidWasteStorage"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 mesh = SubResource("BoxMesh_f23tx")
 
 [node name="ConnectionNodes" type="Node3D" parent="SolidWasteStorage"]
@@ -447,7 +444,6 @@ Resource = 6
 MaxQuantity = 1000
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="FluidWasteStorage"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 mesh = SubResource("BoxMesh_f23tx")
 
 [node name="ConnectionNodes" type="Node3D" parent="FluidWasteStorage"]
@@ -457,7 +453,7 @@ transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, -0.255433, 0.484256,
 
 [node name="Plants" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 4, 0)
-script = ExtResource("2_gudjc")
+script = ExtResource("9_itrim")
 
 [node name="Inputs" type="Node" parent="Plants"]
 
