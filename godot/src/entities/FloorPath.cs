@@ -22,11 +22,6 @@ public partial class FloorPath : Path3D {
         float offset = Curve.GetClosestOffset(ClosestPointToElevator);
         float length = Curve.GetBakedLength();
 
-        ElevatorRatio = length > 0f ? offset / length : 0f;
-
-        foreach (Node child in GetChildren()) {
-            if (child is Person person) 
-                person.FloorNumber = FloorNumber;
-        }
+        ElevatorRatio = length > 0f ? offset / length : 0f; 
     }
 }

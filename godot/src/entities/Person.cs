@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 using System.Dynamic;
 
 public partial class Person : PathFollow3D {
@@ -14,62 +15,74 @@ public partial class Person : PathFollow3D {
 
     public bool InElevator = false;
     public int FloorNumber = 0;
+    public int NumberOfFloors = 0;
 
-    private RandomNumberGenerator _rng = new RandomNumberGenerator();
+    private RandomNumberGenerator _rng = new();
 
     private Timer _recalculateTimer;
-    private float _targetRatio = 0.0f; // the target ration on the correct floor the person is at
-    private float _globalTargetRation = 0.0f; // the  target that is cupled with the _targetFloor aka this target only applies if on the correct floor 
 
-    private int? _targetFloor = null;
-
-    public int? TargetFloor { get { return _targetFloor; } }
+    public List<ShipLocation> ShipTargets = [];
+    private FloorPath ParentFloorPath;
 
     public Door DoorInFront;
 
     public override void _Ready() {
         _rng.Randomize();
+        FloorPath parent = GetParent<FloorPath>();
+        if (parent != null) {
+            ParentFloorPath = parent;
+            FloorNumber = parent.FloorNumber;
+            NumberOfFloors = parent.FloorElevator.Floors.Count;
+        } else {
+            GD.PrintErr("Person Is not attached to a FloorPath");
+        }
 
         ProgressRatio = _rng.Randf();
         _recalculateTimer = GetNode<Timer>("RecalculateTimer");
 
+
         // This sets a callback that resets everything and sets a new target
         _recalculateTimer.Timeout += () => {
-            _targetRatio = _rng.Randf();
             _recalculateTimer.Stop();
-            _globalTargetRation = 0.0f;
-            _targetFloor = null;
+            // This code makes sure that the new floor we want to transport the player to is different than the floor he is currently on
+            int targetFloor;
+            if (NumberOfFloors < 2) {
+                targetFloor = 0;
+            } else {
+                int idx = _rng.RandiRange(0, NumberOfFloors - 2);
+                targetFloor = idx >= FloorNumber ? idx + 1 : idx;
+            }
+            SetTarget(new ShipLocation(targetFloor, _rng.Randf()));
         };
 
-        _targetRatio = _rng.Randf();
+        SetTarget(new ShipLocation(FloorNumber, _rng.Randf()));
     }
 
     public override void _Process(double delta) {
-        if (InElevator) {
-            return;
-        }
-        if (DoorInFront != null && !DoorInFront.DoorOpen) {
-            return;
-        }
-        if (_targetFloor != null && _targetFloor == FloorNumber) {
-            _targetRatio = _globalTargetRation;
-        }
-        ProgressRatio = Mathf.MoveToward(ProgressRatio, _targetRatio, (float)delta * Speed);
-        if (Mathf.IsEqualApprox(ProgressRatio, _targetRatio) && _recalculateTimer.IsStopped()) {
+        if (InElevator) return; 
+        if (DoorInFront != null && !DoorInFront.DoorOpen)  return;
+        if (ShipTargets.Count == 0) return;
+        
+        ProgressRatio = Mathf.MoveToward(ProgressRatio, ShipTargets[0].Ratio, (float)delta * Speed);
+
+        if (ShipTargets[0].IsElevator) return;
+
+        if (Mathf.IsEqualApprox(ProgressRatio, ShipTargets[0].Ratio) && _recalculateTimer.IsStopped()) {
             _recalculateTimer.Start(_rng.RandfRange(MinRecalculationTime, MaxRecalculationTime));
+            ShipTargets.Clear();
         }
     }
 
-    public void SetTarget(float ratio, int floor) {
-        FloorPath parentPath = GetParent<FloorPath>();
-        if (parentPath == null) {
-            GD.PrintErr("Person Node is not attached to a FloorPath; can't set target at current point");
+    public void SetTarget(ShipLocation location) {
+        ShipTargets.Clear();
+        _recalculateTimer.Stop();
+        if (location.Floor == FloorNumber) {
+            ShipTargets.Add(location);
             return;
         }
-        _recalculateTimer.Stop();
-        _targetRatio = parentPath.ElevatorRatio;
-        _targetFloor = floor;
-        _globalTargetRation = ratio;
+
+        ShipTargets.Add(new ShipLocation(FloorNumber, ParentFloorPath.ElevatorRatio, true));
+        ShipTargets.Add(location);
     }
 
 }
