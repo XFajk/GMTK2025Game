@@ -18,8 +18,8 @@ public partial class Machine : Connectable, IRepairable {
     /// avoid rounding errors
     private float _processProgress = 0;
 
-    public override IEnumerable<IContainer> Inputs() => _recipeParts.Where(c => c.QuantityChangeInReceipe < 0);
-    public override IEnumerable<IContainer> Outputs() => _recipeParts.Where(c => c.QuantityChangeInReceipe > 0);
+    public override IEnumerable<InputOutput> Inputs() => _recipeParts.Where(c => c.QuantityChangeInReceipe < 0);
+    public override IEnumerable<InputOutput> Outputs() => _recipeParts.Where(c => c.QuantityChangeInReceipe > 0);
 
     public bool IsWorking = true;
 
@@ -59,6 +59,7 @@ public partial class Machine : Connectable, IRepairable {
         _processProgress += _processingPerSecond * (float)deltaTime;
 
         while (_processProgress > 1) {
+            GD.Print($"Machine {Name} execution!");
             _processProgress -= 1;
 
             foreach (InputOutput container in _recipeParts) {

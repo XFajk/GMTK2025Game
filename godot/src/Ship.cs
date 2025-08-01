@@ -32,7 +32,7 @@ public partial class Ship : Node {
         }
         _connectionsNode = GetNode("Connections");
 
-        _floatingResourceManager.Ready(this, GetNode("FloatingResources"));
+        _floatingResourceManager.Ready(Machines, GetNode("FloatingResources"));
 
         // initialize resource buffers
         foreach (IContainer buffer in AllContainers()) {
@@ -75,10 +75,10 @@ public partial class Ship : Node {
 
     public IEnumerable<IContainer> AllContainers() {
         foreach (Machine m in Machines) {
-            foreach (InputOutput buffer in m.Inputs()) {
+            foreach (IContainer buffer in m.Inputs()) {
                 yield return buffer;
             }
-            foreach (InputOutput buffer in m.Outputs()) {
+            foreach (IContainer buffer in m.Outputs()) {
                 yield return buffer;
             }
         }
@@ -104,15 +104,19 @@ public partial class Ship : Node {
 
     private void TryFlow(IContainer output, IContainer input, float deltaTime) {
         if (output.GetResource() == input.GetResource()) {
-            float transferQuantity = ConnectionTransferRate * deltaTime;
+            float maxTransferQuantity = ConnectionTransferRate * deltaTime;
             // try pull as much as possible
-            float quantityNotPulled = output.RemainderOfRemove(transferQuantity);
-            // try push all of that
-            float quantityNotPushed = input.RemainderOfAdd(transferQuantity - quantityNotPulled);
+            float quantityNotPulled = output.RemainderOfRemove(maxTransferQuantity);
+
+            // try push what we got as much as possible
+            float quantityNotPushed = input.RemainderOfAdd(maxTransferQuantity - quantityNotPulled);
             // put whatever we pulled but couldn't pull back
             output.AddQuantity(quantityNotPushed);
 
-            GD.Print($"Transferred {transferQuantity - quantityNotPushed} from {input.GetName()} to {output.GetName()}");
+            float actualTransferQuantity = maxTransferQuantity - quantityNotPushed;
+            if (actualTransferQuantity < 1E-3) return;
+
+            GD.Print($"Transferred {actualTransferQuantity} units of {output.GetResource()} from {output.GetName()} to {input.GetName()}, bringing the buffer to {input.GetQuantity()}");
         }
     }
 
@@ -135,11 +139,21 @@ public partial class Ship : Node {
             }
         }
 
-        // then check machine inputs
-        foreach (Machine m in Machines) {
-            foreach (IContainer buffer in m.Inputs()) {
-                leftToAdd = buffer.RemainderOfAdd(leftToAdd);
-                if (leftToAdd == 0) return;
+        // then check machine inputs or outputs
+        if (quantity > 0) {
+            foreach (Machine m in Machines) {
+                foreach (IContainer buffer in m.Inputs()) {
+                    leftToAdd = buffer.RemainderOfAdd(leftToAdd);
+                    if (leftToAdd == 0) return;
+                }
+            }
+        } else {
+            // quantity < 0; only check outputs
+            foreach (Machine m in Machines) {
+                foreach (IContainer buffer in m.Outputs()) {
+                    leftToAdd = buffer.RemainderOfAdd(leftToAdd);
+                    if (leftToAdd == 0) return;
+                }
             }
         }
 

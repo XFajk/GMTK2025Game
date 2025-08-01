@@ -29,13 +29,11 @@ public class Resources {
     public static string ToUnit(Resource resource, int quantity) {
         return resource switch {
             Resource.CoolantHot or Resource.CoolantCold => $"{quantity * 4} L",
-            Resource.Humidity => $"{quantity * AirPercentageFactor} %",
+            Resource.Humidity or Resource.Oxygen or Resource.CarbonDioxide => string.Format("{0,3:F1} %", quantity * AirPercentageFactor),
             Resource.Water => $"{quantity / 10} L",
             Resource.Food => $"{quantity / 5.0f} KG",
             Resource.SolidWaste => $"{quantity / 10.0f} KG",
             Resource.FluidWaste => $"{quantity / 10} L",
-            Resource.Oxygen => $"{quantity * AirPercentageFactor} %",
-            Resource.CarbonDioxide => $"{quantity * AirPercentageFactor} %",
             Resource.Disposables => $"{quantity}",
             Resource.Garbage => $"{quantity}",
             _ => throw new ArgumentOutOfRangeException(nameof(resource), resource, null),

@@ -1,0 +1,56 @@
+Captain:
+	Serious man wo demands that you do everything perfectly
+Crew:
+	Adventurers who love messing about
+	
+Mission 1: Preparation
+	> probably collect food suppplies and balance out the ship cycles
+
+Mission 2: Travel to a new solar system
+	"Today we will travel to the {TargetName} solar system. "
+    "We will run the engine at {TargetEnginePower * 100}% capacity, rather than the usual {Engine.DefaultEnginePower * 100}%. "
+    "Make sure the engine has enough coolant, and keep an eye on the water supply. "
+    "We will leave in {PreparationTime} seconds",
+    "End of Brief"
+	> engine processing speed is set from 10% to 100% for the duration of the mission
+	
+Mission 3: High-power scan
+	> probably something that disables machines or makes them work slower
+	
+Mission 4: Astroid mining
+	"Today we will be running an astroid minig operation. "
+    "For this mission we will need {RequiredDisposables} plastic materials, "
+    "and the operation will consume up to {OxygenDrainPerSecond * 60} oxygen per minute"
+    "The operation begins in {PreparationTime} seconds",
+    "End of Brief"
+	> will return CO2 back to the ship afterwards
+	 
+Mission 5-10: ???
+
+Mission 11: Among us
+	"I suspect that one of our crew is sabotaging our mission. "
+	"Don't worry, we will try to find the impostor ourselves."
+	> not sure what the effects during this mission is
+	> when the mission concludes the crew gathers in the crew quarters
+	> all crew walk to the airlock
+	> the captain is thrown out
+	
+Mission 12: Pizza
+	"Hey Ship, new captain here. From now on, we're eating Pizza. "
+	> all food is transformed into solid and liquid waste (nothing is lost)
+	> plants now only produces half food
+	> crew produces doulbe waste (to close the loop again)
+	
+Mission 13: Gas, Gas, Gas
+	> starts before the previous mission ends
+	"We're done crawling around the solar system, we'll be running the engine at 50% from now on"
+	> engine processing speed is set from 10% to 50%
+	
+Mission 14: Resupply
+	> Fixed time after mission 13
+	> Ends mission 13, setting engine back to 10%
+	"Ok so we notice we are running low on water if we rev up the engine, but don't worry."
+	"We found an ice astroid, so we will be mining water today"
+	> similar to the Astroid mining mission, but will add water back into the system
+	> in fact, it will add so much water that you run out of space if you're not prepared
+	
