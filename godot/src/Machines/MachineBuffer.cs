@@ -17,10 +17,12 @@ public partial class MachineBuffer : Node, IContainer {
     public float Quantity;
 
     public override void _Ready() {
-        if (GetParent().Name == "Inputs") {
-            Name = Resource.ToString() + "Input";
-        } else if (GetParent().Name == "Outputs") {
-            Name = Resource.ToString() + "Output";
+        if (Resource != Resource.Unset && GetParent() != null) {
+            if (GetParent().Name == "Inputs") {
+                Name = Resource.ToString() + "Input";
+            } else if (GetParent().Name == "Outputs") {
+                Name = Resource.ToString() + "Output";
+            }
         }
     }
 

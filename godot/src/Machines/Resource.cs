@@ -41,39 +41,59 @@ public class Resources {
         };
     }
 
-    public static bool IsLossless(IList<MachineBuffer> receipe) {
+    public static void VerifyLossless(IList<MachineBuffer> receipe, string reportingName) {
         Dictionary<ResourcePart, int> totals = new();
 
         // if all resource changes add up to 0, then we lose nothing
-        foreach (MachineBuffer io in receipe) {
-            var parts = GetParts(io.Resource);
+        foreach (MachineBuffer buffer in receipe) {
+            if (buffer.Resource == Resource.Unset) {
+                throw new Exception($"node {buffer.Name} of {reportingName} has no resource set");
+            }
+
+            var parts = GetParts(buffer.Resource);
             foreach (ResourcePart p in parts) {
                 int current = totals.GetValueOrDefault(p);
-                totals[p] = current + io.QuantityChangeInReceipe;
+                totals[p] = current + buffer.QuantityChangeInReceipe;
             }
         }
 
-        return totals.Values.All(v => v == 0);
+        Check(reportingName, totals);
     }
 
-    public static bool IsLossless(IList<InputOutput> receipe) {
+    public static void VerifyLossless(IList<InputOutput> receipe, string reportingName) {
         Dictionary<ResourcePart, int> totals = new();
 
         // if all resource changes add up to 0, then we lose nothing
         foreach (InputOutput io in receipe) {
-            var parts = GetParts(io.Container.GetResource());
+            IContainer container = io.Container ?? throw new Exception($"IO {io.Name} of {reportingName} has no container set");
+
+            Resource resource = container.GetResource();
+
+            if (resource == Resource.Unset) {
+                throw new Exception($"node {io.Name} of {reportingName} refers to container {container.GetName()} which has no resource set");
+            }
+
+            var parts = GetParts(resource);
             foreach (ResourcePart p in parts) {
                 int current = totals.GetValueOrDefault(p);
                 totals[p] = current + io.QuantityChangeInReceipe;
             }
         }
 
-        return totals.Values.All(v => v == 0);
+        Check(reportingName, totals);
+    }
+
+    private static void Check(string reportingName, Dictionary<ResourcePart, int> totals) {
+        List<string> losses = totals.Where(pair => pair.Value != 0).Select(pair => pair.Key + ":" + pair.Value).ToList();
+        if (losses.Count == 0) return;
+
+        throw new Exception(reportingName + " has loss: " + string.Join(", ", losses));
     }
 
     // returns how many of r2 you can make from r1
     // if no parts are shared, this function returns float.MaxValue
     // if multiple parts are shared, this function returns the lowest ratio
+
     public static float GetRatio(Resource r1, Resource r2) {
         var parts1 = GetParts(r1);
         var parts2 = GetParts(r2);
@@ -90,7 +110,7 @@ public class Resources {
         foreach (ResourcePart pShared in sharedParts) {
             int countOf1 = parts1.Where(p1 => p1 == pShared).Count();
             int countOf2 = parts2.Where(p2 => p2 == pShared).Count();
-            float ratio = (float) countOf2 / countOf1;
+            float ratio = (float)countOf2 / countOf1;
             if (ratio < lowestRatio) lowestRatio = ratio;
         }
 
@@ -105,7 +125,7 @@ public class Resources {
             Resource.Humidity or Resource.Water => [ResourcePart.Hydro],
             Resource.Food => [ResourcePart.Hydro, ResourcePart.Carbon],
             Resource.FluidWaste => [ResourcePart.Hydro],
-            Resource.SolidWaste => [ResourcePart.Carbon],
+            Resource.SolidWaste => [ResourcePart.Carbon, ResourcePart.Oxygen],
             Resource.Oxygen => [ResourcePart.Oxygen],
             Resource.CarbonDioxide => [ResourcePart.Carbon, ResourcePart.Oxygen, ResourcePart.Oxygen],
             Resource.Disposables or Resource.Garbage => [.. Enumerable.Repeat(ResourcePart.Carbon, 8)],

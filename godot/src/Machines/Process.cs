@@ -35,9 +35,7 @@ public partial class Process : Node3D {
             }
         }
 
-        if (_isLossless && !Resources.IsLossless(_recipeParts)) {
-            throw new Exception($"Process {Name} is not lossless");
-        }
+        Resources.VerifyLossless(_recipeParts, Name);
     }
 
     public override void _Process(double deltaTime) {

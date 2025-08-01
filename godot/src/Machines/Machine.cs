@@ -41,9 +41,7 @@ public partial class Machine : Connectable, IRepairable {
             }
         }
 
-        if (_isLossless && !Resources.IsLossless(_recipeParts)) {
-            throw new Exception($"Machine {Name} is not lossless");
-        }
+        if (_isLossless) Resources.VerifyLossless(_recipeParts, Name);
     }
 
     public override void _Process(double deltaTime) {
