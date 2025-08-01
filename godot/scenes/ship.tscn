@@ -131,11 +131,17 @@ mesh = SubResource("BoxMesh_f23tx")
 
 [node name="FluidWasteInput" type="Node" parent="FluidReprocessor/Inputs"]
 script = ExtResource("3_4tobq")
+Resource = 5
+MaxQuantity = 2
+QuantityChangeInReceipe = 1
 
 [node name="Outputs" type="Node" parent="FluidReprocessor"]
 
 [node name="WaterOutput" type="Node" parent="FluidReprocessor/Outputs"]
 script = ExtResource("3_4tobq")
+Resource = 3
+MaxQuantity = 2
+QuantityChangeInReceipe = 1
 
 [node name="ConnectionNodes" type="Node3D" parent="FluidReprocessor"]
 
