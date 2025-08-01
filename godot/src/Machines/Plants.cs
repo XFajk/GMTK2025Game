@@ -38,12 +38,12 @@ public partial class Plants : Machine {
                 if (!CanCycle(container)) {
                     GD.Print($"Cannot cycle {Name} due to insufficient resources or space. of {container.GetName()}");
                     _processProgress = 0;
-                    _plantHealth -= DryingRate * (float)deltaTime;
+                    _plantHealth -= DryingRate; 
                     return;
                 }
             }
 
-            _plantHealth += GrowthRate * (float)deltaTime;
+            _plantHealth += GrowthRate;
 
             foreach (MachineBuffer container in _recipeParts) {
                 container.Quantity += container.QuantityChangeInReceipe;
