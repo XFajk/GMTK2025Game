@@ -22,11 +22,11 @@ _initialResources = Dictionary[int, float]({
 [node name="Connections" type="Node" parent="."]
 
 [node name="FoodBurner" type="Node3D" parent="."]
-transform = Transform3D(0.622897, 0, -0.782304, 0, 1, 0, 0.782304, 0, 0.622897, 0, 0, -1.34698)
+transform = Transform3D(0.782358, 0, 0.622829, 0, 1, 0, -0.622829, 0, 0.782358, -1.57013, 0.27009, -0.943247)
 script = ExtResource("2_gudjc")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="FoodBurner"]
-transform = Transform3D(-0.0176618, 0, -0.999844, 0, 1, 0, 0.999844, 0, -0.0176618, 2.01042, 0, -0.490948)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 mesh = SubResource("BoxMesh_f23tx")
 
 [node name="Inputs" type="Node" parent="FoodBurner"]
@@ -53,35 +53,35 @@ QuantityChangeInReceipe = 1
 
 [node name="ExampleOutput2" type="Node" parent="FoodBurner/Outputs"]
 script = ExtResource("3_4tobq")
-Resource = 3
+Resource = 2
 MaxQuantity = 100
 QuantityChangeInReceipe = 1
 
 [node name="ConnectionNodes" type="Node3D" parent="FoodBurner"]
 
 [node name="ConnectionNode" parent="FoodBurner/ConnectionNodes" instance=ExtResource("3_7j21i")]
-transform = Transform3D(-0.00724134, 0, -0.409936, 0, 0.41, 0, 0.409936, 0, -0.00724134, 1.78417, 0.518023, -0.0212458)
+transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, -0.195845, 0.455998, 0.397518)
 
 [node name="ConnectionNode2" parent="FoodBurner/ConnectionNodes" instance=ExtResource("3_7j21i")]
-transform = Transform3D(-0.00724134, 0, -0.409936, 0, 0.41, 0, 0.409936, 0, -0.00724134, 2.24053, 0.518023, -0.0206406)
+transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, 0.258973, 0.455998, 0.397518)
 
-[node name="WaterStorage" type="Node3D" parent="."]
-transform = Transform3D(0.627053, 0, 0.778977, 0, 1, 0, -0.778977, 0, 0.627053, 0, 0, 1.53516)
+[node name="FoodStorage" type="Node3D" parent="."]
+transform = Transform3D(0.607833, 0, -0.794065, 0, 1, 0, 0.794065, 0, 0.607833, 1.58563, 0.27009, -0.856496)
 script = ExtResource("4_tfsc7")
-Resource = 3
-MaxQuantity = 2000
+Resource = 4
+MaxQuantity = 1000
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="WaterStorage"]
-transform = Transform3D(-0.0176618, 0, -0.999844, 0, 1, 0, 0.999844, 0, -0.0176618, 0.516957, 0, -2.01481)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="FoodStorage"]
+transform = Transform3D(-0.0176618, 0, -0.999844, 0, 1, 0, 0.999844, 0, -0.0176618, 0, 0, 0)
 mesh = SubResource("BoxMesh_f23tx")
 
-[node name="ConnectionNodes" type="Node3D" parent="WaterStorage"]
+[node name="ConnectionNodes" type="Node3D" parent="FoodStorage"]
 
-[node name="ConnectionNode" parent="WaterStorage/ConnectionNodes" instance=ExtResource("3_7j21i")]
-transform = Transform3D(-0.00724131, 0, -0.409936, 0, 0.41, 0, 0.409936, 0, -0.00724131, 0.290709, 0.518023, -1.54511)
+[node name="ConnectionNode" parent="FoodStorage/ConnectionNodes" instance=ExtResource("3_7j21i")]
+transform = Transform3D(-0.00724131, 0, -0.409936, 0, 0.41, 0, 0.409936, 0, -0.00724131, -0.255433, 0.484256, 0.480624)
 
-[node name="ConnectionNode2" parent="WaterStorage/ConnectionNodes" instance=ExtResource("3_7j21i")]
-transform = Transform3D(-0.00724131, 0, -0.409936, 0, 0.41, 0, 0.409936, 0, -0.00724131, 0.747068, 0.518023, -1.54451)
+[node name="ConnectionNode2" parent="FoodStorage/ConnectionNodes" instance=ExtResource("3_7j21i")]
+transform = Transform3D(-0.00724131, 0, -0.409936, 0, 0.41, 0, 0.409936, 0, -0.00724131, 0.221509, 0.484256, 0.489049)
 
 [node name="FloatingResources" type="Node" parent="."]
 

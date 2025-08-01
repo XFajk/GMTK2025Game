@@ -63,7 +63,7 @@ public partial class Person : PathFollow3D {
     public void SetTarget(float ratio, int floor) {
         FloorPath parentPath = GetParent<FloorPath>();
         if (parentPath == null) {
-            GD.PrintErr("Person Node is not attached to a FloorPath can't set target at current point");
+            GD.PrintErr("Person Node is not attached to a FloorPath; can't set target at current point");
             return;
         }
         _recalculateTimer.Stop();
