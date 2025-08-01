@@ -10,9 +10,10 @@ public partial class EventMachineBreakdown : Node3D, IEvent {
     public void ApplyEffect(Ship ship) {
         Target.IsWorking = false;
 
-        // ship.AddCrewTask(new CrewTaskRepair() {
-        //     Target = this,
-        //     Duration = SecondsToRepair
-        // });
+        ship.ScheduleCrewTask(new CrewTask() {
+            Location = Position,
+            Duration = SecondsToRepair,
+            OnTaskComplete = (p => Target.IsWorking = true)
+        });
     }
 }

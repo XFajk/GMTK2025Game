@@ -20,10 +20,10 @@ public partial class EventOxygenLeak : Node3D, IEvent, IRepairable {
         };
         ship.ActiveEffects.Add(_effect);
 
-        // ship.AddCrewTask(new CrewTaskRepair() {
-        //     Target = this,
-        //     Duration = SecondsToRepair
-        // });
+        ship.ScheduleCrewTask(new CrewTask() {
+            Location = Position,
+            Duration = SecondsToRepair
+        });
 
         ship.AddChild(this);
     }
