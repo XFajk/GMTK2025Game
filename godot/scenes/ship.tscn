@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://c41j8f7y8s5pn" path="res://src/Ship.cs" id="1_q631a"]
 [ext_resource type="Script" uid="uid://dx4b8dlivs2dq" path="res://src/Machines/Machine.cs" id="2_gudjc"]
-[ext_resource type="Script" uid="uid://dck4iuol8dehj" path="res://src/Machines/InputOutput.cs" id="3_4tobq"]
+[ext_resource type="Script" uid="uid://dck4iuol8dehj" path="res://src/Machines/MachineBuffer.cs" id="3_4tobq"]
 [ext_resource type="PackedScene" uid="uid://5knr05qpwauj" path="res://scenes/entities/connection_node.tscn" id="3_7j21i"]
 [ext_resource type="Script" uid="uid://csrpfcmiycc06" path="res://src/Machines/StorageContainer.cs" id="4_tfsc7"]
 [ext_resource type="Script" uid="uid://crs06kmuc1fi1" path="res://src/Machines/FloatingResource.cs" id="6_7j21i"]
@@ -39,8 +39,8 @@ QuantityChangeInReceipe = 1
 [node name="ExampleInput2" type="Node" parent="FoodBurner/Inputs"]
 script = ExtResource("3_4tobq")
 Resource = 7
-MaxQuantity = 2
-QuantityChangeInReceipe = 1
+MaxQuantity = 4
+QuantityChangeInReceipe = 2
 
 [node name="Outputs" type="Node" parent="FoodBurner"]
 
@@ -53,7 +53,7 @@ QuantityChangeInReceipe = 1
 [node name="ExampleOutput2" type="Node" parent="FoodBurner/Outputs"]
 script = ExtResource("3_4tobq")
 Resource = 2
-MaxQuantity = 100
+MaxQuantity = 2
 QuantityChangeInReceipe = 1
 
 [node name="ConnectionNodes" type="Node3D" parent="FoodBurner"]

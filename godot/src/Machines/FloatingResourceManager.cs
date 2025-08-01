@@ -4,24 +4,24 @@ using System.Collections.Generic;
 using System.Linq;
 
 public partial class FloatingResourceManager {
-    private Dictionary<FloatingResource, List<InputOutput>> _inputs = new();
-    private Dictionary<FloatingResource, List<InputOutput>> _outputs = new();
+    private Dictionary<FloatingResource, List<IContainer>> _inputs = new();
+    private Dictionary<FloatingResource, List<IContainer>> _outputs = new();
 
     public IEnumerable<FloatingResource> Resources() => _inputs.Keys.Concat(_outputs.Keys).Distinct();
 
     public void Ready(List<Machine> machines, Node floatingResourcesNode) {
         foreach (Node node in floatingResourcesNode.GetChildren()) {
             if (node is FloatingResource floater) {
-                List<InputOutput> inputs = new();
-                List<InputOutput> outputs = new();
+                List<IContainer> inputs = new();
+                List<IContainer> outputs = new();
 
                 foreach (Machine machine in machines) {
-                    foreach (InputOutput io in machine.Inputs()) {
+                    foreach (MachineBuffer io in machine.Inputs()) {
                         if (io.Resource == floater.Resource) {
                             inputs.Add(io);
                         }
                     }
-                    foreach (InputOutput io in machine.Outputs()) {
+                    foreach (MachineBuffer io in machine.Outputs()) {
                         if (io.Resource == floater.Resource) {
                             outputs.Add(io);
                         }
@@ -40,20 +40,20 @@ public partial class FloatingResourceManager {
         // but only if the buffer is nearly full and this is rather realistic
         foreach (var output in _outputs) {
             FloatingResource floatingBuffer = output.Key;
-            List<InputOutput> machineBuffers = output.Value;
+            List<IContainer> machineBuffers = output.Value;
             float freeSpaceInFloating = (floatingBuffer as IContainer).GetQuantityFree();
             float budgetPerOutput = freeSpaceInFloating / machineBuffers.Count;
 
-            foreach (InputOutput io in machineBuffers) {
-                float quantityToMove = Mathf.Min(budgetPerOutput, io.Quantity);
+            foreach (IContainer io in machineBuffers) {
+                float quantityToMove = Mathf.Min(budgetPerOutput, io.GetQuantity());
                 floatingBuffer.Quantity += quantityToMove;
-                io.Quantity -= quantityToMove;
+                io.RemoveQuantity(quantityToMove);
 
                 if (quantityToMove > 0) {
-                    GD.Print($"Pulled {quantityToMove} {floatingBuffer.Resource} from {io.Name}");
+                    GD.Print($"Pulled {quantityToMove} {floatingBuffer.Resource} from {io.GetName()}");
                 }
 
-                if (floatingBuffer.Quantity > floatingBuffer.MaxQuantity || io.Quantity < 0) {
+                if (floatingBuffer.Quantity > floatingBuffer.MaxQuantity || io.GetQuantity() < 0) {
                     throw new Exception("quantities out of bounds");
                 }
             }
@@ -64,20 +64,20 @@ public partial class FloatingResourceManager {
         // but only if the buffer is nearly empty and this is rather realistic
         foreach (var input in _inputs) {
             FloatingResource floatingBuffer = input.Key;
-            List<InputOutput> machineBuffers = input.Value;
+            List<IContainer> machineBuffers = input.Value;
             float budgetPerInput = floatingBuffer.Quantity / machineBuffers.Count;
 
-            foreach (InputOutput io in machineBuffers) {
+            foreach (IContainer io in machineBuffers) {
                 float quantityFree = (io as IContainer).GetQuantityFree();
                 float quantityToMove = Mathf.Min(budgetPerInput, quantityFree);
                 floatingBuffer.Quantity -= quantityToMove;
-                io.Quantity += quantityToMove;
+                io.AddQuantity(quantityToMove);
 
                 if (quantityToMove > 0) {
-                    GD.Print($"Pushed {quantityToMove} {floatingBuffer.Resource} to {io.Name}");
+                    GD.Print($"Pushed {quantityToMove} {floatingBuffer.Resource} to {io.GetName()}");
                 }
 
-                if (floatingBuffer.Quantity < 0 || io.Quantity > io.MaxQuantity) {
+                if (floatingBuffer.Quantity < 0 || io.GetQuantity() > io.GetMaxQuantity()) {
                     throw new Exception("quantities out of bounds");
                 }
             }

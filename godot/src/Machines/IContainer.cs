@@ -6,6 +6,7 @@ public interface IContainer {
     int GetMaxQuantity();
     void SetQuantity(float newValue);
     void AddQuantity(float addition) => SetQuantity(GetQuantity() + addition);
+    void RemoveQuantity(float addition) => AddQuantity(-addition);
 
     float GetQuantityFree() => GetMaxQuantity() - GetQuantity();
     string GetName();

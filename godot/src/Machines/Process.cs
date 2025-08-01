@@ -1,32 +1,25 @@
-using Godot;
-using Godot.Collections;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using Godot;
 
-/// a connectable machine that processes receipes
-public partial class Machine : Connectable, IRepairable {
-
+/// Machines that draw their requirements by themselves, without requiring connections.
+/// They do not have buffers
+public partial class Process : Node3D {
     [Export]
     /// number of times per second a cycle is executed.
     /// Every cycle executes the changes defined by the inputs and outputs once
     protected float _processingPerSecond = 1;
-    
+
     /// the inputs and outputs of the recipe
-    private List<MachineBuffer> _recipeParts = new();
+    private List<InputOutput> _recipeParts = new();
 
     /// avoid rounding errors
     private float _processProgress = 0;
 
-    public override IEnumerable<MachineBuffer> Inputs() => _recipeParts.Where(c => c.QuantityChangeInReceipe < 0);
-    public override IEnumerable<MachineBuffer> Outputs() => _recipeParts.Where(c => c.QuantityChangeInReceipe > 0);
-
-    public bool IsWorking = true;
-
     public override void _Ready() {
         base._Ready();
         foreach (Node child in GetNode("Inputs").GetChildren()) {
-            if (child is MachineBuffer input) {
+            if (child is InputOutput input) {
                 // we just add the inputs as a negative quantity change resulting from running the receipe
                 input.QuantityChangeInReceipe *= -1;
                 _recipeParts.Add(input);
@@ -34,22 +27,20 @@ public partial class Machine : Connectable, IRepairable {
         }
 
         foreach (Node child in GetNode("Outputs").GetChildren()) {
-            if (child is MachineBuffer output) {
+            if (child is InputOutput output) {
                 _recipeParts.Add(output);
             }
         }
 
         if (!Resources.IsLossless(_recipeParts)) {
-            throw new Exception($"Machine {Name} is not lossless");
+            throw new Exception($"Process {Name} is not lossless");
         }
     }
 
     public override void _Process(double deltaTime) {
-        if (!IsWorking) return;
-
         // check if all ingredients are present and enough output space available
-        foreach (MachineBuffer container in _recipeParts) {
-            if (!CanCycle(container)) {
+        foreach (InputOutput io in _recipeParts) {
+            if (!CanCycle(io)) {
                 _processProgress = 0;
                 return;
             }
@@ -59,16 +50,16 @@ public partial class Machine : Connectable, IRepairable {
         _processProgress += _processingPerSecond * (float)deltaTime;
 
         while (_processProgress > 1) {
-            GD.Print($"Machine {Name} execution!");
+            GD.Print($"Process {Name} execution!");
             _processProgress -= 1;
 
-            foreach (MachineBuffer container in _recipeParts) {
-                container.Quantity += container.QuantityChangeInReceipe;
+            foreach (InputOutput io in _recipeParts) {
+                io.Container.AddQuantity(io.QuantityChangeInReceipe);
             }
 
             // check again if we can continue to cycle
-            foreach (MachineBuffer container in _recipeParts) {
-                if (!CanCycle(container)) {
+            foreach (InputOutput io in _recipeParts) {
+                if (!CanCycle(io)) {
                     _processProgress = 0;
                     return;
                 }
@@ -78,14 +69,9 @@ public partial class Machine : Connectable, IRepairable {
 
     // returns true if we can execute the receipe at least once
     // returns false if we don't have ingredients or space
-    private static bool CanCycle(MachineBuffer container) {
-        int quantityAfterCycle = (int) container.Quantity + container.QuantityChangeInReceipe;
-        return quantityAfterCycle >= 0 && quantityAfterCycle <= container.MaxQuantity;
+    private static bool CanCycle(InputOutput io) {
+        IContainer container = io.Container;
+        int quantityAfterCycle = (int)container.GetQuantity() + io.QuantityChangeInReceipe;
+        return quantityAfterCycle >= 0 && quantityAfterCycle <= container.GetMaxQuantity();
     }
-
-    bool IRepairable.IsWorking() => IsWorking;
-
-    Node3D IRepairable.AsNode() => this;
-
-    void IRepairable.SetRepaired() => IsWorking = true;
 }

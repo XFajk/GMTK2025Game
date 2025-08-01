@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://cg04552ct0v85"]
 
 [ext_resource type="Script" uid="uid://dx4b8dlivs2dq" path="res://src/Machines/Machine.cs" id="1_orw1l"]
-[ext_resource type="Script" uid="uid://dck4iuol8dehj" path="res://src/Machines/InputOutput.cs" id="2_orw1l"]
+[ext_resource type="Script" uid="uid://dck4iuol8dehj" path="res://src/Machines/MachineBuffer.cs" id="2_orw1l"]
 
 [node name="TemplateMachine" type="Node3D"]
 script = ExtResource("1_orw1l")

@@ -40,12 +40,27 @@ public class Resources {
         };
     }
 
+    public static bool IsLossless(IList<MachineBuffer> receipe) {
+        Dictionary<ResourcePart, int> totals = new();
+
+        // if all resource changes add up to 0, then we lose nothing
+        foreach (MachineBuffer io in receipe) {
+            var parts = GetParts(io.Resource);
+            foreach (ResourcePart p in parts) {
+                int current = totals.GetValueOrDefault(p);
+                totals[p] = current + io.QuantityChangeInReceipe;
+            }
+        }
+
+        return totals.Values.All(v => v == 0);
+    }
+
     public static bool IsLossless(IList<InputOutput> receipe) {
         Dictionary<ResourcePart, int> totals = new();
 
         // if all resource changes add up to 0, then we lose nothing
         foreach (InputOutput io in receipe) {
-            var parts = GetParts(io.Resource);
+            var parts = GetParts(io.Container.GetResource());
             foreach (ResourcePart p in parts) {
                 int current = totals.GetValueOrDefault(p);
                 totals[p] = current + io.QuantityChangeInReceipe;
@@ -91,7 +106,7 @@ public class Resources {
             Resource.FluidWaste => [ResourcePart.Hydro],
             Resource.SolidWaste => [ResourcePart.Carbon],
             Resource.Oxygen => [ResourcePart.Oxygen],
-            Resource.CarbonDioxide => [ResourcePart.Carbon, ResourcePart.Oxygen],
+            Resource.CarbonDioxide => [ResourcePart.Carbon, ResourcePart.Oxygen, ResourcePart.Oxygen],
             Resource.Disposables or Resource.Garbage => [.. Enumerable.Repeat(ResourcePart.Carbon, 8)],
             _ => throw new ArgumentOutOfRangeException(nameof(resource), resource, null),
         };
