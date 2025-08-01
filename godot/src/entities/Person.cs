@@ -63,15 +63,25 @@ public partial class Person : PathFollow3D {
     }
 
     public override void _Process(double delta) {
-        if (InElevator) return; 
-        if (DoorInFront != null && !DoorInFront.DoorOpen)  return;
-        if (ShipTargets.Count == 0) return;
+        if (InElevator) {
+            return; 
+        }
+        if (DoorInFront != null && !DoorInFront.DoorOpen)  {
+            return;
+        }
+        if (ShipTargets.Count == 0) {
+            return;
+        }
         
         ProgressRatio = Mathf.MoveToward(ProgressRatio, ShipTargets[0].Ratio, (float)delta * Speed);
 
-        if (ShipTargets[0].IsElevator) return;
-
         if (Mathf.IsEqualApprox(ProgressRatio, ShipTargets[0].Ratio) && RecalculateTimer.IsStopped()) {
+            if (ShipTargets[0].IsElevator) {
+                var elevator = ParentFloorPath.FloorElevator;
+                var detector = GetNode<Area3D>("ElevatorDetector");
+                elevator.OnAreaEntered(detector);
+                return;
+            }
             RecalculateTimer.Start(_rng.RandfRange(MinRecalculationTime, MaxRecalculationTime));
             ShipTargets.Clear();
             EmitSignalReachedDestination(this);

@@ -17,14 +17,16 @@ public partial class Elevator : Area3D {
         Floors.Sort((a, b) => a.FloorNumber.CompareTo(b.FloorNumber));
     }
 
-    private void OnAreaEntered(Area3D area) {
+    public void OnAreaEntered(Area3D area) {
         Person person = area.GetParent<Person>();
 
         if (person != null) {
             if (person.InElevator) {
                 return;
             }
-
+            if (person.ShipTargets.Count < 2) {
+                return;
+            }
             if (person.ShipTargets[0].IsElevator) {
                 var tween = GetTree().CreateTween();
                 Node personParent = person.GetParent();

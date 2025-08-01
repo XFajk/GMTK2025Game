@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://fvs5t3eobei"]
+[gd_scene load_steps=5 format=3 uid="uid://d2r2gbla2y78c"]
 
 [ext_resource type="Script" uid="uid://bi3g7ky6yx8tv" path="res://src/entities/Person.cs" id="1_rlyp3"]
 

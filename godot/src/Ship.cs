@@ -23,7 +23,7 @@ public partial class Ship : Node {
 
     public List<Floor> Floors; 
     public List<Person> Crew;
-    private List<Person> _crewDoingTasks;
+    private List<Person> _crewDoingTasks = [];
 
     private RandomNumberGenerator _rng = new();
 

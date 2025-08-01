@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://6cj8en2hqm8j" path="res://scenes/player.tscn" id="1_37kl0"]
 [ext_resource type="PackedScene" uid="uid://5552jx8x8cbw" path="res://scenes/entities/door.tscn" id="1_g14j6"]
 [ext_resource type="PackedScene" uid="uid://btfhevum5xp06" path="res://scenes/entities/elevator.tscn" id="2_6uqi0"]
-[ext_resource type="PackedScene" path="res://scenes/entities/person.tscn" id="2_8uh7m"]
+[ext_resource type="PackedScene" uid="uid://d2r2gbla2y78c" path="res://scenes/entities/person.tscn" id="2_8uh7m"]
 [ext_resource type="Script" uid="uid://c27surc38gk72" path="res://src/entities/Floor.cs" id="3_ppyta"]
 [ext_resource type="Script" uid="uid://c2i027eoql8i6" path="res://src/entities/FloorPath.cs" id="4_ykrsh"]
 
@@ -55,7 +55,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00703239, 1.67734, -4.1828
 mesh = SubResource("BoxMesh_37kl0")
 
 [node name="Elevator" parent="." instance=ExtResource("2_6uqi0")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.162445, 0.544844, -4.01493)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.302599, 0.514581, -3.95789)
 
 [node name="Floor" type="Node3D" parent="Elevator" node_paths=PackedStringArray("FloorPath")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.404304, 0)
@@ -88,18 +88,6 @@ FloorElevator = NodePath("../Elevator")
 FloorNumber = 1
 metadata/_custom_type_script = "uid://c2i027eoql8i6"
 
-[node name="Preson" parent="Floor2Path" instance=ExtResource("2_8uh7m")]
-transform = Transform3D(-0.472356, 0.000107927, -0.881408, -3.63798e-12, 1, 0.000122448, 0.881408, 5.7839e-05, -0.472356, -2.34121, -0.0546507, -0.0528288)
-Speed = 0.1
-
-[node name="Preson2" parent="Floor2Path" instance=ExtResource("2_8uh7m")]
-transform = Transform3D(-0.472356, 0.000107927, -0.881408, -3.63798e-12, 1, 0.000122448, 0.881408, 5.7839e-05, -0.472356, -2.34121, -0.0546507, -0.0528288)
-Speed = 0.1
-
-[node name="Preson3" parent="Floor2Path" instance=ExtResource("2_8uh7m")]
-transform = Transform3D(-0.472356, 0.000107927, -0.881408, -3.63798e-12, 1, 0.000122448, 0.881408, 5.7839e-05, -0.472356, -2.34121, -0.0546507, -0.0528288)
-Speed = 0.1
-
 [node name="Floor1Path" type="Path3D" parent="." node_paths=PackedStringArray("FloorElevator")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.131335, -4.04687)
 curve = SubResource("Curve3D_37kl0")
@@ -109,15 +97,7 @@ metadata/_custom_type_script = "uid://c2i027eoql8i6"
 
 [node name="Preson" parent="Floor1Path" instance=ExtResource("2_8uh7m")]
 transform = Transform3D(-0.472356, 0.000107927, -0.881408, -3.63798e-12, 1, 0.000122448, 0.881408, 5.7839e-05, -0.472356, -2.34121, -0.0546507, -0.0528288)
-Speed = 0.1
-
-[node name="Preson2" parent="Floor1Path" groups=["Interactable"] instance=ExtResource("2_8uh7m")]
-transform = Transform3D(-0.472356, 0.000107927, -0.881408, -3.63798e-12, 1, 0.000122448, 0.881408, 5.7839e-05, -0.472356, -2.34121, -0.0546507, -0.0528288)
-Speed = 0.1
-
-[node name="Preson3" parent="Floor1Path" instance=ExtResource("2_8uh7m")]
-transform = Transform3D(-0.472356, 0.000107927, -0.881408, -3.63798e-12, 1, 0.000122448, 0.881408, 5.7839e-05, -0.472356, -2.34121, -0.0546507, -0.0528288)
-Speed = 0.1
+Speed = 0.3
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.10016, -4.31554)
