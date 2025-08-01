@@ -14,11 +14,9 @@
 [node name="Ship" type="Node3D"]
 script = ExtResource("1_q631a")
 _initialResources = Dictionary[int, float]({
-1: 0.5,
-2: 0.5,
-3: 0.8,
-4: 0.2,
-7: 0.5
+4: 0.5,
+5: 0.1,
+8: 0.4
 })
 
 [node name="Connections" type="Node" parent="."]
@@ -27,17 +25,17 @@ _initialResources = Dictionary[int, float]({
 
 [node name="Oxygen" type="Node" parent="FloatingResources"]
 script = ExtResource("6_7j21i")
-Resource = 7
+Resource = 8
 MaxQuantity = 500
 
 [node name="CarbonDioxide" type="Node" parent="FloatingResources"]
 script = ExtResource("6_7j21i")
-Resource = 8
+Resource = 9
 MaxQuantity = 100
 
 [node name="Humidity" type="Node" parent="FloatingResources"]
 script = ExtResource("6_7j21i")
-Resource = 2
+Resource = 3
 
 [node name="CrewFoodProcess" type="Node3D" parent="."]
 script = ExtResource("7_3m36u")
@@ -78,6 +76,7 @@ Source = NodePath("../../../FloatingResources/Humidity")
 QuantityChangeInReceipe = 1
 
 [node name="CrewConsumableProcess" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 10, 0)
 script = ExtResource("7_3m36u")
 _processingPerSecond = 2.0
 
@@ -210,7 +209,7 @@ QuantityChangeInReceipe = 1
 script = ExtResource("3_4tobq")
 Resource = 4
 MaxQuantity = 10
-QuantityChangeInReceipe = 8
+QuantityChangeInReceipe = 4
 
 [node name="Outputs" type="Node" parent="CoolantCooler"]
 
@@ -252,8 +251,8 @@ QuantityChangeInReceipe = 1
 [node name="HumidityOutput" type="Node" parent="Engine/Outputs"]
 script = ExtResource("3_4tobq")
 Resource = 3
-MaxQuantity = 10
-QuantityChangeInReceipe = 8
+MaxQuantity = 5
+QuantityChangeInReceipe = 4
 
 [node name="ConnectionNodes" type="Node3D" parent="Engine"]
 
