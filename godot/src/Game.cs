@@ -34,6 +34,8 @@ public partial class Game : Node {
             _selectedNode = node;
         } else {
             _shipNode.AddConnection(_selectedMachine, machine);
+            ConnectionNode.ConnectNodes(_selectedNode, node);
+
             _selectedMachine = null;
             _selectedNode = null;
         }
@@ -42,4 +44,5 @@ public partial class Game : Node {
         string nameOfSelectedNode = (_selectedNode != null) ? _selectedNode.Name : "null";
         GD.Print($"_selectedMachine = {nameOfSelectedMachine}, _selectedNode = {nameOfSelectedNode}");
     }
+
 }

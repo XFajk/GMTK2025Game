@@ -1,16 +1,47 @@
-[gd_scene load_steps=4 format=3 uid="uid://5knr05qpwauj"]
+[gd_scene load_steps=9 format=3 uid="uid://5knr05qpwauj"]
 
 [ext_resource type="Script" uid="uid://cjc04ylpxhx0o" path="res://src/Machines/ConnectionNode.cs" id="1_1g3g4"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5afpi"]
+albedo_color = Color(1, 0.27, 0.27, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ojigq"]
+albedo_color = Color(0, 0.1, 1, 1)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_orw1l"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_fci2i"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fci2i"]
+albedo_color = Color(0.76, 0.784, 1, 1)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fci2i"]
+spread = 0.05
+initial_velocity_min = 1.0
+initial_velocity_max = 1.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.2
+scale_max = 0.2
+
+[sub_resource type="BoxMesh" id="BoxMesh_5afpi"]
+
 [node name="ConnectionNode" type="Area3D"]
 script = ExtResource("1_1g3g4")
+_highlightMaterial = SubResource("StandardMaterial3D_5afpi")
+_connectedMaterial = SubResource("StandardMaterial3D_ojigq")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_orw1l")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("SphereMesh_fci2i")
+surface_material_override/0 = SubResource("StandardMaterial3D_fci2i")
+
+[node name="GpuParticles3D" type="GPUParticles3D" parent="."]
+emitting = false
+amount = 3
+process_material = SubResource("ParticleProcessMaterial_fci2i")
+draw_pass_1 = SubResource("BoxMesh_5afpi")
+
+[connection signal="mouse_entered" from="." to="." method="OnMouseEntered"]
+[connection signal="mouse_exited" from="." to="." method="OnMouseExited"]
