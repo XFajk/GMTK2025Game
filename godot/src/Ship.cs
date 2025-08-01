@@ -23,8 +23,6 @@ public partial class Ship : Node {
 
     public List<Floor> Floors; 
     public List<Person> Crew;
-    private List<Person> _crewDoingTasks = new();
-
     private RandomNumberGenerator _rng = new();
 
     public override void _Ready() {
@@ -180,22 +178,13 @@ public partial class Ship : Node {
         // TODO add connection node to _connectionsNode
     }
 
-    public void HireForTask(CrewTask task) {
+    // previously HireForTask
+    public void ScheduleCrewTask(CrewTask task) {
         foreach (Person person in Crew) {
-            if (!_crewDoingTasks.Contains(person)) {
-                _crewDoingTasks.Add(person);
+            if (person.CurrentTask == null) {
+                person.CurrentTask = task;
                 person.SetTarget(ShipLocation.ClosesToPoint(task.Location, Floors));
-
-                person.ReachedDestination += OnPersonReachedDestination;
-                person.RecalculateTimer.WaitTime = task.Duration;
             }
         }
-    }
-
-    private void OnPersonReachedDestination(Person person) {
-        _crewDoingTasks.Remove(person);
-        person.ReachedDestination -= OnPersonReachedDestination;
-
-        person.RecalculateTimer.Start();
     }
 }

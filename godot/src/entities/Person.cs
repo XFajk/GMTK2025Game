@@ -4,12 +4,10 @@ using System.Collections.Generic;
 using System.Dynamic;
 
 public partial class Person : PathFollow3D {
-
-    [Signal]
-    public delegate void ReachedDestinationEventHandler(Person person);
-
     [Export]
     public float Speed = 0.01f;
+    [Export]
+    public float SpeedWithTask = 0.02f;
     [Export]
     public float MinRecalculationTime = 1.0f;
     [Export]
@@ -17,7 +15,6 @@ public partial class Person : PathFollow3D {
 
     public bool InElevator = false;
     public int FloorNumber = 0;
-    public int NumberOfFloors = 0;
 
     private RandomNumberGenerator _rng = new();
 
@@ -27,6 +24,8 @@ public partial class Person : PathFollow3D {
     private FloorPath ParentFloorPath;
 
     public Door DoorInFront;
+    public CrewTask CurrentTask = null;
+
 
     public override void _Ready() {
         _rng.Randomize();
@@ -34,10 +33,12 @@ public partial class Person : PathFollow3D {
         AddToGroup("Crew");
 
         FloorPath parent = GetParent<FloorPath>();
+
+        int numberOfFloors = 0;
         if (parent != null) {
             ParentFloorPath = parent;
             FloorNumber = parent.FloorNumber;
-            NumberOfFloors = parent.FloorElevator.Floors.Count;
+            numberOfFloors = parent.FloorElevator.Floors.Count;
         } else {
             GD.PrintErr("Person Is not attached to a FloorPath");
         }
@@ -50,11 +51,10 @@ public partial class Person : PathFollow3D {
             RecalculateTimer.Stop();
             // This code makes sure that the new floor we want to transport the player to is different than the floor he is currently on
             int targetFloor;
-            if (NumberOfFloors < 2) {
+            if (numberOfFloors < 1) {
                 targetFloor = 0;
             } else {
-                int idx = _rng.RandiRange(0, NumberOfFloors - 2);
-                targetFloor = idx >= FloorNumber ? idx + 1 : idx;
+                targetFloor = _rng.RandiRange(0, numberOfFloors - 1);
             }
             SetTarget(new ShipLocation(targetFloor, _rng.Randf()));
         };
@@ -72,8 +72,9 @@ public partial class Person : PathFollow3D {
         if (ShipTargets.Count == 0) {
             return;
         }
-        
-        ProgressRatio = Mathf.MoveToward(ProgressRatio, ShipTargets[0].Ratio, (float)delta * Speed);
+
+        float adjustedSpeed = (CurrentTask == null) ? Speed : SpeedWithTask;
+        ProgressRatio = Mathf.MoveToward(ProgressRatio, ShipTargets[0].Ratio, (float)delta * adjustedSpeed);
 
         if (Mathf.IsEqualApprox(ProgressRatio, ShipTargets[0].Ratio) && RecalculateTimer.IsStopped()) {
             if (ShipTargets[0].IsElevator) {
@@ -82,9 +83,17 @@ public partial class Person : PathFollow3D {
                 elevator.OnAreaEntered(detector);
                 return;
             }
-            RecalculateTimer.Start(_rng.RandfRange(MinRecalculationTime, MaxRecalculationTime));
-            ShipTargets.Clear();
-            EmitSignalReachedDestination(this);
+
+            if (CurrentTask != null) {
+                // task completed
+                CurrentTask.OnTaskComplete.Invoke(this);
+                RecalculateTimer.WaitTime = CurrentTask.Duration;
+                RecalculateTimer.Start();
+            } else {
+                // idle about
+                RecalculateTimer.Start(_rng.RandfRange(MinRecalculationTime, MaxRecalculationTime));
+                ShipTargets.Clear();
+            }
         }
     }
 
