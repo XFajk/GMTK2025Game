@@ -373,17 +373,25 @@ mesh = SubResource("BoxMesh_f23tx")
 
 [node name="Inputs" type="Node" parent="CarbonScrubber"]
 
-[node name="CoolantColdInput" type="Node" parent="CarbonScrubber/Inputs"]
+[node name="1" type="Node" parent="CarbonScrubber/Inputs"]
 script = ExtResource("3_4tobq")
-Resource = 8
+Resource = 9
+MaxQuantity = 10
+QuantityChangeInReceipe = 8
 
 [node name="Outputs" type="Node" parent="CarbonScrubber"]
 
 [node name="OxygenOutput" type="Node" parent="CarbonScrubber/Outputs"]
 script = ExtResource("3_4tobq")
+Resource = 8
+MaxQuantity = 18
+QuantityChangeInReceipe = 16
 
 [node name="DisposablesOutput" type="Node" parent="CarbonScrubber/Outputs"]
 script = ExtResource("3_4tobq")
+Resource = 10
+MaxQuantity = 100
+QuantityChangeInReceipe = 1
 
 [node name="ConnectionNodes" type="Node3D" parent="CarbonScrubber"]
 
