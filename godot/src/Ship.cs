@@ -19,6 +19,7 @@ public partial class Ship : Node {
     private List<Connection> _connections = new();
     private Node _connectionsNode;
 
+    public List<Floor> Floors; 
     public List<Person> Crew;
     private List<Person> _crewDoingTasks;
 
@@ -63,6 +64,7 @@ public partial class Ship : Node {
 
         // Code to Get NPS's
         Crew = GetTree().GetNodesInGroup("Crew").OfType<Person>().ToList();
+        Floors = GetTree().GetNodesInGroup("Floors").OfType<Floor>().ToList();
     }
 
     public override void _Process(double deltaTime) {
@@ -132,7 +134,7 @@ public partial class Ship : Node {
         foreach (Person person in Crew) {
             if (!_crewDoingTasks.Contains(person)) {
                 _crewDoingTasks.Add(person);
-                person.SetTarget(ShipLocation.ClosesToPoint(task.Location, GetTree().GetNodesInGroup("Floors").OfType<Floor>().ToList()));
+                person.SetTarget(ShipLocation.ClosesToPoint(task.Location, Floors));
 
                 person.ReachedDestination += OnPersonReachedDestination;
                 person.RecalculateTimer.WaitTime = task.Duration;
