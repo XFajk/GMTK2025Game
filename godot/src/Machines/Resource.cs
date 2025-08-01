@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 public enum Resource {
+    Unset,
     CoolantHot,
     CoolantCold,
     Humidity,

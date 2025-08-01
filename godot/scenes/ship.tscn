@@ -131,7 +131,7 @@ mesh = SubResource("BoxMesh_f23tx")
 
 [node name="FluidWasteInput" type="Node" parent="FluidReprocessor/Inputs"]
 script = ExtResource("3_4tobq")
-Resource = 5
+Resource = 6
 MaxQuantity = 2
 QuantityChangeInReceipe = 1
 
@@ -139,7 +139,7 @@ QuantityChangeInReceipe = 1
 
 [node name="WaterOutput" type="Node" parent="FluidReprocessor/Outputs"]
 script = ExtResource("3_4tobq")
-Resource = 3
+Resource = 4
 MaxQuantity = 2
 QuantityChangeInReceipe = 1
 
@@ -154,6 +154,7 @@ transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, 0.258973, 0.455998, 
 [node name="Hydrolysis" type="Node3D" parent="."]
 transform = Transform3D(0.782358, 0, 0.622829, 0, 1, 0, -0.622829, 0, 0.782358, -1.57013, 0.27009, -0.943247)
 script = ExtResource("2_gudjc")
+_isLossless = false
 _processingPerSecond = 0.2
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Hydrolysis"]
@@ -163,11 +164,17 @@ mesh = SubResource("BoxMesh_f23tx")
 
 [node name="WaterInput" type="Node" parent="Hydrolysis/Inputs"]
 script = ExtResource("3_4tobq")
+Resource = 4
+MaxQuantity = 2
+QuantityChangeInReceipe = 1
 
 [node name="Outputs" type="Node" parent="Hydrolysis"]
 
 [node name="OxygenOutput" type="Node" parent="Hydrolysis/Outputs"]
 script = ExtResource("3_4tobq")
+Resource = 8
+MaxQuantity = 2
+QuantityChangeInReceipe = 1
 
 [node name="ConnectionNodes" type="Node3D" parent="Hydrolysis"]
 
