@@ -1,0 +1,29 @@
+
+
+public interface IContainer {
+    Resource GetResource();
+    float GetQuantity();
+    int GetMaxQuantity();
+    void SetQuantity(float newValue);
+    void AddQuantity(float addition) => SetQuantity(GetQuantity() + addition);
+
+    float GetQuantityFree() => GetMaxQuantity() - GetQuantity();
+    string GetName();
+
+    float RemainderOfAdd(float addition) {
+        float newQuantity = GetQuantity() + addition;
+        if (newQuantity < 0) {
+            SetQuantity(0);
+            return -newQuantity;
+        }
+
+        int max = GetMaxQuantity();
+        if (newQuantity > max) {
+            SetQuantity(max);
+            return newQuantity - max;
+        }
+
+        SetQuantity(newQuantity);
+        return 0;
+    }
+}

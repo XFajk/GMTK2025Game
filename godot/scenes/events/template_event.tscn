@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dyqvyrnm65gk"]
+
+[ext_resource type="Script" uid="uid://bw5ynn22uplvm" path="res://src/Events/EventOxygenLeak.cs" id="1_2t05j"]
+
+[node name="TemplateEvent" type="Node3D"]
+script = ExtResource("1_2t05j")

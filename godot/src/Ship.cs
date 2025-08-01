@@ -16,6 +16,8 @@ public partial class Ship : Node {
     /// all machines and containers
     public List<Connectable> Connectables => [.. Machines, .. Containers];
 
+    public List<IEventEffect> ActiveEffects = new();
+
     private List<Connection> _connections = new();
     private Node _connectionsNode;
 
@@ -33,26 +35,19 @@ public partial class Ship : Node {
         _floatingResourceManager.Ready(this, GetNode("FloatingResources"));
 
         // initialize resource buffers
-        foreach (Machine m in Machines) {
-            foreach (InputOutput buffer in m.Inputs()) {
-                if (_initialResources.TryGetValue(buffer.Resource, out float fraction)) {
-                    buffer.Quantity = buffer.MaxQuantity * fraction;
-                    GD.Print($"Set buffer {buffer.Name} of {m.Name} to {buffer.Quantity} {buffer.Resource}");
-                }
+        foreach (IContainer buffer in AllContainers()) {
+            if (_initialResources.TryGetValue(buffer.GetResource(), out float fraction)) {
+                buffer.SetQuantity(buffer.GetMaxQuantity() * fraction);
+                GD.Print($"Set {buffer.GetName()} to {buffer.GetQuantity()} {buffer.GetResource()}");
             }
         }
-        foreach (StorageContainer c in Containers) {
-            if (_initialResources.TryGetValue(c.Resource, out float fraction)) {
-                c.Contents.Quantity = c.MaxQuantity * fraction;
-                GD.Print($"Set {c.Name} to {c.Contents.Quantity} {c.Resource}");
-            }
+    }
+
+    public FloatingResource GetFloatingResource(Resource resource) {
+        foreach (var res in _floatingResourceManager.Resources()) {
+            if (res.Resource == resource) return res;
         }
-        foreach (FloatingResource r in _floatingResourceManager.Resources()) {
-            if (_initialResources.TryGetValue(r.Resource, out float fraction)) {
-                r.Quantity = r.MaxQuantity * fraction;
-                GD.Print($"Set {r.Resource} to {r.Quantity}");
-            }
-        }
+        return null;
     }
 
     public override void _Process(double deltaTime) {
@@ -72,27 +67,36 @@ public partial class Ship : Node {
                 }
             }
         }
+
+        foreach (IEventEffect effect in ActiveEffects) {
+            effect.Process(deltaTime);
+        }
+    }
+
+    public IEnumerable<IContainer> AllContainers() {
+        foreach (Machine m in Machines) {
+            foreach (InputOutput buffer in m.Inputs()) {
+                yield return buffer;
+            }
+            foreach (InputOutput buffer in m.Outputs()) {
+                yield return buffer;
+            }
+        }
+
+        foreach (StorageContainer c in Containers) {
+            yield return c;
+        }
+
+        foreach (FloatingResource r in _floatingResourceManager.Resources()) {
+            yield return r;
+        }
     }
 
     public Dictionary<Resource, float> GetTotalResourceQuantities() {
         Dictionary<Resource, float> totals = new();
-        foreach (Machine m in Machines) {
-            foreach (InputOutput buffer in m.Inputs()) {
-                float current = totals.GetValueOrDefault(buffer.Resource, 0);
-                totals[buffer.Resource] = current + buffer.Quantity;
-            }
-            foreach (InputOutput buffer in m.Outputs()) {
-                float current = totals.GetValueOrDefault(buffer.Resource, 0);
-                totals[buffer.Resource] = current + buffer.Quantity;
-            }
-        }
-        foreach (StorageContainer c in Containers) {
-            float current = totals.GetValueOrDefault(c.Resource, 0);
-            totals[c.Resource] = current + c.Contents.Quantity;
-        }
-        foreach (FloatingResource r in _floatingResourceManager.Resources()) {
-            float current = totals.GetValueOrDefault(r.Resource, 0);
-            totals[r.Resource] = current + r.Quantity;
+        foreach (IContainer buffer in AllContainers()) {
+            float current = totals.GetValueOrDefault(buffer.GetResource(), 0);
+            totals[buffer.GetResource()] = current + buffer.GetQuantity();
         }
 
         return totals;
@@ -110,6 +114,38 @@ public partial class Ship : Node {
             }
         }
     }
+
+    public void AddResource(Resource resource, int quantity) {
+        float leftToAdd = quantity;
+
+        // first check floating resources
+        foreach (FloatingResource res in _floatingResourceManager.Resources()) {
+            if (res.Resource == resource) {
+                leftToAdd = (res as IContainer).RemainderOfAdd(leftToAdd);
+                if (leftToAdd == 0) return;
+            }
+        }
+
+        // then check storages
+        foreach (StorageContainer container in Containers) {
+            if (container.Resource == resource) {
+                leftToAdd = (container as IContainer).RemainderOfAdd(leftToAdd);
+                if (leftToAdd == 0) return;
+            }
+        }
+
+        // then check machine inputs
+        foreach (Machine m in Machines) {
+            foreach (InputOutput buffer in m.Inputs()) {
+                leftToAdd = (buffer as IContainer).RemainderOfAdd(leftToAdd);
+                if (leftToAdd == 0) return;
+            }
+        }
+
+        // otherwise it is lost
+    }
+
+    public void RemoveResource(Resource resource, int quantity) => AddResource(resource, -quantity);
 
     public void AddConnection(Connectable a, Connectable b) {
         GD.Print($"Connected {a.Name} and {b.Name}");

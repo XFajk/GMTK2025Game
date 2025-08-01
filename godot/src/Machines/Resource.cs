@@ -3,28 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 
 public enum Resource {
-    /// 1 coolant + 4 hydro
     CoolantHot,
-    /// 1 coolant + 4 hydro
     CoolantCold,
-    /// 1 hydro
     Humidity,
-    /// 1 hydro
     Water,
-    /// 1 hydro + 1 carbon
     Food,
-    /// 1 hydro
     FluidWaste,
-    /// 1 carbon
     SolidWaste,
-    /// 1 oxygen
     Oxygen,
-    /// 1 carbon + 2 oxygen
     CarbonDioxide,
-    /// 8 carbon
     Disposables,
-    /// 8 carbon
-    Garbage
+    Garbage,
 }
 
 /// helper classes
@@ -68,10 +57,37 @@ public class Resources {
         return totals.Values.All(v => v == 0);
     }
 
+    // returns how many of r2 you can make from r1
+    // if no parts are shared, this function returns float.MaxValue
+    // if multiple parts are shared, this function returns the lowest ratio
+    public static float GetRatio(Resource r1, Resource r2) {
+        var parts1 = GetParts(r1);
+        var parts2 = GetParts(r2);
+        HashSet<ResourcePart> sharedParts = new();
+        foreach (ResourcePart p1 in parts1) {
+            if (sharedParts.Contains(p1)) continue;
+
+            foreach (ResourcePart p2 in parts2) {
+                if (p1 == p2) sharedParts.Add(p1);
+            }
+        }
+
+        float lowestRatio = float.MaxValue;
+        foreach (ResourcePart pShared in sharedParts) {
+            int countOf1 = parts1.Where(p1 => p1 == pShared).Count();
+            int countOf2 = parts2.Where(p2 => p2 == pShared).Count();
+            float ratio = (float) countOf2 / countOf1;
+            if (ratio < lowestRatio) lowestRatio = ratio;
+        }
+
+        return lowestRatio;
+    }
+
     // gests
     private static List<ResourcePart> GetParts(Resource resource) {
         return resource switch {
-            Resource.CoolantHot or Resource.CoolantCold => [ResourcePart.Coolant, .. Enumerable.Repeat(ResourcePart.Hydro, 4)],
+            Resource.CoolantHot => [ResourcePart.Coolant],
+            Resource.CoolantCold => [ResourcePart.Coolant, .. Enumerable.Repeat(ResourcePart.Hydro, 4)],
             Resource.Humidity or Resource.Water => [ResourcePart.Hydro],
             Resource.Food => [ResourcePart.Hydro, ResourcePart.Carbon],
             Resource.FluidWaste => [ResourcePart.Hydro],

@@ -2,7 +2,7 @@ using Godot;
 using System;
 
 /// input or output resource container of a machine
-public partial class InputOutput : Node {
+public partial class InputOutput : Node, IContainer {
     [Export]
     public Resource Resource;
 
@@ -15,4 +15,14 @@ public partial class InputOutput : Node {
 
     // floating-point to avoid rounding errors
     public float Quantity;
+
+    public int GetMaxQuantity() => MaxQuantity;
+
+    public float GetQuantity() => Quantity;
+
+    public Resource GetResource() => Resource;
+
+    public void SetQuantity(float newValue) => Quantity = newValue;
+    
+    string IContainer.GetName() => GetName();
 }
