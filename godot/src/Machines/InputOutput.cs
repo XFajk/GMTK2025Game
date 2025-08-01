@@ -10,9 +10,9 @@ public partial class InputOutput : Node {
     /// change caused by a single execution cycle of the machine
     public int QuantityChangeInReceipe;
 
-    public IContainer Container;
+    public IContainer Container = null;
 
     public override void _Ready() {
-        Container = (IContainer)Source;
+        if (Source is IContainer c) Container = c;
     }
 }

@@ -6,6 +6,9 @@ using Godot;
 /// They do not have buffers
 public partial class Process : Node3D {
     [Export]
+    private bool _isLossless = true;
+
+    [Export]
     /// number of times per second a cycle is executed.
     /// Every cycle executes the changes defined by the inputs and outputs once
     protected float _processingPerSecond = 1;
@@ -32,7 +35,7 @@ public partial class Process : Node3D {
             }
         }
 
-        if (!Resources.IsLossless(_recipeParts)) {
+        if (_isLossless && !Resources.IsLossless(_recipeParts)) {
             throw new Exception($"Process {Name} is not lossless");
         }
     }

@@ -16,6 +16,15 @@ public partial class MachineBuffer : Node, IContainer {
     // floating-point to avoid rounding errors
     public float Quantity;
 
+    public override void _Ready() {
+        if (GetParent().Name == "Inputs") {
+            Name = Resource.ToString() + "Input";
+        } else if (GetParent().Name == "Outputs") {
+            Name = Resource.ToString() + "Output";
+        }
+    }
+
+
     public int GetMaxQuantity() => MaxQuantity;
 
     public float GetQuantity() => Quantity;
@@ -23,6 +32,6 @@ public partial class MachineBuffer : Node, IContainer {
     public Resource GetResource() => Resource;
 
     public void SetQuantity(float newValue) => Quantity = newValue;
-    
+
     string IContainer.GetName() => Name;
 }
