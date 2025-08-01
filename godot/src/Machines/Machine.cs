@@ -18,8 +18,8 @@ public partial class Machine : Connectable, IRepairable {
     /// avoid rounding errors
     private float _processProgress = 0;
 
-    public override IEnumerable<InputOutput> Inputs() => _recipeParts.Where(c => c.QuantityChangeInReceipe < 0);
-    public override IEnumerable<InputOutput> Outputs() => _recipeParts.Where(c => c.QuantityChangeInReceipe > 0);
+    public override IEnumerable<IContainer> Inputs() => _recipeParts.Where(c => c.QuantityChangeInReceipe < 0);
+    public override IEnumerable<IContainer> Outputs() => _recipeParts.Where(c => c.QuantityChangeInReceipe > 0);
 
     public bool IsWorking = true;
 

@@ -29,7 +29,7 @@ public class Resources {
     public static string ToUnit(Resource resource, int quantity) {
         return resource switch {
             Resource.CoolantHot or Resource.CoolantCold => $"{quantity * 4} L",
-            Resource.Humidity => $"{quantity} %",
+            Resource.Humidity => $"{quantity * AirPercentageFactor} %",
             Resource.Water => $"{quantity / 10} L",
             Resource.Food => $"{quantity / 5.0f} KG",
             Resource.SolidWaste => $"{quantity / 10.0f} KG",

@@ -9,33 +9,25 @@ public partial class StorageContainer : Connectable, IContainer {
     [Export]
     public int MaxQuantity;
 
-    public InputOutput Contents { get; private set; }
+    // floating-point to avoid rounding errors
+    public float Quantity;
 
-    public override IEnumerable<InputOutput> Inputs() {
-        yield return Contents;
+    public override IEnumerable<IContainer> Inputs() {
+        yield return this;
     }
 
-    public override IEnumerable<InputOutput> Outputs() {
-        yield return Contents;
-    }
-
-    public override void _Ready() {
-        base._Ready();
-        Contents = new() {
-            Resource = Resource,
-            MaxQuantity = MaxQuantity
-        };
-        AddChild(Contents);
+    public override IEnumerable<IContainer> Outputs() {
+        yield return this;
     }
 
     public int GetMaxQuantity() => MaxQuantity;
 
-    public float GetQuantity() => Contents.GetQuantity();
+    public float GetQuantity() => Quantity;
 
     public Resource GetResource() => Resource;
 
-    public void SetQuantity(float newValue) => Contents.SetQuantity(newValue);
+    public void SetQuantity(float newValue) => Quantity = newValue;
 
-    string IContainer.GetName() => GetName();
+    string IContainer.GetName() => Name;
 
 }

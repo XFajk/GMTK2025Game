@@ -22,6 +22,6 @@ public abstract partial class Connectable : Node3D {
         }
     }
 
-    public abstract IEnumerable<InputOutput> Inputs();
-    public abstract IEnumerable<InputOutput> Outputs();
+    public abstract IEnumerable<IContainer> Inputs();
+    public abstract IEnumerable<IContainer> Outputs();
 }

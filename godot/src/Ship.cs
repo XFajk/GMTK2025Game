@@ -55,14 +55,14 @@ public partial class Ship : Node {
 
         foreach (Connection connection in _connections) {
             // flow a -> b
-            foreach (InputOutput aOutput in connection.A.Outputs()) {
-                foreach (InputOutput bInput in connection.B.Inputs()) {
+            foreach (IContainer aOutput in connection.A.Outputs()) {
+                foreach (IContainer bInput in connection.B.Inputs()) {
                     TryFlow(aOutput, bInput, (float)deltaTime);
                 }
             }
             // flow b -> a
-            foreach (InputOutput bOutput in connection.B.Outputs()) {
-                foreach (InputOutput aInput in connection.A.Inputs()) {
+            foreach (IContainer bOutput in connection.B.Outputs()) {
+                foreach (IContainer aInput in connection.A.Inputs()) {
                     TryFlow(bOutput, aInput, (float)deltaTime);
                 }
             }
@@ -102,16 +102,17 @@ public partial class Ship : Node {
         return totals;
     }
 
-    private void TryFlow(InputOutput output, InputOutput input, float deltaTime) {
-        if (output.Resource == input.Resource) {
-            float TransferQuantity = ConnectionTransferRate * deltaTime;
+    private void TryFlow(IContainer output, IContainer input, float deltaTime) {
+        if (output.GetResource() == input.GetResource()) {
+            float transferQuantity = ConnectionTransferRate * deltaTime;
+            // try pull as much as possible
+            float quantityNotPulled = output.RemainderOfRemove(transferQuantity);
+            // try push all of that
+            float quantityNotPushed = input.RemainderOfAdd(transferQuantity - quantityNotPulled);
+            // put whatever we pulled but couldn't pull back
+            output.AddQuantity(quantityNotPushed);
 
-            if (output.Quantity > TransferQuantity && input.Quantity + TransferQuantity < input.MaxQuantity) {
-                output.Quantity -= TransferQuantity;
-                input.Quantity += TransferQuantity;
-
-                GD.Print($"Transferred {TransferQuantity} from {input.Name} to {output.Name}");
-            }
+            GD.Print($"Transferred {transferQuantity - quantityNotPushed} from {input.GetName()} to {output.GetName()}");
         }
     }
 
@@ -136,8 +137,8 @@ public partial class Ship : Node {
 
         // then check machine inputs
         foreach (Machine m in Machines) {
-            foreach (InputOutput buffer in m.Inputs()) {
-                leftToAdd = (buffer as IContainer).RemainderOfAdd(leftToAdd);
+            foreach (IContainer buffer in m.Inputs()) {
+                leftToAdd = buffer.RemainderOfAdd(leftToAdd);
                 if (leftToAdd == 0) return;
             }
         }

@@ -14,7 +14,8 @@ public interface IContainer {
         float newQuantity = GetQuantity() + addition;
         if (newQuantity < 0) {
             SetQuantity(0);
-            return -newQuantity;
+            // addition was negative, so the remainder must be negative as well
+            return newQuantity;
         }
 
         int max = GetMaxQuantity();
@@ -26,4 +27,6 @@ public interface IContainer {
         SetQuantity(newQuantity);
         return 0;
     }
+
+    float RemainderOfRemove(float removed) => -RemainderOfAdd(-removed);
 }

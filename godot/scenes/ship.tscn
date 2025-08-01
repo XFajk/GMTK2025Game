@@ -26,7 +26,6 @@ transform = Transform3D(0.782358, 0, 0.622829, 0, 1, 0, -0.622829, 0, 0.782358, 
 script = ExtResource("2_gudjc")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="FoodBurner"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 mesh = SubResource("BoxMesh_f23tx")
 
 [node name="Inputs" type="Node" parent="FoodBurner"]

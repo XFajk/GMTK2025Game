@@ -24,5 +24,5 @@ public partial class InputOutput : Node, IContainer {
 
     public void SetQuantity(float newValue) => Quantity = newValue;
     
-    string IContainer.GetName() => GetName();
+    string IContainer.GetName() => Name;
 }
