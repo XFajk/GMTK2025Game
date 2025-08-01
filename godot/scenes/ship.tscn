@@ -226,9 +226,15 @@ mesh = SubResource("BoxMesh_f23tx")
 
 [node name="CoolantHotInput" type="Node" parent="CoolantCooler/Inputs"]
 script = ExtResource("3_4tobq")
+Resource = 1
+MaxQuantity = 100
+QuantityChangeInReceipe = 1
 
 [node name="WaterInput" type="Node" parent="CoolantCooler/Inputs"]
 script = ExtResource("3_4tobq")
+Resource = 4
+MaxQuantity = 10
+QuantityChangeInReceipe = 8
 
 [node name="Outputs" type="Node" parent="CoolantCooler"]
 
@@ -255,14 +261,23 @@ mesh = SubResource("BoxMesh_f23tx")
 
 [node name="CoolantColdInput" type="Node" parent="Engine/Inputs"]
 script = ExtResource("3_4tobq")
+Resource = 2
+MaxQuantity = 5
+QuantityChangeInReceipe = 1
 
 [node name="Outputs" type="Node" parent="Engine"]
 
 [node name="CoolantHotOutput" type="Node" parent="Engine/Outputs"]
 script = ExtResource("3_4tobq")
+Resource = 1
+MaxQuantity = 100
+QuantityChangeInReceipe = 1
 
 [node name="HumidityOutput" type="Node" parent="Engine/Outputs"]
 script = ExtResource("3_4tobq")
+Resource = 3
+MaxQuantity = 10
+QuantityChangeInReceipe = 8
 
 [node name="ConnectionNodes" type="Node3D" parent="Engine"]
 
