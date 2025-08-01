@@ -31,6 +31,8 @@ public partial class Plants : Machine {
         _processProgress += _processingPerSecond * (float)deltaTime;
 
         while (_processProgress > 1) {
+            _processProgress -= 1;
+            
             // check if all ingredients are present and enough output space available
             foreach (MachineBuffer container in _recipeParts) {
                 if (!CanCycle(container)) {
@@ -41,7 +43,6 @@ public partial class Plants : Machine {
                 }
             }
 
-            _processProgress -= 1;
             _plantHealth += GrowthRate * (float)deltaTime;
 
             foreach (MachineBuffer container in _recipeParts) {
