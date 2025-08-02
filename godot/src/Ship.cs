@@ -124,7 +124,7 @@ public partial class Ship : Node {
             float actualTransferQuantity = maxTransferQuantity - quantityNotPushed;
             if (actualTransferQuantity < 1E-3) return;
 
-            GD.Print($"Transferred {actualTransferQuantity} units of {output.GetResource()} from {output.GetName()} to {input.GetName()}, bringing the buffer to {input.GetQuantity()}");
+            // GD.Print($"Transferred {actualTransferQuantity} units of {output.GetResource()} from {output.GetName()} to {input.GetName()}, bringing the buffer to {input.GetQuantity()}");
         }
     }
 
@@ -200,11 +200,13 @@ public partial class Ship : Node {
         return false;
     }
 
-    public void AddConnection(Connectable a, Connectable b) {
+    public Connection AddConnection(Connectable a, Connectable b) {
         GD.Print($"Connected {a.Name} and {b.Name}");
         Connection connection = new(a, b);
         _connections.Add(connection);
-        // TODO add connection node to _connectionsNode
+        
+        return connection;
+        // TODO add connection visuals to _connectionsNode
     }
 
     // previously HireForTask

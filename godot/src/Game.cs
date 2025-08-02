@@ -51,9 +51,13 @@ public partial class Game : Node {
     }
 
     private void OnConnectionClick(Connectable machine, ConnectionNode node) {
-        if (_selectedMachine == null || _selectedMachine == machine) {
+        if (_selectedMachine == null) {
             _selectedMachine = machine;
             _selectedNode = node;
+        } else if (_selectedMachine == machine) {
+            _selectedNode.DisconnectNode();
+            _selectedMachine = null;
+            _selectedNode = null;
         } else if (Connectable.CanConnect(_selectedMachine, machine)) {
             _shipNode.AddConnection(_selectedMachine, machine);
             ConnectionNode.ConnectNodes(_selectedNode, node);

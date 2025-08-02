@@ -17,7 +17,7 @@ public partial class ConnectionNode : Area3D {
     public ConnectionNode ConnectedTo = null;
     public bool _isHovered = false;
 
-    private Tween _activeTween;
+    private Tween _activeTween = null;
 
     public override void _Ready() {
         _meshNode = GetNode<MeshInstance3D>("MeshInstance3D");
@@ -45,17 +45,17 @@ public partial class ConnectionNode : Area3D {
 
     private void UpdateMaterial() {
         if (_isHovered) {
-            if (_activeTween != null) {
+            if (_activeTween == null) {
                 _material.AlbedoColor = _highlightColor;
             }
         } else if (ConnectedTo != null) {
             _activeTween?.Kill();
+            _activeTween = null;
             _material.AlbedoColor = _connectedColor;
         } else {
-            if (_activeTween != null) {
+            if (_activeTween == null) {
                 _material.AlbedoColor = _defaultColor;
             }
-
         }
     }
 
@@ -65,8 +65,13 @@ public partial class ConnectionNode : Area3D {
         b.ConnectToNode(a);
     }
 
+    public void DisconnectNode() {
+        ConnectedTo?.DisconnectThisNode();
+        DisconnectThisNode();
+    }
+
     private void ConnectToNode(ConnectionNode other) {
-        ConnectedTo?.DisconnectNode();
+        ConnectedTo?.DisconnectThisNode();
 
         ConnectedTo = other;
         UpdateMaterial();
@@ -80,15 +85,18 @@ public partial class ConnectionNode : Area3D {
         processMaterial.InitialVelocityMax = thisToOther.Length();
     }
 
-    private void DisconnectNode() {
+    private void DisconnectThisNode() {
         ConnectedTo = null;
         _particlesNode.Emitting = false;
         UpdateMaterial();
     }
 
     public void DeclineConnection() {
+        Color oldColor = _material.AlbedoColor;
         _material.AlbedoColor = _declineColor;
         _activeTween = GetTree().CreateTween();
-        _activeTween.TweenProperty(_material, "albedo_color", _defaultColor, 1);
+        _activeTween.TweenProperty(_material, "albedo_color", oldColor, 1);
+        _activeTween.TweenCallback(Callable.From(() => _activeTween = null));
+        _activeTween.TweenCallback(Callable.From(UpdateMaterial));
     }
 }
