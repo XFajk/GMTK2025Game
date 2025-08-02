@@ -29,12 +29,12 @@ public class Resources {
         GD.Load<Texture2D>("res://assets/sprites/humidity.png"),
         GD.Load<Texture2D>("res://assets/sprites/water.png"),
         GD.Load<Texture2D>("res://assets/sprites/food.png"),
-        GD.Load<Texture2D>("res://assets/icons/fluid_waste.png"),
-        GD.Load<Texture2D>("res://assets/icons/solid_waste.png"),
-        GD.Load<Texture2D>("res://assets/icons/oxygen.png"),
-        GD.Load<Texture2D>("res://assets/icons/carbon_dioxide.png"),
-        GD.Load<Texture2D>("res://assets/icons/disposables.png"),
-        GD.Load<Texture2D>("res://assets/icons/garbage.png"),
+        GD.Load<Texture2D>("res://assets/sprites/fluid_waste.png"),
+        GD.Load<Texture2D>("res://assets/sprites/solid_waste.png"),
+        GD.Load<Texture2D>("res://assets/sprites/oxygen.png"),
+        GD.Load<Texture2D>("res://assets/sprites/carbon_dioxide.png"),
+        GD.Load<Texture2D>("res://assets/sprites/disposables.png"),
+        GD.Load<Texture2D>("res://assets/sprites/garbage.png"),
     };
 
     public const float AirPercentageFactor = 0.1f;

@@ -1,10 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://d2r2gbla2y78c"]
 
 [ext_resource type="Script" uid="uid://bi3g7ky6yx8tv" path="res://src/entities/Person.cs" id="1_rlyp3"]
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_cb15b"]
-radius = 0.1
-height = 0.4
+[ext_resource type="Texture2D" uid="uid://dtu52yknvyoie" path="res://assets/sprites/test_alien.png" id="2_cof2u"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_rlyp3"]
 height = 0.398224
@@ -15,12 +12,15 @@ radius = 0.1
 height = 0.4
 
 [node name="Person" type="PathFollow3D"]
+rotation_mode = 0
+loop = false
 script = ExtResource("1_rlyp3")
 Speed = 0.03
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.200046, 0)
-mesh = SubResource("CapsuleMesh_cb15b")
+[node name="AlienSprite" type="Sprite3D" parent="."]
+transform = Transform3D(0.115, 0, 0, 0, 0.115, 0, 0, 0, 0.115, 0, 0.304847, 0)
+shaded = true
+texture = ExtResource("2_cof2u")
 
 [node name="DoorDetector" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.21857, 0)

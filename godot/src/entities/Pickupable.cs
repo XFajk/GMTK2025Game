@@ -14,7 +14,7 @@ public partial class Pickupable : Area3D {
     public bool IsPickedUp = false;
 
     private Camera3D _camera;
-    private Vector3 _originalPosition = Vector3.Zero;
+    public Vector3 OriginalPosition = Vector3.Zero;
     private float _zDelta = 0.0f;
     private RayCast3D _machineDetectionRay = null;
 
@@ -25,23 +25,21 @@ public partial class Pickupable : Area3D {
         SetCollisionLayerValue(4, true);
         SetCollisionMaskValue(4, true);
 
-        _originalPosition = GlobalPosition;
+        OriginalPosition = GlobalPosition;
         _camera = GetViewport().GetCamera3D();
 
         if (Resource == Resource.Unset) {
             GD.PrintErr("Pickupable resource is not set for " + Name);
         }
-
-        Connect(SignalName.InputEvent, new Callable(this, nameof(InteractedWith)));
     }
 
     public override void _Process(double delta) {
         if (IsPickedUp) {
             Vector2 mousePosition = GetViewport().GetMousePosition();
             GlobalPosition = _camera.ProjectPosition(mousePosition, _zDelta - 2.0f);
+
             if (_machineDetectionRay == null) {
                 _machineDetectionRay = new() {
-                    GlobalPosition = _camera.GlobalPosition,
                     CollideWithAreas = true,
                 };
 
@@ -51,7 +49,8 @@ public partial class Pickupable : Area3D {
                 AddChild(_machineDetectionRay);
             }
             _machineDetectionRay.GlobalPosition = _camera.GlobalPosition;
-            _machineDetectionRay.TargetPosition = _camera.ProjectPosition(mousePosition, 100.0f);
+            _machineDetectionRay.GlobalRotation = _camera.GlobalRotation;
+            _machineDetectionRay.TargetPosition = _camera.ToLocal(_camera.ProjectPosition(mousePosition, 100.0f));
 
             GodotObject collisionObject = _machineDetectionRay.GetCollider();
             if (collisionObject is Area3D area) {
@@ -66,36 +65,35 @@ public partial class Pickupable : Area3D {
                 }
             }
         } else {
-            GlobalPosition = _originalPosition;
+            GlobalPosition = OriginalPosition;
         }
     }
 
-    private void InteractedWith(Camera3D _c, InputEvent @event, Vector3 _p, Vector3 _n, long _i) {
-        if (@event.IsActionPressed("interact")) {
-            if (IsPickedUp) {
-                IsPickedUp = false;
-                if (_machineDetectionRay != null) {
-                    _machineDetectionRay.QueueFree();
-                    _machineDetectionRay = null;
-                }
-                return;
+    public void InteractedWith() {
+
+        if (IsPickedUp) {
+            IsPickedUp = false;
+            if (_machineDetectionRay != null) {
+                _machineDetectionRay.QueueFree();
+                _machineDetectionRay = null;
             }
-
-            IsPickedUp = true;
-
-            _machineDetectionRay = new() {
-                GlobalPosition = _camera.GlobalPosition,
-                CollideWithAreas = true,
-            };
-
-            _machineDetectionRay.SetCollisionMaskValue(1, false);
-            _machineDetectionRay.SetCollisionMaskValue(5, true);
-
-            AddChild(_machineDetectionRay);
-
-            _zDelta = Mathf.Abs(_camera.GlobalPosition.Z - GlobalPosition.Z);
-            _originalPosition = GlobalPosition;
+            return;
         }
+
+        IsPickedUp = true;
+
+        _machineDetectionRay = new() {
+            CollideWithAreas = true,
+        };
+
+        _machineDetectionRay.SetCollisionMaskValue(1, false);
+        _machineDetectionRay.SetCollisionMaskValue(5, true);
+
+        AddChild(_machineDetectionRay);
+
+        _zDelta = Mathf.Abs(_camera.GlobalPosition.Z - GlobalPosition.Z);
+        OriginalPosition = GlobalPosition;
+
     }
 
     private Connectable ExtractConnectable(Area3D area) {
@@ -113,7 +111,7 @@ public partial class Pickupable : Area3D {
         return parent;
     }
 
-    private void AssingSelfToMachine(Machine machine) { 
+    private void AssingSelfToMachine(Machine machine) {
         foreach (MachineBuffer buffer in machine.Inputs()) {
             if (buffer.Resource == Resource) {
                 buffer.Quantity += Quantity;
@@ -124,7 +122,7 @@ public partial class Pickupable : Area3D {
         }
     }
 
-    private void AssingSelfToContainer(StorageContainer container) { 
+    private void AssingSelfToContainer(StorageContainer container) {
         if (container.Resource == Resource) {
             container.Quantity += Quantity;
             IsPickedUp = false;
