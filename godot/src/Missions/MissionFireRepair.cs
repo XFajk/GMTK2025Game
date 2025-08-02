@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Godot;
 
 public partial class MissionFireRepair : Node, IMission {
-    public Resource Resource = Resource.Disposables;
     public int Quantity;
     public Vector3 Location;
     public int SecondsToRepair;
@@ -19,12 +18,12 @@ public partial class MissionFireRepair : Node, IMission {
             Title = "Mission: Reparations",
             Briefing = [
                 $"We will need to repair the fire damage. "
-                + $"Prepare materials by collecting {Quantity} {Resource}"
+                + $"Prepare materials by collecting {Quantity} {Resource.Disposables}"
             ],
             Debrief = [
                 "The fire dmange has been repaired."
             ],
-            ResourceMinimumRequirements = [KeyValuePair.Create(Resource, Quantity)],
+            ResourceMinimumRequirements = [KeyValuePair.Create(Resource.Disposables, Quantity)],
         };
     }
 

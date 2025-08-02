@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public partial class MissionAstroidMining : Node, IMission {
+public partial class MissionIceAstroid : Node, IMission {
     // measured in 0.1% per second
     private const float CarbonDumpPerSecond = 10f;
 
@@ -28,6 +28,7 @@ public partial class MissionAstroidMining : Node, IMission {
 
     public IMission.Properties Properties;
     private Ship _ship;
+    private List<Engine> _engines = new();
 
     void IMission.MissionReady(Ship ship) {
         _ship = ship;
@@ -41,17 +42,27 @@ public partial class MissionAstroidMining : Node, IMission {
         _preparationStartTime = Time.GetTicksUsec();
 
         Properties = new() {
-            Title = "Mission: Get more water",
+            Title = "Mission: Astroid mining",
             Briefing = [
-                "Ok so we notice we are running low on water, but don't worry. "
-                + "We found an ice astroid, so we will be mining water today. "
-                + "You get us the Disposables, and we will get you all the water you need. "
+                "Before its... interruption, the scan picked up a nearby astroid. We will be scanning the astroid for its material composition."
+                + $"For this mission we will need {Resources.ToUnit(Resource.Disposables, RequiredDisposables)} materials from the carbon scrubber, "
+                + $"and during the operation we will channel an additional {Resources.ToUnit(Resource.Oxygen, Mathf.CeilToInt(OxygenDrainPerSecond * 60))} oxygen per minute to the crew outside the ship."
+                + $"The operation begins in {PreparationTime} seconds, make sure the supplies are available then",
+                "Naturally, the engine will be turned off for the duration",
+                "End of Brief"
             ],
             ResourceMinimumRequirements = [KeyValuePair.Create(Resource.Disposables, RequiredDisposables)],
             Debrief = [
-                "Mission completed, enjoy the new stuff!"
+                "Mission completed! "
+                + $"We will be emptying our cylinders of carbon dioxide for the next {(int) CarbonDioxideReturnQuantity / CarbonDumpPerSecond} seconds or so."
             ]
         };
+
+        foreach (Machine m in ship.Machines) {
+            if (m is Engine e) {
+                _engines.Add(e);
+            }
+        }
     }
     
     public IMission.Properties GetMissionProperties() => Properties;
@@ -74,6 +85,10 @@ public partial class MissionAstroidMining : Node, IMission {
             MaxResourcesToAdd = OxygenDrainTotal,
             Target = ship.GetFloatingResource(Resource.Oxygen)
         });
+
+        foreach (Engine e in _engines) {
+            e.EnginePower = 0;
+        }
     }
 
     public bool IsPreparationFinished() {
@@ -94,7 +109,8 @@ public partial class MissionAstroidMining : Node, IMission {
             Target = ship.GetFloatingResource(Resource.CarbonDioxide)
         });
 
-        // fill up everything with water
-        ship.AddResource(Resource.Water, float.MaxValue);
+        foreach (Engine e in _engines) {
+            e.EnginePower = Engine.DefaultEnginePower;
+        }
     }
 }

@@ -3,10 +3,9 @@ using System;
 using System.Collections.Generic;
 
 public abstract partial class TimedMission : Node, IMission {
-    [Export(PropertyHint.Range, "0,60")]
+    [Export]
     public int PreparationTime = 10;
-
-    [Export(PropertyHint.Range, "0,60")]
+    [Export]
     public int Duration;
     
     protected ulong _preparationStartTime;

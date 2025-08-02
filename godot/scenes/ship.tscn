@@ -644,7 +644,7 @@ shape = SubResource("BoxShape3D_bseor")
 [node name="Plants" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 4, 0)
 script = ExtResource("9_itrim")
-_processingPerSecond = 0.25
+_processingPerSecond = 2.0
 
 [node name="Inputs" type="Node" parent="Plants"]
 

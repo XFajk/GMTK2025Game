@@ -12,6 +12,7 @@ public class CrewTask {
     public enum Type {
         Repair,
         JustStandThere, // menancingly
+        Panic,
         SuitUp,
         SuitDown,
         Working,

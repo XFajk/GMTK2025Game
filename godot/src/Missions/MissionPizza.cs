@@ -15,10 +15,8 @@ public partial class MissionPizza : Node, IMission {
 
     void IMission.MissionReady(Ship ship) {
         _ship = ship;
-        var allResources = _ship.GetTotalResourceQuantities();
-        int foodQuantitiy = Mathf.RoundToInt(allResources[Resource.Food]);
         Properties = new() {
-            Title = $"Mission: {ActualFoodName}!",
+            Title = $"Mission: {ActualFoodName} time!",
             Briefing = [
                 $"Hey Ship, new captain here. "
                 + $"Starting today, we will no longer eat that dry, tasteless junk anymore. "
