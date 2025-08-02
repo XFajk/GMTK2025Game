@@ -10,9 +10,9 @@ public partial class MissionDialog : AcceptDialog {
         _missionTitle = GetNode<Label>("UI/MissionTitle");
     }
 
-    public void ShowMission(string windowTitle, string title, string description) {
-        Title = title;
-        _description.Text = description;
+    public void ShowMission(string windowTitle, string title, string[] description) {
+        Title = windowTitle;
+        _description.Text = string.Join(System.Environment.NewLine, description);
         _missionTitle.Text = title;
         Popup();
     }

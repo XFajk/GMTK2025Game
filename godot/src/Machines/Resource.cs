@@ -108,11 +108,10 @@ public class Resources {
         throw new Exception(reportingName + " has loss: " + string.Join(", ", losses));
     }
 
-    // returns how many of r2 you can make from r1
-    // if no parts are shared, this function returns float.MaxValue
-    // if multiple parts are shared, this function returns the lowest ratio
-
-    public static float GetRatio(Resource r1, Resource r2) {
+    /// returns how many of r2 you can make from r1
+    /// if no parts are shared, this function returns float.MaxValue
+    /// if multiple parts are shared, this function returns the lowest ratio
+    public static KeyValuePair<int, int> GetRatio(Resource r1, Resource r2) {
         var parts1 = GetParts(r1);
         var parts2 = GetParts(r2);
         HashSet<ResourcePart> sharedParts = new();
@@ -123,16 +122,22 @@ public class Resources {
                 if (p1 == p2) sharedParts.Add(p1);
             }
         }
-
-        float lowestRatio = float.MaxValue;
+        
+        int countsOf1 = 0;
+        int countsOf2 = 0;
         foreach (ResourcePart pShared in sharedParts) {
-            int countOf1 = parts1.Where(p1 => p1 == pShared).Count();
-            int countOf2 = parts2.Where(p2 => p2 == pShared).Count();
-            float ratio = (float)countOf2 / countOf1;
-            if (ratio < lowestRatio) lowestRatio = ratio;
+            countsOf1 += parts1.Where(p1 => p1 == pShared).Count();
+            countsOf2 += parts2.Where(p2 => p2 == pShared).Count();
         }
 
-        return lowestRatio;
+        int divisor = GCD(countsOf1, countsOf2);
+
+        return KeyValuePair.Create(countsOf1 / divisor, countsOf2 / divisor);
+    }
+    
+    static int GCD(int a, int b)
+    {
+        return b == 0 ? a : GCD(b, a % b);
     }
 
     // gests

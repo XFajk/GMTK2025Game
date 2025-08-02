@@ -9,7 +9,8 @@ font_size = 22
 [node name="MissionDialog" type="AcceptDialog"]
 process_mode = 3
 auto_translate_mode = 1
-title = "ALERT!"
+mode = 4
+title = "ERR_NO_MISSION"
 initial_position = 2
 size = Vector2i(661, 436)
 visible = true

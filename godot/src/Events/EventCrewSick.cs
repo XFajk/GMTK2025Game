@@ -1,0 +1,49 @@
+using Godot;
+using System;
+using System.Collections.Generic;
+
+public partial class EventCrewSick : Node, IEvent {
+    [Export(PropertyHint.Range, "0, 600, 1")]
+    public int RecoveryTimeSeconds = 60;
+
+    [Export]
+    public Person Target;
+
+    [Export]
+    public Node3D CrewQuarters;
+
+    [Export(PropertyHint.Range, "0, 10, 0.1")]
+    public float DisposablesUsedPerSecond;
+
+    IEvent.Properties IEvent.GetProperties() => new() {
+        Description = $"One of our crew has fallen ill. We will be using some additional disposables for hygiene",
+        IconPosition = Target.Position
+    };
+
+    public void ApplyEffect(Ship ship) {
+        ship.ScheduleCrewTask(new CrewTask() {
+            Location = CrewQuarters.Position,
+            Duration = RecoveryTimeSeconds,
+        });
+
+        // set an effect to make it simpler
+        var ratio = Resources.GetRatio(Resource.Disposables, Resource.Garbage);
+        
+        EventEffectResourceConvert _conversionEffect = new() {
+            ConversionPerSecond = DisposablesUsedPerSecond,
+            Conversion = [
+                new InputOutput() {
+                    QuantityChangeInReceipe = -ratio.Key,
+                    Container = ship.GetContainer(Resource.Disposables, Ship.Select.OnlyOutputs),
+                },
+                new InputOutput() {
+                    QuantityChangeInReceipe = ratio.Value,
+                    Container = ship.GetContainer(Resource.Garbage, Ship.Select.OnlyInputs),
+                },
+            ],
+            MaxCycles = (DisposablesUsedPerSecond * ratio.Key)
+        };
+
+        ship.ActiveEffects.Add(_conversionEffect);
+    }
+}

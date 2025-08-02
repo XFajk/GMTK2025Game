@@ -5,5 +5,6 @@ public class CrewTask {
     public Vector3 Location;
 
     public float Duration;
-    public Action<Person> OnTaskComplete;
+    
+    public Action<Person> OnTaskComplete = p => { };
 }

@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public partial class MissionAstroidMining : Node3D, IMission {
+public partial class MissionAstroidMining : Node, IMission {
     // measured in 0.1% per second
     private const float CarbonDumpPerSecond = 10f;
 
@@ -14,52 +14,87 @@ public partial class MissionAstroidMining : Node3D, IMission {
 
     [Export]
     public int RequiredDisposables;
+    [Export(PropertyHint.Range, "0,6")]
+    public int CrewCount;
+    [Export]
+    public Node3D AirLock;
 
     public float OxygenDrainPerSecond;
     public float OxygenDrainTotal;
     public float CarbonDioxideReturnQuantity;
 
-    void IMission.Ready() {
-        float carbonToOxygen = Resources.GetRatio(Resource.CarbonDioxide, Resource.Oxygen);
-        float disposablesToCarbon = Resources.GetRatio(Resource.Disposables, Resource.CarbonDioxide);
+    private ulong _preparationStartTime;
+    private ulong _startTime;
 
-        CarbonDioxideReturnQuantity = RequiredDisposables * disposablesToCarbon;
-        OxygenDrainTotal = (CarbonDioxideReturnQuantity * carbonToOxygen);
+    public IMission.Properties Properties;
+    private Ship _ship;
+
+    void IMission.Ready(Ship ship) {
+        _ship = ship;
+        var carbonToOxygen = Resources.GetRatio(Resource.CarbonDioxide, Resource.Oxygen);
+        var disposablesToCarbon = Resources.GetRatio(Resource.Disposables, Resource.CarbonDioxide);
+
+        CarbonDioxideReturnQuantity = RequiredDisposables * disposablesToCarbon.Key / disposablesToCarbon.Value;
+        OxygenDrainTotal = (CarbonDioxideReturnQuantity * carbonToOxygen.Key / carbonToOxygen.Value);
         OxygenDrainPerSecond = OxygenDrainTotal / Duration;
+
+        _preparationStartTime = Time.GetTicksUsec();
+
+        Properties = new() {
+            Title = "Mission: Astroid mining",
+            Briefing = [
+                "Today we will be running an astroid mining operation. "
+                + $"For this mission we will need {Resources.ToUnit(Resource.Disposables, RequiredDisposables)} plastic materials, "
+                + $"and the operation will consume up to {Resources.ToUnit(Resource.Oxygen, Mathf.CeilToInt(OxygenDrainPerSecond * 60))} oxygen per minute"
+                + $"The operation begins in {PreparationTime} seconds, make sure the supplies are available then",
+                "End of Brief"
+            ],
+            ResourceMinimumRequirements = [KeyValuePair.Create(Resource.Disposables, RequiredDisposables)],
+            Debrief = [
+                "Mission completed! "
+                + $"We will be emptying our cylinders of carbon dioxide for the next {(int) CarbonDioxideReturnQuantity / CarbonDumpPerSecond} seconds or so."
+            ]
+        };
     }
+    
+    public IMission.Properties GetMissionProperties() => Properties;
 
-    public string[] Briefing() => [
-        "Today we will be running an astroid minig operation. "
-        + $"For this mission we will need {Resources.ToUnit(Resource.Disposables, RequiredDisposables)} plastic materials, "
-        + $"and the operation will consume up to {Resources.ToUnit(Resource.Oxygen, Mathf.CeilToInt(OxygenDrainPerSecond * 60))} oxygen per minute"
-        + $"The operation begins in {PreparationTime} seconds",
-        "End of Brief"
-    ];
+    public void OnStart(Ship ship) {
+        _startTime = Time.GetTicksUsec();
+        foreach (var pair in Properties.ResourceMinimumRequirements) {
+            ship.RemoveResource(pair.Key, pair.Value);
+        }
 
-    IList<KeyValuePair<Resource, int>> IMission.GetMaterialRequirements() => [KeyValuePair.Create(Resource.Disposables, RequiredDisposables)];
-
-    public float GetPreparationTime() => PreparationTime;
-
-    public void ApplyEffect(Ship ship) {
-        ship.ActiveEffects.Add(new EventEffectResource() {
+        for (int i = 0; i < CrewCount; i++) {
+            ship.ScheduleCrewTask(new CrewTask() {
+                Duration = Duration,
+                Location = AirLock.Position
+            });
+        }
+    
+        ship.ActiveEffects.Add(new EventEffectResourceAdd() {
             AdditionPerSecond = -OxygenDrainPerSecond,
             MaxResourcesToAdd = OxygenDrainTotal,
             Target = ship.GetFloatingResource(Resource.Oxygen)
         });
     }
 
-    public float GetDuration() => Duration;
+    public bool IsPreparationFinished() {
+        double timePassed = (double)(Time.GetTicksUsec() - _preparationStartTime) / 1E6;
+        // delay finished until we have the materials
+        return _preparationStartTime != 0 && timePassed > PreparationTime && (this as IMission).CheckMaterialRequirements(_ship);
+    }
+
+    public bool IsMissionFinised() {
+        double timePassed = (double)(Time.GetTicksUsec() - _startTime) / 1E6;
+        return _startTime != 0 && timePassed > Duration;
+    }
 
     public void OnCompletion(Ship ship) {
-        ship.ActiveEffects.Add(new EventEffectResource() {
+        ship.ActiveEffects.Add(new EventEffectResourceAdd() {
             AdditionPerSecond = CarbonDumpPerSecond,
             MaxResourcesToAdd = CarbonDioxideReturnQuantity,
             Target = ship.GetFloatingResource(Resource.CarbonDioxide)
         });
     }
-
-    public string[] Debrief() => [
-        "Mission success! "
-        + $"We will be emptying our cylinders of carbon dioxide for the next {(int) CarbonDioxideReturnQuantity / CarbonDumpPerSecond} seconds or so."
-    ];
 }

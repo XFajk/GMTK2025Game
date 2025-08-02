@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 
 public partial class Ship : Node {
@@ -21,9 +22,11 @@ public partial class Ship : Node {
     private List<Connection> _connections = new();
     private Node _connectionsNode;
 
-    public List<Floor> Floors; 
+    public List<Floor> Floors;
     public List<Person> Crew;
     private RandomNumberGenerator _rng = new();
+
+    private List<IMission> _queuedMissions = new();
 
     public override void _Ready() {
         _rng.Randomize();
@@ -79,28 +82,40 @@ public partial class Ship : Node {
         }
     }
 
-    public IEnumerable<IContainer> AllContainers() {
-        foreach (Machine m in Machines) {
-            foreach (IContainer buffer in m.Inputs()) {
-                yield return buffer;
-            }
-            foreach (IContainer buffer in m.Outputs()) {
-                yield return buffer;
-            }
-        }
+    public enum Select {
+        NoMachines,
+        All,
+        OnlyInputs,
+        OnlyOutputs
+    }
 
+    public IEnumerable<IContainer> AllContainers(Select selection) {
+        foreach (FloatingResource r in _floatingResourceManager.Resources()) {
+            yield return r;
+        }
         foreach (StorageContainer c in Containers) {
             yield return c;
         }
+        if (selection != Select.NoMachines) {
+            foreach (Machine m in Machines) {
+                if (selection != Select.OnlyOutputs) {
+                    foreach (IContainer buffer in m.Inputs()) {
+                        yield return buffer;
+                    }
+                }
 
-        foreach (FloatingResource r in _floatingResourceManager.Resources()) {
-            yield return r;
+                if (selection != Select.OnlyInputs) {
+                    foreach (IContainer buffer in m.Outputs()) {
+                        yield return buffer;
+                    }
+                }
+            }
         }
     }
 
     public Dictionary<Resource, float> GetTotalResourceQuantities() {
         Dictionary<Resource, float> totals = new();
-        foreach (IContainer buffer in AllContainers()) {
+        foreach (IContainer buffer in AllContainers(Select.All)) {
             float current = totals.GetValueOrDefault(buffer.GetResource(), 0);
             totals[buffer.GetResource()] = current + buffer.GetQuantity();
         }
@@ -122,57 +137,46 @@ public partial class Ship : Node {
             float actualTransferQuantity = maxTransferQuantity - quantityNotPushed;
             if (actualTransferQuantity < 1E-3) return;
 
-            GD.Print($"Transferred {actualTransferQuantity} units of {output.GetResource()} from {output.GetName()} to {input.GetName()}, bringing the buffer to {input.GetQuantity()}");
+            // GD.Print($"Transferred {actualTransferQuantity} units of {output.GetResource()} from {output.GetName()} to {input.GetName()}, bringing the buffer to {input.GetQuantity()}");
         }
     }
 
-    public void AddResource(Resource resource, int quantity) {
+    public float AddResource(Resource resource, float quantity) {
         float leftToAdd = quantity;
 
-        // first check floating resources
-        foreach (FloatingResource res in _floatingResourceManager.Resources()) {
-            if (res.Resource == resource) {
-                leftToAdd = (res as IContainer).RemainderOfAdd(leftToAdd);
-                if (leftToAdd == 0) return;
+        Select selection = (quantity > 0) ? Select.OnlyInputs : Select.OnlyOutputs;
+        foreach (IContainer c in AllContainers(selection)) {
+            if (c.GetResource() == resource) {
+                leftToAdd = c.RemainderOfAdd(leftToAdd);
+                if (leftToAdd == 0) return 0;
             }
         }
 
-        // then check storages
-        foreach (StorageContainer container in Containers) {
-            if (container.Resource == resource) {
-                leftToAdd = (container as IContainer).RemainderOfAdd(leftToAdd);
-                if (leftToAdd == 0) return;
-            }
-        }
-
-        // then check machine inputs or outputs
-        if (quantity > 0) {
-            foreach (Machine m in Machines) {
-                foreach (IContainer buffer in m.Inputs()) {
-                    leftToAdd = buffer.RemainderOfAdd(leftToAdd);
-                    if (leftToAdd == 0) return;
-                }
-            }
-        } else {
-            // quantity < 0; only check outputs
-            foreach (Machine m in Machines) {
-                foreach (IContainer buffer in m.Outputs()) {
-                    leftToAdd = buffer.RemainderOfAdd(leftToAdd);
-                    if (leftToAdd == 0) return;
-                }
-            }
-        }
-
-        // otherwise it is lost
+        return leftToAdd;
     }
 
-    public void RemoveResource(Resource resource, int quantity) => AddResource(resource, -quantity);
+    public float RemoveResource(Resource resource, float quantity) => AddResource(resource, -quantity);
 
-    public void AddConnection(Connectable a, Connectable b) {
+    public bool HasResource(Resource resource, int quantity) {
+        float leftToGet = quantity;
+
+        foreach (IContainer c in AllContainers(Select.OnlyOutputs)) {
+            if (c.GetResource() == resource) {
+                leftToGet -= c.GetQuantity();
+                if (leftToGet <= 0) return true;
+            }
+        }
+
+        return false;
+    }
+
+    public Connection AddConnection(Connectable a, Connectable b) {
         GD.Print($"Connected {a.Name} and {b.Name}");
         Connection connection = new(a, b);
         _connections.Add(connection);
-        // TODO add connection node to _connectionsNode
+
+        return connection;
+        // TODO add connection visuals to _connectionsNode
     }
 
     // previously HireForTask
@@ -184,4 +188,25 @@ public partial class Ship : Node {
             }
         }
     }
+
+    public void ScheduleMission(IMission mission) {
+        _queuedMissions.Add(mission);
+    }
+
+    public IMission TryTakeMission() {
+        IMission mission = _queuedMissions.FirstOrDefault();
+        _queuedMissions.RemoveAt(0);
+        return mission;
+    }
+
+    public IContainer GetContainer(Resource resource, Select selection = Select.NoMachines) {
+        foreach (IContainer c in AllContainers(selection)) {
+            if (c.GetResource() == resource) {
+                return c;
+            }
+        }
+        
+        throw new ArgumentOutOfRangeException(nameof(resource), resource, $"No {resource} container found for selection {selection}");
+    }
+
 }

@@ -95,4 +95,3 @@ public partial class StatusBar : ProgressBar {
         _storageContainer = container;
     }
 }
-

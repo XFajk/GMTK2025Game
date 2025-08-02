@@ -139,6 +139,10 @@ Resource = 11
 text = "Garbage : "
 
 [node name="MissionDialog" parent="." instance=ExtResource("6_v1bdg")]
+process_mode = 0
+initial_position = 0
+position = Vector2i(802, 471)
+size = Vector2i(300, 150)
 visible = false
 
 [editable path="ResourceExpandButton/Resources/HotCoolant"]

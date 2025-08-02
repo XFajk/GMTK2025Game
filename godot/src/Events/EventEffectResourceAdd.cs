@@ -1,12 +1,16 @@
-public class EventEffectResource : IEventEffect {
+using Godot;
+
+public class EventEffectResourceAdd : IEventEffect {
     // the target container that receives resources
     public IContainer Target;
 
     // to drain a resource, set this to negative
     public float AdditionPerSecond;
 
+    // when draining a resource, set this to negative
     public float MaxResourcesToAdd = float.MaxValue;
 
+    // when draining a resource, this is negative
     public float TotalResourcesAdded;
 
     public void Process(double deltaTime) {
@@ -18,9 +22,9 @@ public class EventEffectResource : IEventEffect {
             addition = MaxResourcesToAdd - TotalResourcesAdded;
         }
 
-        Target.AddQuantity(addition);
-        TotalResourcesAdded += addition;
+        float notAdded = Target.RemainderOfAdd(addition);
+        TotalResourcesAdded += (addition - notAdded);
     }
 
-    public bool Finished => TotalResourcesAdded >= MaxResourcesToAdd;
+    public bool Finished => Mathf.Abs(TotalResourcesAdded) >= Mathf.Abs(MaxResourcesToAdd);
 }
