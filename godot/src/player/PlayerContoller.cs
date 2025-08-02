@@ -14,19 +14,34 @@ public partial class PlayerContoller : Camera3D {
 
     private Vector2 _previousePosition = Vector2.Zero;
     private Vector2 _previouseMousePosition = Vector2.Zero;
-
+    private RayCast3D _pickupRay = new() {
+        CollideWithAreas = true,
+    };
 
     public override void _Ready() {
         _previousePosition = new Vector2(Position.X, Position.Y);
         _previouseMousePosition = GetViewport().GetMousePosition();
+        _pickupRay.SetCollisionMaskValue(1, false);
+        _pickupRay.SetCollisionMaskValue(4, true);
+        AddChild(_pickupRay);
     }
     public override void _Process(double delta) {
+        if (Input.IsActionJustPressed("interact")) {
+            _pickupRay.TargetPosition = ToLocal(ProjectPosition(GetViewport().GetMousePosition(), 100.0f));
+            _pickupRay.ForceRaycastUpdate();
+
+            GodotObject collider = _pickupRay.GetCollider();
+            if (collider is Pickupable pickupable) {
+                pickupable.InteractedWith();
+            }
+        }
+
         if (Input.IsActionPressed("drag")) {
             Vector2 mousePositionDifference = _previouseMousePosition - GetViewport().GetMousePosition();
             Vector2 positionOffset = _previousePosition + mousePositionDifference;
             Position = new Vector3(
-                _previousePosition.X + positionOffset.X * DragScalar * (Fov * 0.01f), 
-                _previousePosition.Y - positionOffset.Y * DragScalar * (Fov * 0.01f), 
+                _previousePosition.X + positionOffset.X * DragScalar * (Fov * 0.01f),
+                _previousePosition.Y - positionOffset.Y * DragScalar * (Fov * 0.01f),
                 Position.Z
             );
         } else {
@@ -49,10 +64,10 @@ public partial class PlayerContoller : Camera3D {
         }
 
         if (Input.IsActionJustPressed("mouse_zoom_in")) {
-            Fov -= ZoomSpeed / 60.0f; 
+            Fov -= ZoomSpeed / 60.0f;
         }
         if (Input.IsActionJustPressed("mouse_zoom_out")) {
-            Fov += ZoomSpeed / 60.0f; 
+            Fov += ZoomSpeed / 60.0f;
         }
 
         Fov = float.Clamp(Fov, 20.0f, 100.0f);

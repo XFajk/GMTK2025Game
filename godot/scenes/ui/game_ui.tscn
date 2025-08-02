@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://kv1h8f6jesp"]
+[gd_scene load_steps=18 format=3 uid="uid://kv1h8f6jesp"]
 
 [ext_resource type="PackedScene" uid="uid://bqyjx3w8kmd7v" path="res://scenes/ui/resource_lable.tscn" id="1_gwk6t"]
 [ext_resource type="Script" uid="uid://duklq3ywprpea" path="res://src/ui/GameUi.cs" id="1_v1bdg"]
@@ -6,6 +6,17 @@
 [ext_resource type="Theme" uid="uid://slxggstqjbqr" path="res://misc/core_ui_theame.tres" id="2_xjfbv"]
 [ext_resource type="Texture2D" uid="uid://c44niq23o40tu" path="res://assets/misc/short_arrow_icon.svg" id="4_v1bdg"]
 [ext_resource type="PackedScene" uid="uid://2d2hbkqmfrx" path="res://scenes/ui/mission_dialog.tscn" id="6_v1bdg"]
+[ext_resource type="Texture2D" uid="uid://cdwxn7luor35t" path="res://assets/sprites/coolant_hot.png" id="6_yvtb5"]
+[ext_resource type="Texture2D" uid="uid://c5i6kuuckpmn6" path="res://assets/sprites/coolant_cold.png" id="7_k7elv"]
+[ext_resource type="Texture2D" uid="uid://bj0mhawg0s0tf" path="res://assets/sprites/humidity.png" id="8_pbku6"]
+[ext_resource type="Texture2D" uid="uid://cwl784036cw2e" path="res://assets/sprites/water.png" id="9_i3ans"]
+[ext_resource type="Texture2D" uid="uid://cffyomq4jmd8c" path="res://assets/sprites/food.png" id="10_5bpyr"]
+[ext_resource type="Texture2D" uid="uid://2slbv631hreh" path="res://assets/sprites/fluid_waste.png" id="11_84uof"]
+[ext_resource type="Texture2D" uid="uid://iajppxmy60di" path="res://assets/sprites/solid_waste.png" id="12_cyqav"]
+[ext_resource type="Texture2D" uid="uid://vpk6o7q8w1u" path="res://assets/sprites/oxygen.png" id="13_baxkn"]
+[ext_resource type="Texture2D" uid="uid://ervw5a6ks581" path="res://assets/sprites/carbon_dioxide.png" id="14_20oq5"]
+[ext_resource type="Texture2D" uid="uid://bktmjphclr3b5" path="res://assets/sprites/disposables.png" id="15_plh64"]
+[ext_resource type="Texture2D" uid="uid://cimbvobggrpwe" path="res://assets/sprites/garbage.png" id="16_t1jn2"]
 
 [node name="GameUI" type="Control"]
 layout_mode = 3
@@ -55,6 +66,9 @@ visible = false
 layout_mode = 2
 Resource = 1
 
+[node name="TextureRect" parent="ResourceExpandButton/Resources/HotCoolant" index="0"]
+texture = ExtResource("6_yvtb5")
+
 [node name="ResourceName" parent="ResourceExpandButton/Resources/HotCoolant" index="1"]
 text = "Hot Coolant : "
 
@@ -62,6 +76,9 @@ text = "Hot Coolant : "
 visible = false
 layout_mode = 2
 Resource = 2
+
+[node name="TextureRect" parent="ResourceExpandButton/Resources/Cold Coolant" index="0"]
+texture = ExtResource("7_k7elv")
 
 [node name="ResourceName" parent="ResourceExpandButton/Resources/Cold Coolant" index="1"]
 text = "Cold Coolant : "
@@ -71,6 +88,9 @@ visible = false
 layout_mode = 2
 Resource = 3
 
+[node name="TextureRect" parent="ResourceExpandButton/Resources/Humidity" index="0"]
+texture = ExtResource("8_pbku6")
+
 [node name="ResourceName" parent="ResourceExpandButton/Resources/Humidity" index="1"]
 text = "Humidity : "
 
@@ -78,6 +98,9 @@ text = "Humidity : "
 visible = false
 layout_mode = 2
 Resource = 4
+
+[node name="TextureRect" parent="ResourceExpandButton/Resources/Water" index="0"]
+texture = ExtResource("9_i3ans")
 
 [node name="ResourceName" parent="ResourceExpandButton/Resources/Water" index="1"]
 text = "Water : "
@@ -87,6 +110,9 @@ visible = false
 layout_mode = 2
 Resource = 5
 
+[node name="TextureRect" parent="ResourceExpandButton/Resources/Food" index="0"]
+texture = ExtResource("10_5bpyr")
+
 [node name="ResourceName" parent="ResourceExpandButton/Resources/Food" index="1"]
 text = "Food : "
 
@@ -94,6 +120,9 @@ text = "Food : "
 visible = false
 layout_mode = 2
 Resource = 6
+
+[node name="TextureRect" parent="ResourceExpandButton/Resources/FluidWaste" index="0"]
+texture = ExtResource("11_84uof")
 
 [node name="ResourceName" parent="ResourceExpandButton/Resources/FluidWaste" index="1"]
 text = "Liquid waste : "
@@ -103,6 +132,9 @@ visible = false
 layout_mode = 2
 Resource = 7
 
+[node name="TextureRect" parent="ResourceExpandButton/Resources/SolidWaste" index="0"]
+texture = ExtResource("12_cyqav")
+
 [node name="ResourceName" parent="ResourceExpandButton/Resources/SolidWaste" index="1"]
 text = "Solid waste : "
 
@@ -110,6 +142,9 @@ text = "Solid waste : "
 visible = false
 layout_mode = 2
 Resource = 8
+
+[node name="TextureRect" parent="ResourceExpandButton/Resources/Oxygen" index="0"]
+texture = ExtResource("13_baxkn")
 
 [node name="ResourceName" parent="ResourceExpandButton/Resources/Oxygen" index="1"]
 text = "Oxygen : "
@@ -119,6 +154,9 @@ visible = false
 layout_mode = 2
 Resource = 9
 
+[node name="TextureRect" parent="ResourceExpandButton/Resources/CarbonDioxide" index="0"]
+texture = ExtResource("14_20oq5")
+
 [node name="ResourceName" parent="ResourceExpandButton/Resources/CarbonDioxide" index="1"]
 text = "CarbonDioxide : "
 
@@ -127,6 +165,9 @@ visible = false
 layout_mode = 2
 Resource = 10
 
+[node name="TextureRect" parent="ResourceExpandButton/Resources/Disposables" index="0"]
+texture = ExtResource("15_plh64")
+
 [node name="ResourceName" parent="ResourceExpandButton/Resources/Disposables" index="1"]
 text = "Disposables : "
 
@@ -134,6 +175,9 @@ text = "Disposables : "
 visible = false
 layout_mode = 2
 Resource = 11
+
+[node name="TextureRect" parent="ResourceExpandButton/Resources/Garbage" index="0"]
+texture = ExtResource("16_t1jn2")
 
 [node name="ResourceName" parent="ResourceExpandButton/Resources/Garbage" index="1"]
 text = "Garbage : "
