@@ -2,15 +2,18 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public partial class EventPlantDeath : Node3D, IEvent {
-    [Export(PropertyHint.Range, "0, 100, 1")]
-    public int percentageOfMaxLost = 50;
+public partial class EventPlantDeath : Node, IEvent {
+    [Export(PropertyHint.Range, "0, 100, 5")]
+    public int percentageLost = 50;
+    [Export]
+    public Plants Greenhouse;
+
+    IEvent.Properties IEvent.GetProperties() => new() {
+        Description = $"A disease has ravaged the plants in the greenhouse! {percentageLost}% of our plants have died.",
+        IconPosition = Greenhouse.Position,
+    };
 
     public void ApplyEffect(Ship ship) {
-        foreach (Machine m in ship.Machines) {
-            // if (m is Plant p) {
-            //     p.plants *= (percentageOfMaxLost / 100.0f);
-            // }
-        }
+                Greenhouse.PlantHealth *= (percentageLost / 100.0f);
     }
 }

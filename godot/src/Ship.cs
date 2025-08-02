@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 
 public partial class Ship : Node {
@@ -81,28 +82,40 @@ public partial class Ship : Node {
         }
     }
 
-    public IEnumerable<IContainer> AllContainers() {
-        foreach (Machine m in Machines) {
-            foreach (IContainer buffer in m.Inputs()) {
-                yield return buffer;
-            }
-            foreach (IContainer buffer in m.Outputs()) {
-                yield return buffer;
-            }
-        }
+    public enum Select {
+        NoMachines,
+        All,
+        OnlyInputs,
+        OnlyOutputs
+    }
 
+    public IEnumerable<IContainer> AllContainers(Select selection) {
+        foreach (FloatingResource r in _floatingResourceManager.Resources()) {
+            yield return r;
+        }
         foreach (StorageContainer c in Containers) {
             yield return c;
         }
+        if (selection != Select.NoMachines) {
+            foreach (Machine m in Machines) {
+                if (selection != Select.OnlyOutputs) {
+                    foreach (IContainer buffer in m.Inputs()) {
+                        yield return buffer;
+                    }
+                }
 
-        foreach (FloatingResource r in _floatingResourceManager.Resources()) {
-            yield return r;
+                if (selection != Select.OnlyInputs) {
+                    foreach (IContainer buffer in m.Outputs()) {
+                        yield return buffer;
+                    }
+                }
+            }
         }
     }
 
     public Dictionary<Resource, float> GetTotalResourceQuantities() {
         Dictionary<Resource, float> totals = new();
-        foreach (IContainer buffer in AllContainers()) {
+        foreach (IContainer buffer in AllContainers(Select.All)) {
             float current = totals.GetValueOrDefault(buffer.GetResource(), 0);
             totals[buffer.GetResource()] = current + buffer.GetQuantity();
         }
@@ -131,37 +144,11 @@ public partial class Ship : Node {
     public float AddResource(Resource resource, float quantity) {
         float leftToAdd = quantity;
 
-        // first check floating resources
-        foreach (FloatingResource res in _floatingResourceManager.Resources()) {
-            if (res.Resource == resource) {
-                leftToAdd = (res as IContainer).RemainderOfAdd(leftToAdd);
+        Select selection = (quantity > 0) ? Select.OnlyInputs : Select.OnlyOutputs;
+        foreach (IContainer c in AllContainers(selection)) {
+            if (c.GetResource() == resource) {
+                leftToAdd = c.RemainderOfAdd(leftToAdd);
                 if (leftToAdd == 0) return 0;
-            }
-        }
-
-        // then check storages
-        foreach (StorageContainer container in Containers) {
-            if (container.Resource == resource) {
-                leftToAdd = (container as IContainer).RemainderOfAdd(leftToAdd);
-                if (leftToAdd == 0) return 0;
-            }
-        }
-
-        // then check machine inputs or outputs
-        if (quantity > 0) {
-            foreach (Machine m in Machines) {
-                foreach (IContainer buffer in m.Inputs()) {
-                    leftToAdd = buffer.RemainderOfAdd(leftToAdd);
-                    if (leftToAdd == 0) return 0;
-                }
-            }
-        } else {
-            // quantity < 0; only check outputs
-            foreach (Machine m in Machines) {
-                foreach (IContainer buffer in m.Outputs()) {
-                    leftToAdd = buffer.RemainderOfAdd(leftToAdd);
-                    if (leftToAdd == 0) return 0;
-                }
             }
         }
 
@@ -173,26 +160,9 @@ public partial class Ship : Node {
     public bool HasResource(Resource resource, int quantity) {
         float leftToGet = quantity;
 
-        // first check floating resources
-        foreach (FloatingResource res in _floatingResourceManager.Resources()) {
-            if (res.Resource == resource) {
-                leftToGet -= (res as IContainer).GetQuantity();
-                if (leftToGet <= 0) return true;
-            }
-        }
-
-        // then check storages
-        foreach (StorageContainer container in Containers) {
-            if (container.Resource == resource) {
-                leftToGet = (container as IContainer).GetQuantity();
-                if (leftToGet <= 0) return true;
-            }
-        }
-
-        // check all machine outputs
-        foreach (Machine m in Machines) {
-            foreach (IContainer buffer in m.Outputs()) {
-                leftToGet = buffer.GetQuantity();
+        foreach (IContainer c in AllContainers(Select.OnlyOutputs)) {
+            if (c.GetResource() == resource) {
+                leftToGet -= c.GetQuantity();
                 if (leftToGet <= 0) return true;
             }
         }
@@ -204,7 +174,7 @@ public partial class Ship : Node {
         GD.Print($"Connected {a.Name} and {b.Name}");
         Connection connection = new(a, b);
         _connections.Add(connection);
-        
+
         return connection;
         // TODO add connection visuals to _connectionsNode
     }
@@ -228,4 +198,15 @@ public partial class Ship : Node {
         _queuedMissions.RemoveAt(0);
         return mission;
     }
+
+    public IContainer GetContainer(Resource resource, Select selection = Select.NoMachines) {
+        foreach (IContainer c in AllContainers(selection)) {
+            if (c.GetResource() == resource) {
+                return c;
+            }
+        }
+        
+        throw new ArgumentOutOfRangeException(nameof(resource), resource, $"No {resource} container found for selection {selection}");
+    }
+
 }

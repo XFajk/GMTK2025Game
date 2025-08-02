@@ -30,7 +30,7 @@ public partial class MissionFireRepair : Node, IMission {
 
     public IMission.Properties GetMissionProperties() => Properties;
 
-    public void ApplyEffect(Ship ship) {
+    public void OnStart(Ship ship) {
         foreach (var pair in Properties.ResourceMinimumRequirements) {
             ship.RemoveResource(pair.Key, pair.Value);
         }

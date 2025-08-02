@@ -43,7 +43,7 @@ public partial class MissionTravel : Node, IMission {
 
     public IMission.Properties GetMissionProperties() => Properties;
 
-    public void ApplyEffect(Ship ship) {
+    public void OnStart(Ship ship) {
         _startTime = Time.GetTicksUsec();
 
         foreach (Machine m in ship.Machines) {

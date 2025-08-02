@@ -11,9 +11,9 @@ public partial class Plants : Machine {
     [Export]
     public float DryingRate = 0.05f;
 
-    public float _plantHealth = 1.0f;
+    public float PlantHealth = 1.0f;
 
-    public float _baseProcessingPerSecond;
+    private float _baseProcessingPerSecond;
 
     public override void _Ready() {
         base._Ready();
@@ -22,8 +22,8 @@ public partial class Plants : Machine {
 
     public override void _Process(double deltaTime) {
 
-        _plantHealth = Mathf.Clamp(_plantHealth, 0, 2.0f);
-        _processingPerSecond = _baseProcessingPerSecond * _plantHealth;
+        PlantHealth = Mathf.Clamp(PlantHealth, 0, 2.0f);
+        _processingPerSecond = _baseProcessingPerSecond * PlantHealth;
         
         // always progess
         _processProgress += _processingPerSecond * (float)deltaTime;
@@ -35,12 +35,12 @@ public partial class Plants : Machine {
             foreach (MachineBuffer container in _recipeParts) {
                 if (!CanCycle(container)) {
                     _processProgress = 0;
-                    _plantHealth -= DryingRate; 
+                    PlantHealth -= DryingRate; 
                     return;
                 }
             }
 
-            _plantHealth += GrowthRate;
+            PlantHealth += GrowthRate;
 
             foreach (MachineBuffer container in _recipeParts) {
                 container.Quantity += container.QuantityChangeInReceipe;

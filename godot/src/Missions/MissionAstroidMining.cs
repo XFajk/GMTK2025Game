@@ -14,6 +14,10 @@ public partial class MissionAstroidMining : Node, IMission {
 
     [Export]
     public int RequiredDisposables;
+    [Export(PropertyHint.Range, "0,6")]
+    public int CrewCount;
+    [Export]
+    public Node3D AirLock;
 
     public float OxygenDrainPerSecond;
     public float OxygenDrainTotal;
@@ -27,11 +31,11 @@ public partial class MissionAstroidMining : Node, IMission {
 
     void IMission.Ready(Ship ship) {
         _ship = ship;
-        float carbonToOxygen = Resources.GetRatio(Resource.CarbonDioxide, Resource.Oxygen);
-        float disposablesToCarbon = Resources.GetRatio(Resource.Disposables, Resource.CarbonDioxide);
+        var carbonToOxygen = Resources.GetRatio(Resource.CarbonDioxide, Resource.Oxygen);
+        var disposablesToCarbon = Resources.GetRatio(Resource.Disposables, Resource.CarbonDioxide);
 
-        CarbonDioxideReturnQuantity = RequiredDisposables * disposablesToCarbon;
-        OxygenDrainTotal = (CarbonDioxideReturnQuantity * carbonToOxygen);
+        CarbonDioxideReturnQuantity = RequiredDisposables * disposablesToCarbon.Key / disposablesToCarbon.Value;
+        OxygenDrainTotal = (CarbonDioxideReturnQuantity * carbonToOxygen.Key / carbonToOxygen.Value);
         OxygenDrainPerSecond = OxygenDrainTotal / Duration;
 
         _preparationStartTime = Time.GetTicksUsec();
@@ -55,13 +59,20 @@ public partial class MissionAstroidMining : Node, IMission {
     
     public IMission.Properties GetMissionProperties() => Properties;
 
-    public void ApplyEffect(Ship ship) {
+    public void OnStart(Ship ship) {
+        _startTime = Time.GetTicksUsec();
         foreach (var pair in Properties.ResourceMinimumRequirements) {
             ship.RemoveResource(pair.Key, pair.Value);
         }
-        _startTime = Time.GetTicksUsec();
+
+        for (int i = 0; i < CrewCount; i++) {
+            ship.ScheduleCrewTask(new CrewTask() {
+                Duration = Duration,
+                Location = AirLock.Position
+            });
+        }
     
-        ship.ActiveEffects.Add(new EventEffectResource() {
+        ship.ActiveEffects.Add(new EventEffectResourceAdd() {
             AdditionPerSecond = -OxygenDrainPerSecond,
             MaxResourcesToAdd = OxygenDrainTotal,
             Target = ship.GetFloatingResource(Resource.Oxygen)
@@ -80,7 +91,7 @@ public partial class MissionAstroidMining : Node, IMission {
     }
 
     public void OnCompletion(Ship ship) {
-        ship.ActiveEffects.Add(new EventEffectResource() {
+        ship.ActiveEffects.Add(new EventEffectResourceAdd() {
             AdditionPerSecond = CarbonDumpPerSecond,
             MaxResourcesToAdd = CarbonDioxideReturnQuantity,
             Target = ship.GetFloatingResource(Resource.CarbonDioxide)

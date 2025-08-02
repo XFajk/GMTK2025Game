@@ -48,7 +48,7 @@ public partial class MissionManager : Node {
                 // 3: we wait until `IsPreparationFinished`
                 if (!mission.IsPreparationFinished()) continue;
                 /// 4: `ApplyEffect` is called
-                mission.ApplyEffect(Ship);
+                mission.OnStart(Ship);
             }
         } else {
             /// 5: we wait until `IsMissionFinised`

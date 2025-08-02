@@ -7,30 +7,40 @@ public partial class EventFire : Node3D, IEvent, IRepairable {
     public float OxygenLossPerSecond = 0.5f;
     [Export]
     public float SecondsToExtinguish = 2;
-    
+
     [Export]
     public float SecondsToRepair = 10;
 
     private Ship _ship;
-    private EventEffectResource _oxygenReductionEffect;
-    private EventEffectResource _Co2AdditionEffect;
+    private EventEffectResourceConvert _fireConversionEffect;
+
+    IEvent.Properties IEvent.GetProperties() => new() {
+        Description = $"A fire has broken out! A crewmember is on its way to extinguish it.",
+        IconPosition = Position,
+    };
 
     public void ApplyEffect(Ship ship) {
         _ship = ship;
         FloatingResource oxygen = ship.GetFloatingResource(Resource.Oxygen);
         FloatingResource co2 = ship.GetFloatingResource(Resource.CarbonDioxide);
 
-        _oxygenReductionEffect = new EventEffectResource() {
-            Target = oxygen,
-            AdditionPerSecond = -OxygenLossPerSecond
-        };
-        ship.ActiveEffects.Add(_oxygenReductionEffect);
+        var ratio = Resources.GetRatio(Resource.Oxygen, Resource.CarbonDioxide);
 
-        _Co2AdditionEffect = new EventEffectResource() {
-            Target = co2,
-            AdditionPerSecond = OxygenLossPerSecond * Resources.GetRatio(Resource.Oxygen, Resource.CarbonDioxide)
+        _fireConversionEffect = new EventEffectResourceConvert() {
+            ConversionPerSecond = OxygenLossPerSecond,
+            Conversion = [
+                new InputOutput() {
+                    QuantityChangeInReceipe = -ratio.Key,
+                    Container = oxygen,
+                },
+                new InputOutput() {
+                    QuantityChangeInReceipe = ratio.Value,
+                    Container = co2,
+                }
+            ]
         };
-        ship.ActiveEffects.Add(_Co2AdditionEffect);
+
+        ship.ActiveEffects.Add(_fireConversionEffect);
 
         ship.ScheduleCrewTask(new CrewTask() {
             Location = Position,
@@ -46,10 +56,11 @@ public partial class EventFire : Node3D, IEvent, IRepairable {
 
     void IRepairable.SetRepaired() {
         _ship.RemoveChild(this);
-        _ship.ActiveEffects.Remove(_oxygenReductionEffect);
-        _ship.ActiveEffects.Remove(_Co2AdditionEffect);
+        _ship.ActiveEffects.Remove(_fireConversionEffect);
 
-        float equivalentDisposableCost = _Co2AdditionEffect.TotalResourcesAdded * Resources.GetRatio(Resource.CarbonDioxide, Resource.Disposables);
+        float co2Taken = -_fireConversionEffect.TotalChangeOf(Resource.CarbonDioxide);
+        var ratio = Resources.GetRatio(Resource.CarbonDioxide, Resource.Disposables);
+        float equivalentDisposableCost = (co2Taken * ratio.Value) / ratio.Key;
 
         _ship.ScheduleMission(new MissionFireRepair() {
             // ceil, so it costs at least as much as the carbon gained

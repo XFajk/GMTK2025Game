@@ -17,6 +17,7 @@ script = ExtResource("1_q631a")
 _initialResources = Dictionary[int, int]({
 2: 100,
 4: 500,
+5: 5,
 8: 500,
 9: 100,
 11: 40
@@ -42,7 +43,7 @@ Resource = 3
 
 [node name="CrewFoodProcess" type="Node3D" parent="."]
 script = ExtResource("7_3m36u")
-_processingPerSecond = 2.0
+_processingPerSecond = 0.125
 
 [node name="Inputs" type="Node" parent="CrewFoodProcess"]
 
@@ -81,7 +82,7 @@ QuantityChangeInReceipe = 1
 [node name="CrewConsumableProcess" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 10, 0)
 script = ExtResource("7_3m36u")
-_processingPerSecond = 2.0
+_processingPerSecond = 0.125
 
 [node name="Inputs" type="Node" parent="CrewConsumableProcess"]
 
@@ -134,7 +135,7 @@ visible = false
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 0)
 script = ExtResource("2_gudjc")
 _isLossless = false
-_processingPerSecond = 0.2
+_processingPerSecond = 4.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Hydrolysis"]
 mesh = SubResource("BoxMesh_f23tx")

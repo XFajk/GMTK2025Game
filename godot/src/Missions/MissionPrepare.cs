@@ -43,7 +43,7 @@ public partial class MissionPrepare : Node, IMission {
     
     public IMission.Properties GetMissionProperties() => Properties;
 
-    public void ApplyEffect(Ship ship) {
+    public void OnStart(Ship ship) {
     }
 
     public bool IsPreparationFinished() {

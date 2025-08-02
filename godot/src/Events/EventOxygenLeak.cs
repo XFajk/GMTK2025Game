@@ -8,13 +8,18 @@ public partial class EventOxygenLeak : Node3D, IEvent, IRepairable {
     public float SecondsToRepair = 5;
 
     private Ship _ship;
-    private EventEffectResource _effect;
+    private EventEffectResourceAdd _effect;
+
+    IEvent.Properties IEvent.GetProperties() => new() {
+        Description = $"Oxygen is leaking through the hull! A crewmember is on its way to close the hole.",
+        IconPosition = Position,
+    };
 
     public void ApplyEffect(Ship ship) {
         _ship = ship;
         FloatingResource oxygen = ship.GetFloatingResource(Resource.Oxygen);
 
-        _effect = new() {
+        _effect = new EventEffectResourceAdd() {
             Target = oxygen,
             AdditionPerSecond = -LossPerSecond
         };

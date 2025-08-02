@@ -13,6 +13,10 @@ public partial class Process : Node3D {
     /// Every cycle executes the changes defined by the inputs and outputs once
     protected float _processingPerSecond = 1;
 
+    [Export]
+    /// Processing Per Second will be randomly offset by up to this amount
+    protected float _processingRandomness = 1;
+
     /// the inputs and outputs of the recipe
     private List<InputOutput> _recipeParts = new();
 
