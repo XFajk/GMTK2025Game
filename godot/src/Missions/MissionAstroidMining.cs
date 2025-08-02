@@ -7,10 +7,10 @@ public partial class MissionAstroidMining : Node, IMission {
     private const float CarbonDumpPerSecond = 10f;
 
     [Export(PropertyHint.Range, "0,300,1")]
-    public float PreparationTime = 10.0f;
+    public int PreparationTime = 10;
 
     [Export(PropertyHint.Range, "0,600,10")]
-    public float Duration;
+    public int Duration;
 
     [Export]
     public int RequiredDisposables;
@@ -28,8 +28,9 @@ public partial class MissionAstroidMining : Node, IMission {
 
     public IMission.Properties Properties;
     private Ship _ship;
+    private List<Engine> _engines = new();
 
-    void IMission.Ready(Ship ship) {
+    void IMission.MissionReady(Ship ship) {
         _ship = ship;
         var carbonToOxygen = Resources.GetRatio(Resource.CarbonDioxide, Resource.Oxygen);
         var disposablesToCarbon = Resources.GetRatio(Resource.Disposables, Resource.CarbonDioxide);
@@ -43,10 +44,11 @@ public partial class MissionAstroidMining : Node, IMission {
         Properties = new() {
             Title = "Mission: Astroid mining",
             Briefing = [
-                "Today we will be running an astroid mining operation. "
-                + $"For this mission we will need {Resources.ToUnit(Resource.Disposables, RequiredDisposables)} plastic materials, "
-                + $"and the operation will consume up to {Resources.ToUnit(Resource.Oxygen, Mathf.CeilToInt(OxygenDrainPerSecond * 60))} oxygen per minute"
+                "Before its... interruption, the scan picked up a nearby astroid. We will be scanning the astroid for its material composition."
+                + $"For this mission we will need {Resources.ToUnit(Resource.Disposables, RequiredDisposables)} materials from the carbon scrubber, "
+                + $"and during the operation we will channel an additional {Resources.ToUnit(Resource.Oxygen, Mathf.CeilToInt(OxygenDrainPerSecond * 60))} oxygen per minute to the crew outside the ship."
                 + $"The operation begins in {PreparationTime} seconds, make sure the supplies are available then",
+                "Naturally, the engine will be turned off for the duration",
                 "End of Brief"
             ],
             ResourceMinimumRequirements = [KeyValuePair.Create(Resource.Disposables, RequiredDisposables)],
@@ -55,6 +57,12 @@ public partial class MissionAstroidMining : Node, IMission {
                 + $"We will be emptying our cylinders of carbon dioxide for the next {(int) CarbonDioxideReturnQuantity / CarbonDumpPerSecond} seconds or so."
             ]
         };
+
+        foreach (Machine m in ship.Machines) {
+            if (m is Engine e) {
+                _engines.Add(e);
+            }
+        }
     }
     
     public IMission.Properties GetMissionProperties() => Properties;
@@ -71,12 +79,16 @@ public partial class MissionAstroidMining : Node, IMission {
                 Location = AirLock.Position
             });
         }
-    
+
         ship.ActiveEffects.Add(new EventEffectResourceAdd() {
             AdditionPerSecond = -OxygenDrainPerSecond,
             MaxResourcesToAdd = OxygenDrainTotal,
             Target = ship.GetFloatingResource(Resource.Oxygen)
         });
+
+        foreach (Engine e in _engines) {
+            e.EnginePower = 0;
+        }
     }
 
     public bool IsPreparationFinished() {
@@ -96,5 +108,9 @@ public partial class MissionAstroidMining : Node, IMission {
             MaxResourcesToAdd = CarbonDioxideReturnQuantity,
             Target = ship.GetFloatingResource(Resource.CarbonDioxide)
         });
+
+        foreach (Engine e in _engines) {
+            e.EnginePower = Engine.DefaultEnginePower;
+        }
     }
 }

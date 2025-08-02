@@ -65,7 +65,7 @@ public partial class MissionManager : Node {
     private void ExecuteEventsOfNode(Node eventNode) {
         if (eventNode is IMission newMission) {
             // 0: `Ready` is called
-            newMission.Ready(Ship);
+            newMission.MissionReady(Ship);
 
             /// 1: `GetTitle` is called
             /// 2: the player sees the Briefing
@@ -79,4 +79,6 @@ public partial class MissionManager : Node {
             _currentDelay = delay;
         }
     }
+
+    public void AddEvent(Node eventNode) => ExecuteEventsOfNode(eventNode);
 }

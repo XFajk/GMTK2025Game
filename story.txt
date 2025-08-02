@@ -15,7 +15,9 @@ Mission 2: Travel to a new solar system
 	> engine processing speed is set from 10% to 100% for the duration of the mission
 	
 Mission 3: High-power scan
-	> probably something that disables machines or makes them work slower
+	> All machines are offline for a small while.
+	> then the equipment explodes and causes fire.
+	> starts a Fire! event that will in turn cause a MissionFireRepair
 	
 Mission 4: Astroid mining
 	"Today we will be running an astroid minig operation. "

@@ -6,14 +6,14 @@ public partial class MissionFireRepair : Node, IMission {
     public Resource Resource = Resource.Disposables;
     public int Quantity;
     public Vector3 Location;
-    public float SecondsToRepair;
+    public int SecondsToRepair;
 
     private Ship _ship;
     private bool _repairCompleted;
 
     public IMission.Properties Properties;
 
-    void IMission.Ready(Ship ship) {
+    void IMission.MissionReady(Ship ship) {
         _ship = ship;
         Properties = new() {
             Title = "Mission: Reparations",
@@ -34,16 +34,22 @@ public partial class MissionFireRepair : Node, IMission {
         foreach (var pair in Properties.ResourceMinimumRequirements) {
             ship.RemoveResource(pair.Key, pair.Value);
         }
+        ScheduleRepair(ship);
+    }
+
+    private void ScheduleRepair(Ship ship) {
         ship.ScheduleCrewTask(new CrewTask() {
             Location = Location,
             Duration = SecondsToRepair,
-            OnTaskComplete = (p => _repairCompleted = true)
+            OnTaskComplete = (p => _repairCompleted = true),
+            OnTaskAbort = (p => ScheduleRepair(ship))
         });
     }
+
 
     public bool IsPreparationFinished() => (this as IMission).CheckMaterialRequirements(_ship);
 
     public bool IsMissionFinised() => _repairCompleted;
 
-    public void OnCompletion(Ship ship) {}
+    public void OnCompletion(Ship ship) { }
 }

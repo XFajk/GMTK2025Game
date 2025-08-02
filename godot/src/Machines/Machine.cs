@@ -42,7 +42,6 @@ public partial class Machine : Connectable, IRepairable {
             }
         }
 
-
         _statusInterface.SetRecepiePartsIntoInterface(_recipeParts);
 
         if (_isLossless) Resources.VerifyLossless(_recipeParts, Name);

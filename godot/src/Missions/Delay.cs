@@ -19,8 +19,8 @@ public partial class Delay : Node {
     [Export]
     public Node MissionToWaitFor = null;
 
-    private bool _isTriggered = false;
-    private double _waitUntil = double.MaxValue;
+    bool _isTriggered = false;
+    double _waitUntil = double.MaxValue;
 
     public override void _Ready() {
         if (MissionToWaitFor != null && MissionToWaitFor is not IMission) {

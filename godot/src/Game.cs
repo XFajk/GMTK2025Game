@@ -48,6 +48,15 @@ public partial class Game : Node {
         foreach (KeyValuePair<Resource, float> pair in quantities) {
             _ui.ResourceLables[pair.Key].SetAmount((int)Mathf.Round(pair.Value));
         }
+
+        Node eventNode;
+        while ((eventNode = _shipNode.TryTakeEvent()) != null) {
+            AddChild(eventNode);
+            if (eventNode is IMission || eventNode is IEvent) {
+                // we adopt it as our own
+                _missionsNode.AddEvent(eventNode);
+            }
+        }
     }
 
     private void OnConnectionClick(Connectable machine, ConnectionNode node) {

@@ -6,10 +6,10 @@ public partial class EventFire : Node3D, IEvent, IRepairable {
     [Export]
     public float OxygenLossPerSecond = 0.5f;
     [Export]
-    public float SecondsToExtinguish = 2;
+    public int SecondsToExtinguish = 2;
 
     [Export]
-    public float SecondsToRepair = 10;
+    public int SecondsToRepair = 10;
 
     private Ship _ship;
     private EventEffectResourceConvert _fireConversionEffect;
@@ -62,7 +62,7 @@ public partial class EventFire : Node3D, IEvent, IRepairable {
         var ratio = Resources.GetRatio(Resource.CarbonDioxide, Resource.Disposables);
         float equivalentDisposableCost = (co2Taken * ratio.Value) / ratio.Key;
 
-        _ship.ScheduleMission(new MissionFireRepair() {
+        _ship.ScheduleEvent(new MissionFireRepair() {
             // ceil, so it costs at least as much as the carbon gained
             Quantity = Mathf.CeilToInt(equivalentDisposableCost),
             Location = Position,

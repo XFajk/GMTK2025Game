@@ -13,6 +13,7 @@ public partial class StatusInterface : Sprite3D {
     public override void _Ready() {
         VisualBarsViewPort = GetNode<SubViewport>("ViewPort");
         MachineNameLabel = GetNode<Label>("ViewPort/MachineName");
+        Visible = false;
     }
 
     public void SetRecepiePartsIntoInterface(List<MachineBuffer> recipeParts) {
@@ -26,6 +27,8 @@ public partial class StatusInterface : Sprite3D {
         float outputOffset = 70;
         // create new status bars
         foreach (MachineBuffer buffer in recipeParts) {
+            if (Resources.IsFloating(buffer.Resource)) continue;
+
             StatusBar statusBar = MachineStatusBarScene.Instantiate<StatusBar>();
             VisualBarsViewPort.AddChild(statusBar);
 

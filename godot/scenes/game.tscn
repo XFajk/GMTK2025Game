@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://0rmy461ykeb"]
+[gd_scene load_steps=16 format=3 uid="uid://0rmy461ykeb"]
 
 [ext_resource type="Script" uid="uid://bp0g8sc4t5qhs" path="res://src/Game.cs" id="1_yqjtg"]
 [ext_resource type="PackedScene" uid="uid://cgccmqaeo11dk" path="res://scenes/ship.tscn" id="2_lnu2h"]
@@ -9,6 +9,83 @@
 [ext_resource type="Script" uid="uid://b5m2vkdgw7neg" path="res://src/Missions/MissionManager.cs" id="5_gee14"]
 [ext_resource type="Script" uid="uid://cgjaj1ali2bgb" path="res://src/Missions/MissionAstroidMining.cs" id="5_p57ef"]
 [ext_resource type="Script" uid="uid://invodjqpf3vs" path="res://src/Missions/Delay.cs" id="6_0tnpc"]
+[ext_resource type="Script" uid="uid://c64yhiv3h44qm" path="res://src/Events/EventCrewSick.cs" id="8_dinhu"]
+[ext_resource type="Script" uid="uid://bj5ttgseqiplq" path="res://src/Missions/MissionHighPowerScan.cs" id="9_vtaks"]
+[ext_resource type="Script" uid="uid://b2qjkn4sqpybs" path="res://src/Events/EventFire.cs" id="10_kvuet"]
+[ext_resource type="Script" uid="uid://dkyikroedb10k" path="res://src/Missions/MissionSaboteur.cs" id="13_kvuet"]
+[ext_resource type="Script" uid="uid://b3mtrifokbw8l" path="res://src/Missions/MissionPizza.cs" id="14_trtic"]
+
+[sub_resource type="CSharpScript" id="CSharpScript_trtic"]
+script/source = "using Godot;
+using System;
+using System.Collections.Generic;
+
+public partial class MissionTravel : Node, IMission {
+
+    [Export]
+    public string TargetName = \"nearest\";
+
+    [Export(PropertyHint.Range, \"0,300,1\")]
+    public float PreparationTime = 10.0f;
+
+    [Export(PropertyHint.Range, \"0,600,10\")]
+    public float Duration;
+
+    [Export(PropertyHint.Range, \"0,1,0.05\")]
+    public float TargetEnginePower;
+
+    private ulong _preparationStartTime;
+    private ulong _startTime;
+
+    void IMission.Ready() {
+        _preparationStartTime = Time.GetTicksUsec();
+    }
+
+    public void ApplyEffect(Ship ship) {
+        _startTime = Time.GetTicksUsec();
+
+        foreach (Machine m in ship.Machines) {
+            if (m is Engine e) {
+                e.EnginePower = TargetEnginePower;
+            }
+        }
+    }
+
+    public string[] Briefing() => [
+        $\"Today we will travel to the {TargetName} solar system. \"
+        + $\"We will run the engine at {TargetEnginePower * 100}% capacity, rather than the usual {Engine.DefaultEnginePower * 100}%. \"
+        + $\"Make sure the engine has enough coolant, and keep an eye on the water supply. \"
+        + $\"We will leave in {PreparationTime} seconds\",
+        \"End of Brief\"
+    ];
+
+    public void OnCompletion(Ship ship) {
+        foreach (Machine m in ship.Machines) {
+            if (m is Engine e) {
+                e.EnginePower = Engine.DefaultEnginePower;
+            }
+        }
+    }
+
+    public string[] Debrief() => [
+        $\"We have arrived! The engine will return to {Engine.DefaultEnginePower * 100}% power.\"
+    ];
+
+    public bool IsPreparationFinished() {
+        double timePassed = (double)(Time.GetTicksUsec() - _preparationStartTime) / 1E6;
+        return _preparationStartTime != 0 && timePassed > PreparationTime;
+    }
+
+    public bool IsMissionFinised() {
+        double timePassed = (double)(Time.GetTicksUsec() - _startTime) / 1E6;
+        return _startTime != 0 && timePassed > Duration;
+    }
+
+    public void OnCompletion() {
+        throw new NotImplementedException();
+    }
+}
+"
 
 [node name="Game" type="Node"]
 script = ExtResource("1_yqjtg")
@@ -33,21 +110,91 @@ script = ExtResource("4_p57ef")
 FoodRequired = 100
 GarbageMax = 5
 
-[node name="WaitUntilFinished1" type="Node" parent="MissionsAndEvents"]
+[node name="AFewSecondsIntoPrepare" type="Node" parent="MissionsAndEvents"]
+script = ExtResource("6_0tnpc")
+TimeDelaySeconds = 20
+TimeDelayStartsWhen = 2
+
+[node name="CrewGetsSick" type="Node" parent="MissionsAndEvents"]
+script = ExtResource("8_dinhu")
+DisposablesUsedPerSecond = 0.5
+
+[node name="WaitForPepareFinish" type="Node" parent="MissionsAndEvents" node_paths=PackedStringArray("MissionToWaitFor")]
 script = ExtResource("6_0tnpc")
 TimeDelaySeconds = 2
+TimeDelayStartsWhen = 5
+MissionToWaitFor = NodePath("../Prepare")
 
 [node name="TravelToSequin" type="Node" parent="MissionsAndEvents"]
 script = ExtResource("4_iywne")
-TargetName = "Sequin"
-Duration = 120.0
+TargetSolarSystemName = "Sequin"
 TargetEnginePower = 1.0
+Duration = 30
 
-[node name="WaitUntilFinished2" type="Node" parent="MissionsAndEvents"]
+[node name="AFewSecondsIntoTravelToSequin" type="Node" parent="MissionsAndEvents" node_paths=PackedStringArray("MissionToWaitFor")]
 script = ExtResource("6_0tnpc")
+TimeDelaySeconds = 20
+TimeDelayStartsWhen = 4
+MissionToWaitFor = NodePath("../TravelToSequin")
+
+[node name="EngineFire" type="Node3D" parent="MissionsAndEvents"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 4, 0)
+script = ExtResource("10_kvuet")
+OxygenLossPerSecond = 2.0
+SecondsToExtinguish = 5
+
+[node name="WaitForTravelFinish" type="Node" parent="MissionsAndEvents" node_paths=PackedStringArray("MissionToWaitFor")]
+script = ExtResource("6_0tnpc")
+TimeDelaySeconds = 3
+TimeDelayStartsWhen = 5
+MissionToWaitFor = NodePath("../TravelToSequin")
+
+[node name="HighPowerScan" type="Node" parent="MissionsAndEvents"]
+script = ExtResource("9_vtaks")
+TargetSolarSystemName = "Sequin"
+Duration = 5
+
+[node name="AFewSecondsIntoHighPowerScan" type="Node" parent="MissionsAndEvents" node_paths=PackedStringArray("MissionToWaitFor")]
+script = ExtResource("6_0tnpc")
+TimeDelaySeconds = 3
+TimeDelayStartsWhen = 4
+MissionToWaitFor = NodePath("../HighPowerScan")
+
+[node name="FireInTheScannerRoom" type="Node3D" parent="MissionsAndEvents"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 2, 0)
+script = ExtResource("10_kvuet")
+OxygenLossPerSecond = 5.0
+SecondsToExtinguish = 5
+
+[node name="WaitUntilEverythingIsCalmAgain" type="Node" parent="MissionsAndEvents"]
+script = ExtResource("6_0tnpc")
+TimeDelaySeconds = 3
 
 [node name="AstroidMining" type="Node" parent="MissionsAndEvents"]
 script = ExtResource("5_p57ef")
-PreparationTime = 60.0
-Duration = 60.0
 RequiredDisposables = 20
+
+[node name="WaitUntilAstroidMiningComplete" type="Node" parent="MissionsAndEvents" node_paths=PackedStringArray("MissionToWaitFor")]
+script = ExtResource("6_0tnpc")
+TimeDelaySeconds = 10
+TimeDelayStartsWhen = 5
+MissionToWaitFor = NodePath("../AstroidMining")
+
+[node name="Amogus" type="Node" parent="MissionsAndEvents"]
+script = ExtResource("13_kvuet")
+
+[node name="WaitUntilEverythingIsCalmAgain2" type="Node" parent="MissionsAndEvents"]
+script = ExtResource("6_0tnpc")
+TimeDelaySeconds = 3
+
+[node name="PizzaTime" type="Node" parent="MissionsAndEvents"]
+script = ExtResource("14_trtic")
+
+[node name="AFewSecondsIntoPizzaTime" type="Node" parent="MissionsAndEvents" node_paths=PackedStringArray("MissionToWaitFor")]
+script = ExtResource("6_0tnpc")
+TimeDelaySeconds = 5
+TimeDelayStartsWhen = 4
+MissionToWaitFor = NodePath("../PizzaTime")
+
+[node name="MissionEngineRev" type="Node" parent="MissionsAndEvents"]
+script = SubResource("CSharpScript_trtic")

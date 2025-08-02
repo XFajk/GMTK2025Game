@@ -12,19 +12,22 @@ public partial class Person : PathFollow3D {
     public float MinRecalculationTime = 1.0f;
     [Export]
     public float MaxRecalculationTime = 3.0f;
+    [Export]
+    public bool IsCaptain = false;
 
     public bool InElevator = false;
     public int FloorNumber = 0;
 
     private RandomNumberGenerator _rng = new();
 
-    public Timer RecalculateTimer;
+    private Timer _recalculateTimer;
 
     public List<ShipLocation> ShipTargets = [];
     private FloorPath ParentFloorPath;
 
     public Door DoorInFront;
-    public CrewTask CurrentTask = null;
+    private CrewTask _currentTask = null;
+    public bool DoIdle = true;
 
 
     public override void _Ready() {
@@ -44,11 +47,11 @@ public partial class Person : PathFollow3D {
         }
 
         ProgressRatio = _rng.Randf();
-        RecalculateTimer = GetNode<Timer>("RecalculateTimer");
+        _recalculateTimer = GetNode<Timer>("RecalculateTimer");
 
         // This sets a callback that resets everything and sets a new target
-        RecalculateTimer.Timeout += () => {
-            RecalculateTimer.Stop();
+        _recalculateTimer.Timeout += () => {
+            _recalculateTimer.Stop();
             // This code makes sure that the new floor we want to transport the player to is different than the floor he is currently on
             int targetFloor;
             if (numberOfFloors < 1) {
@@ -64,19 +67,19 @@ public partial class Person : PathFollow3D {
 
     public override void _Process(double delta) {
         if (InElevator) {
-            return; 
+            return;
         }
-        if (DoorInFront != null && !DoorInFront.DoorOpen)  {
+        if (DoorInFront != null && !DoorInFront.DoorOpen) {
             return;
         }
         if (ShipTargets.Count == 0) {
             return;
         }
 
-        float adjustedSpeed = (CurrentTask == null) ? Speed : SpeedWithTask;
+        float adjustedSpeed = (_currentTask == null) ? Speed : SpeedWithTask;
         ProgressRatio = Mathf.MoveToward(ProgressRatio, ShipTargets[0].Ratio, (float)delta * adjustedSpeed);
 
-        if (Mathf.IsEqualApprox(ProgressRatio, ShipTargets[0].Ratio) && RecalculateTimer.IsStopped()) {
+        if (Mathf.IsEqualApprox(ProgressRatio, ShipTargets[0].Ratio) && _recalculateTimer.IsStopped()) {
             if (ShipTargets[0].IsElevator) {
                 var elevator = ParentFloorPath.FloorElevator;
                 var detector = GetNode<Area3D>("ElevatorDetector");
@@ -84,14 +87,14 @@ public partial class Person : PathFollow3D {
                 return;
             }
 
-            if (CurrentTask != null) {
+            if (_currentTask != null) {
                 // task completed
-                CurrentTask.OnTaskComplete.Invoke(this);
-                RecalculateTimer.WaitTime = CurrentTask.Duration;
-                RecalculateTimer.Start();
+                _currentTask.OnTaskComplete.Invoke(this);
+                _recalculateTimer.WaitTime = _currentTask.Duration;
+                _recalculateTimer.Start();
             } else {
                 // idle about
-                RecalculateTimer.Start(_rng.RandfRange(MinRecalculationTime, MaxRecalculationTime));
+                _recalculateTimer.Start(_rng.RandfRange(MinRecalculationTime, MaxRecalculationTime));
                 ShipTargets.Clear();
             }
         }
@@ -99,7 +102,7 @@ public partial class Person : PathFollow3D {
 
     public void SetTarget(ShipLocation location) {
         ShipTargets.Clear();
-        RecalculateTimer.Stop();
+        _recalculateTimer.Stop();
         if (location.Floor == FloorNumber) {
             ShipTargets.Add(location);
             return;
@@ -109,4 +112,19 @@ public partial class Person : PathFollow3D {
         ShipTargets.Add(location);
     }
 
+    public void SetCurrentTask(CrewTask task, ShipLocation location = null) {
+        ShipTargets.Clear();
+        if (location != null) SetTarget(location);
+
+        if (_currentTask != null) {
+            _currentTask.OnTaskAbort.Invoke(this);
+        }
+
+        _currentTask = task;
+
+        if (task == null) {
+            // explicitly start iding
+            _recalculateTimer.Start(_rng.RandfRange(0, 2));
+        }
+    }
 }

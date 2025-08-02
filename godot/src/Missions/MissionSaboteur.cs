@@ -1,0 +1,87 @@
+using Godot;
+using System;
+using System.Collections.Generic;
+
+// ඞ
+public partial class MissionSaboteur : Node, IMission {
+    public IMission.Properties Properties;
+
+    [Export(PropertyHint.Range, "0,60")]
+    public int TimeUntilEmergencyMeeting = 10;
+    [Export]
+    private Node3D GatherLocation;
+    [Export]
+    private int GatherTimeSeconds;
+    [Export]
+    private Node3D Airlock;
+    [Export]
+    private Node3D OutOfTheAirlock;
+    protected ulong _preparationStartTime;
+
+    private bool _isFinished = false;
+
+    void IMission.MissionReady(Ship ship) {
+        Properties = new() {
+            Title = "Mission: Saboteur",
+            Briefing = [
+                "I suspect that one of our crew is sabotaging our mission. ",
+                "Don't worry, we will try to find the impostor ourselves.",
+                "End of Brief"
+            ],
+            Debrief = [
+                "Well, It's been a pleasure"
+            ],
+        };
+        
+        _preparationStartTime = Time.GetTicksUsec();
+    }
+
+    public IMission.Properties GetMissionProperties() => Properties;
+
+    public void OnStart(Ship ship) {
+        EverybodyGoTo(GatherLocation.Position, ship);
+
+        Tween tween = GetTree().CreateTween();
+        tween.TweenCallback(Callable.From(() => EverybodyGoTo(Airlock.Position, ship))).SetDelay(5);
+        tween.TweenCallback(Callable.From(() => _isFinished = true)).SetDelay(2);
+    }
+
+    private static void EverybodyGoTo(Vector3 location, Ship ship) {
+        foreach (Person crewMember in ship.Crew) {
+            ship.ScheduleCrewTask(
+                new CrewTask() {
+                    Location = location,
+                    ActionType = CrewTask.Type.JustStandThere,
+                    Duration = float.MaxValue
+                },
+                crewMember
+            );
+        }
+    }
+
+    public void OnCompletion(Ship ship) {
+        Person captain = null;
+        foreach (Person crewMember in ship.Crew) {
+            crewMember.SetCurrentTask(null);
+            if (crewMember.IsCaptain) {
+                captain = crewMember;
+            }
+        }
+
+        // toss the captain out of the airlock
+        ship.ScheduleCrewTask(
+            new CrewTask() {
+                Location = OutOfTheAirlock.Position,
+                OnTaskComplete = p => p.QueueFree()
+            },
+            captain
+        );
+    }
+
+    public virtual bool IsPreparationFinished() {
+        double timePassed = (double)(Time.GetTicksUsec() - _preparationStartTime) / 1E6;
+        return _preparationStartTime != 0 && timePassed > TimeUntilEmergencyMeeting;
+    }
+
+    public bool IsMissionFinised() => _isFinished;
+}

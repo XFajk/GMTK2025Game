@@ -12,7 +12,7 @@ public partial class EventCrewSick : Node, IEvent {
     [Export]
     public Node3D CrewQuarters;
 
-    [Export(PropertyHint.Range, "0, 10, 0.1")]
+    [Export(PropertyHint.Range, "0, 2")]
     public float DisposablesUsedPerSecond;
 
     IEvent.Properties IEvent.GetProperties() => new() {

@@ -11,6 +11,9 @@ public partial class Ship : Node {
     [Export]
     private Godot.Collections.Dictionary<Resource, int> _initialResources;
 
+    [Export]
+    private int MaxConnectionCount = 1;
+
     private FloatingResourceManager _floatingResourceManager = new();
     public List<Machine> Machines { get; private set; } = new();
     public List<StorageContainer> Containers { get; private set; } = new();
@@ -19,14 +22,14 @@ public partial class Ship : Node {
 
     public List<IEventEffect> ActiveEffects = new();
 
-    private List<Connection> _connections = new();
+    private Queue<Connection> _connections = new();
     private Node _connectionsNode;
 
     public List<Floor> Floors;
     public List<Person> Crew;
     private RandomNumberGenerator _rng = new();
 
-    private List<IMission> _queuedMissions = new();
+    private List<Node> _unhandledEvents = new();
 
     public override void _Ready() {
         _rng.Randomize();
@@ -173,29 +176,54 @@ public partial class Ship : Node {
     public Connection AddConnection(Connectable a, Connectable b) {
         GD.Print($"Connected {a.Name} and {b.Name}");
         Connection connection = new(a, b);
-        _connections.Add(connection);
+
+        if (_connections.Count == MaxConnectionCount) {
+            Connection toRemove = _connections.Dequeue();
+        }
+
+        _connections.Enqueue(connection);
 
         return connection;
         // TODO add connection visuals to _connectionsNode
     }
 
     // previously HireForTask
-    public void ScheduleCrewTask(CrewTask task) {
+    // if crewMember is null, we find one that is available
+    public void ScheduleCrewTask(CrewTask task, Person crewMember = null) {
+        ShipLocation location = ShipLocation.ClosesToPoint(task.Location, Floors);
+
+        // if not set, pick one from the same floor
+        crewMember ??= GetClosestCrew(task.Location, crewMember, location.Floor);
+        // still nothing? anyone will do then
+        crewMember ??= GetClosestCrew(task.Location, crewMember);
+
+        crewMember.SetCurrentTask(task, location);
+    }
+
+    private Person GetClosestCrew(Vector3 position, Person crewMember, int? floor = null) {
+        float leastDistance = float.MaxValue;
         foreach (Person person in Crew) {
-            if (person.CurrentTask == null) {
-                person.CurrentTask = task;
-                person.SetTarget(ShipLocation.ClosesToPoint(task.Location, Floors));
+            if (floor != null && person.FloorNumber != floor) continue;
+
+            float distance = person.Position.DistanceSquaredTo(position);
+            if (distance < leastDistance) {
+                leastDistance = distance;
+                crewMember = person;
             }
         }
+
+        return crewMember;
     }
 
-    public void ScheduleMission(IMission mission) {
-        _queuedMissions.Add(mission);
+
+    public void ScheduleEvent(Node mission) {
+        _unhandledEvents.Add(mission);
     }
 
-    public IMission TryTakeMission() {
-        IMission mission = _queuedMissions.FirstOrDefault();
-        _queuedMissions.RemoveAt(0);
+    public Node TryTakeEvent() {
+        if (_unhandledEvents.Count == 0) return null;
+        Node mission = _unhandledEvents.First();
+        _unhandledEvents.RemoveAt(0);
         return mission;
     }
 
@@ -205,7 +233,7 @@ public partial class Ship : Node {
                 return c;
             }
         }
-        
+
         throw new ArgumentOutOfRangeException(nameof(resource), resource, $"No {resource} container found for selection {selection}");
     }
 

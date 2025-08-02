@@ -16,7 +16,7 @@ public interface IMission {
     Properties GetMissionProperties();
 
     // will be called just before the Briefing. _Ready is called way earlier
-    void Ready(Ship ship) { }
+    virtual void MissionReady(Ship ship) { }
     bool IsPreparationFinished();
     void OnStart(Ship ship);
     bool IsMissionFinised();

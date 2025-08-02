@@ -15,7 +15,7 @@ public partial class MissionPrepare : Node, IMission {
 
     private Ship _ship;
 
-    void IMission.Ready(Ship ship) {
+    void IMission.MissionReady(Ship ship) {
         _ship = ship;
         var allResources = _ship.GetTotalResourceQuantities();
         int foodQuantitiy = Mathf.RoundToInt(allResources[Resource.Food]);

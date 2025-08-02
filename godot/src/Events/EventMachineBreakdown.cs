@@ -14,11 +14,16 @@ public partial class EventMachineBreakdown : Node, IEvent {
 
     public void ApplyEffect(Ship ship) {
         Target.IsWorking = false;
+        ScheduleRepair(ship);
+    }
 
+    private void ScheduleRepair(Ship ship) {
         ship.ScheduleCrewTask(new CrewTask() {
             Location = Target.Position,
             Duration = SecondsToRepair,
-            OnTaskComplete = (p => Target.IsWorking = true)
+            OnTaskComplete = (p => Target.IsWorking = true),
+            OnTaskAbort = (p => ScheduleRepair(ship))
         });
     }
+
 }

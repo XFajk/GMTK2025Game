@@ -2,36 +2,26 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public partial class MissionTravel : Node, IMission {
+public partial class MissionTravel : TimedMission, IMission {
 
     [Export]
-    public string TargetName = "nearest";
-
-    [Export(PropertyHint.Range, "0,300,1")]
-    public float PreparationTime = 10.0f;
-
-    [Export(PropertyHint.Range, "0,600,10")]
-    public float Duration;
+    public string TargetSolarSystemName = "nearest";
 
     [Export(PropertyHint.Range, "0,1,0.05")]
     public float TargetEnginePower;
     public IMission.Properties Properties;
 
     private Ship _ship;
-    private ulong _preparationStartTime;
-
-    private ulong _startTime;
 
     private List<Engine> _engines = new();
 
-    void IMission.Ready(Ship ship) {
+    void IMission.MissionReady(Ship ship) {
         _ship = ship;
-        _preparationStartTime = Time.GetTicksUsec();
 
         Properties = new() {
             Title = "Mission: Reparations",
             Briefing = [
-                $"Today we will travel to the {TargetName} solar system. "
+                $"Today we will travel to the {TargetSolarSystemName} solar system. "
                 + $"We will run the engine at {TargetEnginePower * 100}% capacity, rather than the usual {Engine.DefaultEnginePower * 100}%. "
                 + $"Make sure the engine has enough coolant, and keep an eye on the water supply. "
                 + $"We will leave in {PreparationTime} seconds",
@@ -53,28 +43,17 @@ public partial class MissionTravel : Node, IMission {
         }
     }
 
-    public IMission.Properties GetMissionProperties() => Properties;
+    public override IMission.Properties GetMissionProperties() => Properties;
 
-    public void OnStart(Ship ship) {
-        _startTime = Time.GetTicksUsec();
+    public override void OnStart(Ship ship) {
         foreach (Engine e in _engines) {
             e.EnginePower = TargetEnginePower;
         }
     }
 
-    public void OnCompletion(Ship ship) {
+    public override void OnCompletion(Ship ship) {
         foreach (Engine e in _engines) {
             e.EnginePower = Engine.DefaultEnginePower;
         }
-    }
-
-    public bool IsPreparationFinished() {
-        double timePassed = (double)(Time.GetTicksUsec() - _preparationStartTime) / 1E6;
-        return _preparationStartTime != 0 && timePassed > PreparationTime;
-    }
-
-    public bool IsMissionFinised() {
-        double timePassed = (double)(Time.GetTicksUsec() - _startTime) / 1E6;
-        return _startTime != 0 && timePassed > Duration;
     }
 }
