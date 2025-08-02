@@ -287,11 +287,10 @@ transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, 0.258973, 0.455998, 
 visible = false
 
 [node name="CoolantCooler" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 6, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 4, 0)
 script = ExtResource("2_gudjc")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="CoolantCooler"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
 mesh = SubResource("BoxMesh_f23tx")
 
 [node name="Inputs" type="Node" parent="CoolantCooler"]
@@ -319,7 +318,7 @@ QuantityChangeInReceipe = 1
 [node name="ConnectionNodes" type="Node3D" parent="CoolantCooler"]
 
 [node name="ConnectionNode" parent="CoolantCooler/ConnectionNodes" instance=ExtResource("3_7j21i")]
-transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, -0.195845, -1.544, 0.397518)
+transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, -0.195845, 0.456, 0.397518)
 
 [node name="ConnectionNode2" parent="CoolantCooler/ConnectionNodes" instance=ExtResource("3_7j21i")]
 transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, 0.258973, 0.455998, 0.397518)
@@ -332,7 +331,6 @@ texture = SubResource("ViewportTexture_dschd")
 [node name="HoverDetectionArea" type="Area3D" parent="CoolantCooler"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CoolantCooler/HoverDetectionArea"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
 shape = SubResource("BoxShape3D_bseor")
 
 [node name="Engine" type="Node3D" parent="."]
@@ -552,19 +550,18 @@ texture = SubResource("ViewportTexture_mx31c")
 shape = SubResource("BoxShape3D_bseor")
 
 [node name="ColdCoolantStorage" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 6, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 4, 0)
 script = ExtResource("4_tfsc7")
 Resource = 2
 MaxQuantity = 1000
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="ColdCoolantStorage"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
 mesh = SubResource("BoxMesh_f23tx")
 
 [node name="ConnectionNodes" type="Node3D" parent="ColdCoolantStorage"]
 
 [node name="ConnectionNode" parent="ColdCoolantStorage/ConnectionNodes" instance=ExtResource("3_7j21i")]
-transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, -0.255433, -1.51574, 0.480624)
+transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, -0.255433, 0.48426, 0.480624)
 
 [node name="MachineStatusInterface" parent="ColdCoolantStorage" instance=ExtResource("8_bseor")]
 transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0, 1.39947, 0)
@@ -573,7 +570,6 @@ texture = SubResource("ViewportTexture_fs4we")
 [node name="HoverDetectionArea" type="Area3D" parent="ColdCoolantStorage"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="ColdCoolantStorage/HoverDetectionArea"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
 shape = SubResource("BoxShape3D_bseor")
 
 [node name="FoodStorage" type="Node3D" parent="."]

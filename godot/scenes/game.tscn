@@ -31,6 +31,7 @@ InitialTimeDelay = 2
 [node name="Prepare" type="Node" parent="MissionsAndEvents"]
 script = ExtResource("4_p57ef")
 FoodRequired = 100
+GarbageMax = 5
 
 [node name="WaitUntilFinished1" type="Node" parent="MissionsAndEvents"]
 script = ExtResource("6_0tnpc")
@@ -39,7 +40,7 @@ TimeDelaySeconds = 2
 [node name="TravelToSequin" type="Node" parent="MissionsAndEvents"]
 script = ExtResource("4_iywne")
 TargetName = "Sequin"
-Duration = 180.0
+Duration = 120.0
 TargetEnginePower = 1.0
 
 [node name="WaitUntilFinished2" type="Node" parent="MissionsAndEvents"]
