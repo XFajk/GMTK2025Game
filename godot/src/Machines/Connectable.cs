@@ -16,14 +16,24 @@ public abstract partial class Connectable : Node3D {
         _statusInterface = GetNodeOrNull<StatusInterface>("MachineStatusInterface");
         if (_statusInterface != null) _statusInterface.MachineNameLabel.Text = Name;
 
-        _hoverDetectionArea = GetNodeOrNull<Area3D>("HoverDetectionArea");
+        _hoverDetectionArea = GetNode<Area3D>("HoverDetectionArea");
+
+        _hoverDetectionArea.SetCollisionLayerValue(1, false);
+        _hoverDetectionArea.SetCollisionMaskValue(1, false);
+
+        _hoverDetectionArea.SetCollisionLayerValue(5, true);
+        _hoverDetectionArea.SetCollisionMaskValue(5, true);
+
+        _hoverDetectionArea.AddToGroup("MachineDetectionAreas");
+
+
         if (_hoverDetectionArea != null) {
             _hoverDetectionArea.MouseEntered += () => {
                 if (_statusInterface != null) {
                     _statusInterface.Visible = true;
                 }
             };
-            
+
             _hoverDetectionArea.MouseExited += () => {
                 if (_statusInterface != null) {
                     _statusInterface.Visible = false;

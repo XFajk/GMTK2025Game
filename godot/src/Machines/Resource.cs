@@ -24,11 +24,11 @@ public enum Resource {
 public class Resources {
 
     private static Texture2D[] _resourceIcons = {
-        GD.Load<Texture2D>("res://assets/icons/coolant_hot.png"),
-        GD.Load<Texture2D>("res://assets/icons/coolant_cold.png"),
-        GD.Load<Texture2D>("res://assets/icons/humidity.png"),
-        GD.Load<Texture2D>("res://assets/icons/water.png"),
-        GD.Load<Texture2D>("res://assets/icons/food.png"),
+        GD.Load<Texture2D>("res://assets/sprites/coolant_hot.png"),
+        GD.Load<Texture2D>("res://assets/sprites/coolant_cold.png"),
+        GD.Load<Texture2D>("res://assets/sprites/humidity.png"),
+        GD.Load<Texture2D>("res://assets/sprites/water.png"),
+        GD.Load<Texture2D>("res://assets/sprites/food.png"),
         GD.Load<Texture2D>("res://assets/icons/fluid_waste.png"),
         GD.Load<Texture2D>("res://assets/icons/solid_waste.png"),
         GD.Load<Texture2D>("res://assets/icons/oxygen.png"),

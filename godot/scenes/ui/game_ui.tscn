@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://kv1h8f6jesp"]
+[gd_scene load_steps=9 format=3 uid="uid://kv1h8f6jesp"]
 
 [ext_resource type="PackedScene" uid="uid://bqyjx3w8kmd7v" path="res://scenes/ui/resource_lable.tscn" id="1_gwk6t"]
 [ext_resource type="Script" uid="uid://duklq3ywprpea" path="res://src/ui/GameUi.cs" id="1_v1bdg"]
@@ -6,6 +6,8 @@
 [ext_resource type="Theme" uid="uid://slxggstqjbqr" path="res://misc/core_ui_theame.tres" id="2_xjfbv"]
 [ext_resource type="Texture2D" uid="uid://c44niq23o40tu" path="res://assets/misc/short_arrow_icon.svg" id="4_v1bdg"]
 [ext_resource type="PackedScene" uid="uid://2d2hbkqmfrx" path="res://scenes/ui/mission_dialog.tscn" id="6_v1bdg"]
+[ext_resource type="Texture2D" uid="uid://cdwxn7luor35t" path="res://assets/sprites/coolant_hot.png" id="6_yvtb5"]
+[ext_resource type="Texture2D" uid="uid://c5i6kuuckpmn6" path="res://assets/sprites/coolant_cold.png" id="7_k7elv"]
 
 [node name="GameUI" type="Control"]
 layout_mode = 3
@@ -55,6 +57,9 @@ visible = false
 layout_mode = 2
 Resource = 1
 
+[node name="TextureRect" parent="ResourceExpandButton/Resources/HotCoolant" index="0"]
+texture = ExtResource("6_yvtb5")
+
 [node name="ResourceName" parent="ResourceExpandButton/Resources/HotCoolant" index="1"]
 text = "Hot Coolant : "
 
@@ -62,6 +67,9 @@ text = "Hot Coolant : "
 visible = false
 layout_mode = 2
 Resource = 2
+
+[node name="TextureRect" parent="ResourceExpandButton/Resources/Cold Coolant" index="0"]
+texture = ExtResource("7_k7elv")
 
 [node name="ResourceName" parent="ResourceExpandButton/Resources/Cold Coolant" index="1"]
 text = "Cold Coolant : "
