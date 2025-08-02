@@ -8,7 +8,7 @@ public partial class Ship : Node {
     public float ConnectionTransferRate = 10;
 
     [Export]
-    private Godot.Collections.Dictionary<Resource, float> _initialResources;
+    private Godot.Collections.Dictionary<Resource, int> _initialResources;
 
     private FloatingResourceManager _floatingResourceManager = new();
     public List<Machine> Machines { get; private set; } = new();
@@ -41,11 +41,8 @@ public partial class Ship : Node {
         _floatingResourceManager.Ready(Machines, GetNode("FloatingResources"));
 
         // initialize resource buffers
-        foreach (IContainer buffer in AllContainers()) {
-            if (_initialResources.TryGetValue(buffer.GetResource(), out float fraction)) {
-                buffer.SetQuantity(buffer.GetMaxQuantity() * fraction);
-                GD.Print($"Set {buffer.GetName()} to {buffer.GetQuantity()} {buffer.GetResource()}");
-            }
+        foreach (var entry in _initialResources) {
+            AddResource(entry.Key, entry.Value);
         }
 
         Crew = GetTree().GetNodesInGroup("Crew").OfType<Person>().ToList();
