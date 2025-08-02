@@ -14,6 +14,8 @@ public abstract partial class Connectable : Node3D {
     public override void _Ready() {
 
         _statusInterface = GetNodeOrNull<StatusInterface>("MachineStatusInterface");
+        if (_statusInterface != null) _statusInterface.MachineNameLabel.Text = Name;
+
         _hoverDetectionArea = GetNodeOrNull<Area3D>("HoverDetectionArea");
         if (_hoverDetectionArea != null) {
             _hoverDetectionArea.MouseEntered += () => {
