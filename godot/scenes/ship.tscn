@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cgccmqaeo11dk"]
+[gd_scene load_steps=11 format=3 uid="uid://cgccmqaeo11dk"]
 
 [ext_resource type="Script" uid="uid://c41j8f7y8s5pn" path="res://src/Ship.cs" id="1_q631a"]
 [ext_resource type="Script" uid="uid://dx4b8dlivs2dq" path="res://src/Machines/Machine.cs" id="2_gudjc"]
@@ -8,15 +8,18 @@
 [ext_resource type="Script" uid="uid://crs06kmuc1fi1" path="res://src/Machines/FloatingResource.cs" id="6_7j21i"]
 [ext_resource type="Script" uid="uid://cktjf2cpg2cwg" path="res://src/Machines/Process.cs" id="7_3m36u"]
 [ext_resource type="Script" uid="uid://dchlx4kc4xldy" path="res://src/Machines/InputOutput.cs" id="8_8qiel"]
+[ext_resource type="Script" uid="uid://dc7fa1reuuwmu" path="res://src/Machines/Plants.cs" id="9_itrim"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_f23tx"]
 
 [node name="Ship" type="Node3D"]
 script = ExtResource("1_q631a")
-_initialResources = Dictionary[int, float]({
-4: 0.5,
-5: 0.1,
-8: 0.4
+_initialResources = Dictionary[int, int]({
+2: 100,
+4: 500,
+8: 500,
+9: 100,
+11: 40
 })
 
 [node name="Connections" type="Node" parent="."]
@@ -307,7 +310,7 @@ transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, 0.258973, 0.455998, 
 [node name="GarbageBurner" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 6, 0)
 script = ExtResource("2_gudjc")
-_processingPerSecond = 0.1
+_processingPerSecond = 2.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="GarbageBurner"]
 mesh = SubResource("BoxMesh_f23tx")
@@ -452,7 +455,8 @@ transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, -0.255433, 0.484256,
 
 [node name="Plants" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 4, 0)
-script = ExtResource("2_gudjc")
+script = ExtResource("9_itrim")
+_processingPerSecond = 0.25
 
 [node name="Inputs" type="Node" parent="Plants"]
 
@@ -495,8 +499,15 @@ transform = Transform3D(-0.0176618, 0, -0.999844, 0, 1, 0, 0.999844, 0, -0.01766
 mesh = SubResource("BoxMesh_f23tx")
 
 [node name="Garbage" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 8, 0)
 script = ExtResource("4_tfsc7")
 Resource = 11
 MaxQuantity = 100
 
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Garbage"]
+mesh = SubResource("BoxMesh_f23tx")
+
 [node name="ConnectionNodes" type="Node3D" parent="Garbage"]
+
+[node name="ConnectionNode" parent="Garbage/ConnectionNodes" instance=ExtResource("3_7j21i")]
+transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, -0.255433, 0.484256, 0.480624)

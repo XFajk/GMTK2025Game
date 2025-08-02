@@ -5,13 +5,14 @@
 [ext_resource type="Script" uid="uid://eno67lob8bbv" path="res://src/ui/ResourceExpandButton.cs" id="2_fct72"]
 [ext_resource type="Theme" uid="uid://slxggstqjbqr" path="res://misc/core_ui_theame.tres" id="2_xjfbv"]
 [ext_resource type="Texture2D" uid="uid://bvxmt552pkv6w" path="res://assets/misc/arrow_icon.svg" id="3_bma8u"]
+[ext_resource type="PackedScene" uid="uid://2d2hbkqmfrx" path="res://scenes/ui/mission_dialog.tscn" id="6_v1bdg"]
 
 [node name="GameUI" type="Control"]
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_v1bdg")
 
-[node name="ResourceExpandButton" type="Button" parent="." node_paths=PackedStringArray("MissionDialog")]
+[node name="ResourceExpandButton" type="Button" parent="."]
 layout_mode = 0
 offset_left = 62.0
 offset_top = 37.0
@@ -22,7 +23,6 @@ toggle_mode = true
 text = "Resources
 "
 script = ExtResource("2_fct72")
-MissionDialog = NodePath("")
 
 [node name="Panel" type="Panel" parent="ResourceExpandButton"]
 layout_mode = 1
@@ -136,6 +136,9 @@ Resource = 11
 
 [node name="ResourceName" parent="ResourceExpandButton/Resources/Garbage" index="1"]
 text = "Garbage : "
+
+[node name="MissionDialog" parent="." instance=ExtResource("6_v1bdg")]
+visible = false
 
 [editable path="ResourceExpandButton/Resources/HotCoolant"]
 [editable path="ResourceExpandButton/Resources/Cold Coolant"]
