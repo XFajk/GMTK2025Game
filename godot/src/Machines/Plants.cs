@@ -15,14 +15,19 @@ public partial class Plants : Machine {
 
     private float _baseProcessingPerSecond;
 
+    private ProgressBar _plantHealthBar = GD.Load<PackedScene>("res://scenes/ui/plant_health_status_bar.tscn").Instantiate<ProgressBar>();
+
     public override void _Ready() {
         base._Ready();
         _baseProcessingPerSecond = _processingPerSecond;
+
+        _statusInterface.AddPlantHealthBar(_plantHealthBar);
     }
 
     public override void _Process(double deltaTime) {
 
         PlantHealth = Mathf.Clamp(PlantHealth, 0, 2.0f);
+        _plantHealthBar.Value = PlantHealth / 2.0f * 100;
         _processingPerSecond = _baseProcessingPerSecond * PlantHealth;
         
         // always progess
