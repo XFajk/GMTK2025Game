@@ -26,7 +26,7 @@ transform = Transform3D(0.938324, 0.116882, -0.325402, -0.122798, 0.992429, 0.00
 
 [node name="MissionsAndEvents" type="Node" parent="."]
 script = ExtResource("5_gee14")
-InitialTimeDelay = 1
+InitialTimeDelay = 2
 
 [node name="Prepare" type="Node" parent="MissionsAndEvents"]
 script = ExtResource("4_p57ef")
