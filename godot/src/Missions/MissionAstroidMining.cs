@@ -22,7 +22,7 @@ public partial class MissionAstroidMining : Node, IMission {
     private ulong _preparationStartTime;
     private ulong _startTime;
 
-    void IMission.Ready() {
+    void IMission.Ready(Ship ship) {
         float carbonToOxygen = Resources.GetRatio(Resource.CarbonDioxide, Resource.Oxygen);
         float disposablesToCarbon = Resources.GetRatio(Resource.Disposables, Resource.CarbonDioxide);
 
@@ -34,7 +34,7 @@ public partial class MissionAstroidMining : Node, IMission {
     }
 
     public string[] Briefing() => [
-        "Today we will be running an astroid minig operation. "
+        "Today we will be running an astroid mining operation. "
         + $"For this mission we will need {Resources.ToUnit(Resource.Disposables, RequiredDisposables)} plastic materials, "
         + $"and the operation will consume up to {Resources.ToUnit(Resource.Oxygen, Mathf.CeilToInt(OxygenDrainPerSecond * 60))} oxygen per minute"
         + $"The operation begins in {PreparationTime} seconds",

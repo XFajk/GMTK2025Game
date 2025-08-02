@@ -1,6 +1,7 @@
 
 
 using System.Collections.Generic;
+using System.Linq;
 
 
 /// 0: `Ready` is called
@@ -12,7 +13,7 @@ using System.Collections.Generic;
 /// 7: the player sees the Debrief
 public interface IMission : IEvent {
     // will be called just before the Briefing. _Ready is called way earlier
-    void Ready() { }
+    void Ready(Ship ship) { }
     // TODO maybe return something smarter
     string[] Briefing();
     bool IsPreparationFinished();
@@ -20,4 +21,9 @@ public interface IMission : IEvent {
     bool IsMissionFinised();
     void OnCompletion(Ship ship);
     string[] Debrief();
+
+    bool CheckMaterialRequirements(Ship ship) {
+        var allResources = ship.GetTotalResourceQuantities();
+        return GetMaterialRequirements().All(req => allResources[req.Key] >= req.Value);
+    }
 }

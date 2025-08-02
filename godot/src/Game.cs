@@ -38,7 +38,7 @@ public partial class Game : Node {
     private void ExecuteEventsOfNode(Node eventNode) {
         if (eventNode is IMission newMission) {
             // 0: `Ready` is called
-            newMission.Ready();
+            newMission.Ready(_shipNode);
 
             // 1: the player sees the Briefing
             
