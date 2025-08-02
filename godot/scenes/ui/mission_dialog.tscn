@@ -1,0 +1,54 @@
+[gd_scene load_steps=4 format=3 uid="uid://2d2hbkqmfrx"]
+
+[ext_resource type="Theme" uid="uid://slxggstqjbqr" path="res://misc/core_ui_theame.tres" id="1_w8hnu"]
+[ext_resource type="Script" uid="uid://cud78w8qt4qsb" path="res://src/ui/MissionDialog.cs" id="2_qufku"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_w8hnu"]
+font_size = 22
+
+[node name="MissionDialog" type="AcceptDialog"]
+process_mode = 3
+auto_translate_mode = 1
+title = "ALERT!"
+initial_position = 2
+size = Vector2i(661, 436)
+visible = true
+exclusive = false
+unresizable = true
+theme = ExtResource("1_w8hnu")
+script = ExtResource("2_qufku")
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchor_left = 0.0121029
+anchor_top = 0.0229358
+anchor_right = 0.987897
+anchor_bottom = 0.885321
+offset_top = -2.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="MissionTitle" type="Label" parent="UI"]
+layout_mode = 1
+offset_right = 233.0
+offset_bottom = 26.0
+text = "Some Crazy Title"
+label_settings = SubResource("LabelSettings_w8hnu")
+
+[node name="Description" type="RichTextLabel" parent="UI"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.12234
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_w8hnu")
+text = "Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.
+
+Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.
+
+Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos."
+metadata/_edit_use_anchors_ = true
