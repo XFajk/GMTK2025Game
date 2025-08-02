@@ -11,7 +11,7 @@ public partial class MissionDialog : AcceptDialog {
     }
 
     public void ShowMission(string windowTitle, string title, string[] description) {
-        Title = title;
+        Title = windowTitle;
         _description.Text = string.Join(System.Environment.NewLine, description);
         _missionTitle.Text = title;
         Popup();

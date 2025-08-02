@@ -12,7 +12,7 @@ public partial class MissionManager : Node {
     public Ship Ship;
 
     private double _gameTimeSecond = 0;
-    private int progress = 0;
+    private int progress = -1;
 
     [Export]
     int InitialTimeDelay = 0;

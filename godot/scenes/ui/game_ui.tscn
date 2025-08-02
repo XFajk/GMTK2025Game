@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://kv1h8f6jesp"]
+[gd_scene load_steps=7 format=3 uid="uid://kv1h8f6jesp"]
 
 [ext_resource type="PackedScene" uid="uid://bqyjx3w8kmd7v" path="res://scenes/ui/resource_lable.tscn" id="1_gwk6t"]
 [ext_resource type="Script" uid="uid://duklq3ywprpea" path="res://src/ui/GameUi.cs" id="1_v1bdg"]
@@ -138,6 +138,10 @@ Resource = 11
 text = "Garbage : "
 
 [node name="MissionDialog" parent="." instance=ExtResource("6_v1bdg")]
+process_mode = 0
+initial_position = 0
+position = Vector2i(802, 471)
+size = Vector2i(300, 150)
 visible = false
 
 [editable path="ResourceExpandButton/Resources/HotCoolant"]

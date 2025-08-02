@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bp0g8sc4t5qhs" path="res://src/Game.cs" id="1_yqjtg"]
 [ext_resource type="PackedScene" uid="uid://cgccmqaeo11dk" path="res://scenes/ship.tscn" id="2_lnu2h"]
-[ext_resource type="PackedScene" uid="uid://dylkxds22o1bg" path="res://scenes/ui/mission_dialog.tscn" id="2_u5sy4"]
+[ext_resource type="PackedScene" uid="uid://2d2hbkqmfrx" path="res://scenes/ui/mission_dialog.tscn" id="2_u5sy4"]
 [ext_resource type="PackedScene" uid="uid://6cj8en2hqm8j" path="res://scenes/player.tscn" id="3_lnu2h"]
 [ext_resource type="Script" uid="uid://1awaf4g0k21o" path="res://src/Missions/MissionTravel.cs" id="4_iywne"]
 [ext_resource type="Script" uid="uid://rjfdxfxufa01" path="res://src/Missions/MissionPrepare.cs" id="4_p57ef"]
@@ -26,13 +26,13 @@ transform = Transform3D(0.938324, 0.116882, -0.325402, -0.122798, 0.992429, 0.00
 
 [node name="MissionsAndEvents" type="Node" parent="."]
 script = ExtResource("5_gee14")
-InitialTimeDelay = 5
+InitialTimeDelay = 1
 
 [node name="Prepare" type="Node" parent="MissionsAndEvents"]
 script = ExtResource("4_p57ef")
 FoodRequired = 100
 
-[node name="WaitUntilFinished" type="Node" parent="MissionsAndEvents"]
+[node name="WaitUntilFinished1" type="Node" parent="MissionsAndEvents"]
 script = ExtResource("6_0tnpc")
 TimeDelaySeconds = 2
 

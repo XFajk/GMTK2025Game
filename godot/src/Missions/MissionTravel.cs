@@ -22,8 +22,6 @@ public partial class MissionTravel : Node, IMission {
 
     private ulong _startTime;
 
-    public string GetTitle() => "Mission: Hyperspace jump";
-
     void IMission.Ready(Ship ship) {
         _ship = ship;
         _preparationStartTime = Time.GetTicksUsec();

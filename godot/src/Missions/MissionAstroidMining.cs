@@ -47,7 +47,7 @@ public partial class MissionAstroidMining : Node, IMission {
             ],
             ResourceMinimumRequirements = [KeyValuePair.Create(Resource.Disposables, RequiredDisposables)],
             Debrief = [
-                "Mission success! "
+                "Mission completed! "
                 + $"We will be emptying our cylinders of carbon dioxide for the next {(int) CarbonDioxideReturnQuantity / CarbonDumpPerSecond} seconds or so."
             ]
         };

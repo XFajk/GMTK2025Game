@@ -32,14 +32,15 @@ public partial class Game : Node {
 
     public void ShowMissionDialog(IMission mission, bool briefing) {
         MissionDialog dialog = _missionPopup.Instantiate<MissionDialog>();
-        _ui.AddChild(dialog);
-        dialog.Confirmed += () => {
-            GetTree().Paused = false;
-        };
+        AddChild(dialog);
+
+        void unpause() => GetTree().Paused = false;
+        dialog.Confirmed += unpause;
+        dialog.Canceled += unpause;
         GetTree().Paused = true;
 
         IMission.Properties properties = mission.GetMissionProperties();
-        dialog.ShowMission(properties.Title, briefing ? properties.Briefing : properties.Debrief);
+        dialog.ShowMission(briefing ? "New Mission" : "Mission Success", properties.Title, briefing ? properties.Briefing : properties.Debrief);
     }
 
     public override void _Process(double delta) {
