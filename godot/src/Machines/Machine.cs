@@ -15,10 +15,10 @@ public partial class Machine : Connectable, IRepairable {
     protected float _processingPerSecond = 1;
     
     /// the inputs and outputs of the recipe
-    private List<MachineBuffer> _recipeParts = new();
+    protected List<MachineBuffer> _recipeParts = new();
 
     /// avoid rounding errors
-    private float _processProgress = 0;
+    protected float _processProgress = 0;
 
     public override IEnumerable<MachineBuffer> Inputs() => _recipeParts.Where(c => c.QuantityChangeInReceipe < 0);
     public override IEnumerable<MachineBuffer> Outputs() => _recipeParts.Where(c => c.QuantityChangeInReceipe > 0);
@@ -78,7 +78,7 @@ public partial class Machine : Connectable, IRepairable {
 
     // returns true if we can execute the receipe at least once
     // returns false if we don't have ingredients or space
-    private static bool CanCycle(MachineBuffer container) {
+    protected static bool CanCycle(MachineBuffer container) {
         int quantityAfterCycle = (int) container.Quantity + container.QuantityChangeInReceipe;
         return quantityAfterCycle >= 0 && quantityAfterCycle <= container.MaxQuantity;
     }
