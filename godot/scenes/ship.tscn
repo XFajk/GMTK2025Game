@@ -325,7 +325,7 @@ transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, 0.258973, 0.455998, 
 visible = false
 
 [node name="MachineStatusInterface" parent="CoolantCooler" instance=ExtResource("8_bseor")]
-transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0, 1.36166, 0)
+transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0, -0.443374, 0)
 texture = SubResource("ViewportTexture_dschd")
 
 [node name="HoverDetectionArea" type="Area3D" parent="CoolantCooler"]
@@ -564,7 +564,7 @@ mesh = SubResource("BoxMesh_f23tx")
 transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, -0.255433, 0.48426, 0.480624)
 
 [node name="MachineStatusInterface" parent="ColdCoolantStorage" instance=ExtResource("8_bseor")]
-transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0, 1.39947, 0)
+transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0, -0.515711, 0)
 texture = SubResource("ViewportTexture_fs4we")
 
 [node name="HoverDetectionArea" type="Area3D" parent="ColdCoolantStorage"]

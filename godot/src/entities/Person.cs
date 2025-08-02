@@ -29,11 +29,24 @@ public partial class Person : PathFollow3D {
     private CrewTask _currentTask = null;
     public bool DoIdle = true;
 
+    public Sprite3D AlienSprite;
+    private float _alienSpriteAnimatinTimerValue = 0.0f;
+    private int _alienSpriteAnimationRotationChanger = 1;
+
+
+    private static PackedScene GarbageScene = GD.Load<PackedScene>("res://scenes/entities/garbage.tscn");
+    private static Timer _garbageTimer;
 
     public override void _Ready() {
         _rng.Randomize();
 
         AddToGroup("Crew");
+
+        AlienSprite = GetNode<Sprite3D>("AlienSprite");
+
+        _garbageTimer = new();
+        AddChild(_garbageTimer);
+        _garbageTimer.Start(_rng.RandfRange(15.0f, 30.0f));
 
         FloorPath parent = GetParent<FloorPath>();
 
@@ -45,6 +58,18 @@ public partial class Person : PathFollow3D {
         } else {
             GD.PrintErr("Person Is not attached to a FloorPath");
         }
+
+        _garbageTimer.Timeout += () => {
+            if (InElevator) {
+                return;
+            }
+            var garbage = GarbageScene.Instantiate<Pickupable>();
+            parent.GetParent().AddChild(garbage);
+            garbage.GlobalPosition = GlobalPosition + new Vector3(0.0f, 1.0f, 0.0f) * 0.1f;
+            garbage.OriginalPosition = GlobalPosition + new Vector3(0.0f, 1.0f, 0.0f) * 0.1f;
+            _garbageTimer.Start(_rng.RandfRange(15.0f, 30.0f));
+            GD.Print("Garbage spawned at " + garbage.GlobalPosition);
+        };
 
         ProgressRatio = _rng.Randf();
         _recalculateTimer = GetNode<Timer>("RecalculateTimer");
@@ -67,17 +92,32 @@ public partial class Person : PathFollow3D {
 
     public override void _Process(double delta) {
         if (InElevator) {
+            AlienSprite.Rotation = new Vector3(0, 0, 0);
             return;
         }
         if (DoorInFront != null && !DoorInFront.DoorOpen) {
+            AlienSprite.Rotation = new Vector3(0, 0, 0);
             return;
         }
         if (ShipTargets.Count == 0) {
+            AlienSprite.Rotation = new Vector3(0, 0, 0);
             return;
         }
 
         float adjustedSpeed = (_currentTask == null) ? Speed : SpeedWithTask;
         ProgressRatio = Mathf.MoveToward(ProgressRatio, ShipTargets[0].Ratio, (float)delta * adjustedSpeed);
+        if (ShipTargets[0].Ratio - ProgressRatio < 0.0f) {
+            AlienSprite.FlipH = true;
+        } else {
+            AlienSprite.FlipH = false;
+        }
+
+        _alienSpriteAnimatinTimerValue += (float)delta;
+        if (_alienSpriteAnimatinTimerValue > 0.2f) {
+            _alienSpriteAnimatinTimerValue = 0.0f;
+            _alienSpriteAnimationRotationChanger *= -1;
+            AlienSprite.RotateZ(Mathf.DegToRad(20 * _alienSpriteAnimationRotationChanger));
+        }
 
         if (Mathf.IsEqualApprox(ProgressRatio, ShipTargets[0].Ratio) && _recalculateTimer.IsStopped()) {
             if (ShipTargets[0].IsElevator) {

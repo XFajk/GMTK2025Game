@@ -38,6 +38,7 @@ Savers="This gorup is only for Saver nodes and it exist's to make looking up the
 Crew=""
 Interactables="For Nodes that are Interactable"
 Floors=""
+MachineDetectionAreas=""
 
 [input]
 
@@ -82,3 +83,5 @@ mouse_zoom_out={
 3d_physics/layer_1="Main "
 3d_physics/layer_2="Crew"
 3d_physics/layer_3="Doors"
+3d_physics/layer_4="Pickapables"
+3d_physics/layer_5="Machines"
