@@ -27,6 +27,7 @@ public partial class Machine : Connectable, IRepairable {
 
     public override void _Ready() {
         base._Ready();
+
         foreach (Node child in GetNode("Inputs").GetChildren()) {
             if (child is MachineBuffer input) {
                 // we just add the inputs as a negative quantity change resulting from running the receipe
@@ -40,6 +41,9 @@ public partial class Machine : Connectable, IRepairable {
                 _recipeParts.Add(output);
             }
         }
+
+
+        _statusInterface.SetRecepiePartsIntoInterface(_recipeParts);
 
         if (_isLossless) Resources.VerifyLossless(_recipeParts, Name);
     }
