@@ -12,6 +12,11 @@ public partial class StorageContainer : Connectable, IContainer {
     // floating-point to avoid rounding errors
     public float Quantity;
 
+    public override void _Ready() {
+        base._Ready();
+        _statusInterface.SetStorageContainerIntoInterface(this);
+    }
+
     public override IEnumerable<IContainer> Inputs() {
         yield return this;
     }

@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://duklq3ywprpea" path="res://src/ui/GameUi.cs" id="1_v1bdg"]
 [ext_resource type="Script" uid="uid://eno67lob8bbv" path="res://src/ui/ResourceExpandButton.cs" id="2_fct72"]
 [ext_resource type="Theme" uid="uid://slxggstqjbqr" path="res://misc/core_ui_theame.tres" id="2_xjfbv"]
-[ext_resource type="Texture2D" uid="uid://bvxmt552pkv6w" path="res://assets/misc/arrow_icon.svg" id="3_bma8u"]
+[ext_resource type="Texture2D" uid="uid://c44niq23o40tu" path="res://assets/misc/short_arrow_icon.svg" id="4_v1bdg"]
 [ext_resource type="PackedScene" uid="uid://2d2hbkqmfrx" path="res://scenes/ui/mission_dialog.tscn" id="6_v1bdg"]
 
 [node name="GameUI" type="Control"]
@@ -36,17 +36,18 @@ offset_bottom = 14.0
 grow_vertical = 2
 
 [node name="ArrowIcon" type="Sprite2D" parent="ResourceExpandButton"]
-position = Vector2(-16, 17)
+position = Vector2(-16.62, 17)
 rotation = -3.14159
 scale = Vector2(0.655311, 0.655311)
-texture = ExtResource("3_bma8u")
+texture = ExtResource("4_v1bdg")
+flip_h = true
 
 [node name="Resources" type="VBoxContainer" parent="ResourceExpandButton"]
 layout_mode = 1
-offset_left = -28.4
-offset_top = 40.66
-offset_right = 201.6
-offset_bottom = 476.66
+offset_left = -28.0
+offset_top = 41.0
+offset_right = 202.0
+offset_bottom = 41.0
 mouse_filter = 2
 
 [node name="HotCoolant" parent="ResourceExpandButton/Resources" instance=ExtResource("1_gwk6t")]

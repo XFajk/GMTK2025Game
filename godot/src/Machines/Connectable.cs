@@ -8,7 +8,27 @@ public abstract partial class Connectable : Node3D {
     // Handled by Game.cs
     public delegate void OnConnectionClickEventHandler(Connectable machine, ConnectionNode point);
 
+    protected Area3D _hoverDetectionArea = null;
+    protected StatusInterface _statusInterface = null;
+
     public override void _Ready() {
+
+        _statusInterface = GetNodeOrNull<StatusInterface>("MachineStatusInterface");
+        _hoverDetectionArea = GetNodeOrNull<Area3D>("HoverDetectionArea");
+        if (_hoverDetectionArea != null) {
+            _hoverDetectionArea.MouseEntered += () => {
+                if (_statusInterface != null) {
+                    _statusInterface.Visible = true;
+                }
+            };
+            
+            _hoverDetectionArea.MouseExited += () => {
+                if (_statusInterface != null) {
+                    _statusInterface.Visible = false;
+                }
+            };
+        }
+
         foreach (Node child in GetNode("ConnectionNodes").GetChildren()) {
             if (child is ConnectionNode node) {
                 node.InputEvent += (_, eventType, _, _, _) => {

@@ -1,11 +1,18 @@
-[gd_scene load_steps=4 format=3 uid="uid://0rmy461ykeb"]
+[gd_scene load_steps=6 format=3 uid="uid://0rmy461ykeb"]
 
 [ext_resource type="Script" uid="uid://bp0g8sc4t5qhs" path="res://src/Game.cs" id="1_yqjtg"]
+[ext_resource type="PackedScene" uid="uid://cehfed0n6bve1" path="res://scenes/entities/machine_status_interface.tscn" id="2_lbhrr"]
 [ext_resource type="PackedScene" uid="uid://cgccmqaeo11dk" path="res://scenes/ship.tscn" id="2_lnu2h"]
 [ext_resource type="PackedScene" uid="uid://6cj8en2hqm8j" path="res://scenes/player.tscn" id="3_lnu2h"]
 
+[sub_resource type="ViewportTexture" id="ViewportTexture_lbhrr"]
+viewport_path = NodePath("ViewPort")
+
 [node name="Game" type="Node"]
 script = ExtResource("1_yqjtg")
+
+[node name="Bar" parent="." instance=ExtResource("2_lbhrr")]
+texture = SubResource("ViewportTexture_lbhrr")
 
 [node name="Player" parent="." instance=ExtResource("3_lnu2h")]
 transform = Transform3D(1, 0, 0, 0, 0.984211, 0.176999, 0, -0.176999, 0.984211, 0, 6.12614, 9.218)

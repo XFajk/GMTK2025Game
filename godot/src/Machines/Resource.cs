@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
+using System.Reflection.Metadata;
+using Godot;
 
 public enum Resource {
     Unset,
@@ -19,6 +22,21 @@ public enum Resource {
 
 /// helper classes
 public class Resources {
+
+    private static Texture2D[] _resourceIcons = {
+        GD.Load<Texture2D>("res://assets/icons/coolant_hot.png"),
+        GD.Load<Texture2D>("res://assets/icons/coolant_cold.png"),
+        GD.Load<Texture2D>("res://assets/icons/humidity.png"),
+        GD.Load<Texture2D>("res://assets/icons/water.png"),
+        GD.Load<Texture2D>("res://assets/icons/food.png"),
+        GD.Load<Texture2D>("res://assets/icons/fluid_waste.png"),
+        GD.Load<Texture2D>("res://assets/icons/solid_waste.png"),
+        GD.Load<Texture2D>("res://assets/icons/oxygen.png"),
+        GD.Load<Texture2D>("res://assets/icons/carbon_dioxide.png"),
+        GD.Load<Texture2D>("res://assets/icons/disposables.png"),
+        GD.Load<Texture2D>("res://assets/icons/garbage.png"),
+    };
+
     public const float AirPercentageFactor = 0.1f;
 
     /// returns true if this resource can flow without a connection
@@ -129,6 +147,34 @@ public class Resources {
             Resource.Oxygen => [ResourcePart.Oxygen],
             Resource.CarbonDioxide => [ResourcePart.Carbon, ResourcePart.Oxygen, ResourcePart.Oxygen],
             Resource.Disposables or Resource.Garbage => [.. Enumerable.Repeat(ResourcePart.Carbon, 8)],
+            _ => throw new ArgumentOutOfRangeException(nameof(resource), resource, null),
+        };
+    }
+
+    public static Texture2D GetResourceIcon(Resource resource) {
+        if (resource == Resource.Unset) return null;
+
+        int index = (int)resource - 1; // Unset is 0, so we start at index 0
+        if (index < 0 || index >= _resourceIcons.Length) {
+            throw new ArgumentOutOfRangeException(nameof(resource), resource, "Invalid resource icon index");
+        }
+
+        return _resourceIcons[index];
+    }
+
+    public static Color GetResourceColor(Resource resource) {
+        return resource switch {
+            Resource.CoolantHot => new Color(0.90f, 0.14f, 0.27f), // vivid red
+            Resource.CoolantCold => new Color(0.18f, 0.49f, 0.92f), // electric blue
+            Resource.Humidity => new Color(0.00f, 0.71f, 0.82f), // clear cyan
+            Resource.Water => new Color(0.00f, 0.48f, 0.75f), // deep ocean blue
+            Resource.Food => new Color(0.12f, 0.68f, 0.38f), // leafy green
+            Resource.FluidWaste => new Color(0.94f, 0.67f, 0.30f), // warm amber
+            Resource.SolidWaste => new Color(0.42f, 0.41f, 0.27f), // muddy olive
+            Resource.Oxygen => new Color(0.97f, 0.96f, 0.87f), // soft off-white
+            Resource.CarbonDioxide => new Color(0.20f, 0.20f, 0.22f), // deepest charcoal
+            Resource.Disposables => new Color(0.78f, 0.15f, 0.65f), // high‑contrast magenta
+            Resource.Garbage => new Color(0.15f, 0.29f, 0.33f), // rich teal
             _ => throw new ArgumentOutOfRangeException(nameof(resource), resource, null),
         };
     }
