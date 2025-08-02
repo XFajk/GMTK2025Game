@@ -7,7 +7,6 @@
 [ext_resource type="Script" uid="uid://dbpyc6n0xxsdt" path="res://src/Missions/MissionTravel.cs" id="4_iywne"]
 [ext_resource type="Script" uid="uid://rjfdxfxufa01" path="res://src/Missions/MissionPrepare.cs" id="4_p57ef"]
 [ext_resource type="Script" uid="uid://b5m2vkdgw7neg" path="res://src/Missions/MissionManager.cs" id="5_gee14"]
-[ext_resource type="Script" uid="uid://cgjaj1ali2bgb" path="res://src/Missions/MissionAstroidMining.cs" id="5_p57ef"]
 [ext_resource type="Script" uid="uid://invodjqpf3vs" path="res://src/Missions/Delay.cs" id="6_0tnpc"]
 [ext_resource type="Script" uid="uid://c64yhiv3h44qm" path="res://src/Events/EventCrewSick.cs" id="8_dinhu"]
 [ext_resource type="Script" uid="uid://bj5ttgseqiplq" path="res://src/Missions/MissionHighPowerScan.cs" id="9_vtaks"]
@@ -15,9 +14,10 @@
 [ext_resource type="Script" uid="uid://krog3faufiju" path="res://src/entities/Pickupable.cs" id="10_vtaks"]
 [ext_resource type="Script" uid="uid://dkyikroedb10k" path="res://src/Missions/MissionSaboteur.cs" id="13_kvuet"]
 [ext_resource type="Script" uid="uid://b3mtrifokbw8l" path="res://src/Missions/MissionPizza.cs" id="14_trtic"]
-[ext_resource type="Script" uid="uid://cb3v6bcftbw25" path="res://src/Missions/MissionIceAstroid.cs" id="15_ca42v"]
+[ext_resource type="Script" uid="uid://cb3v6bcftbw25" path="res://src/Missions/MissionFirstAstroid.cs" id="15_ca42v"]
 [ext_resource type="Script" uid="uid://c72ahasknc46o" path="res://src/Missions/MissionEngineRev.cs" id="15_ssvqc"]
 [ext_resource type="Script" uid="uid://288tx64nh6c5" path="res://src/Missions/MissionPirates.cs" id="16_rysoc"]
+[ext_resource type="Script" uid="uid://cgjaj1ali2bgb" path="res://src/Missions/MissionIceAstroidMining.cs" id="16_ssvqc"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_kvpfn"]
 radius = 0.1
@@ -110,7 +110,7 @@ script = ExtResource("6_0tnpc")
 TimeDelaySeconds = 3
 
 [node name="AstroidMining" type="Node" parent="MissionsAndEvents"]
-script = ExtResource("5_p57ef")
+script = ExtResource("15_ca42v")
 Duration = 30
 RequiredDisposables = 20
 CrewCount = 4
@@ -150,7 +150,7 @@ TimeDelayStartsWhen = 5
 MissionToWaitFor = NodePath("../EngineRev")
 
 [node name="IceAstroid" type="Node" parent="MissionsAndEvents"]
-script = ExtResource("15_ca42v")
+script = ExtResource("16_ssvqc")
 Duration = 50
 RequiredDisposables = 20
 CrewCount = 4
