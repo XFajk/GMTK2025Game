@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://cgccmqaeo11dk"]
+[gd_scene load_steps=32 format=3 uid="uid://cgccmqaeo11dk"]
 
 [ext_resource type="Script" uid="uid://c41j8f7y8s5pn" path="res://src/Ship.cs" id="1_q631a"]
 [ext_resource type="Script" uid="uid://dx4b8dlivs2dq" path="res://src/Machines/Machine.cs" id="2_gudjc"]
@@ -8,7 +8,7 @@
 [ext_resource type="Script" uid="uid://crs06kmuc1fi1" path="res://src/Machines/FloatingResource.cs" id="6_7j21i"]
 [ext_resource type="Script" uid="uid://cktjf2cpg2cwg" path="res://src/Machines/Process.cs" id="7_3m36u"]
 [ext_resource type="Script" uid="uid://dchlx4kc4xldy" path="res://src/Machines/InputOutput.cs" id="8_8qiel"]
-[ext_resource type="PackedScene" uid="uid://cehfed0n6bve1" path="res://scenes/entities/machine_status_interface.tscn" id="8_bseor"]
+[ext_resource type="PackedScene" path="res://scenes/entities/machine_status_interface.tscn" id="8_bseor"]
 [ext_resource type="Script" uid="uid://dc7fa1reuuwmu" path="res://src/Machines/Plants.cs" id="9_itrim"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_f23tx"]
@@ -17,6 +17,9 @@
 viewport_path = NodePath("ViewPort")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_bseor"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bseor"]
+albedo_color = Color(1, 0.72773, 0.558761, 1)
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_vbj2c"]
 viewport_path = NodePath("ViewPort")
@@ -39,6 +42,9 @@ viewport_path = NodePath("ViewPort")
 [sub_resource type="ViewportTexture" id="ViewportTexture_tlr80"]
 viewport_path = NodePath("ViewPort")
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tlr80"]
+albedo_color = Color(0.347904, 0.414879, 0.909927, 1)
+
 [sub_resource type="ViewportTexture" id="ViewportTexture_mx31c"]
 viewport_path = NodePath("ViewPort")
 
@@ -54,8 +60,14 @@ viewport_path = NodePath("ViewPort")
 [sub_resource type="ViewportTexture" id="ViewportTexture_r5rhe"]
 viewport_path = NodePath("ViewPort")
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_03y04"]
+albedo_color = Color(0.149376, 0.686908, 0.214461, 1)
+
 [sub_resource type="ViewportTexture" id="ViewportTexture_03y04"]
 viewport_path = NodePath("ViewPort")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_48mkp"]
+albedo_color = Color(0.52, 0.52, 0.52, 1)
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_nwefg"]
 viewport_path = NodePath("ViewPort")
@@ -196,6 +208,7 @@ _processingPerSecond = 4.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Hydrolysis"]
 mesh = SubResource("BoxMesh_f23tx")
+surface_material_override/0 = SubResource("StandardMaterial3D_bseor")
 
 [node name="Inputs" type="Node" parent="Hydrolysis"]
 
@@ -278,6 +291,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 6, 0)
 script = ExtResource("2_gudjc")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="CoolantCooler"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
 mesh = SubResource("BoxMesh_f23tx")
 
 [node name="Inputs" type="Node" parent="CoolantCooler"]
@@ -305,7 +319,7 @@ QuantityChangeInReceipe = 1
 [node name="ConnectionNodes" type="Node3D" parent="CoolantCooler"]
 
 [node name="ConnectionNode" parent="CoolantCooler/ConnectionNodes" instance=ExtResource("3_7j21i")]
-transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, -0.195845, 0.455998, 0.397518)
+transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, -0.195845, -1.544, 0.397518)
 
 [node name="ConnectionNode2" parent="CoolantCooler/ConnectionNodes" instance=ExtResource("3_7j21i")]
 transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, 0.258973, 0.455998, 0.397518)
@@ -318,6 +332,7 @@ texture = SubResource("ViewportTexture_dschd")
 [node name="HoverDetectionArea" type="Area3D" parent="CoolantCooler"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CoolantCooler/HoverDetectionArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
 shape = SubResource("BoxShape3D_bseor")
 
 [node name="Engine" type="Node3D" parent="."]
@@ -520,6 +535,7 @@ MaxQuantity = 1000
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="WaterStorage"]
 mesh = SubResource("BoxMesh_f23tx")
+surface_material_override/0 = SubResource("StandardMaterial3D_tlr80")
 
 [node name="ConnectionNodes" type="Node3D" parent="WaterStorage"]
 
@@ -542,12 +558,13 @@ Resource = 2
 MaxQuantity = 1000
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="ColdCoolantStorage"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
 mesh = SubResource("BoxMesh_f23tx")
 
 [node name="ConnectionNodes" type="Node3D" parent="ColdCoolantStorage"]
 
 [node name="ConnectionNode" parent="ColdCoolantStorage/ConnectionNodes" instance=ExtResource("3_7j21i")]
-transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, -0.255433, 0.484256, 0.480624)
+transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, -0.255433, -1.51574, 0.480624)
 
 [node name="MachineStatusInterface" parent="ColdCoolantStorage" instance=ExtResource("8_bseor")]
 transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0, 1.11144, 0)
@@ -556,6 +573,7 @@ texture = SubResource("ViewportTexture_fs4we")
 [node name="HoverDetectionArea" type="Area3D" parent="ColdCoolantStorage"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="ColdCoolantStorage/HoverDetectionArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
 shape = SubResource("BoxShape3D_bseor")
 
 [node name="FoodStorage" type="Node3D" parent="."]
@@ -672,6 +690,7 @@ visible = false
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Plants"]
 transform = Transform3D(-0.0176618, 0, -0.999844, 0, 1, 0, 0.999844, 0, -0.0176618, 0, 0, 0)
 mesh = SubResource("BoxMesh_f23tx")
+surface_material_override/0 = SubResource("StandardMaterial3D_03y04")
 
 [node name="MachineStatusInterface" parent="Plants" instance=ExtResource("8_bseor")]
 transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0, 1.11144, 0)
@@ -690,6 +709,7 @@ MaxQuantity = 100
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Garbage"]
 mesh = SubResource("BoxMesh_f23tx")
+surface_material_override/0 = SubResource("StandardMaterial3D_48mkp")
 
 [node name="ConnectionNodes" type="Node3D" parent="Garbage"]
 

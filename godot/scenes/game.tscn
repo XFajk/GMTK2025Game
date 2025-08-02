@@ -1,7 +1,6 @@
 [gd_scene load_steps=10 format=3 uid="uid://0rmy461ykeb"]
 
 [ext_resource type="Script" uid="uid://bp0g8sc4t5qhs" path="res://src/Game.cs" id="1_yqjtg"]
-[ext_resource type="PackedScene" uid="uid://cehfed0n6bve1" path="res://scenes/entities/machine_status_interface.tscn" id="2_lbhrr"]
 [ext_resource type="PackedScene" uid="uid://cgccmqaeo11dk" path="res://scenes/ship.tscn" id="2_lnu2h"]
 [ext_resource type="PackedScene" uid="uid://2d2hbkqmfrx" path="res://scenes/ui/mission_dialog.tscn" id="2_u5sy4"]
 [ext_resource type="PackedScene" uid="uid://6cj8en2hqm8j" path="res://scenes/player.tscn" id="3_lnu2h"]
