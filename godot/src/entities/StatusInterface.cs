@@ -10,7 +10,6 @@ public partial class StatusInterface : Sprite3D {
 
     public static PackedScene MachineStatusBarScene = GD.Load<PackedScene>("res://scenes/ui/machine_status_bar.tscn");
 
-
     public override void _Ready() {
         VisualBarsViewPort = GetNode<SubViewport>("ViewPort");
         MachineNameLabel = GetNode<Label>("ViewPort/MachineName");
@@ -43,7 +42,7 @@ public partial class StatusInterface : Sprite3D {
             StatusBars.Add(statusBar);
         }
     }
-    
+
     public void SetStorageContainerIntoInterface(StorageContainer storageContainer) {
         // clear old status bars
         foreach (StatusBar bar in StatusBars) {
@@ -51,15 +50,19 @@ public partial class StatusInterface : Sprite3D {
         }
         StatusBars.Clear();
 
-        VisualBarsViewPort.RemoveChild(VisualBarsViewPort.GetNode("Arrow")); 
+        VisualBarsViewPort.RemoveChild(VisualBarsViewPort.GetNode("Arrow"));
 
         StatusBar statusBar = MachineStatusBarScene.Instantiate<StatusBar>();
         VisualBarsViewPort.AddChild(statusBar);
 
         statusBar._Ready();
         statusBar.SetStatusFromStorageContainer(storageContainer);
-        
+
         statusBar.Position += new Vector2(0, 0); // adjust position if needed
         StatusBars.Add(statusBar);
+    }
+    
+    public void AddPlantHealthBar(ProgressBar plantHealthBar) {
+        VisualBarsViewPort.AddChild(plantHealthBar);
     }
 }

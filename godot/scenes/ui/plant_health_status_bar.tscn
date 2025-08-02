@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3 uid="uid://yrkwh2qy0app"]
+
+[sub_resource type="Theme" id="Theme_q826f"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w4jyb"]
+bg_color = Color(0, 0.8, 0.192157, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[node name="PlantHealthStatusBar" type="ProgressBar"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -184.0
+offset_top = -24.0
+offset_right = 185.0
+offset_bottom = -11.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = SubResource("Theme_q826f")
+theme_override_styles/fill = SubResource("StyleBoxFlat_w4jyb")
+show_percentage = false
