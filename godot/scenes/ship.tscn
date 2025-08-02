@@ -192,7 +192,7 @@ transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, 0.258973, 0.455998, 
 visible = false
 
 [node name="MachineStatusInterface" parent="FluidReprocessor" instance=ExtResource("8_bseor")]
-transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0, 1.11144, 0)
+transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0, 1.34757, 0)
 texture = SubResource("ViewportTexture_48mkp")
 
 [node name="HoverDetectionArea" type="Area3D" parent="FluidReprocessor"]
@@ -236,7 +236,7 @@ transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, 0.258973, 0.455998, 
 visible = false
 
 [node name="MachineStatusInterface" parent="Hydrolysis" instance=ExtResource("8_bseor")]
-transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0, 1.11144, 0)
+transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0, 1.3709, 0)
 texture = SubResource("ViewportTexture_vbj2c")
 
 [node name="HoverDetectionArea" type="Area3D" parent="Hydrolysis"]
@@ -250,7 +250,7 @@ script = ExtResource("2_gudjc")
 _processingPerSecond = 10.0
 
 [node name="MachineStatusInterface" parent="Condensator" instance=ExtResource("8_bseor")]
-transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0, 1.11144, 0)
+transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0, 1.36131, 0)
 texture = SubResource("ViewportTexture_bseor")
 
 [node name="HoverDetectionArea" type="Area3D" parent="Condensator"]
@@ -326,7 +326,7 @@ transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, 0.258973, 0.455998, 
 visible = false
 
 [node name="MachineStatusInterface" parent="CoolantCooler" instance=ExtResource("8_bseor")]
-transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0, 1.11144, 0)
+transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0, 1.36166, 0)
 texture = SubResource("ViewportTexture_dschd")
 
 [node name="HoverDetectionArea" type="Area3D" parent="CoolantCooler"]
@@ -341,7 +341,7 @@ script = ExtResource("2_gudjc")
 _processingPerSecond = 0.1
 
 [node name="MachineStatusInterface" parent="Engine" instance=ExtResource("8_bseor")]
-transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0, 1.11144, 0)
+transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0, 1.53252, 0)
 texture = SubResource("ViewportTexture_tbq4g")
 
 [node name="HoverDetectionArea" type="Area3D" parent="Engine"]
@@ -423,7 +423,7 @@ transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, 0.258973, 0.455998, 
 visible = false
 
 [node name="MachineStatusInterface" parent="SolidWasteBurner" instance=ExtResource("8_bseor")]
-transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0, 1.11144, 0)
+transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0, 1.64631, 0)
 texture = SubResource("ViewportTexture_83dbu")
 
 [node name="HoverDetectionArea" type="Area3D" parent="SolidWasteBurner"]
@@ -471,7 +471,7 @@ transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, 0.258973, 0.455998, 
 visible = false
 
 [node name="MachineStatusInterface" parent="GarbageBurner" instance=ExtResource("8_bseor")]
-transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0, 1.11144, 0)
+transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0, 1.43642, 0)
 texture = SubResource("ViewportTexture_xifwb")
 
 [node name="HoverDetectionArea" type="Area3D" parent="GarbageBurner"]
@@ -519,7 +519,7 @@ transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, 0.258973, 0.455998, 
 visible = false
 
 [node name="MachineStatusInterface" parent="CarbonScrubber" instance=ExtResource("8_bseor")]
-transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0, 1.11144, 0)
+transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0, 1.50392, 0)
 texture = SubResource("ViewportTexture_tlr80")
 
 [node name="HoverDetectionArea" type="Area3D" parent="CarbonScrubber"]
@@ -543,7 +543,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_tlr80")
 transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, -0.255433, 0.484256, 0.480624)
 
 [node name="MachineStatusInterface" parent="WaterStorage" instance=ExtResource("8_bseor")]
-transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0, 1.13733, 0)
+transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0, 1.4316, 0)
 texture = SubResource("ViewportTexture_mx31c")
 
 [node name="HoverDetectionArea" type="Area3D" parent="WaterStorage"]
@@ -567,7 +567,7 @@ mesh = SubResource("BoxMesh_f23tx")
 transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, -0.255433, -1.51574, 0.480624)
 
 [node name="MachineStatusInterface" parent="ColdCoolantStorage" instance=ExtResource("8_bseor")]
-transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0, 1.11144, 0)
+transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0, 1.39947, 0)
 texture = SubResource("ViewportTexture_fs4we")
 
 [node name="HoverDetectionArea" type="Area3D" parent="ColdCoolantStorage"]
@@ -591,7 +591,7 @@ mesh = SubResource("BoxMesh_f23tx")
 transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, -0.255433, 0.484256, 0.480624)
 
 [node name="MachineStatusInterface" parent="FoodStorage" instance=ExtResource("8_bseor")]
-transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0, 1.11144, 0)
+transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0, 1.41708, 0)
 texture = SubResource("ViewportTexture_swuwe")
 
 [node name="HoverDetectionArea" type="Area3D" parent="FoodStorage"]
@@ -614,7 +614,7 @@ mesh = SubResource("BoxMesh_f23tx")
 transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, -0.255433, 0.484256, 0.480624)
 
 [node name="MachineStatusInterface" parent="SolidWasteStorage" instance=ExtResource("8_bseor")]
-transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0, 1.11144, 0)
+transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0, 1.47169, 0)
 texture = SubResource("ViewportTexture_6vtx4")
 
 [node name="HoverDetectionArea" type="Area3D" parent="SolidWasteStorage"]
@@ -637,7 +637,7 @@ mesh = SubResource("BoxMesh_f23tx")
 transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, -0.255433, 0.484256, 0.480624)
 
 [node name="MachineStatusInterface" parent="FluidWasteStorage" instance=ExtResource("8_bseor")]
-transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0, 1.11144, 0)
+transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0, 1.41901, 0)
 texture = SubResource("ViewportTexture_r5rhe")
 
 [node name="HoverDetectionArea" type="Area3D" parent="FluidWasteStorage"]
@@ -693,7 +693,7 @@ mesh = SubResource("BoxMesh_f23tx")
 surface_material_override/0 = SubResource("StandardMaterial3D_03y04")
 
 [node name="MachineStatusInterface" parent="Plants" instance=ExtResource("8_bseor")]
-transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0, 1.11144, 0)
+transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0, 1.5936, 0)
 texture = SubResource("ViewportTexture_03y04")
 
 [node name="HoverDetectionArea" type="Area3D" parent="Plants"]
@@ -717,7 +717,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_48mkp")
 transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, -0.255433, 0.484256, 0.480624)
 
 [node name="MachineStatusInterface" parent="Garbage" instance=ExtResource("8_bseor")]
-transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0, 1.11144, 0)
+transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0, 1.47352, 0)
 texture = SubResource("ViewportTexture_nwefg")
 
 [node name="HoverDetectionArea" type="Area3D" parent="Garbage"]

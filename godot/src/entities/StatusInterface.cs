@@ -4,6 +4,8 @@ using Godot;
 
 public partial class StatusInterface : Sprite3D {
     public SubViewport VisualBarsViewPort = null;
+    public Label MachineNameLabel = null;
+
     public List<StatusBar> StatusBars = [];
 
     public static PackedScene MachineStatusBarScene = GD.Load<PackedScene>("res://scenes/ui/machine_status_bar.tscn");
@@ -11,6 +13,7 @@ public partial class StatusInterface : Sprite3D {
 
     public override void _Ready() {
         VisualBarsViewPort = GetNode<SubViewport>("ViewPort");
+        MachineNameLabel = GetNode<Label>("ViewPort/MachineName");
     }
 
     public void SetRecepiePartsIntoInterface(List<MachineBuffer> recipeParts) {

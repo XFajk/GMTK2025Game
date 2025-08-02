@@ -1,22 +1,43 @@
-[gd_scene load_steps=4 format=3 uid="uid://cehfed0n6bve1"]
+[gd_scene load_steps=6 format=3 uid="uid://cehfed0n6bve1"]
 
 [ext_resource type="Script" uid="uid://dkrhuo1wuf4ju" path="res://src/entities/StatusInterface.cs" id="1_cu0bv"]
 [ext_resource type="Texture2D" uid="uid://bvxmt552pkv6w" path="res://assets/misc/arrow_icon.svg" id="2_cu0bv"]
+[ext_resource type="Theme" uid="uid://slxggstqjbqr" path="res://misc/core_ui_theame.tres" id="3_o1gee"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_o1gee"]
 viewport_path = NodePath("ViewPort")
 
+[sub_resource type="LabelSettings" id="LabelSettings_3vrf3"]
+font_size = 51
+
 [node name="MachineStatusInterface" type="Sprite3D"]
 transform = Transform3D(0.365, 0, 0, 0, 0.365, 0, 0, 0, 0.365, 0, 0, 0)
 visible = false
+billboard = 2
 texture = SubResource("ViewportTexture_o1gee")
 script = ExtResource("1_cu0bv")
 
 [node name="ViewPort" type="SubViewport" parent="."]
 transparent_bg = true
-size = Vector2i(482, 255)
+size = Vector2i(482, 305)
 
 [node name="Arrow" type="Sprite2D" parent="ViewPort"]
-position = Vector2(241, 127)
+position = Vector2(241, 149.41)
 scale = Vector2(1.615, 1.615)
 texture = ExtResource("2_cu0bv")
+
+[node name="MachineName" type="Label" parent="ViewPort"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -23.0
+offset_top = -23.0
+offset_right = 23.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("3_o1gee")
+text = "<MachineName>"
+label_settings = SubResource("LabelSettings_3vrf3")
+horizontal_alignment = 1
