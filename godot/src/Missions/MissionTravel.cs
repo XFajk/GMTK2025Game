@@ -15,13 +15,35 @@ public partial class MissionTravel : Node, IMission {
 
     [Export(PropertyHint.Range, "0,1,0.05")]
     public float TargetEnginePower;
-
+    public IMission.Properties Properties;
+    
+    private Ship _ship;
     private ulong _preparationStartTime;
+
     private ulong _startTime;
 
-    void IMission.Ready() {
+    public string GetTitle() => "Mission: Hyperspace jump";
+
+    void IMission.Ready(Ship ship) {
+        _ship = ship;
         _preparationStartTime = Time.GetTicksUsec();
+        
+        Properties = new() {
+            Title = "Mission: Reparations",
+            Briefing = [
+                $"Today we will travel to the {TargetName} solar system. "
+                + $"We will run the engine at {TargetEnginePower * 100}% capacity, rather than the usual {Engine.DefaultEnginePower * 100}%. "
+                + $"Make sure the engine has enough coolant, and keep an eye on the water supply. "
+                + $"We will leave in {PreparationTime} seconds",
+                "End of Brief"
+            ],
+            Debrief = [
+                $"We have arrived! The engine will return to {Engine.DefaultEnginePower * 100}% power."
+            ],
+        };
     }
+
+    public IMission.Properties GetMissionProperties() => Properties;
 
     public void ApplyEffect(Ship ship) {
         _startTime = Time.GetTicksUsec();
@@ -33,14 +55,6 @@ public partial class MissionTravel : Node, IMission {
         }
     }
 
-    public string[] Briefing() => [
-        $"Today we will travel to the {TargetName} solar system. "
-        + $"We will run the engine at {TargetEnginePower * 100}% capacity, rather than the usual {Engine.DefaultEnginePower * 100}%. "
-        + $"Make sure the engine has enough coolant, and keep an eye on the water supply. "
-        + $"We will leave in {PreparationTime} seconds",
-        "End of Brief"
-    ];
-
     public void OnCompletion(Ship ship) {
         foreach (Machine m in ship.Machines) {
             if (m is Engine e) {
@@ -48,10 +62,6 @@ public partial class MissionTravel : Node, IMission {
             }
         }
     }
-
-    public string[] Debrief() => [
-        $"We have arrived! The engine will return to {Engine.DefaultEnginePower * 100}% power."
-    ];
 
     public bool IsPreparationFinished() {
         double timePassed = (double)(Time.GetTicksUsec() - _preparationStartTime) / 1E6;
@@ -61,9 +71,5 @@ public partial class MissionTravel : Node, IMission {
     public bool IsMissionFinised() {
         double timePassed = (double)(Time.GetTicksUsec() - _startTime) / 1E6;
         return _startTime != 0 && timePassed > Duration;
-    }
-
-    public void OnCompletion() {
-        throw new NotImplementedException();
     }
 }

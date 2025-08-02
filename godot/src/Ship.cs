@@ -131,14 +131,14 @@ public partial class Ship : Node {
         }
     }
 
-    public void AddResource(Resource resource, int quantity) {
+    public float AddResource(Resource resource, float quantity) {
         float leftToAdd = quantity;
 
         // first check floating resources
         foreach (FloatingResource res in _floatingResourceManager.Resources()) {
             if (res.Resource == resource) {
                 leftToAdd = (res as IContainer).RemainderOfAdd(leftToAdd);
-                if (leftToAdd == 0) return;
+                if (leftToAdd == 0) return 0;
             }
         }
 
@@ -146,7 +146,7 @@ public partial class Ship : Node {
         foreach (StorageContainer container in Containers) {
             if (container.Resource == resource) {
                 leftToAdd = (container as IContainer).RemainderOfAdd(leftToAdd);
-                if (leftToAdd == 0) return;
+                if (leftToAdd == 0) return 0;
             }
         }
 
@@ -155,7 +155,7 @@ public partial class Ship : Node {
             foreach (Machine m in Machines) {
                 foreach (IContainer buffer in m.Inputs()) {
                     leftToAdd = buffer.RemainderOfAdd(leftToAdd);
-                    if (leftToAdd == 0) return;
+                    if (leftToAdd == 0) return 0;
                 }
             }
         } else {
@@ -163,15 +163,15 @@ public partial class Ship : Node {
             foreach (Machine m in Machines) {
                 foreach (IContainer buffer in m.Outputs()) {
                     leftToAdd = buffer.RemainderOfAdd(leftToAdd);
-                    if (leftToAdd == 0) return;
+                    if (leftToAdd == 0) return 0;
                 }
             }
         }
 
-        // otherwise it is lost
+        return leftToAdd;
     }
 
-    public void RemoveResource(Resource resource, int quantity) => AddResource(resource, -quantity);
+    public float RemoveResource(Resource resource, float quantity) => AddResource(resource, -quantity);
 
     public bool HasResource(Resource resource, int quantity) {
         float leftToGet = quantity;

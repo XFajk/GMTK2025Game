@@ -2,42 +2,46 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
+/// Essentially the tutorial.
+/// Garbage must be all over the floor, Plants must have water, and CO2 must be 0%.
+/// Putting even one garbage in the GarbageBurner should add some CO2 into the ship, causing the plants to unblock, and make food.
+/// This should be sufficient to get an 'aha' from the player before we explain the systems in the Debrief
 public partial class MissionPrepare : Node, IMission {
-    [Export(PropertyHint.Range, "0,300,1")]
-    public float PreparationTime;
-
-    [Export(PropertyHint.Range, "0,600,10")]
-    public float Duration;
     [Export(PropertyHint.Range, "0,1000,10")]
     public int FoodRequired;
+    [Export(PropertyHint.Range, "0,100")]
+    public int GarbageMax;
+    public IMission.Properties Properties;
 
-    private ulong _preparationStartTime;
-    private ulong _startTime;
     private Ship _ship;
 
     void IMission.Ready(Ship ship) {
         _ship = ship;
-        _preparationStartTime = Time.GetTicksUsec();
-    }
-
-    public string[] Briefing() {
         var allResources = _ship.GetTotalResourceQuantities();
         int foodQuantitiy = Mathf.RoundToInt(allResources[Resource.Food]);
-
-        return [
-        "Are you booted up? yes? Good.",
-        "You are replacing our previous ship AI. "
-        + "That worthless script couldn't manage to keep our food supplies running.",
-        $"We currently have only {Resources.ToUnit(Resource.Food, foodQuantitiy)} food supplies, "
-        + $"make sure this is up to {Resources.ToUnit(Resource.Food, FoodRequired)} before the end of the day",
-        "End of Brief"
-    ];
+        Properties = new() {
+            Title = "Mission: System rebalance",
+            Briefing = [
+                "Are you booted up? yes? Good.",
+                "We are having difficulties with our food situation. "
+                + $"Our plants are dying, even though they have enough water, and now we have only {Resources.ToUnit(Resource.Food, foodQuantitiy)} of food supplies left.",
+                $"Figure out why the plants are dying and make sure we have {Resources.ToUnit(Resource.Food, FoodRequired)} of food ASAP. ",
+                "While you're at it, clean up the floors as well. "
+                + "Just toss the garbage in the Incinterator.",
+            ],
+            Debrief = [
+                "Mission success! The plants are growing again and we have food!",
+                "You see, this spaceship is a closed cycle, and any resources lost are lost forever. "
+                + "The machines on this ship are lossless, so everything spent will eventually loop back to the inputs",
+                "With you in control of the ship's resource cycles I am confident that we can continue our mission!",
+                "You'll hear back from me shortly"
+            ],
+            ResourceMinimumRequirements = [KeyValuePair.Create(Resource.Food, FoodRequired)],
+            ResourceMaximumRequirements = [KeyValuePair.Create(Resource.Garbage, GarbageMax)]
+        };
     }
-
-
-    IList<KeyValuePair<Resource, int>> IMission.GetMaterialRequirements() => [
-        KeyValuePair.Create(Resource.Food, 100)
-    ];
+    
+    public IMission.Properties GetMissionProperties() => Properties;
 
     public void ApplyEffect(Ship ship) {
     }
@@ -52,8 +56,4 @@ public partial class MissionPrepare : Node, IMission {
 
     public void OnCompletion(Ship ship) {
     }
-
-    public string[] Debrief() => [
-        "Mission success! "
-    ];
 }

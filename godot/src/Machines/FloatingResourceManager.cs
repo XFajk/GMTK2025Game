@@ -50,7 +50,7 @@ public partial class FloatingResourceManager {
                 io.RemoveQuantity(quantityToMove);
 
                 if (quantityToMove > 0) {
-                    GD.Print($"Pulled {quantityToMove} {floatingBuffer.Resource} from {io.GetName()}");
+                    // GD.Print($"Pulled {quantityToMove} {floatingBuffer.Resource} from {io.GetName()}");
                 }
 
                 if (floatingBuffer.Quantity > floatingBuffer.MaxQuantity || io.GetQuantity() < 0) {
@@ -74,7 +74,7 @@ public partial class FloatingResourceManager {
                 io.AddQuantity(quantityToMove);
 
                 if (quantityToMove > 0) {
-                    GD.Print($"Pushed {quantityToMove} {floatingBuffer.Resource} to {io.GetName()}");
+                    // GD.Print($"Pushed {quantityToMove} {floatingBuffer.Resource} to {io.GetName()}");
                 }
 
                 if (floatingBuffer.Quantity < 0 || io.GetQuantity() > io.GetMaxQuantity()) {

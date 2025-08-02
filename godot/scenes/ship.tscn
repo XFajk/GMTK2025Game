@@ -387,7 +387,6 @@ Resource = 4
 MaxQuantity = 1000
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="WaterStorage"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 mesh = SubResource("BoxMesh_f23tx")
 
 [node name="ConnectionNodes" type="Node3D" parent="WaterStorage"]
@@ -402,7 +401,6 @@ Resource = 2
 MaxQuantity = 1000
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="ColdCoolantStorage"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 mesh = SubResource("BoxMesh_f23tx")
 
 [node name="ConnectionNodes" type="Node3D" parent="ColdCoolantStorage"]
@@ -417,7 +415,6 @@ Resource = 5
 MaxQuantity = 1000
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="FoodStorage"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 mesh = SubResource("BoxMesh_f23tx")
 
 [node name="ConnectionNodes" type="Node3D" parent="FoodStorage"]
@@ -432,7 +429,6 @@ Resource = 7
 MaxQuantity = 1000
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="SolidWasteStorage"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 mesh = SubResource("BoxMesh_f23tx")
 
 [node name="ConnectionNodes" type="Node3D" parent="SolidWasteStorage"]
@@ -447,7 +443,6 @@ Resource = 6
 MaxQuantity = 1000
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="FluidWasteStorage"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 mesh = SubResource("BoxMesh_f23tx")
 
 [node name="ConnectionNodes" type="Node3D" parent="FluidWasteStorage"]

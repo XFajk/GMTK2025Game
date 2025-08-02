@@ -7,3 +7,4 @@
 script = ExtResource("1_3vyb7")
 
 [node name="GameUI" parent="." instance=ExtResource("2_g2els")]
+process_mode = 3

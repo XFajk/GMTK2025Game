@@ -9,9 +9,9 @@ public partial class MissionDialog : AcceptDialog {
         _description = GetNode<RichTextLabel>("Description");
     }
 
-    public void ShowMission(string title, string description) {
+    public void ShowMission(string title, string[] description) {
         Title = title;
-        _description.Text = description;
+        _description.Text = string.Join(System.Environment.NewLine, description);
         Popup();
     }
  

@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3 uid="uid://dylkxds22o1bg"]
+
+[ext_resource type="Theme" uid="uid://slxggstqjbqr" path="res://misc/core_ui_theame.tres" id="1_w8hnu"]
+[ext_resource type="Script" uid="uid://cud78w8qt4qsb" path="res://src/ui/MissionDialog.cs" id="2_qufku"]
+
+[node name="MissionDialog" type="AcceptDialog"]
+auto_translate_mode = 1
+title = "ALERT!"
+position = Vector2i(802, 471)
+size = Vector2i(300, 150)
+exclusive = false
+unresizable = true
+theme = ExtResource("1_w8hnu")
+script = ExtResource("2_qufku")
+
+[node name="Description" type="RichTextLabel" parent="."]
+anchors_preset = -1
+anchor_left = 0.0266667
+anchor_top = 0.0533333
+anchor_right = 0.973333
+anchor_bottom = 0.653333
+grow_horizontal = 2
+grow_vertical = 2
+text = "Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.
+
+Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.
+
+Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos."
+metadata/_edit_use_anchors_ = true

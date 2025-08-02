@@ -4,30 +4,25 @@ using System.Collections.Generic;
 using System.Linq;
 
 public partial class Game : Node {
+    [Export]
+    private PackedScene _missionPopup;
+
     private Ship _shipNode;
-    private Node _missionsNode;
+    private MissionManager _missionsNode;
 
     private GameUi _ui;
 
     private Connectable _selectedMachine;
     private ConnectionNode _selectedNode;
 
-    private long _gameTimeSecond = 0;
-    private Timer _missionTimer;
-
     public override void _Ready() {
         _shipNode = GetNode<Ship>("Ship");
-        _missionsNode = GetNode("MissionsAndEvents");
         _ui = GetNode<GameUi>("Player/GameUI");
 
-        _missionTimer = GetNode<Timer>("MissionTimer");
-
-        _missionTimer.WaitTime = 1.0f;
-        _missionTimer.Timeout += () => {
-            _gameTimeSecond++;
-            Node eventNode = _missionsNode.GetNodeOrNull($"{_gameTimeSecond}");
-            ExecuteEventsOfNode(eventNode);
-        };
+        _missionsNode = GetNode<MissionManager>("MissionsAndEvents");
+        _missionsNode.Ship = _shipNode;
+        _missionsNode.ShowBriefCallback = (mission) => ShowMissionDialog(mission, true);
+        _missionsNode.ShowDebriefCallback = (mission) => ShowMissionDialog(mission, false);
 
         // _Ready of child nodes will always be first
         foreach (Connectable connectable in _shipNode.Connectables) {
@@ -35,33 +30,22 @@ public partial class Game : Node {
         }
     }
 
-    private void ExecuteEventsOfNode(Node eventNode) {
-        if (eventNode is IMission newMission) {
-            // 0: `Ready` is called
-            newMission.Ready(_shipNode);
+    public void ShowMissionDialog(IMission mission, bool briefing) {
+        MissionDialog dialog = _missionPopup.Instantiate<MissionDialog>();
+        _ui.AddChild(dialog);
+        dialog.Confirmed += () => {
+            GetTree().Paused = false;
+        };
+        GetTree().Paused = true;
 
-            // 1: the player sees the Briefing
-            
-            // 2: we wait until `IsPreparationFinished`
-            // 4: `ApplyEffect` is called
-            // 2: we wait until `IsMissionFinised`
-            // 6: `OnCompletion` is called
-            // 7: the player sees the Debrief
-        } else if (eventNode is IEvent newEvent) {
-            newEvent.ApplyEffect(_shipNode);
-        } else {
-            // multiple events in one node
-            foreach (Node subNode in eventNode.GetChildren()) {
-                ExecuteEventsOfNode(subNode);
-            }
-        }
+        IMission.Properties properties = mission.GetMissionProperties();
+        dialog.ShowMission(properties.Title, briefing ? properties.Briefing : properties.Debrief);
     }
-
 
     public override void _Process(double delta) {
         var quantities = _shipNode.GetTotalResourceQuantities();
         foreach (KeyValuePair<Resource, float> pair in quantities) {
-            _ui.ResourceLables[pair.Key].SetAmount((int) Mathf.Round(pair.Value));
+            _ui.ResourceLables[pair.Key].SetAmount((int)Mathf.Round(pair.Value));
         }
     }
 

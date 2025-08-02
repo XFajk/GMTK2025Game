@@ -1,11 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://kv1h8f6jesp"]
+[gd_scene load_steps=6 format=3 uid="uid://kv1h8f6jesp"]
 
 [ext_resource type="PackedScene" uid="uid://bqyjx3w8kmd7v" path="res://scenes/ui/resource_lable.tscn" id="1_gwk6t"]
 [ext_resource type="Script" uid="uid://duklq3ywprpea" path="res://src/ui/GameUi.cs" id="1_v1bdg"]
 [ext_resource type="Script" uid="uid://eno67lob8bbv" path="res://src/ui/ResourceExpandButton.cs" id="2_fct72"]
 [ext_resource type="Theme" uid="uid://slxggstqjbqr" path="res://misc/core_ui_theame.tres" id="2_xjfbv"]
 [ext_resource type="Texture2D" uid="uid://bvxmt552pkv6w" path="res://assets/misc/arrow_icon.svg" id="3_bma8u"]
-[ext_resource type="Script" uid="uid://cud78w8qt4qsb" path="res://src/ui/MissionDialog.cs" id="5_ru5ln"]
 
 [node name="GameUI" type="Control"]
 layout_mode = 3
@@ -23,7 +22,7 @@ toggle_mode = true
 text = "Resources
 "
 script = ExtResource("2_fct72")
-MissionDialog = NodePath("../MissionDialog")
+MissionDialog = NodePath("")
 
 [node name="Panel" type="Panel" parent="ResourceExpandButton"]
 layout_mode = 1
@@ -137,30 +136,6 @@ Resource = 11
 
 [node name="ResourceName" parent="ResourceExpandButton/Resources/Garbage" index="1"]
 text = "Garbage : "
-
-[node name="MissionDialog" type="AcceptDialog" parent="."]
-title = "ALERT!"
-position = Vector2i(802, 471)
-size = Vector2i(300, 150)
-exclusive = false
-unresizable = true
-theme = ExtResource("2_xjfbv")
-script = ExtResource("5_ru5ln")
-
-[node name="Description" type="RichTextLabel" parent="MissionDialog"]
-anchors_preset = -1
-anchor_left = 0.0266667
-anchor_top = 0.0533333
-anchor_right = 0.973333
-anchor_bottom = 0.653333
-grow_horizontal = 2
-grow_vertical = 2
-text = "Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.
-
-Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.
-
-Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos."
-metadata/_edit_use_anchors_ = true
 
 [editable path="ResourceExpandButton/Resources/HotCoolant"]
 [editable path="ResourceExpandButton/Resources/Cold Coolant"]

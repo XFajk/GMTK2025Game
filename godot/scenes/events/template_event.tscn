@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://dyqvyrnm65gk"]
+[gd_scene load_steps=2 format=3 uid="uid://ch7hu7j0u6vcw"]
 
 [ext_resource type="Script" uid="uid://bw5ynn22uplvm" path="res://src/Events/EventOxygenLeak.cs" id="1_2t05j"]
 
