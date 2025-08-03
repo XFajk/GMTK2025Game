@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 
-public partial class Ship : Node {
-	[Export]
-	public float ConnectionTransferRate = 10;
+public partial class Ship : Node, IContainer {
+    [Export]
+    public float ConnectionTransferRate = 10;
 
 	[Export]
 	private Godot.Collections.Dictionary<Resource, int> _initialResources;
@@ -56,12 +56,35 @@ public partial class Ship : Node {
 		Floors = GetTree().GetNodesInGroup("Floors").OfType<Floor>().ToList();
 	}
 
-	public FloatingResource GetFloatingResource(Resource resource) {
-		foreach (var res in _floatingResourceManager.Resources()) {
-			if (res.Resource == resource) return res;
-		}
-		return null;
-	}
+    public FloatingResource GetFloatingResource(Resource resource) {
+        foreach (var res in _floatingResourceManager.Resources()) {
+            if (res.Resource == resource) return res;
+        }
+        return null;
+    }
+
+    public void Shuffle<T>(IList<T> list) {
+        int n = list.Count;
+        while (n > 1) {
+            n--;
+            int k = _rng.RandiRange(0, n);
+            T value = list[k];
+            list[k] = list[n];
+            list[n] = value;
+        }
+    }
+
+    public void CreateGarbage() {
+        Shuffle(Crew);
+
+        foreach (Person p in Crew) {
+            if (p.ThrowGarbage()) return;
+        }
+
+        // spawn anywhere
+        Vector3 randomMachinePosition = Machines[_rng.RandiRange(0, Machines.Count - 1)].Position;
+        Person.SpawnGarbageAt(this, randomMachinePosition);
+    }
 
 	public override void _Process(double deltaTime) {
 		_floatingResourceManager.Process(deltaTime);
@@ -237,5 +260,31 @@ public partial class Ship : Node {
 		throw new ArgumentOutOfRangeException(nameof(resource), resource, $"No {resource} container found for selection {selection}");
 	}
 
-	public bool CanConnect(Connectable a, Connectable b) => _pipes.GetPipe(a, b) != null;
+    public bool CanConnect(Connectable a, Connectable b) => _pipes.GetPipe(a, b) != null;
+
+    public Resource GetResource() => Resource.Garbage;
+
+    public float GetQuantity() => 0;
+
+    public int GetMaxQuantity() => 100;
+
+    void IContainer.AddQuantity(float addition) {
+        for (int i = 0; i < addition; i++) {
+            CreateGarbage();
+        }
+    }
+
+    float IContainer.RemainderOfAdd(float addition) {
+        (this as IContainer).AddQuantity(addition);
+        return 0;
+    }
+
+    public void SetQuantity(float newValue) {
+        throw new NotImplementedException();
+    }
+
+    string IContainer.GetName() {
+        return Name;
+    }
+
 }

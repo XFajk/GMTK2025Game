@@ -32,8 +32,9 @@ height = 0.2
 script = ExtResource("1_yqjtg")
 
 [node name="Player" parent="." instance=ExtResource("3_lnu2h")]
-transform = Transform3D(1, 0, 0, 0, 0.984196, 0.177085, 0, -0.177085, 0.984196, -16.4383, 1.12614, 8.218)
+transform = Transform3D(1, 0, 0, 0, 0.984196, 0.177085, 0, -0.177085, 0.984196, -16.438, 1.126, 10)
 fov = 40.0
+BoundingBox = AABB(-20, -5, 9, 40, 13, 2)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Player"]
 transform = Transform3D(0.938324, 0.116882, -0.325402, -0.122798, 0.992429, 0.00237733, 0.323216, 0.0377278, 0.945573, 0, 0, 0)
@@ -142,10 +143,9 @@ script = ExtResource("6_0tnpc")
 TimeDelaySeconds = 7
 TimeDelayStartsWhen = 7
 
-[node name="MachineBreakdown" type="Node" parent="MissionsAndEvents" node_paths=PackedStringArray("Target")]
+[node name="MachineBreakdown" type="Node" parent="MissionsAndEvents"]
 script = ExtResource("14_1kice")
 SecondsToRepair = 8.0
-Target = NodePath("../../Ship/FluidReprocessor")
 
 [node name="Fire2" type="Node3D" parent="MissionsAndEvents"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 4, 0)
