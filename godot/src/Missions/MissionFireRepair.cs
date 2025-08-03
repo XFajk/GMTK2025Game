@@ -11,6 +11,7 @@ public partial class MissionFireRepair : Node, IMission {
     private bool _repairCompleted;
 
     public IMission.Properties Properties;
+    public bool RepairMissionPopup;
 
     void IMission.MissionReady(Ship ship) {
         _ship = ship;
@@ -24,6 +25,7 @@ public partial class MissionFireRepair : Node, IMission {
                 "The fire dmange has been repaired."
             ],
             ResourceMinimumRequirements = [KeyValuePair.Create(Resource.Disposables, Quantity)],
+            Popup = RepairMissionPopup,
         };
     }
 

@@ -10,6 +10,8 @@ public partial class EventFire : Node3D, IEvent, IRepairable {
 
     [Export]
     public int SecondsToRepair = 10;
+    [Export]
+    public bool RepairMissionPopup = true;
 
     private Ship _ship;
     private EventEffectResourceConvert _fireConversionEffect;
@@ -67,6 +69,7 @@ public partial class EventFire : Node3D, IEvent, IRepairable {
             Quantity = Mathf.CeilToInt(equivalentDisposableCost),
             Location = Position,
             SecondsToRepair = SecondsToRepair,
+            RepairMissionPopup = RepairMissionPopup
         });
     }
 }
