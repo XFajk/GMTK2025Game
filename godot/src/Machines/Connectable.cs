@@ -41,7 +41,7 @@ public abstract partial class Connectable : Node3D {
             };
         }
 
-        foreach (Node child in GetNode("ConnectionNodes").GetChildren()) {
+        foreach (Node child in GetChildren()) {
             if (child is ConnectionNode node) {
                 node.InputEvent += (_, eventType, _, _, _) => {
                     if (eventType.IsActionPressed("interact")) {
@@ -49,7 +49,7 @@ public abstract partial class Connectable : Node3D {
                     }
                 };
 
-                GD.Print($"Added signal to {node.Name}");
+                GD.Print($"Added connection node {node.Name}");
             }
         }
     }
