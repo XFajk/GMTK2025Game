@@ -34,6 +34,9 @@ public partial class Ship : Node, IContainer {
     public override void _Ready() {
         _rng.Randomize();
 
+        Crew = GetTree().GetNodesInGroup("Crew").OfType<Person>().ToList();
+        Floors = GetTree().GetNodesInGroup("Floors").OfType<Floor>().ToList();
+
         foreach (Node node in GetChildren()) {
             if (node is Machine machine) {
                 Machines.Add(machine);
@@ -51,9 +54,6 @@ public partial class Ship : Node, IContainer {
         foreach (var entry in _initialResources) {
             AddResource(entry.Key, entry.Value);
         }
-
-        Crew = GetTree().GetNodesInGroup("Crew").OfType<Person>().ToList();
-        Floors = GetTree().GetNodesInGroup("Floors").OfType<Floor>().ToList();
     }
 
     public FloatingResource GetFloatingResource(Resource resource) {
@@ -170,6 +170,11 @@ public partial class Ship : Node, IContainer {
 
     public float AddResource(Resource resource, float quantity) {
         float leftToAdd = quantity;
+
+        if (resource == Resource.Garbage) {
+            (this as IContainer).AddQuantity(quantity);
+            return 0;
+        }
 
         Select selection = (quantity > 0) ? Select.OnlyInputs : Select.OnlyOutputs;
         foreach (IContainer c in AllContainers(selection)) {

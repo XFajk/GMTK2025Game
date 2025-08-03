@@ -88,8 +88,12 @@ public partial class Person : PathFollow3D {
 
         var garbage = GarbageScene.Instantiate<Pickupable>();
         ParentFloorPath.GetParent().AddChild(garbage);
-        garbage.GlobalPosition = GlobalPosition + new Vector3(0.0f, 1.0f, 0.0f) * 0.1f;
-        garbage.OriginalPosition = GlobalPosition + new Vector3(0.0f, 1.0f, 0.0f) * 0.1f;
+        var offset = new Vector3(0.0f, 0.1f, 0.0f);
+        offset.X += _rng.RandfRange(-2f, 1f); 
+        offset.Z += _rng.RandfRange(-2f, 1f); 
+
+        garbage.GlobalPosition = GlobalPosition + offset;
+        garbage.OriginalPosition = GlobalPosition + offset;
         GD.Print("Garbage spawned at " + garbage.GlobalPosition);
         return true;
     }
