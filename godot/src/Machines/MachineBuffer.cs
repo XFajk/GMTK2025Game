@@ -24,6 +24,10 @@ public partial class MachineBuffer : Node, IContainer {
                 Name = Resource.ToString() + "Output";
             }
         }
+
+        if (Resources.IsFloating(Resource) && MaxQuantity == 0) {
+            MaxQuantity = QuantityChangeInReceipe + 1;
+        }
     }
 
 

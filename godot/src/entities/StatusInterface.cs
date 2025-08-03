@@ -27,8 +27,6 @@ public partial class StatusInterface : Sprite3D {
         float outputOffset = 70;
         // create new status bars
         foreach (MachineBuffer buffer in recipeParts) {
-            if (Resources.IsFloating(buffer.Resource)) continue;
-
             StatusBar statusBar = MachineStatusBarScene.Instantiate<StatusBar>();
             VisualBarsViewPort.AddChild(statusBar);
 

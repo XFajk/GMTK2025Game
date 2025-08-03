@@ -16,9 +16,12 @@ public partial class StatusBar : ProgressBar {
 
     public override void _Process(double delta) {
         if (_buffer != null) {
-            double newValue = 0;
+            double newValue;
             if (_buffer.Quantity == 0) {
                 newValue = 0;
+            } else if (Resources.IsFloating(_buffer.Resource)) {
+                // floating is either empty or full
+                newValue = (_buffer.Quantity >= _buffer.MaxQuantity) ? 100.0f : 0;
             } else {
                 newValue = (_buffer.Quantity / _buffer.MaxQuantity * 100.0);
             }
@@ -28,9 +31,12 @@ public partial class StatusBar : ProgressBar {
             }
         }
         if (_storageContainer != null) {
-            double newValue = 0;
+            double newValue;
             if (_storageContainer.Quantity == 0) {
                 newValue = 0;
+            } else if (Resources.IsFloating(_storageContainer.Resource)) {
+                // floating is either empty or full
+                newValue = (_storageContainer.Quantity >= _storageContainer.MaxQuantity) ? 100.0f : 0;
             } else {
                 newValue = (_storageContainer.Quantity / _storageContainer.MaxQuantity * 100.0);
             }
