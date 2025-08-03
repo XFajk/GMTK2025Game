@@ -151,7 +151,7 @@ public class Resources {
             Resource.SolidWaste => [ResourcePart.Carbon, ResourcePart.Oxygen],
             Resource.Oxygen => [ResourcePart.Oxygen],
             Resource.CarbonDioxide => [ResourcePart.Carbon, ResourcePart.Oxygen, ResourcePart.Oxygen],
-            Resource.Disposables or Resource.Garbage => [.. Enumerable.Repeat(ResourcePart.Carbon, 8)],
+            Resource.Disposables or Resource.Garbage => [.. Enumerable.Repeat(ResourcePart.Carbon, 16)],
             _ => throw new ArgumentOutOfRangeException(nameof(resource), resource, null),
         };
     }
