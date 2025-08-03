@@ -3,7 +3,6 @@ using System;
 
 public partial class PlayerContoller : Camera3D {
 
-    [Export]
     public float DragScalar = 0.01f;
 
     [Export]
@@ -18,14 +17,30 @@ public partial class PlayerContoller : Camera3D {
         CollideWithAreas = true,
     };
 
+    private SubViewport _subViewport;
+    private Camera3D _subViewportCamera;
+    private Node _global; // Cache for the Global singleton
+
     public override void _Ready() {
         _previousePosition = new Vector2(Position.X, Position.Y);
+
         _previouseMousePosition = GetViewport().GetMousePosition();
         _pickupRay.SetCollisionMaskValue(1, false);
         _pickupRay.SetCollisionMaskValue(4, true);
+
         AddChild(_pickupRay);
+        
+        _subViewport = GetNode<SubViewport>("SubViewportContainer/SubViewport");
+        _subViewportCamera = GetNode<Camera3D>("SubViewportContainer/SubViewport/Camera3D");
+        _global = GetNode("/root/Global");
     }
     public override void _Process(double delta) {
+
+        _subViewport.Size = GetViewport().GetWindow().Size;
+        _subViewportCamera.Fov = Fov;
+        _subViewportCamera.GlobalPosition = GlobalPosition;
+        _subViewportCamera.GlobalRotation = GlobalRotation;
+
         if (Input.IsActionJustPressed("interact")) {
             _pickupRay.TargetPosition = ToLocal(ProjectPosition(GetViewport().GetMousePosition(), 100.0f));
             _pickupRay.ForceRaycastUpdate();
@@ -72,5 +87,9 @@ public partial class PlayerContoller : Camera3D {
 
         Fov = float.Clamp(Fov, 20.0f, 100.0f);
 
+        // Update DragScalar from the Global singleton
+        if (_global != null && _global.HasMethod("get")) {
+            DragScalar = (float)(double)_global.Get("mouse_drag_sensitivity");
+        }
     }
 }

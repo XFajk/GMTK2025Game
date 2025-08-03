@@ -41,7 +41,7 @@ public partial class Machine : Connectable, IRepairable {
                 _recipeParts.Add(output);
             }
         }
-
+        GD.Print($"Machine {Name} has {_recipeParts.Count} recipe parts.");
         _statusInterface.SetRecepiePartsIntoInterface(_recipeParts);
 
         if (_isLossless) Resources.VerifyLossless(_recipeParts, Name);

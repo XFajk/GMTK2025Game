@@ -18,7 +18,12 @@ public partial class Pickupable : Area3D {
     private float _zDelta = 0.0f;
     private RayCast3D _machineDetectionRay = null;
 
+    private AudioStreamPlayer3D _disposeSoundPlayer;
+
+
     public override void _Ready() {
+        _disposeSoundPlayer = GetNode<AudioStreamPlayer3D>("DisposeSound");
+
         SetCollisionLayerValue(1, false);
         SetCollisionMaskValue(1, false);
 
@@ -58,6 +63,8 @@ public partial class Pickupable : Area3D {
                 if (connectable == null) {
                     return;
                 }
+
+                _disposeSoundPlayer.Play();
                 if (connectable is Machine machine) {
                     AssingSelfToMachine(machine);
                 } else if (connectable is StorageContainer container) {
