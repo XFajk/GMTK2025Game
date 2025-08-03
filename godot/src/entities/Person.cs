@@ -30,16 +30,26 @@ public partial class Person : PathFollow3D {
     private float _alienSpriteAnimatinTimerValue = 0.0f;
     private int _alienSpriteAnimationRotationChanger = 1;
 
-
     private static PackedScene GarbageScene = GD.Load<PackedScene>("res://scenes/entities/garbage.tscn");
     private static Timer _garbageTimer;
+    
+    public static Texture2D[] AlienSpriteTextures = {
+        GD.Load<Texture2D>("res://assets/sprites/simon.png"),
+        GD.Load<Texture2D>("res://assets/sprites/matej_goc.png"),
+        GD.Load<Texture2D>("res://assets/sprites/igi.png"),
+        GD.Load<Texture2D>("res://assets/sprites/vilo.png"),
+        GD.Load<Texture2D>("res://assets/sprites/oliver.png"),
+        GD.Load<Texture2D>("res://assets/sprites/kristian.png"),
+    };
 
-    public override void _Ready() {
+    public override void _Ready()
+    {
         _rng.Randomize();
 
         AddToGroup("Crew");
 
         AlienSprite = GetNode<Sprite3D>("AlienSprite");
+        AlienSprite.Texture = AlienSpriteTextures[_rng.RandiRange(0, AlienSpriteTextures.Length - 1)];
 
         _garbageTimer = new();
         AddChild(_garbageTimer);
@@ -48,16 +58,21 @@ public partial class Person : PathFollow3D {
         FloorPath parent = GetParent<FloorPath>();
 
         int numberOfFloors = 0;
-        if (parent != null) {
+        if (parent != null)
+        {
             ParentFloorPath = parent;
             FloorNumber = parent.FloorNumber;
             numberOfFloors = parent.FloorElevator.Floors.Count;
-        } else {
+        }
+        else
+        {
             GD.PrintErr("Person Is not attached to a FloorPath");
         }
 
-        _garbageTimer.Timeout += () => {
-            if (InElevator) {
+        _garbageTimer.Timeout += () =>
+        {
+            if (InElevator)
+            {
                 return;
             }
             var garbage = GarbageScene.Instantiate<Pickupable>();
@@ -72,13 +87,17 @@ public partial class Person : PathFollow3D {
         RecalculateTimer = GetNode<Timer>("RecalculateTimer");
 
         // This sets a callback that resets everything and sets a new target
-        RecalculateTimer.Timeout += () => {
+        RecalculateTimer.Timeout += () =>
+        {
             RecalculateTimer.Stop();
             // This code makes sure that the new floor we want to transport the player to is different than the floor he is currently on
             int targetFloor;
-            if (numberOfFloors < 1) {
+            if (numberOfFloors < 1)
+            {
                 targetFloor = 0;
-            } else {
+            }
+            else
+            {
                 targetFloor = _rng.RandiRange(0, numberOfFloors - 1);
             }
             SetTarget(new ShipLocation(targetFloor, _rng.Randf()));
