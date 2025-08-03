@@ -162,7 +162,7 @@ script = ExtResource("6_0tnpc")
 TimeDelaySeconds = 13
 TimeDelayStartsWhen = 7
 
-[node name="OxygenLeak" type="Node" parent="MissionsAndEvents"]
+[node name="OxygenLeak" type="Node3D" parent="MissionsAndEvents"]
 script = ExtResource("15_5newe")
 SecondsToRepair = 8.0
 
@@ -250,7 +250,7 @@ script = ExtResource("6_0tnpc")
 TimeDelayStartsWhen = 4
 MissionToWaitFor = NodePath("../PirateEncounter")
 
-[node name="OxygenLeak2" type="Node" parent="MissionsAndEvents"]
+[node name="OxygenLeak2" type="Node3D" parent="MissionsAndEvents"]
 script = ExtResource("15_5newe")
 SecondsToRepair = 8.0
 
@@ -275,7 +275,7 @@ script = ExtResource("6_0tnpc")
 TimeDelaySeconds = 2
 TimeDelayStartsWhen = 7
 
-[node name="OxygenLeak3" type="Node" parent="MissionsAndEvents"]
+[node name="OxygenLeak3" type="Node3D" parent="MissionsAndEvents"]
 script = ExtResource("15_5newe")
 SecondsToRepair = 8.0
 
@@ -302,7 +302,7 @@ script = ExtResource("6_0tnpc")
 TimeDelaySeconds = 3
 TimeDelayStartsWhen = 7
 
-[node name="OxygenLeak5" type="Node" parent="MissionsAndEvents"]
+[node name="OxygenLeak5" type="Node3D" parent="MissionsAndEvents"]
 script = ExtResource("15_5newe")
 SecondsToRepair = 8.0
 
@@ -311,7 +311,7 @@ script = ExtResource("6_0tnpc")
 TimeDelaySeconds = 7
 TimeDelayStartsWhen = 7
 
-[node name="OxygenLeak6" type="Node" parent="MissionsAndEvents"]
+[node name="OxygenLeak6" type="Node3D" parent="MissionsAndEvents"]
 script = ExtResource("15_5newe")
 SecondsToRepair = 8.0
 
@@ -328,7 +328,7 @@ script = ExtResource("6_0tnpc")
 TimeDelaySeconds = 5
 TimeDelayStartsWhen = 7
 
-[node name="OxygenLeak7" type="Node" parent="MissionsAndEvents"]
+[node name="OxygenLeak7" type="Node3D" parent="MissionsAndEvents"]
 script = ExtResource("15_5newe")
 SecondsToRepair = 8.0
 
@@ -337,7 +337,7 @@ script = ExtResource("6_0tnpc")
 TimeDelaySeconds = 12
 TimeDelayStartsWhen = 7
 
-[node name="OxygenLeak8" type="Node" parent="MissionsAndEvents"]
+[node name="OxygenLeak8" type="Node3D" parent="MissionsAndEvents"]
 script = ExtResource("15_5newe")
 SecondsToRepair = 8.0
 
@@ -354,7 +354,7 @@ script = ExtResource("6_0tnpc")
 TimeDelaySeconds = 4
 TimeDelayStartsWhen = 7
 
-[node name="OxygenLeak9" type="Node" parent="MissionsAndEvents"]
+[node name="OxygenLeak9" type="Node3D" parent="MissionsAndEvents"]
 script = ExtResource("15_5newe")
 SecondsToRepair = 2.0
 
