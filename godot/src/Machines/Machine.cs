@@ -62,7 +62,6 @@ public partial class Machine : Connectable, IRepairable {
         _processProgress += _processingPerSecond * (float)deltaTime;
 
         while (_processProgress > 1) {
-            GD.Print($"Machine {Name} execution!");
             _processProgress -= 1;
 
             foreach (MachineBuffer container in _recipeParts) {

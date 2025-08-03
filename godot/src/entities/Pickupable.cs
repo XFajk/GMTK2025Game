@@ -100,7 +100,6 @@ public partial class Pickupable : Area3D {
         if (!area.IsInGroup("MachineDetectionAreas")) {
             return null;
         }
-        GD.Print(area.GetParent().Name);
         Connectable parent = area.GetParent() as Connectable;
         if (parent is null) {
             return null;

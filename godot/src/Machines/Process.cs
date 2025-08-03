@@ -55,7 +55,6 @@ public partial class Process : Node3D {
         _processProgress += _processingPerSecond * (float)deltaTime;
 
         while (_processProgress > 1) {
-            GD.Print($"Process {Name} execution!");
             _processProgress -= 1;
 
             foreach (InputOutput io in _recipeParts) {
