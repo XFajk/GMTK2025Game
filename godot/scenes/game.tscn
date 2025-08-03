@@ -51,8 +51,8 @@ InitialTimeDelay = 5
 
 [node name="Prepare" type="Node" parent="MissionsAndEvents"]
 script = ExtResource("4_p57ef")
-FoodRequired = 100
-GarbageMax = 5
+FoodRequired = 50
+GarbageMax = 10
 
 [node name="AFewSecondsIntoPrepare" type="Node" parent="MissionsAndEvents"]
 script = ExtResource("6_0tnpc")
