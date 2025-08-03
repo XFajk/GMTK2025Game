@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://j8fb7sa785sh"]
+
+[ext_resource type="Environment" uid="uid://dtuw821w3pf6d" path="res://misc/camera_enviroment.tres" id="1_l6cm7"]
+[ext_resource type="PackedScene" uid="uid://c04wt7bfyonbr" path="res://scenes/ui/main_menu_ui.tscn" id="2_ekxnf"]
+[ext_resource type="PackedScene" uid="uid://s14st0xpu0eh" path="res://scenes/music_player.tscn" id="3_bqqt6"]
+[ext_resource type="AudioStream" uid="uid://ipvkgkuutfke" path="res://assets/music/SpaceResourceMainLooping.wav" id="4_wu84c"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+environment = ExtResource("1_l6cm7")
+fov = 101.962
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Camera3D"]
+environment = ExtResource("1_l6cm7")
+
+[node name="MainMenuUI" parent="Camera3D" instance=ExtResource("2_ekxnf")]
+
+[node name="MusicPlayer" parent="." instance=ExtResource("3_bqqt6")]
+MusicStream = ExtResource("4_wu84c")
+FadeTime = 2.0

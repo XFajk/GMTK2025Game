@@ -1,6 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://bgatuvcmk2pct"]
+[gd_scene load_steps=13 format=3 uid="uid://bgatuvcmk2pct"]
 
 [ext_resource type="Script" uid="uid://krog3faufiju" path="res://src/entities/Pickupable.cs" id="1_8dtw3"]
+[ext_resource type="Texture2D" uid="uid://b8pwdv14b6rv6" path="res://assets/vfx/dark_smoke.png" id="2_y4bc4"]
+[ext_resource type="AudioStream" uid="uid://dgpgc6p4eqvby" path="res://assets/audio/pickup.wav" id="3_xajnn"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_lxx88"]
 radius = 0.1
@@ -8,6 +10,47 @@ radius = 0.1
 [sub_resource type="SphereMesh" id="SphereMesh_s5ogl"]
 radius = 0.1
 height = 0.2
+
+[sub_resource type="Curve" id="Curve_xajnn"]
+_data = [Vector2(0.00185528, 0.526786), 0.0, 0.0, 0, 0, Vector2(1, 0.165179), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_kwcvy"]
+curve = SubResource("Curve_xajnn")
+
+[sub_resource type="Curve" id="Curve_j31y4"]
+_data = [Vector2(0, 0.196429), 0.0, 0.0, 0, 0, Vector2(0.6141, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_32gc7"]
+curve = SubResource("Curve_j31y4")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_vyetx"]
+angle_min = -720.0
+angle_max = 720.0
+direction = Vector3(0, 1, 0)
+spread = 19.434
+initial_velocity_min = 1.0
+initial_velocity_max = 1.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.5
+scale_curve = SubResource("CurveTexture_32gc7")
+color = Color(1, 0.860547, 0.526236, 1)
+alpha_curve = SubResource("CurveTexture_kwcvy")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gyera"]
+transparency = 1
+diffuse_mode = 3
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("2_y4bc4")
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_uou3c"]
+material = SubResource("StandardMaterial3D_gyera")
 
 [node name="Garbage" type="Area3D"]
 script = ExtResource("1_8dtw3")
@@ -19,3 +62,13 @@ shape = SubResource("SphereShape3D_lxx88")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("SphereMesh_s5ogl")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+amount = 2
+process_material = SubResource("ParticleProcessMaterial_vyetx")
+draw_pass_1 = SubResource("QuadMesh_uou3c")
+
+[node name="DisposeSound" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("3_xajnn")
+unit_size = 4.0
+bus = &"SFX"

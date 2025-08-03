@@ -1,0 +1,121 @@
+[gd_scene load_steps=16 format=3 uid="uid://dxtvfkqfm6jpl"]
+
+[ext_resource type="Texture2D" uid="uid://b8pwdv14b6rv6" path="res://assets/vfx/dark_smoke.png" id="1_6d3yd"]
+
+[sub_resource type="Curve" id="Curve_m88p2"]
+_data = [Vector2(0, 0.379464), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_6d3yd"]
+curve = SubResource("Curve_m88p2")
+
+[sub_resource type="Curve" id="Curve_c4qu1"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.564007, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_rckmw"]
+curve = SubResource("Curve_c4qu1")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_4pega"]
+angle_min = -720.0
+angle_max = 720.0
+direction = Vector3(0, 1, 0)
+spread = 180.0
+initial_velocity_min = 12.94
+initial_velocity_max = 12.94
+gravity = Vector3(0, 0, 0)
+damping_min = 58.933
+damping_max = 58.933
+scale_curve = SubResource("CurveTexture_rckmw")
+alpha_curve = SubResource("CurveTexture_6d3yd")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2au8o"]
+transparency = 1
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("1_6d3yd")
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_n5jfg"]
+material = SubResource("StandardMaterial3D_2au8o")
+size = Vector2(5, 5)
+
+[sub_resource type="Curve" id="Curve_boojo"]
+_data = [Vector2(0, 0.428571), 0.0, 0.0, 0, 0, Vector2(0.497217, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_b5hw4"]
+curve = SubResource("Curve_boojo")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_uglgj"]
+direction = Vector3(0, 1, 0)
+spread = 119.447
+initial_velocity_min = 10.0
+initial_velocity_max = 10.0
+linear_accel_min = 1.73
+linear_accel_max = 1.73
+scale_max = 6.2
+scale_curve = SubResource("CurveTexture_b5hw4")
+hue_variation_min = -1.0
+hue_variation_max = 1.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_70bji"]
+blend_mode = 1
+vertex_color_use_as_albedo = true
+albedo_color = Color(1, 0.541176, 0, 1)
+emission_enabled = true
+emission = Color(0.823374, 0.448425, 0.0638854, 1)
+emission_energy_multiplier = 5.31
+
+[sub_resource type="SphereMesh" id="SphereMesh_hfipw"]
+material = SubResource("StandardMaterial3D_70bji")
+radius = 0.1
+height = 0.2
+radial_segments = 8
+rings = 8
+
+[sub_resource type="Animation" id="Animation_oyqju"]
+resource_name = "new_animation"
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_m88p2"]
+_data = {
+&"new_animation": SubResource("Animation_oyqju")
+}
+
+[node name="Explosion" type="Node3D"]
+
+[node name="Smoke" type="GPUParticles3D" parent="."]
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_4pega")
+draw_pass_1 = SubResource("QuadMesh_n5jfg")
+
+[node name="Fire" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.422544, 0)
+amount = 50
+interp_to_end = 0.09
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_uglgj")
+draw_pass_1 = SubResource("SphereMesh_hfipw")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_m88p2")
+}
+autoplay = "new_animation"

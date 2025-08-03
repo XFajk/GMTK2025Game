@@ -1,0 +1,107 @@
+[gd_scene load_steps=14 format=3 uid="uid://cwfaolgkx8pib"]
+
+[ext_resource type="Texture2D" uid="uid://bjb8f24u8t1p0" path="res://assets/vfx/smoke3.png" id="1_g8egp"]
+
+[sub_resource type="CurveTexture" id="CurveTexture_b70x6"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_het50"]
+angle_min = -720.0
+angle_max = 720.0
+direction = Vector3(0, 1, 0)
+spread = 180.0
+initial_velocity_min = 0.1
+initial_velocity_max = 0.2
+gravity = Vector3(0, 0, 0)
+scale_min = 558.94
+scale_max = 1000.0
+alpha_curve = SubResource("CurveTexture_b70x6")
+hue_variation_min = 0.63
+hue_variation_max = 0.66
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m1bu2"]
+transparency = 1
+blend_mode = 1
+diffuse_mode = 3
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.949827, 0.949827, 0.949827, 1)
+albedo_texture = ExtResource("1_g8egp")
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_lxwyb"]
+material = SubResource("StandardMaterial3D_m1bu2")
+size = Vector2(0.003, 0.003)
+
+[sub_resource type="Curve" id="Curve_g8egp"]
+_limits = [-2.0, 2.0, 0.0, 1.0]
+_data = [Vector2(0, -0.979893), 0.0, 0.0, 0, 0, Vector2(0.99999, -2), 0.0, 0.0, 0, 0, Vector2(1, -0.946429), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_het50"]
+curve = SubResource("Curve_g8egp")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_m1bu2"]
+particle_flag_align_y = true
+direction = Vector3(0, 0, 0)
+spread = 180.0
+initial_velocity_min = 4.0
+initial_velocity_max = 14.0
+orbit_velocity_curve = SubResource("CurveTexture_het50")
+gravity = Vector3(285.89, 0, 0)
+radial_accel_min = -100.0
+radial_accel_max = -100.0
+attractor_interaction_enabled = false
+
+[sub_resource type="Curve" id="Curve_heoph"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.241681, 0.149807), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1vqs3"]
+cull_mode = 2
+vertex_color_use_as_albedo = true
+emission_enabled = true
+emission = Color(0.700279, 0.613515, 0.26045, 1)
+emission_energy_multiplier = 5.71
+use_particle_trails = true
+
+[sub_resource type="RibbonTrailMesh" id="RibbonTrailMesh_ubm1q"]
+material = SubResource("StandardMaterial3D_1vqs3")
+size = 0.5
+section_length = 0.1
+section_segments = 10
+curve = SubResource("Curve_heoph")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6bn0j"]
+transparency = 1
+blend_mode = 1
+albedo_color = Color(0.312603, 0.323381, 2.88785e-07, 1)
+emission = Color(0.297143, 0.297545, 4.81308e-08, 1)
+emission_energy_multiplier = 16.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_jmq2a"]
+material = SubResource("StandardMaterial3D_6bn0j")
+radius = 0.6
+height = 1.2
+
+[node name="Core" type="Node3D"]
+
+[node name="Aura" type="GPUParticles3D" parent="."]
+amount = 20
+speed_scale = 0.15
+process_material = SubResource("ParticleProcessMaterial_het50")
+draw_pass_1 = SubResource("QuadMesh_lxwyb")
+
+[node name="GPUParticles3D2" type="GPUParticles3D" parent="."]
+visible = false
+amount = 20
+lifetime = 0.19
+trail_enabled = true
+trail_lifetime = 0.1
+process_material = SubResource("ParticleProcessMaterial_m1bu2")
+draw_pass_1 = SubResource("RibbonTrailMesh_ubm1q")
+
+[node name="Core" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_jmq2a")
