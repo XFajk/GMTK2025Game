@@ -29,7 +29,7 @@ public partial class MissionManager : Node {
     public override void _Process(double delta) {
         _gameTimeSecond += delta;
 
-        if (_currentDelay != null && _currentDelay.AreWeThereYet(MissionsInPreparation, ActiveMission, _gameTimeSecond)) {
+        if (_currentDelay.AreWeThereYet(MissionsInPreparation, ActiveMission, _gameTimeSecond)) {
             _currentDelay = null;
         }
 
@@ -49,6 +49,8 @@ public partial class MissionManager : Node {
                 if (!mission.IsPreparationFinished()) continue;
                 /// 4: `ApplyEffect` is called
                 mission.OnStart(Ship);
+                ActiveMission = mission;
+                break;
             }
         } else {
             /// 5: we wait until `IsMissionFinised`

@@ -44,16 +44,14 @@ public partial class MissionPrepare : Node, IMission {
     public IMission.Properties GetMissionProperties() => Properties;
 
     public void OnStart(Ship ship) {
+        GD.Print("MissionPrepare OnStart!");
     }
 
-    public bool IsPreparationFinished() {
-        return (this as IMission).CheckMaterialRequirements(_ship);
-    }
+    public bool IsPreparationFinished() => true;
 
-    public bool IsMissionFinised() {
-        return IsPreparationFinished();
-    }
+    public bool IsMissionFinised() => (this as IMission).CheckMaterialRequirements(_ship);
 
     public void OnCompletion(Ship ship) {
+        GD.Print("MissionPrepare OnCompletion!");
     }
 }

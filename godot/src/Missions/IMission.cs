@@ -26,7 +26,7 @@ public interface IMission {
         Properties props = GetMissionProperties();
         var allResources = ship.GetTotalResourceQuantities();
         return props.ResourceMinimumRequirements.All(req => allResources[req.Key] >= req.Value)
-            && props.ResourceMaximumRequirements.All(req => allResources[req.Key] <= req.Value) ;
+            && props.ResourceMaximumRequirements.All(req => allResources[req.Key] <= req.Value);
     }
 
     public class Properties {

@@ -48,7 +48,7 @@ public partial class Delay : Node {
                 Trigger.AnyMissionIsActive =>
                     (activeMission != null),
                 Trigger.PreviousMissionActive or Trigger.SpecificMissionActive =>
-                    (activeMission == MissionToWaitFor),
+                    !missionsInPreparation.Contains(MissionToWaitFor as IMission),
                 Trigger.PreviousMissionFinished or Trigger.SpecificMissionFinished =>
                     (activeMission != MissionToWaitFor && !missionsInPreparation.Contains(MissionToWaitFor as IMission)),
                 Trigger.AllMissionsFinished =>
