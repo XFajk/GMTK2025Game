@@ -19,7 +19,6 @@ Speed = 0.03
 
 [node name="AlienSprite" type="Sprite3D" parent="."]
 transform = Transform3D(0.125, 0, 0, 0, 0.125, 0, 0, 0, 0.125, 0.00626779, 0.319472, 0)
-shaded = true
 texture = ExtResource("2_cof2u")
 
 [node name="DoorDetector" type="Area3D" parent="."]
