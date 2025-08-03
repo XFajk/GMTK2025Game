@@ -81,12 +81,14 @@ rings = 8
 [node name="Fire" type="Node3D"]
 
 [node name="Smoke" type="GPUParticles3D" parent="."]
+cast_shadow = 0
 lifetime = 1.75
 process_material = SubResource("ParticleProcessMaterial_kv17e")
 draw_pass_1 = SubResource("QuadMesh_ykm6b")
 
 [node name="Fire" type="GPUParticles3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.422544, 0)
+cast_shadow = 0
 amount = 50
 interp_to_end = 0.09
 process_material = SubResource("ParticleProcessMaterial_ie5bg")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://0rmy461ykeb"]
+[gd_scene load_steps=23 format=3 uid="uid://0rmy461ykeb"]
 
 [ext_resource type="Script" uid="uid://bp0g8sc4t5qhs" path="res://src/Game.cs" id="1_yqjtg"]
 [ext_resource type="PackedScene" uid="uid://cgccmqaeo11dk" path="res://scenes/ship.tscn" id="2_lnu2h"]
@@ -11,7 +11,6 @@
 [ext_resource type="Script" uid="uid://c64yhiv3h44qm" path="res://src/Events/EventCrewSick.cs" id="8_dinhu"]
 [ext_resource type="Script" uid="uid://bj5ttgseqiplq" path="res://src/Missions/MissionHighPowerScan.cs" id="9_vtaks"]
 [ext_resource type="Script" uid="uid://b2qjkn4sqpybs" path="res://src/Events/EventFire.cs" id="10_kvuet"]
-[ext_resource type="Script" uid="uid://krog3faufiju" path="res://src/entities/Pickupable.cs" id="10_vtaks"]
 [ext_resource type="Script" uid="uid://dkyikroedb10k" path="res://src/Missions/MissionSaboteur.cs" id="13_kvuet"]
 [ext_resource type="Script" uid="uid://d2aoo2dovrjfb" path="res://src/Events/EventMachineBreakdown.cs" id="14_1kice"]
 [ext_resource type="Script" uid="uid://b3mtrifokbw8l" path="res://src/Missions/MissionPizza.cs" id="14_trtic"]
@@ -21,25 +20,20 @@
 [ext_resource type="Script" uid="uid://288tx64nh6c5" path="res://src/Missions/MissionPirates.cs" id="16_rysoc"]
 [ext_resource type="Script" uid="uid://cgjaj1ali2bgb" path="res://src/Missions/MissionIceAstroidMining.cs" id="16_ssvqc"]
 [ext_resource type="Script" uid="uid://we4sm7cygymp" path="res://src/Events/EventSolarFlare.cs" id="18_264po"]
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_kvpfn"]
-radius = 0.1
-
-[sub_resource type="SphereMesh" id="SphereMesh_dinhu"]
-radius = 0.1
-height = 0.2
+[ext_resource type="Environment" uid="uid://dtuw821w3pf6d" path="res://misc/camera_enviroment.tres" id="22_37s47"]
+[ext_resource type="PackedScene" uid="uid://bgatuvcmk2pct" path="res://scenes/entities/garbage.tscn" id="22_bt5mj"]
 
 [node name="Game" type="Node"]
 script = ExtResource("1_yqjtg")
 _missionPopup = ExtResource("2_u5sy4")
 
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.713192, 0.1158, -0.691338, -0.683938, 0.101127, 0.722497, 0.153579, 0.988111, 0.00707713, -12.7482, 15.9498, 10.8814)
+shadow_enabled = true
+
 [node name="Player" parent="." instance=ExtResource("3_lnu2h")]
 transform = Transform3D(1, 0, 0, 0, 0.984196, 0.177085, 0, -0.177085, 0.984196, 0, 6.12614, 9.218)
 fov = 40.0
-BoundingBox = AABB(-3, 3, 9, 7, 5, 2)
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Player"]
-transform = Transform3D(0.938324, 0.116882, -0.325402, -0.122798, 0.992429, 0.00237733, 0.323216, 0.0377278, 0.945573, 0, 0, 0)
 
 [node name="Ship" parent="." instance=ExtResource("2_lnu2h")]
 
@@ -364,16 +358,8 @@ TimeDelaySeconds = 3
 
 [node name="GameFinish" type="Node" parent="MissionsAndEvents"]
 
-[node name="Area3D" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.37198, 3.54857, 3.24929)
-collision_layer = 8
-collision_mask = 8
-script = ExtResource("10_vtaks")
-Resource = 11
-ConnecatableName = &"GarbageBurner"
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource("22_37s47")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
-shape = SubResource("SphereShape3D_kvpfn")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Area3D"]
-mesh = SubResource("SphereMesh_dinhu")
+[node name="Garbage" parent="." instance=ExtResource("22_bt5mj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.96023, 2.46143, 0.933542)
