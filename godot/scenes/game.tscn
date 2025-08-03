@@ -145,10 +145,9 @@ script = ExtResource("6_0tnpc")
 TimeDelaySeconds = 7
 TimeDelayStartsWhen = 7
 
-[node name="MachineBreakdown" type="Node" parent="MissionsAndEvents" node_paths=PackedStringArray("Target")]
+[node name="MachineBreakdown" type="Node" parent="MissionsAndEvents"]
 script = ExtResource("14_1kice")
 SecondsToRepair = 8.0
-Target = NodePath("../../Ship/FluidReprocessor")
 
 [node name="Fire2" type="Node3D" parent="MissionsAndEvents"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 4, 0)
