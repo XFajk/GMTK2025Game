@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://0rmy461ykeb"]
+[gd_scene load_steps=22 format=3 uid="uid://0rmy461ykeb"]
 
 [ext_resource type="Script" uid="uid://bp0g8sc4t5qhs" path="res://src/Game.cs" id="1_yqjtg"]
 [ext_resource type="PackedScene" uid="uid://cgccmqaeo11dk" path="res://scenes/ship.tscn" id="2_lnu2h"]
@@ -20,10 +20,7 @@
 [ext_resource type="Script" uid="uid://288tx64nh6c5" path="res://src/Missions/MissionPirates.cs" id="16_rysoc"]
 [ext_resource type="Script" uid="uid://cgjaj1ali2bgb" path="res://src/Missions/MissionIceAstroidMining.cs" id="16_ssvqc"]
 [ext_resource type="Script" uid="uid://we4sm7cygymp" path="res://src/Events/EventSolarFlare.cs" id="18_264po"]
-[ext_resource type="PackedScene" uid="uid://s14st0xpu0eh" path="res://scenes/music_player.tscn" id="21_5newe"]
-[ext_resource type="AudioStream" uid="uid://ipvkgkuutfke" path="res://assets/music/SpaceResourceMainLooping.wav" id="22_37s47"]
 [ext_resource type="Environment" uid="uid://c3kvjjeurfhoc" path="res://misc/camera_enviroment.tres" id="22_37s47"]
-[ext_resource type="PackedScene" uid="uid://b5igmv11fx3wj" path="res://scenes/entities/garbage.tscn" id="22_bt5mj"]
 
 [node name="Game" type="Node"]
 script = ExtResource("1_yqjtg")
@@ -362,6 +359,3 @@ TimeDelaySeconds = 3
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource("22_37s47")
-
-[node name="Garbage" parent="." instance=ExtResource("22_bt5mj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.96023, 2.46143, 0.933542)
