@@ -52,6 +52,7 @@ public partial class MissionManager : Node {
                 ActiveMission = mission;
                 break;
             }
+            MissionsInPreparation.Remove(ActiveMission);
         } else {
             /// 5: we wait until `IsMissionFinised`
             if (ActiveMission.IsMissionFinised()) {
