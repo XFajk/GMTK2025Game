@@ -171,6 +171,11 @@ public partial class Ship : Node, IContainer {
     public float AddResource(Resource resource, float quantity) {
         float leftToAdd = quantity;
 
+        if (resource == Resource.Garbage) {
+            (this as IContainer).AddQuantity(quantity);
+            return 0;
+        }
+
         Select selection = (quantity > 0) ? Select.OnlyInputs : Select.OnlyOutputs;
         foreach (IContainer c in AllContainers(selection)) {
             if (c.GetResource() == resource) {

@@ -1,6 +1,7 @@
-[gd_scene load_steps=23 format=3 uid="uid://0rmy461ykeb"]
+[gd_scene load_steps=26 format=3 uid="uid://0rmy461ykeb"]
 
 [ext_resource type="Script" uid="uid://bp0g8sc4t5qhs" path="res://src/Game.cs" id="1_yqjtg"]
+[ext_resource type="PackedScene" uid="uid://2d2hbkqmfrx" path="res://scenes/ui/mission_dialog.tscn" id="2_bt5mj"]
 [ext_resource type="PackedScene" uid="uid://cgccmqaeo11dk" path="res://scenes/ship.tscn" id="2_lnu2h"]
 [ext_resource type="PackedScene" uid="uid://6cj8en2hqm8j" path="res://scenes/player.tscn" id="3_lnu2h"]
 [ext_resource type="Script" uid="uid://dbpyc6n0xxsdt" path="res://src/Missions/MissionTravel.cs" id="4_iywne"]
@@ -20,6 +21,8 @@
 [ext_resource type="Script" uid="uid://288tx64nh6c5" path="res://src/Missions/MissionPirates.cs" id="16_rysoc"]
 [ext_resource type="Script" uid="uid://cgjaj1ali2bgb" path="res://src/Missions/MissionIceAstroidMining.cs" id="16_ssvqc"]
 [ext_resource type="Script" uid="uid://we4sm7cygymp" path="res://src/Events/EventSolarFlare.cs" id="18_264po"]
+[ext_resource type="PackedScene" uid="uid://s14st0xpu0eh" path="res://scenes/music_player.tscn" id="21_5newe"]
+[ext_resource type="AudioStream" uid="uid://ipvkgkuutfke" path="res://assets/music/SpaceResourceMainLooping.wav" id="22_37s47"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_kvpfn"]
 radius = 0.1
@@ -30,6 +33,7 @@ height = 0.2
 
 [node name="Game" type="Node"]
 script = ExtResource("1_yqjtg")
+_missionPopup = ExtResource("2_bt5mj")
 
 [node name="Player" parent="." instance=ExtResource("3_lnu2h")]
 transform = Transform3D(1, 0, 0, 0, 0.984196, 0.177085, 0, -0.177085, 0.984196, -16.438, 1.126, 10)
@@ -383,3 +387,6 @@ shape = SubResource("SphereShape3D_kvpfn")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Area3D"]
 mesh = SubResource("SphereMesh_dinhu")
+
+[node name="MusicPlayer" parent="." instance=ExtResource("21_5newe")]
+MusicStream = ExtResource("22_37s47")
