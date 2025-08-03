@@ -91,16 +91,16 @@ public partial class Pickupable : Area3D {
 
         AddChild(_machineDetectionRay);
 
-        _zDelta = Mathf.Abs(_camera.GlobalPosition.Z - GlobalPosition.Z);
+        _zDelta = Mathf.Abs(_camera.GlobalPosition.Z - 0);
         OriginalPosition = GlobalPosition;
 
     }
 
     private Connectable ExtractConnectable(Area3D area) {
-
         if (!area.IsInGroup("MachineDetectionAreas")) {
             return null;
         }
+        GD.Print(area.GetParent().Name);
         Connectable parent = area.GetParent() as Connectable;
         if (parent is null) {
             return null;

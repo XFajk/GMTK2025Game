@@ -5,7 +5,7 @@
 [ext_resource type="AudioStream" uid="uid://dgpgc6p4eqvby" path="res://assets/audio/pickup.wav" id="3_xajnn"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_lxx88"]
-radius = 0.1
+radius = 0.199723
 
 [sub_resource type="SphereMesh" id="SphereMesh_s5ogl"]
 radius = 0.1
@@ -55,7 +55,7 @@ material = SubResource("StandardMaterial3D_gyera")
 [node name="Garbage" type="Area3D"]
 script = ExtResource("1_8dtw3")
 Resource = 11
-ConnecatableName = &"GarbageBurner"
+ConnecatableName = &"Incinerator"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_lxx88")
