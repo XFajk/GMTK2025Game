@@ -26,7 +26,7 @@ public partial class Plants : Machine {
 
     public override void _Process(double deltaTime) {
 
-        PlantHealth = Mathf.Clamp(PlantHealth, 0, 2.0f);
+        PlantHealth = Mathf.Clamp(PlantHealth, 0.1f, 2.0f);
         _plantHealthBar.Value = PlantHealth / 2.0f * 100;
         _processingPerSecond = _baseProcessingPerSecond * PlantHealth;
         
