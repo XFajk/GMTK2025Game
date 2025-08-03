@@ -65,8 +65,12 @@ public partial class Ship : Node, IContainer {
 
     public void CreateGarbage() {
         foreach (Person p in Crew) {
-            if (p.ThrowGarbage()) continue;
+            if (p.ThrowGarbage()) return;
         }
+
+        // spawn anywhere
+        Vector3 randomMachinePosition = Machines[_rng.RandiRange(0, Machines.Count - 1)].Position;
+        Person.SpawnGarbageAt(this, randomMachinePosition);
     }
 
     public override void _Process(double deltaTime) {

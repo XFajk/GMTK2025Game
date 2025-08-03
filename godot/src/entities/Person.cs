@@ -94,6 +94,14 @@ public partial class Person : PathFollow3D {
         return true;
     }
 
+    public static bool SpawnGarbageAt(Node parent, Vector3 position) {
+        var garbage = GarbageScene.Instantiate<Pickupable>();
+        parent.AddChild(garbage);
+        garbage.GlobalPosition = position + new Vector3(0.0f, 1.0f, 0.0f) * 0.1f;
+        garbage.OriginalPosition = position + new Vector3(0.0f, 1.0f, 0.0f) * 0.1f;
+        GD.Print("Garbage spawned at " + garbage.GlobalPosition);
+        return true;
+    }
 
     public override void _Process(double delta) {
         if (InElevator) {
