@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://cwfaolgkx8pib"]
+[gd_scene load_steps=12 format=3 uid="uid://cwfaolgkx8pib"]
 
 [ext_resource type="Texture2D" uid="uid://bjb8f24u8t1p0" path="res://assets/vfx/smoke3.png" id="1_g8egp"]
 
@@ -35,21 +35,12 @@ particles_anim_loop = false
 material = SubResource("StandardMaterial3D_m1bu2")
 size = Vector2(0.003, 0.003)
 
-[sub_resource type="Curve" id="Curve_g8egp"]
-_limits = [-2.0, 2.0, 0.0, 1.0]
-_data = [Vector2(0, -0.979893), 0.0, 0.0, 0, 0, Vector2(0.99999, -2), 0.0, 0.0, 0, 0, Vector2(1, -0.946429), 0.0, 0.0, 0, 0]
-point_count = 3
-
-[sub_resource type="CurveTexture" id="CurveTexture_het50"]
-curve = SubResource("Curve_g8egp")
-
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_m1bu2"]
 particle_flag_align_y = true
 direction = Vector3(0, 0, 0)
-spread = 180.0
+spread = 27.973
 initial_velocity_min = 4.0
 initial_velocity_max = 14.0
-orbit_velocity_curve = SubResource("CurveTexture_het50")
 gravity = Vector3(285.89, 0, 0)
 radial_accel_min = -100.0
 radial_accel_max = -100.0
@@ -89,13 +80,14 @@ height = 1.2
 [node name="Core" type="Node3D"]
 
 [node name="Aura" type="GPUParticles3D" parent="."]
+cast_shadow = 0
 amount = 20
-speed_scale = 0.15
 process_material = SubResource("ParticleProcessMaterial_het50")
 draw_pass_1 = SubResource("QuadMesh_lxwyb")
 
 [node name="GPUParticles3D2" type="GPUParticles3D" parent="."]
-visible = false
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
+cast_shadow = 0
 amount = 20
 lifetime = 0.19
 trail_enabled = true
@@ -104,4 +96,10 @@ process_material = SubResource("ParticleProcessMaterial_m1bu2")
 draw_pass_1 = SubResource("RibbonTrailMesh_ubm1q")
 
 [node name="Core" type="MeshInstance3D" parent="."]
+cast_shadow = 0
 mesh = SubResource("SphereMesh_jmq2a")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+light_color = Color(0.215686, 1, 0.411765, 1)
+shadow_enabled = true
+omni_range = 7.6072
