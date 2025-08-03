@@ -51,7 +51,6 @@ public partial class MissionManager : Node {
 
             GD.Print($"Time = {_gameTimeSecond}, Node = {progress} ({eventNode.Name})");
             ExecuteEventsOfNode(eventNode);
-            GD.Print($"_currentDelay = {_currentDelay}, progress = {progress}, ActiveMission = {ActiveMission.GetMissionProperties().Title}");
         }
 
         if (ActiveMission == null) {
