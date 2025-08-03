@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://s14st0xpu0eh"]
+
+[ext_resource type="AudioStream" uid="uid://ipvkgkuutfke" path="res://assets/music/SpaceResourceMainLooping.wav" id="1_jxdhu"]
+[ext_resource type="Script" uid="uid://hpsjhtb6uqbg" path="res://src/MusicPlayer.cs" id="1_ql6qh"]
+
+[node name="MusicPlayer" type="Node"]
+script = ExtResource("1_ql6qh")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("1_jxdhu")
+volume_db = 10.0
+autoplay = true
+bus = &"Music"

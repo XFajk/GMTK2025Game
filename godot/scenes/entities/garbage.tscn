@@ -1,7 +1,8 @@
-[gd_scene load_steps=12 format=3 uid="uid://bgatuvcmk2pct"]
+[gd_scene load_steps=13 format=3 uid="uid://bgatuvcmk2pct"]
 
 [ext_resource type="Script" uid="uid://krog3faufiju" path="res://src/entities/Pickupable.cs" id="1_8dtw3"]
 [ext_resource type="Texture2D" uid="uid://b8pwdv14b6rv6" path="res://assets/vfx/dark_smoke.png" id="2_y4bc4"]
+[ext_resource type="AudioStream" uid="uid://dgpgc6p4eqvby" path="res://assets/audio/pickup.wav" id="3_xajnn"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_lxx88"]
 radius = 0.1
@@ -66,3 +67,8 @@ mesh = SubResource("SphereMesh_s5ogl")
 amount = 2
 process_material = SubResource("ParticleProcessMaterial_vyetx")
 draw_pass_1 = SubResource("QuadMesh_uou3c")
+
+[node name="DisposeSound" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("3_xajnn")
+unit_size = 4.0
+bus = &"SFX"

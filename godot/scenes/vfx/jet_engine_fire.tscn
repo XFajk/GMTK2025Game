@@ -61,7 +61,8 @@ point_count = 3
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dkoye"]
 cull_mode = 2
-albedo_color = Color(0.27451, 0.92549, 0.211765, 1)
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.26031, 0.866575, 0.202156, 1)
 emission_enabled = true
 emission = Color(0.397462, 1, 0.3198, 1)
 emission_energy_multiplier = 4.36
@@ -73,7 +74,6 @@ section_segments = 10
 curve = SubResource("Curve_rfiu7")
 
 [node name="JetEngineFire" type="Node3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="Fire" type="GPUParticles3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.0171906, -0.999852, 0, 0.999852, 0.0171906, 0, 0, 0)
