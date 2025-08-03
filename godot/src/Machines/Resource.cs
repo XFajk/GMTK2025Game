@@ -144,7 +144,7 @@ public class Resources {
     private static List<ResourcePart> GetParts(Resource resource) {
         return resource switch {
             Resource.CoolantHot => [ResourcePart.Coolant],
-            Resource.CoolantCold => [ResourcePart.Coolant, .. Enumerable.Repeat(ResourcePart.Hydro, 4)],
+            Resource.CoolantCold => [ResourcePart.Coolant, .. Enumerable.Repeat(ResourcePart.Hydro, 2)],
             Resource.Humidity or Resource.Water => [ResourcePart.Hydro],
             Resource.Food => [ResourcePart.Hydro, ResourcePart.Carbon],
             Resource.FluidWaste => [ResourcePart.Hydro],
