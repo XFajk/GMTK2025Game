@@ -24,7 +24,7 @@ public partial class Ship : Node {
 
     private Queue<Connection> _connections = new();
     private Node _connectionsNode;
-
+    private Pipes _pipes;
     public List<Floor> Floors;
     public List<Person> Crew;
     private RandomNumberGenerator _rng = new();
@@ -43,6 +43,7 @@ public partial class Ship : Node {
             }
         }
         _connectionsNode = GetNode("Connections");
+        _pipes = GetNode<Pipes>("Pipes");
 
         _floatingResourceManager.Ready(Machines, GetNode("FloatingResources"));
 
@@ -177,9 +178,11 @@ public partial class Ship : Node {
         Connection toRemove = null;
         if (_connections.Count == MaxConnectionCount) {
             toRemove = _connections.Dequeue();
+            _pipes.GetPipe(toRemove.aMachine, toRemove.bMachine).Visible = false;
         }
 
         _connections.Enqueue(connection);
+        _pipes.GetPipe(connection.aMachine, connection.bMachine).Visible = true;
 
         return toRemove;
     }
@@ -234,4 +237,5 @@ public partial class Ship : Node {
         throw new ArgumentOutOfRangeException(nameof(resource), resource, $"No {resource} container found for selection {selection}");
     }
 
+    public bool CanConnect(Connectable a, Connectable b) => _pipes.GetPipe(a, b) != null;
 }

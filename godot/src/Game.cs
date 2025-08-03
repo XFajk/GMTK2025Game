@@ -67,7 +67,7 @@ public partial class Game : Node {
             _selectedNode.DisconnectNode();
             _selectedMachine = null;
             _selectedNode = null;
-        } else if (Connectable.CanConnect(_selectedMachine, machine)) {
+        } else if (_shipNode.CanConnect(_selectedMachine, machine)) {
 
             Connection connection = Connectable.ConnectNodes(_selectedMachine, _selectedNode, machine, node);
             Connection disconnect = _shipNode.AddConnection(connection);
@@ -79,7 +79,6 @@ public partial class Game : Node {
                 disconnect.aNode.DisconnectNode();
                 // disconnect.QueueFree();
             }
-
 
             _selectedMachine = null;
             _selectedNode = null;
