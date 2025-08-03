@@ -10,6 +10,7 @@ public partial class Delay : Node {
         SpecificMissionActive,
         SpecificMissionFinished,
         AllMissionsFinished,
+        PreviousEventTrigger,
     }
 
     [Export]
@@ -52,6 +53,8 @@ public partial class Delay : Node {
                     (activeMission != MissionToWaitFor && !missionsInPreparation.Contains(MissionToWaitFor as IMission)),
                 Trigger.AllMissionsFinished =>
                     (missionsInPreparation.Count == 0 && activeMission == null),
+                // events are instant, so if we reach this delay node the previous event is triggered
+                Trigger.PreviousEventTrigger => true,
                     
                 _ => throw new System.NotImplementedException()
             };

@@ -4,14 +4,14 @@ using System.Collections.Generic;
 
 public partial class EventSolarFlare : Node, IEvent {
 
-    [Export(PropertyHint.Range, "0, 100, 5")]
-    public int QuantityUsed;
+    [Export]
+    public int CoolantUseTotal;
 
-    [Export(PropertyHint.ExpEasing)] 
+    [Export] 
     public float ConversionPerSecond = 1000;
 
     IEvent.Properties IEvent.GetProperties() => new() {
-        Description = $"A solar flare hit our ship! The emergency cooling systems must use {Resources.ToUnit(Resource.CoolantCold, QuantityUsed)} coolant to dispose of the excess heat."
+        Description = $"A solar flare hit our ship! The emergency cooling systems must use {Resources.ToUnit(Resource.CoolantCold, CoolantUseTotal)} coolant to dispose of the excess heat."
     };
 
     public void ApplyEffect(Ship ship) {
