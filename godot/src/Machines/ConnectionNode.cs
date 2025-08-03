@@ -15,7 +15,7 @@ public partial class ConnectionNode : Area3D {
     public ConnectionNode ConnectedTo = null;
 
     public override void _Ready() {
-        _particlesNode = GetNode<GpuParticles3D>("GpuParticles3D");
+        _particlesNode = GetNodeOrNull<GpuParticles3D>("GpuParticles3D");
 
         if (_particlesNode != null) {
             // explicity make our own copy of the material

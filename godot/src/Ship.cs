@@ -24,7 +24,7 @@ public partial class Ship : Node {
 
     private Queue<Connection> _connections = new();
     private Node _connectionsNode;
-
+    private Pipes _pipes;
     public List<Floor> Floors;
     public List<Person> Crew;
     private RandomNumberGenerator _rng = new();
@@ -43,6 +43,7 @@ public partial class Ship : Node {
             }
         }
         _connectionsNode = GetNode("Connections");
+        _pipes = GetNode<Pipes>("Pipes");
 
         _floatingResourceManager.Ready(Machines, GetNode("FloatingResources"));
 
@@ -67,14 +68,14 @@ public partial class Ship : Node {
 
         foreach (Connection connection in _connections) {
             // flow a -> b
-            foreach (IContainer aOutput in connection.A.Outputs()) {
-                foreach (IContainer bInput in connection.B.Inputs()) {
+            foreach (IContainer aOutput in connection.aMachine.Outputs()) {
+                foreach (IContainer bInput in connection.bMachine.Inputs()) {
                     TryFlow(aOutput, bInput, (float)deltaTime);
                 }
             }
             // flow b -> a
-            foreach (IContainer bOutput in connection.B.Outputs()) {
-                foreach (IContainer aInput in connection.A.Inputs()) {
+            foreach (IContainer bOutput in connection.bMachine.Outputs()) {
+                foreach (IContainer aInput in connection.aMachine.Inputs()) {
                     TryFlow(bOutput, aInput, (float)deltaTime);
                 }
             }
@@ -173,18 +174,17 @@ public partial class Ship : Node {
         return false;
     }
 
-    public Connection AddConnection(Connectable a, Connectable b) {
-        GD.Print($"Connected {a.Name} and {b.Name}");
-        Connection connection = new(a, b);
-
+    public Connection AddConnection(Connection connection) {
+        Connection toRemove = null;
         if (_connections.Count == MaxConnectionCount) {
-            Connection toRemove = _connections.Dequeue();
+            toRemove = _connections.Dequeue();
+            _pipes.GetPipe(toRemove.aMachine, toRemove.bMachine).Visible = false;
         }
 
         _connections.Enqueue(connection);
+        _pipes.GetPipe(connection.aMachine, connection.bMachine).Visible = true;
 
-        return connection;
-        // TODO add connection visuals to _connectionsNode
+        return toRemove;
     }
 
     // previously HireForTask
@@ -237,4 +237,5 @@ public partial class Ship : Node {
         throw new ArgumentOutOfRangeException(nameof(resource), resource, $"No {resource} container found for selection {selection}");
     }
 
+    public bool CanConnect(Connectable a, Connectable b) => _pipes.GetPipe(a, b) != null;
 }

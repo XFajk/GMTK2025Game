@@ -7,6 +7,8 @@ public abstract partial class Connectable : Node3D {
     [Signal]
     // Handled by Game.cs
     public delegate void OnConnectionClickEventHandler(Connectable machine, ConnectionNode point);
+    [Export]
+    public Connectable SharedConnectable = null;
 
     protected Area3D _hoverDetectionArea = null;
     protected StatusInterface _statusInterface = null;
@@ -73,4 +75,10 @@ public abstract partial class Connectable : Node3D {
 
         return false;
     }
+
+    internal static Connection ConnectNodes(Connectable aMachine, ConnectionNode aNode, Connectable bMachine, ConnectionNode bNode) {
+        ConnectionNode.ConnectNodes(aNode, bNode);
+        return new(aMachine, aNode, bMachine, bNode);
+    }
+
 }
