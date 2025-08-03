@@ -26,6 +26,7 @@ _connectedColor = Color(0, 0.0333333, 1, 1)
 _declineColor = Color(1, 0, 0, 1)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 shape = SubResource("SphereShape3D_orw1l")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]

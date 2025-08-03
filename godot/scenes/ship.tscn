@@ -3,13 +3,14 @@
 [ext_resource type="Script" uid="uid://c41j8f7y8s5pn" path="res://src/Ship.cs" id="1_q631a"]
 [ext_resource type="Script" uid="uid://dx4b8dlivs2dq" path="res://src/Machines/Machine.cs" id="2_gudjc"]
 [ext_resource type="Script" uid="uid://dck4iuol8dehj" path="res://src/Machines/MachineBuffer.cs" id="3_4tobq"]
-[ext_resource type="PackedScene" uid="uid://5knr05qpwauj" path="res://scenes/entities/connection_node.tscn" id="3_7j21i"]
 [ext_resource type="Script" uid="uid://csrpfcmiycc06" path="res://src/Machines/StorageContainer.cs" id="4_tfsc7"]
 [ext_resource type="Script" uid="uid://crs06kmuc1fi1" path="res://src/Machines/FloatingResource.cs" id="6_7j21i"]
 [ext_resource type="Script" uid="uid://cktjf2cpg2cwg" path="res://src/Machines/Process.cs" id="7_3m36u"]
 [ext_resource type="Script" uid="uid://dchlx4kc4xldy" path="res://src/Machines/InputOutput.cs" id="8_8qiel"]
 [ext_resource type="PackedScene" uid="uid://cehfed0n6bve1" path="res://scenes/entities/machine_status_interface.tscn" id="8_bseor"]
+[ext_resource type="Script" uid="uid://cjc04ylpxhx0o" path="res://src/Machines/ConnectionNode.cs" id="8_tlr80"]
 [ext_resource type="Script" uid="uid://dc7fa1reuuwmu" path="res://src/Machines/Plants.cs" id="9_itrim"]
+[ext_resource type="ArrayMesh" uid="uid://dl2f7apkyh05s" path="res://assets/mesh/ship_outline.tres" id="11_tlr80"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_f23tx"]
 
@@ -46,9 +47,6 @@ viewport_path = NodePath("ViewPort")
 albedo_color = Color(0.347904, 0.414879, 0.909927, 1)
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_mx31c"]
-viewport_path = NodePath("ViewPort")
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_fs4we"]
 viewport_path = NodePath("ViewPort")
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_swuwe"]
@@ -140,7 +138,6 @@ Source = NodePath("../../../FloatingResources/Humidity")
 QuantityChangeInReceipe = 1
 
 [node name="CrewConsumableProcess" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 10, 0)
 script = ExtResource("7_3m36u")
 _processingPerSecond = 0.125
 
@@ -159,7 +156,7 @@ Source = NodePath("../../../Garbage")
 QuantityChangeInReceipe = 1
 
 [node name="FluidReprocessor" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 2, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.6324, 4.44421, 0)
 script = ExtResource("2_gudjc")
 _processingPerSecond = 0.2
 
@@ -182,26 +179,18 @@ Resource = 4
 MaxQuantity = 2
 QuantityChangeInReceipe = 1
 
-[node name="ConnectionNodes" type="Node3D" parent="FluidReprocessor"]
-
-[node name="ConnectionNode" parent="FluidReprocessor/ConnectionNodes" instance=ExtResource("3_7j21i")]
-transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, -0.195845, 0.455998, 0.397518)
-
-[node name="ConnectionNode2" parent="FluidReprocessor/ConnectionNodes" instance=ExtResource("3_7j21i")]
-transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, 0.258973, 0.455998, 0.397518)
-visible = false
-
 [node name="MachineStatusInterface" parent="FluidReprocessor" instance=ExtResource("8_bseor")]
 transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0, 1.34757, 0)
 texture = SubResource("ViewportTexture_48mkp")
 
 [node name="HoverDetectionArea" type="Area3D" parent="FluidReprocessor"]
+script = ExtResource("8_tlr80")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="FluidReprocessor/HoverDetectionArea"]
 shape = SubResource("BoxShape3D_bseor")
 
 [node name="Hydrolysis" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.82698, -0.13408, 0)
 script = ExtResource("2_gudjc")
 _isLossless = false
 _processingPerSecond = 4.0
@@ -226,26 +215,18 @@ Resource = 8
 MaxQuantity = 2
 QuantityChangeInReceipe = 1
 
-[node name="ConnectionNodes" type="Node3D" parent="Hydrolysis"]
-
-[node name="ConnectionNode" parent="Hydrolysis/ConnectionNodes" instance=ExtResource("3_7j21i")]
-transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, -0.195845, 0.455998, 0.397518)
-
-[node name="ConnectionNode2" parent="Hydrolysis/ConnectionNodes" instance=ExtResource("3_7j21i")]
-transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, 0.258973, 0.455998, 0.397518)
-visible = false
-
 [node name="MachineStatusInterface" parent="Hydrolysis" instance=ExtResource("8_bseor")]
 transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0, 1.3709, 0)
 texture = SubResource("ViewportTexture_vbj2c")
 
 [node name="HoverDetectionArea" type="Area3D" parent="Hydrolysis"]
+script = ExtResource("8_tlr80")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hydrolysis/HoverDetectionArea"]
 shape = SubResource("BoxShape3D_bseor")
 
 [node name="Condensator" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 6, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.54221, -0.144722, 0)
 script = ExtResource("2_gudjc")
 _processingPerSecond = 10.0
 
@@ -254,6 +235,7 @@ transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0, 1.36131, 0)
 texture = SubResource("ViewportTexture_bseor")
 
 [node name="HoverDetectionArea" type="Area3D" parent="Condensator"]
+script = ExtResource("8_tlr80")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Condensator/HoverDetectionArea"]
 shape = SubResource("BoxShape3D_bseor")
@@ -277,17 +259,8 @@ Resource = 4
 MaxQuantity = 100
 QuantityChangeInReceipe = 10
 
-[node name="ConnectionNodes" type="Node3D" parent="Condensator"]
-
-[node name="ConnectionNode" parent="Condensator/ConnectionNodes" instance=ExtResource("3_7j21i")]
-transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, -0.195845, 0.455998, 0.397518)
-
-[node name="ConnectionNode2" parent="Condensator/ConnectionNodes" instance=ExtResource("3_7j21i")]
-transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, 0.258973, 0.455998, 0.397518)
-visible = false
-
 [node name="CoolantCooler" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 4, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.1138, 0.207263, 0)
 script = ExtResource("2_gudjc")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="CoolantCooler"]
@@ -315,26 +288,18 @@ Resource = 2
 MaxQuantity = 100
 QuantityChangeInReceipe = 1
 
-[node name="ConnectionNodes" type="Node3D" parent="CoolantCooler"]
-
-[node name="ConnectionNode" parent="CoolantCooler/ConnectionNodes" instance=ExtResource("3_7j21i")]
-transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, -0.195845, 0.456, 0.397518)
-
-[node name="ConnectionNode2" parent="CoolantCooler/ConnectionNodes" instance=ExtResource("3_7j21i")]
-transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, 0.258973, 0.455998, 0.397518)
-visible = false
-
 [node name="MachineStatusInterface" parent="CoolantCooler" instance=ExtResource("8_bseor")]
 transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0, -0.443374, 0)
 texture = SubResource("ViewportTexture_dschd")
 
 [node name="HoverDetectionArea" type="Area3D" parent="CoolantCooler"]
+script = ExtResource("8_tlr80")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CoolantCooler/HoverDetectionArea"]
 shape = SubResource("BoxShape3D_bseor")
 
 [node name="Engine" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 8, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.3919, 0.0799956, 0)
 script = ExtResource("2_gudjc")
 _processingPerSecond = 0.1
 
@@ -372,17 +337,8 @@ Resource = 3
 MaxQuantity = 5
 QuantityChangeInReceipe = 4
 
-[node name="ConnectionNodes" type="Node3D" parent="Engine"]
-
-[node name="ConnectionNode" parent="Engine/ConnectionNodes" instance=ExtResource("3_7j21i")]
-transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, -0.195845, 0.455998, 0.397518)
-
-[node name="ConnectionNode2" parent="Engine/ConnectionNodes" instance=ExtResource("3_7j21i")]
-transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, 0.258973, 0.455998, 0.397518)
-visible = false
-
 [node name="SolidWasteBurner" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 4, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.0648, -4.89146, 0)
 script = ExtResource("2_gudjc")
 _processingPerSecond = 0.1
 
@@ -411,26 +367,18 @@ Resource = 9
 MaxQuantity = 2
 QuantityChangeInReceipe = 1
 
-[node name="ConnectionNodes" type="Node3D" parent="SolidWasteBurner"]
-
-[node name="ConnectionNode" parent="SolidWasteBurner/ConnectionNodes" instance=ExtResource("3_7j21i")]
-transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, -0.195845, 0.455998, 0.397518)
-
-[node name="ConnectionNode2" parent="SolidWasteBurner/ConnectionNodes" instance=ExtResource("3_7j21i")]
-transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, 0.258973, 0.455998, 0.397518)
-visible = false
-
 [node name="MachineStatusInterface" parent="SolidWasteBurner" instance=ExtResource("8_bseor")]
 transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0, 1.64631, 0)
 texture = SubResource("ViewportTexture_83dbu")
 
 [node name="HoverDetectionArea" type="Area3D" parent="SolidWasteBurner"]
+script = ExtResource("8_tlr80")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SolidWasteBurner/HoverDetectionArea"]
 shape = SubResource("BoxShape3D_bseor")
 
 [node name="GarbageBurner" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 6, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.2654, -4.66538, 0)
 script = ExtResource("2_gudjc")
 _processingPerSecond = 2.0
 
@@ -459,26 +407,18 @@ Resource = 9
 MaxQuantity = 10
 QuantityChangeInReceipe = 8
 
-[node name="ConnectionNodes" type="Node3D" parent="GarbageBurner"]
-
-[node name="ConnectionNode" parent="GarbageBurner/ConnectionNodes" instance=ExtResource("3_7j21i")]
-transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, -0.195845, 0.455998, 0.397518)
-
-[node name="ConnectionNode2" parent="GarbageBurner/ConnectionNodes" instance=ExtResource("3_7j21i")]
-transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, 0.258973, 0.455998, 0.397518)
-visible = false
-
 [node name="MachineStatusInterface" parent="GarbageBurner" instance=ExtResource("8_bseor")]
 transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0, 1.43642, 0)
 texture = SubResource("ViewportTexture_xifwb")
 
 [node name="HoverDetectionArea" type="Area3D" parent="GarbageBurner"]
+script = ExtResource("8_tlr80")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="GarbageBurner/HoverDetectionArea"]
 shape = SubResource("BoxShape3D_bseor")
 
 [node name="CarbonScrubber" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 8, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.2931, -5.00677, 0)
 script = ExtResource("2_gudjc")
 _processingPerSecond = 0.1
 
@@ -507,26 +447,18 @@ Resource = 10
 MaxQuantity = 100
 QuantityChangeInReceipe = 1
 
-[node name="ConnectionNodes" type="Node3D" parent="CarbonScrubber"]
-
-[node name="ConnectionNode" parent="CarbonScrubber/ConnectionNodes" instance=ExtResource("3_7j21i")]
-transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, -0.195845, 0.455998, 0.397518)
-
-[node name="ConnectionNode2" parent="CarbonScrubber/ConnectionNodes" instance=ExtResource("3_7j21i")]
-transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, 0.258973, 0.455998, 0.397518)
-visible = false
-
 [node name="MachineStatusInterface" parent="CarbonScrubber" instance=ExtResource("8_bseor")]
 transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0, 1.50392, 0)
 texture = SubResource("ViewportTexture_tlr80")
 
 [node name="HoverDetectionArea" type="Area3D" parent="CarbonScrubber"]
+script = ExtResource("8_tlr80")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CarbonScrubber/HoverDetectionArea"]
 shape = SubResource("BoxShape3D_bseor")
 
 [node name="WaterStorage" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 4, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.81954, -1.32266, 0)
 script = ExtResource("4_tfsc7")
 Resource = 4
 MaxQuantity = 1000
@@ -535,45 +467,18 @@ MaxQuantity = 1000
 mesh = SubResource("BoxMesh_f23tx")
 surface_material_override/0 = SubResource("StandardMaterial3D_tlr80")
 
-[node name="ConnectionNodes" type="Node3D" parent="WaterStorage"]
-
-[node name="ConnectionNode" parent="WaterStorage/ConnectionNodes" instance=ExtResource("3_7j21i")]
-transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, -0.255433, 0.484256, 0.480624)
-
 [node name="MachineStatusInterface" parent="WaterStorage" instance=ExtResource("8_bseor")]
 transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0, 1.4316, 0)
 texture = SubResource("ViewportTexture_mx31c")
 
 [node name="HoverDetectionArea" type="Area3D" parent="WaterStorage"]
+script = ExtResource("8_tlr80")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="WaterStorage/HoverDetectionArea"]
 shape = SubResource("BoxShape3D_bseor")
 
-[node name="ColdCoolantStorage" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 4, 0)
-script = ExtResource("4_tfsc7")
-Resource = 2
-MaxQuantity = 1000
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="ColdCoolantStorage"]
-mesh = SubResource("BoxMesh_f23tx")
-
-[node name="ConnectionNodes" type="Node3D" parent="ColdCoolantStorage"]
-
-[node name="ConnectionNode" parent="ColdCoolantStorage/ConnectionNodes" instance=ExtResource("3_7j21i")]
-transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, -0.255433, 0.48426, 0.480624)
-
-[node name="MachineStatusInterface" parent="ColdCoolantStorage" instance=ExtResource("8_bseor")]
-transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0, -0.515711, 0)
-texture = SubResource("ViewportTexture_fs4we")
-
-[node name="HoverDetectionArea" type="Area3D" parent="ColdCoolantStorage"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ColdCoolantStorage/HoverDetectionArea"]
-shape = SubResource("BoxShape3D_bseor")
-
 [node name="FoodStorage" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 2, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.44925, 2.93172, 0)
 script = ExtResource("4_tfsc7")
 Resource = 5
 MaxQuantity = 1000
@@ -581,22 +486,18 @@ MaxQuantity = 1000
 [node name="MeshInstance3D" type="MeshInstance3D" parent="FoodStorage"]
 mesh = SubResource("BoxMesh_f23tx")
 
-[node name="ConnectionNodes" type="Node3D" parent="FoodStorage"]
-
-[node name="ConnectionNode" parent="FoodStorage/ConnectionNodes" instance=ExtResource("3_7j21i")]
-transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, -0.255433, 0.484256, 0.480624)
-
 [node name="MachineStatusInterface" parent="FoodStorage" instance=ExtResource("8_bseor")]
 transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0, 1.41708, 0)
 texture = SubResource("ViewportTexture_swuwe")
 
 [node name="HoverDetectionArea" type="Area3D" parent="FoodStorage"]
+script = ExtResource("8_tlr80")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="FoodStorage/HoverDetectionArea"]
 shape = SubResource("BoxShape3D_bseor")
 
 [node name="SolidWasteStorage" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.81283, -7.61856, 0)
 script = ExtResource("4_tfsc7")
 Resource = 7
 MaxQuantity = 1000
@@ -604,22 +505,18 @@ MaxQuantity = 1000
 [node name="MeshInstance3D" type="MeshInstance3D" parent="SolidWasteStorage"]
 mesh = SubResource("BoxMesh_f23tx")
 
-[node name="ConnectionNodes" type="Node3D" parent="SolidWasteStorage"]
-
-[node name="ConnectionNode" parent="SolidWasteStorage/ConnectionNodes" instance=ExtResource("3_7j21i")]
-transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, -0.255433, 0.484256, 0.480624)
-
 [node name="MachineStatusInterface" parent="SolidWasteStorage" instance=ExtResource("8_bseor")]
 transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0, 1.47169, 0)
 texture = SubResource("ViewportTexture_6vtx4")
 
 [node name="HoverDetectionArea" type="Area3D" parent="SolidWasteStorage"]
+script = ExtResource("8_tlr80")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SolidWasteStorage/HoverDetectionArea"]
 shape = SubResource("BoxShape3D_bseor")
 
 [node name="FluidWasteStorage" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.07441, -7.66262, 0)
 script = ExtResource("4_tfsc7")
 Resource = 6
 MaxQuantity = 1000
@@ -627,22 +524,18 @@ MaxQuantity = 1000
 [node name="MeshInstance3D" type="MeshInstance3D" parent="FluidWasteStorage"]
 mesh = SubResource("BoxMesh_f23tx")
 
-[node name="ConnectionNodes" type="Node3D" parent="FluidWasteStorage"]
-
-[node name="ConnectionNode" parent="FluidWasteStorage/ConnectionNodes" instance=ExtResource("3_7j21i")]
-transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, -0.255433, 0.484256, 0.480624)
-
 [node name="MachineStatusInterface" parent="FluidWasteStorage" instance=ExtResource("8_bseor")]
 transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0, 1.41901, 0)
 texture = SubResource("ViewportTexture_r5rhe")
 
 [node name="HoverDetectionArea" type="Area3D" parent="FluidWasteStorage"]
+script = ExtResource("8_tlr80")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="FluidWasteStorage/HoverDetectionArea"]
 shape = SubResource("BoxShape3D_bseor")
 
 [node name="Plants" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 4, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.648, 3.32536, 0)
 script = ExtResource("9_itrim")
 _processingPerSecond = 2.0
 
@@ -674,15 +567,6 @@ Resource = 5
 MaxQuantity = 20
 QuantityChangeInReceipe = 1
 
-[node name="ConnectionNodes" type="Node3D" parent="Plants"]
-
-[node name="ConnectionNode" parent="Plants/ConnectionNodes" instance=ExtResource("3_7j21i")]
-transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, -0.195845, 0.455998, 0.397518)
-
-[node name="ConnectionNode2" parent="Plants/ConnectionNodes" instance=ExtResource("3_7j21i")]
-transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, 0.258973, 0.455998, 0.397518)
-visible = false
-
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Plants"]
 transform = Transform3D(-0.0176618, 0, -0.999844, 0, 1, 0, 0.999844, 0, -0.0176618, 0, 0, 0)
 mesh = SubResource("BoxMesh_f23tx")
@@ -693,6 +577,7 @@ transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0, 1.5936, 0)
 texture = SubResource("ViewportTexture_03y04")
 
 [node name="HoverDetectionArea" type="Area3D" parent="Plants"]
+script = ExtResource("8_tlr80")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Plants/HoverDetectionArea"]
 shape = SubResource("BoxShape3D_bseor")
@@ -707,16 +592,16 @@ MaxQuantity = 100
 mesh = SubResource("BoxMesh_f23tx")
 surface_material_override/0 = SubResource("StandardMaterial3D_48mkp")
 
-[node name="ConnectionNodes" type="Node3D" parent="Garbage"]
-
-[node name="ConnectionNode" parent="Garbage/ConnectionNodes" instance=ExtResource("3_7j21i")]
-transform = Transform3D(0.41, 0, 0, 0, 0.41, 0, 0, 0, 0.41, -0.255433, 0.484256, 0.480624)
-
 [node name="MachineStatusInterface" parent="Garbage" instance=ExtResource("8_bseor")]
 transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0, 1.47352, 0)
 texture = SubResource("ViewportTexture_nwefg")
 
 [node name="HoverDetectionArea" type="Area3D" parent="Garbage"]
+script = ExtResource("8_tlr80")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Garbage/HoverDetectionArea"]
 shape = SubResource("BoxShape3D_bseor")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
+mesh = ExtResource("11_tlr80")
