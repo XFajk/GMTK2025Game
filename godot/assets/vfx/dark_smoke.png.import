@@ -2,21 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cwl784036cw2e"
-path.s3tc="res://.godot/imported/water.png-817b08231a2ad4ae2410fb94c54aa35d.s3tc.ctex"
+uid="uid://b8pwdv14b6rv6"
+path="res://.godot/imported/dark_smoke.png-3fcae5b5be55a30c4fe961059dc58cc3.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/water.png"
-dest_files=["res://.godot/imported/water.png-817b08231a2ad4ae2410fb94c54aa35d.s3tc.ctex"]
+source_file="res://assets/vfx/dark_smoke.png"
+dest_files=["res://.godot/imported/dark_smoke.png-3fcae5b5be55a30c4fe961059dc58cc3.ctex"]
 
 [params]
 
-compress/mode=2
+compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1

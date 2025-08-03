@@ -20,7 +20,7 @@ public partial class Person : PathFollow3D {
 
     private RandomNumberGenerator _rng = new();
 
-    private Timer _recalculateTimer;
+    public Timer RecalculateTimer;
 
     public List<ShipLocation> ShipTargets = [];
     private FloorPath ParentFloorPath;
@@ -33,9 +33,17 @@ public partial class Person : PathFollow3D {
     private float _alienSpriteAnimatinTimerValue = 0.0f;
     private int _alienSpriteAnimationRotationChanger = 1;
 
-
     private static PackedScene GarbageScene = GD.Load<PackedScene>("res://scenes/entities/garbage.tscn");
     private static Timer _garbageTimer;
+
+    public static Texture2D[] AlienSpriteTextures = {
+        GD.Load<Texture2D>("res://assets/sprites/simon.png"),
+        GD.Load<Texture2D>("res://assets/sprites/matej_goc.png"),
+        GD.Load<Texture2D>("res://assets/sprites/igi.png"),
+        GD.Load<Texture2D>("res://assets/sprites/vilo.png"),
+        GD.Load<Texture2D>("res://assets/sprites/oliver.png"),
+        GD.Load<Texture2D>("res://assets/sprites/kristian.png"),
+    };
 
     public override void _Ready() {
         _rng.Randomize();
@@ -43,6 +51,7 @@ public partial class Person : PathFollow3D {
         AddToGroup("Crew");
 
         AlienSprite = GetNode<Sprite3D>("AlienSprite");
+        AlienSprite.Texture = AlienSpriteTextures[_rng.RandiRange(0, AlienSpriteTextures.Length - 1)];
 
         _garbageTimer = new();
         AddChild(_garbageTimer);
@@ -72,11 +81,12 @@ public partial class Person : PathFollow3D {
         };
 
         ProgressRatio = _rng.Randf();
-        _recalculateTimer = GetNode<Timer>("RecalculateTimer");
+        RecalculateTimer = GetNode<Timer>("RecalculateTimer");
 
         // This sets a callback that resets everything and sets a new target
-        _recalculateTimer.Timeout += () => {
-            _recalculateTimer.Stop();
+        RecalculateTimer.Timeout += () => {
+            RecalculateTimer.Stop();
+
             // This code makes sure that the new floor we want to transport the player to is different than the floor he is currently on
             int targetFloor;
             if (numberOfFloors < 1) {
@@ -119,7 +129,7 @@ public partial class Person : PathFollow3D {
             AlienSprite.RotateZ(Mathf.DegToRad(20 * _alienSpriteAnimationRotationChanger));
         }
 
-        if (Mathf.IsEqualApprox(ProgressRatio, ShipTargets[0].Ratio) && _recalculateTimer.IsStopped()) {
+        if (Mathf.IsEqualApprox(ProgressRatio, ShipTargets[0].Ratio) && RecalculateTimer.IsStopped()) {
             if (ShipTargets[0].IsElevator) {
                 var elevator = ParentFloorPath.FloorElevator;
                 var detector = GetNode<Area3D>("ElevatorDetector");
@@ -130,11 +140,11 @@ public partial class Person : PathFollow3D {
             if (_currentTask != null) {
                 // task completed
                 _currentTask.OnTaskComplete.Invoke(this);
-                _recalculateTimer.WaitTime = _currentTask.Duration;
-                _recalculateTimer.Start();
+                RecalculateTimer.WaitTime = _currentTask.Duration;
+                RecalculateTimer.Start();
             } else {
                 // idle about
-                _recalculateTimer.Start(_rng.RandfRange(MinRecalculationTime, MaxRecalculationTime));
+                RecalculateTimer.Start(_rng.RandfRange(MinRecalculationTime, MaxRecalculationTime));
                 ShipTargets.Clear();
             }
         }
@@ -142,7 +152,7 @@ public partial class Person : PathFollow3D {
 
     public void SetTarget(ShipLocation location) {
         ShipTargets.Clear();
-        _recalculateTimer.Stop();
+        RecalculateTimer.Stop();
         if (location.Floor == FloorNumber) {
             ShipTargets.Add(location);
             return;
@@ -164,7 +174,7 @@ public partial class Person : PathFollow3D {
 
         if (task == null) {
             // explicitly start iding
-            _recalculateTimer.Start(_rng.RandfRange(0, 2));
+            RecalculateTimer.Start(_rng.RandfRange(0, 2));
         }
     }
 }

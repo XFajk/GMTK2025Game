@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cwl784036cw2e"
-path.s3tc="res://.godot/imported/water.png-817b08231a2ad4ae2410fb94c54aa35d.s3tc.ctex"
+uid="uid://bjb8f24u8t1p0"
+path.s3tc="res://.godot/imported/smoke3.png-5fc7349608623e12c3397138033f50af.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://assets/sprites/water.png"
-dest_files=["res://.godot/imported/water.png-817b08231a2ad4ae2410fb94c54aa35d.s3tc.ctex"]
+source_file="res://assets/vfx/smoke3.png"
+dest_files=["res://.godot/imported/smoke3.png-5fc7349608623e12c3397138033f50af.s3tc.ctex"]
 
 [params]
 
