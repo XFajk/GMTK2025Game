@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://cgccmqaeo11dk"]
+[gd_scene load_steps=36 format=3 uid="uid://cgccmqaeo11dk"]
 
 [ext_resource type="Script" uid="uid://c41j8f7y8s5pn" path="res://src/Ship.cs" id="1_q631a"]
 [ext_resource type="Script" uid="uid://dx4b8dlivs2dq" path="res://src/Machines/Machine.cs" id="2_gudjc"]
@@ -19,6 +19,16 @@ viewport_path = NodePath("ViewPort")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_bseor"]
 
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_tlr80"]
+spread = 0.0
+initial_velocity_min = 1.0
+initial_velocity_max = 1.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.2
+scale_max = 0.2
+
+[sub_resource type="BoxMesh" id="BoxMesh_03y04"]
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bseor"]
 albedo_color = Color(1, 0.72773, 0.558761, 1)
 
@@ -27,6 +37,16 @@ viewport_path = NodePath("ViewPort")
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_bseor"]
 viewport_path = NodePath("ViewPort")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_48mkp"]
+spread = 0.0
+initial_velocity_min = 1.0
+initial_velocity_max = 1.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.2
+scale_max = 0.2
+
+[sub_resource type="BoxMesh" id="BoxMesh_tbq4g"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_dschd"]
 viewport_path = NodePath("ViewPort")
@@ -189,6 +209,13 @@ script = ExtResource("8_tlr80")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="FluidReprocessor/HoverDetectionArea"]
 shape = SubResource("BoxShape3D_bseor")
 
+[node name="GpuParticles3D" type="GPUParticles3D" parent="FluidReprocessor/HoverDetectionArea"]
+emitting = false
+amount = 4
+speed_scale = 4.0
+process_material = SubResource("ParticleProcessMaterial_tlr80")
+draw_pass_1 = SubResource("BoxMesh_03y04")
+
 [node name="Hydrolysis" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.82698, -0.13408, 0)
 script = ExtResource("2_gudjc")
@@ -225,6 +252,13 @@ script = ExtResource("8_tlr80")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hydrolysis/HoverDetectionArea"]
 shape = SubResource("BoxShape3D_bseor")
 
+[node name="GpuParticles3D" type="GPUParticles3D" parent="Hydrolysis/HoverDetectionArea"]
+emitting = false
+amount = 4
+speed_scale = 4.0
+process_material = SubResource("ParticleProcessMaterial_tlr80")
+draw_pass_1 = SubResource("BoxMesh_03y04")
+
 [node name="Condensator" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.54221, -0.144722, 0)
 script = ExtResource("2_gudjc")
@@ -239,6 +273,13 @@ script = ExtResource("8_tlr80")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Condensator/HoverDetectionArea"]
 shape = SubResource("BoxShape3D_bseor")
+
+[node name="GpuParticles3D" type="GPUParticles3D" parent="Condensator/HoverDetectionArea"]
+emitting = false
+amount = 4
+speed_scale = 4.0
+process_material = SubResource("ParticleProcessMaterial_48mkp")
+draw_pass_1 = SubResource("BoxMesh_tbq4g")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Condensator"]
 mesh = SubResource("BoxMesh_f23tx")
@@ -298,6 +339,13 @@ script = ExtResource("8_tlr80")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CoolantCooler/HoverDetectionArea"]
 shape = SubResource("BoxShape3D_bseor")
 
+[node name="GpuParticles3D" type="GPUParticles3D" parent="CoolantCooler/HoverDetectionArea"]
+emitting = false
+amount = 4
+speed_scale = 4.0
+process_material = SubResource("ParticleProcessMaterial_48mkp")
+draw_pass_1 = SubResource("BoxMesh_tbq4g")
+
 [node name="Engine" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.3919, 0.0799956, 0)
 script = ExtResource("2_gudjc")
@@ -308,9 +356,17 @@ transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0, 1.53252, 0)
 texture = SubResource("ViewportTexture_tbq4g")
 
 [node name="HoverDetectionArea" type="Area3D" parent="Engine"]
+script = ExtResource("8_tlr80")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Engine/HoverDetectionArea"]
 shape = SubResource("BoxShape3D_bseor")
+
+[node name="GpuParticles3D" type="GPUParticles3D" parent="Engine/HoverDetectionArea"]
+emitting = false
+amount = 4
+speed_scale = 4.0
+process_material = SubResource("ParticleProcessMaterial_48mkp")
+draw_pass_1 = SubResource("BoxMesh_tbq4g")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Engine"]
 mesh = SubResource("BoxMesh_f23tx")
@@ -377,6 +433,13 @@ script = ExtResource("8_tlr80")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SolidWasteBurner/HoverDetectionArea"]
 shape = SubResource("BoxShape3D_bseor")
 
+[node name="GpuParticles3D" type="GPUParticles3D" parent="SolidWasteBurner/HoverDetectionArea"]
+emitting = false
+amount = 4
+speed_scale = 4.0
+process_material = SubResource("ParticleProcessMaterial_48mkp")
+draw_pass_1 = SubResource("BoxMesh_tbq4g")
+
 [node name="GarbageBurner" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.2654, -4.66538, 0)
 script = ExtResource("2_gudjc")
@@ -416,6 +479,13 @@ script = ExtResource("8_tlr80")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="GarbageBurner/HoverDetectionArea"]
 shape = SubResource("BoxShape3D_bseor")
+
+[node name="GpuParticles3D" type="GPUParticles3D" parent="GarbageBurner/HoverDetectionArea"]
+emitting = false
+amount = 4
+speed_scale = 4.0
+process_material = SubResource("ParticleProcessMaterial_48mkp")
+draw_pass_1 = SubResource("BoxMesh_tbq4g")
 
 [node name="CarbonScrubber" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.2931, -5.00677, 0)
@@ -457,6 +527,13 @@ script = ExtResource("8_tlr80")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CarbonScrubber/HoverDetectionArea"]
 shape = SubResource("BoxShape3D_bseor")
 
+[node name="GpuParticles3D" type="GPUParticles3D" parent="CarbonScrubber/HoverDetectionArea"]
+emitting = false
+amount = 4
+speed_scale = 4.0
+process_material = SubResource("ParticleProcessMaterial_48mkp")
+draw_pass_1 = SubResource("BoxMesh_tbq4g")
+
 [node name="WaterStorage" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.81954, -1.32266, 0)
 script = ExtResource("4_tfsc7")
@@ -477,6 +554,13 @@ script = ExtResource("8_tlr80")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="WaterStorage/HoverDetectionArea"]
 shape = SubResource("BoxShape3D_bseor")
 
+[node name="GpuParticles3D" type="GPUParticles3D" parent="WaterStorage/HoverDetectionArea"]
+emitting = false
+amount = 4
+speed_scale = 4.0
+process_material = SubResource("ParticleProcessMaterial_48mkp")
+draw_pass_1 = SubResource("BoxMesh_tbq4g")
+
 [node name="FoodStorage" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.44925, 2.93172, 0)
 script = ExtResource("4_tfsc7")
@@ -495,6 +579,13 @@ script = ExtResource("8_tlr80")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="FoodStorage/HoverDetectionArea"]
 shape = SubResource("BoxShape3D_bseor")
+
+[node name="GpuParticles3D" type="GPUParticles3D" parent="FoodStorage/HoverDetectionArea"]
+emitting = false
+amount = 4
+speed_scale = 4.0
+process_material = SubResource("ParticleProcessMaterial_48mkp")
+draw_pass_1 = SubResource("BoxMesh_tbq4g")
 
 [node name="SolidWasteStorage" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.81283, -7.61856, 0)
@@ -515,6 +606,13 @@ script = ExtResource("8_tlr80")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SolidWasteStorage/HoverDetectionArea"]
 shape = SubResource("BoxShape3D_bseor")
 
+[node name="GpuParticles3D" type="GPUParticles3D" parent="SolidWasteStorage/HoverDetectionArea"]
+emitting = false
+amount = 4
+speed_scale = 4.0
+process_material = SubResource("ParticleProcessMaterial_48mkp")
+draw_pass_1 = SubResource("BoxMesh_tbq4g")
+
 [node name="FluidWasteStorage" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.07441, -7.66262, 0)
 script = ExtResource("4_tfsc7")
@@ -533,6 +631,13 @@ script = ExtResource("8_tlr80")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="FluidWasteStorage/HoverDetectionArea"]
 shape = SubResource("BoxShape3D_bseor")
+
+[node name="GpuParticles3D" type="GPUParticles3D" parent="FluidWasteStorage/HoverDetectionArea"]
+emitting = false
+amount = 4
+speed_scale = 4.0
+process_material = SubResource("ParticleProcessMaterial_48mkp")
+draw_pass_1 = SubResource("BoxMesh_tbq4g")
 
 [node name="Plants" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.648, 3.32536, 0)
@@ -582,6 +687,13 @@ script = ExtResource("8_tlr80")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Plants/HoverDetectionArea"]
 shape = SubResource("BoxShape3D_bseor")
 
+[node name="GpuParticles3D" type="GPUParticles3D" parent="Plants/HoverDetectionArea"]
+emitting = false
+amount = 4
+speed_scale = 4.0
+process_material = SubResource("ParticleProcessMaterial_48mkp")
+draw_pass_1 = SubResource("BoxMesh_tbq4g")
+
 [node name="Garbage" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 8, 0)
 script = ExtResource("4_tfsc7")
@@ -601,6 +713,13 @@ script = ExtResource("8_tlr80")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Garbage/HoverDetectionArea"]
 shape = SubResource("BoxShape3D_bseor")
+
+[node name="GpuParticles3D" type="GPUParticles3D" parent="Garbage/HoverDetectionArea"]
+emitting = false
+amount = 4
+speed_scale = 4.0
+process_material = SubResource("ParticleProcessMaterial_48mkp")
+draw_pass_1 = SubResource("BoxMesh_tbq4g")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
