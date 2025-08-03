@@ -34,7 +34,6 @@ public partial class Person : PathFollow3D {
     private int _alienSpriteAnimationRotationChanger = 1;
 
     private static PackedScene GarbageScene = GD.Load<PackedScene>("res://scenes/entities/garbage.tscn");
-    private static Timer _garbageTimer;
 
     public static Texture2D[] AlienSpriteTextures = {
         GD.Load<Texture2D>("res://assets/sprites/simon.png"),
@@ -53,10 +52,6 @@ public partial class Person : PathFollow3D {
         AlienSprite = GetNode<Sprite3D>("AlienSprite");
         AlienSprite.Texture = AlienSpriteTextures[_rng.RandiRange(0, AlienSpriteTextures.Length - 1)];
 
-        _garbageTimer = new();
-        AddChild(_garbageTimer);
-        _garbageTimer.Start(_rng.RandfRange(15.0f, 30.0f));
-
         FloorPath parent = GetParent<FloorPath>();
 
         int numberOfFloors = 0;
@@ -67,18 +62,6 @@ public partial class Person : PathFollow3D {
         } else {
             GD.PrintErr("Person Is not attached to a FloorPath");
         }
-
-        _garbageTimer.Timeout += () => {
-            if (InElevator) {
-                return;
-            }
-            var garbage = GarbageScene.Instantiate<Pickupable>();
-            parent.GetParent().AddChild(garbage);
-            garbage.GlobalPosition = GlobalPosition + new Vector3(0.0f, 1.0f, 0.0f) * 0.1f;
-            garbage.OriginalPosition = GlobalPosition + new Vector3(0.0f, 1.0f, 0.0f) * 0.1f;
-            _garbageTimer.Start(_rng.RandfRange(15.0f, 30.0f));
-            GD.Print("Garbage spawned at " + garbage.GlobalPosition);
-        };
 
         ProgressRatio = _rng.Randf();
         RecalculateTimer = GetNode<Timer>("RecalculateTimer");
@@ -99,6 +82,18 @@ public partial class Person : PathFollow3D {
 
         SetTarget(new ShipLocation(FloorNumber, _rng.Randf()));
     }
+
+    public bool ThrowGarbage() {
+        if (InElevator) return false;
+
+        var garbage = GarbageScene.Instantiate<Pickupable>();
+        ParentFloorPath.GetParent().AddChild(garbage);
+        garbage.GlobalPosition = GlobalPosition + new Vector3(0.0f, 1.0f, 0.0f) * 0.1f;
+        garbage.OriginalPosition = GlobalPosition + new Vector3(0.0f, 1.0f, 0.0f) * 0.1f;
+        GD.Print("Garbage spawned at " + garbage.GlobalPosition);
+        return true;
+    }
+
 
     public override void _Process(double delta) {
         if (InElevator) {
