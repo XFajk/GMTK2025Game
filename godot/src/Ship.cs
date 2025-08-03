@@ -67,14 +67,14 @@ public partial class Ship : Node {
 
         foreach (Connection connection in _connections) {
             // flow a -> b
-            foreach (IContainer aOutput in connection.A.Outputs()) {
-                foreach (IContainer bInput in connection.B.Inputs()) {
+            foreach (IContainer aOutput in connection.aMachine.Outputs()) {
+                foreach (IContainer bInput in connection.bMachine.Inputs()) {
                     TryFlow(aOutput, bInput, (float)deltaTime);
                 }
             }
             // flow b -> a
-            foreach (IContainer bOutput in connection.B.Outputs()) {
-                foreach (IContainer aInput in connection.A.Inputs()) {
+            foreach (IContainer bOutput in connection.bMachine.Outputs()) {
+                foreach (IContainer aInput in connection.aMachine.Inputs()) {
                     TryFlow(bOutput, aInput, (float)deltaTime);
                 }
             }
@@ -173,18 +173,15 @@ public partial class Ship : Node {
         return false;
     }
 
-    public Connection AddConnection(Connectable a, Connectable b) {
-        GD.Print($"Connected {a.Name} and {b.Name}");
-        Connection connection = new(a, b);
-
+    public Connection AddConnection(Connection connection) {
+        Connection toRemove = null;
         if (_connections.Count == MaxConnectionCount) {
-            Connection toRemove = _connections.Dequeue();
+            toRemove = _connections.Dequeue();
         }
 
         _connections.Enqueue(connection);
 
-        return connection;
-        // TODO add connection visuals to _connectionsNode
+        return toRemove;
     }
 
     // previously HireForTask

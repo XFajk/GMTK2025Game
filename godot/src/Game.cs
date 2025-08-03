@@ -68,8 +68,18 @@ public partial class Game : Node {
             _selectedMachine = null;
             _selectedNode = null;
         } else if (Connectable.CanConnect(_selectedMachine, machine)) {
-            _shipNode.AddConnection(_selectedMachine, machine);
-            ConnectionNode.ConnectNodes(_selectedNode, node);
+
+            Connection connection = Connectable.ConnectNodes(_selectedMachine, _selectedNode, machine, node);
+            Connection disconnect = _shipNode.AddConnection(connection);
+
+            GD.Print($"Connected {connection.aMachine.Name} and {connection.bMachine.Name}");
+
+            if (disconnect != null) {
+                GD.Print($"Disconnected {connection.aMachine.Name} and {connection.bMachine.Name}");
+                disconnect.aNode.DisconnectNode();
+                // disconnect.QueueFree();
+            }
+
 
             _selectedMachine = null;
             _selectedNode = null;
