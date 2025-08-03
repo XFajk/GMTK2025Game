@@ -35,5 +35,6 @@ public interface IMission {
         public KeyValuePair<Resource, int>[] ResourceMinimumRequirements = [];
         public KeyValuePair<Resource, int>[] ResourceMaximumRequirements = [];
         public string[] Debrief;
+        public bool Popup = true;
     }
 }

@@ -56,7 +56,9 @@ public partial class MissionManager : Node {
                 /// 6: `OnCompletion` is called
                 ActiveMission.OnCompletion(Ship);
                 /// 7: the player sees the Debrief
-                ShowDebriefCallback(ActiveMission);
+                if (ActiveMission.GetMissionProperties().Popup) {
+                    ShowDebriefCallback.Invoke(ActiveMission);
+                }
                 ActiveMission = null;
             }
         }
@@ -64,12 +66,14 @@ public partial class MissionManager : Node {
 
     private void ExecuteEventsOfNode(Node eventNode) {
         if (eventNode is IMission newMission) {
-            // 0: `Ready` is called
+            // 1: `Ready` is called
             newMission.MissionReady(Ship);
 
-            /// 1: `GetTitle` is called
             /// 2: the player sees the Briefing
-            ShowBriefCallback.Invoke(newMission);
+            if (newMission.GetMissionProperties().Popup) {
+                ShowBriefCallback.Invoke(newMission);
+            }
+
             MissionsInPreparation.Add(newMission);
             /// 3: we wait until `IsPreparationFinished`
 
