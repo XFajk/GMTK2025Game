@@ -63,7 +63,20 @@ public partial class Ship : Node, IContainer {
         return null;
     }
 
+    public void Shuffle<T>(IList<T> list) {
+        int n = list.Count;
+        while (n > 1) {
+            n--;
+            int k = _rng.RandiRange(0, n);
+            T value = list[k];
+            list[k] = list[n];
+            list[n] = value;
+        }
+    }
+
     public void CreateGarbage() {
+        Shuffle(Crew);
+
         foreach (Person p in Crew) {
             if (p.ThrowGarbage()) return;
         }

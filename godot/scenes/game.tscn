@@ -34,9 +34,9 @@ script = ExtResource("1_yqjtg")
 _missionPopup = ExtResource("2_u5sy4")
 
 [node name="Player" parent="." instance=ExtResource("3_lnu2h")]
-transform = Transform3D(1, 0, 0, 0, 0.984196, 0.177085, 0, -0.177085, 0.984196, -16.4383, 1.12614, 8.218)
+transform = Transform3D(1, 0, 0, 0, 0.984196, 0.177085, 0, -0.177085, 0.984196, -16.438, 1.126, 10)
 fov = 40.0
-BoundingBox = AABB(-20, -5, 9, 40, 13, 2)
+BoundingBox = AABB(-20, -5, 10, 40, 13, 10)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Player"]
 transform = Transform3D(0.938324, 0.116882, -0.325402, -0.122798, 0.992429, 0.00237733, 0.323216, 0.0377278, 0.945573, 0, 0, 0)
