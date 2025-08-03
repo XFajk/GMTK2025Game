@@ -56,7 +56,7 @@ DisposablesUsedPerSecond = 0.5
 
 [node name="WaitForPepareFinish" type="Node" parent="MissionsAndEvents" node_paths=PackedStringArray("MissionToWaitFor")]
 script = ExtResource("6_0tnpc")
-TimeDelaySeconds = 2
+TimeDelaySeconds = 10
 TimeDelayStartsWhen = 5
 MissionToWaitFor = NodePath("../Prepare")
 
@@ -64,7 +64,7 @@ MissionToWaitFor = NodePath("../Prepare")
 script = ExtResource("4_iywne")
 TargetSolarSystemName = "Sequin"
 TargetEnginePower = 1.0
-Duration = 30
+Duration = 40
 
 [node name="AFewSecondsIntoTravelToSequin" type="Node" parent="MissionsAndEvents" node_paths=PackedStringArray("MissionToWaitFor")]
 script = ExtResource("6_0tnpc")
@@ -97,11 +97,11 @@ MissionToWaitFor = NodePath("../TravelToSequin")
 [node name="HighPowerScan" type="Node" parent="MissionsAndEvents"]
 script = ExtResource("9_vtaks")
 TargetSolarSystemName = "Sequin"
-Duration = 5
+Duration = 10
 
 [node name="AFewSecondsIntoHighPowerScan" type="Node" parent="MissionsAndEvents" node_paths=PackedStringArray("MissionToWaitFor")]
 script = ExtResource("6_0tnpc")
-TimeDelaySeconds = 3
+TimeDelaySeconds = 5
 TimeDelayStartsWhen = 4
 MissionToWaitFor = NodePath("../HighPowerScan")
 

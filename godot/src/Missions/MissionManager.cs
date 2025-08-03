@@ -29,6 +29,16 @@ public partial class MissionManager : Node {
     public override void _Process(double delta) {
         _gameTimeSecond += delta;
 
+        if (_currentDelay == null) {
+            GD.PrintErr($"_currentDelay = null, progress = {progress}, ActiveMission = {ActiveMission}");
+
+            int offset = 0;
+            while (_currentDelay == null) {
+                Node eventNode = GetChild(progress - offset++);
+                if (eventNode is Delay delay) _currentDelay = delay;
+            }
+        }
+
         if (_currentDelay.AreWeThereYet(MissionsInPreparation, ActiveMission, _gameTimeSecond)) {
             _currentDelay = null;
         }
@@ -41,6 +51,7 @@ public partial class MissionManager : Node {
 
             GD.Print($"Time = {_gameTimeSecond}, Node = {progress} ({eventNode.Name})");
             ExecuteEventsOfNode(eventNode);
+            GD.Print($"_currentDelay = {_currentDelay}, progress = {progress}, ActiveMission = {ActiveMission.GetMissionProperties().Title}");
         }
 
         if (ActiveMission == null) {
@@ -82,6 +93,7 @@ public partial class MissionManager : Node {
 
         } else if (eventNode is IEvent newEvent) {
             newEvent.ApplyEffect(Ship);
+
         } else if (eventNode is Delay delay) {
             _currentDelay = delay;
         }
