@@ -29,7 +29,7 @@ public partial class MissionManager : Node {
     public override void _Process(double delta) {
         _gameTimeSecond += delta;
 
-        if (_currentDelay.AreWeThereYet(MissionsInPreparation, ActiveMission, _gameTimeSecond)) {
+        if (_currentDelay != null && _currentDelay.AreWeThereYet(MissionsInPreparation, ActiveMission, _gameTimeSecond)) {
             _currentDelay = null;
         }
 

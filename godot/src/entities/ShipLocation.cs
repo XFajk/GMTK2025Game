@@ -39,5 +39,3 @@ public class ShipLocation {
         return new(targetPath.FloorNumber, length > 0f ? offset / length : 0f);
     }
 }
-
-

@@ -1,6 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://p880t3ndp4hv"]
+[gd_scene load_steps=10 format=3 uid="uid://p880t3ndp4hv"]
 
 [ext_resource type="Texture2D" uid="uid://bjb8f24u8t1p0" path="res://assets/vfx/smoke3.png" id="1_2cap4"]
+[ext_resource type="AudioStream" uid="uid://c6mhvlirjecys" path="res://assets/audio/EngineSFX.wav" id="2_rsc07"]
 
 [sub_resource type="Curve" id="Curve_2cap4"]
 _data = [Vector2(0, 0.995536), 0.0, 0.0, 0, 0, Vector2(1, 0.486607), 0.0, 0.0, 0, 0]
@@ -51,3 +52,8 @@ amount = 20
 lifetime = 0.3
 process_material = SubResource("ParticleProcessMaterial_rsc07")
 draw_pass_1 = SubResource("QuadMesh_ch8nq")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("2_rsc07")
+pitch_scale = 3.0
+autoplay = true

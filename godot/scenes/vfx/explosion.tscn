@@ -1,6 +1,7 @@
-[gd_scene load_steps=16 format=3 uid="uid://dxtvfkqfm6jpl"]
+[gd_scene load_steps=17 format=3 uid="uid://dxtvfkqfm6jpl"]
 
 [ext_resource type="Texture2D" uid="uid://b8pwdv14b6rv6" path="res://assets/vfx/dark_smoke.png" id="1_6d3yd"]
+[ext_resource type="AudioStream" uid="uid://bcs1au4gh0w86" path="res://assets/audio/MetalSFX.wav" id="2_rckmw"]
 
 [sub_resource type="Curve" id="Curve_m88p2"]
 _data = [Vector2(0, 0.379464), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -119,3 +120,7 @@ libraries = {
 &"": SubResource("AnimationLibrary_m88p2")
 }
 autoplay = "new_animation"
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("2_rckmw")
+autoplay = true

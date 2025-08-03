@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bgatuvcmk2pct"]
+[gd_scene load_steps=13 format=3 uid="uid://b5igmv11fx3wj"]
 
 [ext_resource type="Script" uid="uid://krog3faufiju" path="res://src/entities/Pickupable.cs" id="1_8dtw3"]
 [ext_resource type="Texture2D" uid="uid://b8pwdv14b6rv6" path="res://assets/vfx/dark_smoke.png" id="2_y4bc4"]
@@ -71,4 +71,3 @@ draw_pass_1 = SubResource("QuadMesh_uou3c")
 [node name="DisposeSound" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("3_xajnn")
 unit_size = 4.0
-bus = &"SFX"
