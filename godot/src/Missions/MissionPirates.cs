@@ -26,6 +26,7 @@ public partial class MissionPirates : TimedMission {
     }
 
     public override void OnStart(Ship ship) {
+        base.OnStart(ship);
         // all hell breaks loose, but mostly in the shape of externally scheduled events
     }
 
