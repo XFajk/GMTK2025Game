@@ -31,7 +31,7 @@ transform = Transform3D(-0.713192, 0.1158, -0.691338, -0.683938, 0.101127, 0.722
 shadow_enabled = true
 
 [node name="Player" parent="." instance=ExtResource("3_lnu2h")]
-transform = Transform3D(1, 0, 0, 0, 0.984196, 0.177085, 0, -0.177085, 0.984196, 0, 6.12614, 9.218)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.12614, 9.218)
 fov = 40.0
 near = 0.5
 far = 200.0
