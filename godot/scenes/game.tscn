@@ -33,6 +33,8 @@ shadow_enabled = true
 [node name="Player" parent="." instance=ExtResource("3_lnu2h")]
 transform = Transform3D(1, 0, 0, 0, 0.984196, 0.177085, 0, -0.177085, 0.984196, 0, 6.12614, 9.218)
 fov = 40.0
+near = 0.5
+far = 200.0
 
 [node name="Ship" parent="." instance=ExtResource("2_lnu2h")]
 
