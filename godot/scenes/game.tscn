@@ -361,48 +361,37 @@ TimeDelaySeconds = 3
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource("22_37s47")
 
-[node name="_TestMissions" type="Node" parent="."]
+[node name="TestMissions" type="Node" parent="."]
 script = ExtResource("5_gee14")
 
-[node name="TravelToSequin" type="Node" parent="_TestMissions"]
+[node name="TravelToSequin" type="Node" parent="TestMissions"]
 script = ExtResource("4_iywne")
 TargetSolarSystemName = "TEST"
 TargetEnginePower = 1.0
 PreparationTime = 5
-Duration = 5
+Duration = 10
 
-[node name="WaitUntilEverythingIsCalmAgain" type="Node" parent="_TestMissions"]
+[node name="WaitUntilEverythingIsCalmAgain" type="Node" parent="TestMissions"]
 script = ExtResource("6_0tnpc")
 TimeDelaySeconds = 3
 
-[node name="TravelToSequin2" type="Node" parent="_TestMissions"]
+[node name="TravelToSequin3" type="Node" parent="TestMissions"]
 script = ExtResource("4_iywne")
 TargetSolarSystemName = "TEST"
-TargetEnginePower = 0.5
-PreparationTime = 2
-Duration = 5
+PreparationTime = 5
+Duration = 10
 
-[node name="WaitUntilEverythingIsCalmAgain2" type="Node" parent="_TestMissions"]
+[node name="WaitUntilEverythingIsCalmAgain3" type="Node" parent="TestMissions"]
 script = ExtResource("6_0tnpc")
 TimeDelaySeconds = 3
 
-[node name="TravelToSequin3" type="Node" parent="_TestMissions"]
-script = ExtResource("4_iywne")
-TargetSolarSystemName = "TEST"
-PreparationTime = 2
-Duration = 5
-
-[node name="WaitUntilEverythingIsCalmAgain3" type="Node" parent="_TestMissions"]
-script = ExtResource("6_0tnpc")
-TimeDelaySeconds = 3
-
-[node name="TravelToSequin4" type="Node" parent="_TestMissions"]
+[node name="TravelToSequin4" type="Node" parent="TestMissions"]
 script = ExtResource("4_iywne")
 TargetSolarSystemName = "TEST"
 TargetEnginePower = 0.05
-PreparationTime = 2
-Duration = 5
+PreparationTime = 5
+Duration = 10
 
-[node name="WaitUntilEverythingIsCalmAgain4" type="Node" parent="_TestMissions"]
+[node name="WaitUntilEverythingIsCalmAgain4" type="Node" parent="TestMissions"]
 script = ExtResource("6_0tnpc")
 TimeDelaySeconds = 3

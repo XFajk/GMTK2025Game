@@ -28,6 +28,7 @@ gravity = Vector3(0, 0, 0)
 scale_min = 10.0
 scale_max = 10.0
 scale_curve = SubResource("CurveTexture_5qdab")
+color = Color(1, 0, 0, 1)
 color_ramp = SubResource("GradientTexture1D_5qdab")
 hue_variation_min = -0.17
 hue_variation_max = 0.22
@@ -40,8 +41,7 @@ point_count = 3
 cull_mode = 2
 vertex_color_use_as_albedo = true
 emission_enabled = true
-emission = Color(0.197148, 0.450272, 0.176659, 1)
-emission_energy_multiplier = 4.36
+emission = Color(0.412, 1, 0.37, 1)
 use_particle_trails = true
 
 [sub_resource type="RibbonTrailMesh" id="RibbonTrailMesh_5qdab"]
@@ -77,6 +77,7 @@ curve = SubResource("Curve_rfiu7")
 
 [node name="JetEngineFire" type="Node3D"]
 script = ExtResource("1_5qdab")
+HighPowerFireColor = Color(0, 0.34902, 1, 1)
 
 [node name="Fire" type="GPUParticles3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.0171906, -0.999852, 0, 0.999852, 0.0171906, 0, 0, 0)
@@ -101,11 +102,13 @@ draw_pass_1 = SubResource("RibbonTrailMesh_i57x2")
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.40933)
 light_color = Color(0.215686, 1, 0.411765, 1)
+light_size = 1.0
 shadow_enabled = true
-omni_range = 7.6072
+omni_range = 7.0
 
 [node name="OmniLight3D2" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 11.6371)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 11.8947)
 light_color = Color(0.215686, 1, 0.411765, 1)
+light_size = 1.0
 shadow_enabled = true
-omni_range = 7.6072
+omni_range = 7.0

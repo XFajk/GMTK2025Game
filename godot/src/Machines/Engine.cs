@@ -1,7 +1,7 @@
 using Godot;
 
 public partial class Engine : Machine {
-    public const double ChangeDuration = 1.0f;
+    public const double ChangeDuration = 2f;
     public const float DefaultEnginePower = 0.1f;
     private float _enginePower = DefaultEnginePower;
     private float _maxProcessingPerSecond;

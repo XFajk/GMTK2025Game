@@ -26,7 +26,7 @@ public abstract partial class TimedMission : Node, IMission {
 
     public virtual bool IsMissionFinised() {
         double timePassed = (double)(Time.GetTicksUsec() - _startTime) / 1E6;
-        return _startTime != 0 && timePassed > Duration;
+        return _startTime != 0 && timePassed > (PreparationTime + Duration);
     }
 
     public abstract IMission.Properties GetMissionProperties();
