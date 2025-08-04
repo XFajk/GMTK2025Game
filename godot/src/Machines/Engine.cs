@@ -1,16 +1,36 @@
+using Godot;
+
 public partial class Engine : Machine {
+    public const double ChangeDuration = 1.0f;
     public const float DefaultEnginePower = 0.1f;
-    public float EnginePower = DefaultEnginePower;
+    private float _enginePower = DefaultEnginePower;
     private float _maxProcessingPerSecond;
+    private JetEngineFire _jetFireVfx;
+    private Core _coreVfx;
+
+    public float GetEnginePower() => _enginePower;
+    public void SetEnginePower(float powerFactor) {
+        _enginePower = powerFactor;
+        _jetFireVfx.SetEnginePower(_enginePower);
+        _coreVfx.SetEnginePower(_enginePower);
+    }
+
 
     public override void _Ready() {
         _maxProcessingPerSecond = _processingPerSecond;
+
+        Node3D vfx = GetNode<Node3D>("VFX");
+        vfx.SetVisible(true);
+
+        _jetFireVfx = vfx.GetNode<JetEngineFire>("JetEngineFire");
+        _coreVfx = vfx.GetNode<Core>("Core");
+
         base._Ready();
     }
 
 
     public override void _Process(double deltaTime) {
-        _processingPerSecond = _maxProcessingPerSecond * EnginePower;
+        _processingPerSecond = _maxProcessingPerSecond * _enginePower;
         base._Process(deltaTime);
     }
 }

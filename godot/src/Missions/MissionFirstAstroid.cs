@@ -87,7 +87,7 @@ public partial class MissionFirstAstroid : Node, IMission {
         });
 
         foreach (Engine e in _engines) {
-            e.EnginePower = 0;
+            e.SetEnginePower(0);
         }
     }
 
@@ -110,7 +110,7 @@ public partial class MissionFirstAstroid : Node, IMission {
         });
 
         foreach (Engine e in _engines) {
-            e.EnginePower = Engine.DefaultEnginePower;
+            e.SetEnginePower(Engine.DefaultEnginePower);
         }
     }
 }

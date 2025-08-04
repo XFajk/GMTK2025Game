@@ -35,6 +35,7 @@ public partial class MissionManager : Node {
             int offset = 0;
             while (_currentDelay == null) {
                 Node eventNode = GetChild(progress - offset++);
+                if (eventNode == null) return;
                 if (eventNode is Delay delay) _currentDelay = delay;
             }
         }

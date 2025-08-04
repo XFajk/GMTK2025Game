@@ -20,6 +20,11 @@ public partial class Game : Node {
         _ui = GetNode<GameUi>("Player/GameUI");
 
         _missionsNode = GetNode<MissionManager>("MissionsAndEvents");
+
+        MissionManager testMissions = GetNodeOrNull<MissionManager>("TestMissions");
+        if (testMissions != null) _missionsNode.QueueFree();
+        _missionsNode = testMissions;
+
         _missionsNode.Ship = _shipNode;
         _missionsNode.ShowBriefCallback = (mission) => ShowMissionDialog(mission, true);
         _missionsNode.ShowDebriefCallback = (mission) => ShowMissionDialog(mission, false);
