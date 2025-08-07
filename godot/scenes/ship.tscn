@@ -1,4 +1,4 @@
-[gd_scene load_steps=153 format=4 uid="uid://cgccmqaeo11dk"]
+[gd_scene load_steps=154 format=4 uid="uid://cgccmqaeo11dk"]
 
 [ext_resource type="Script" uid="uid://c41j8f7y8s5pn" path="res://src/Ship.cs" id="1_q631a"]
 [ext_resource type="PackedScene" uid="uid://cwfaolgkx8pib" path="res://scenes/vfx/core.tscn" id="2_48mkp"]
@@ -15,6 +15,7 @@
 [ext_resource type="Script" uid="uid://cjc04ylpxhx0o" path="res://src/Machines/ConnectionNode.cs" id="8_tlr80"]
 [ext_resource type="Script" uid="uid://dc7fa1reuuwmu" path="res://src/Machines/Plants.cs" id="9_itrim"]
 [ext_resource type="AudioStream" uid="uid://bmv0cna1k1xuf" path="res://assets/audio/WaterTreatmentSFX.wav" id="11_cnrms"]
+[ext_resource type="Script" uid="uid://cv61cvpvmbwbp" path="res://src/Machines/Engine.cs" id="12_05hdg"]
 [ext_resource type="AudioStream" uid="uid://c6mhvlirjecys" path="res://assets/audio/EngineSFX.wav" id="12_08ed0"]
 [ext_resource type="AudioStream" uid="uid://c6fwmrw7byiuh" path="res://assets/audio/IncineratorSFX.wav" id="13_7tpya"]
 [ext_resource type="Script" uid="uid://c2i027eoql8i6" path="res://src/entities/FloorPath.cs" id="13_48mkp"]
@@ -22,6 +23,7 @@
 [ext_resource type="AudioStream" uid="uid://bukxo77rsechd" path="res://assets/audio/SnoringSFX.wav" id="14_q0sdf"]
 [ext_resource type="PackedScene" uid="uid://lrow5co8e61y" path="res://scenes/spaceship_graphics.tscn" id="14_xifwb"]
 [ext_resource type="PackedScene" uid="uid://btfhevum5xp06" path="res://scenes/entities/elevator.tscn" id="15_mx31c"]
+[ext_resource type="PackedScene" path="res://scenes/vfx/incinerator_fire.tscn" id="15_n4w76"]
 [ext_resource type="AudioStream" uid="uid://bjndktdrdlxj0" path="res://assets/audio/WashingDishesSFX.wav" id="15_u7rkd"]
 [ext_resource type="Script" uid="uid://c27surc38gk72" path="res://src/entities/Floor.cs" id="16_fs4we"]
 [ext_resource type="AudioStream" uid="uid://bh5b62ltfi5f0" path="res://assets/audio/GreenhouseSFXv3.wav" id="18_o1i5q"]
@@ -760,11 +762,7 @@ viewport_path = NodePath("ViewPort")
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_tbq4g"]
 height = 3.57397
-radius = 1.08301
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_bseor"]
-height = 2.36011
-radius = 0.512695
+radius = 1.30518
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_83dbu"]
 viewport_path = NodePath("ViewPort")
@@ -1464,8 +1462,8 @@ shape = SubResource("BoxShape3D_48mkp")
 debug_color = Color(0.97, 0.1455, 0, 1)
 
 [node name="Engine" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.3919, 0.0799956, 0)
-script = ExtResource("2_gudjc")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.3653, 0.0799956, -0.0777823)
+script = ExtResource("12_05hdg")
 _processingPerSecond = 5.0
 
 [node name="MachineStatusInterface" parent="Engine" instance=ExtResource("8_bseor")]
@@ -1478,11 +1476,6 @@ script = ExtResource("8_tlr80")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Engine/HoverDetectionArea"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.701507, 0.0748291, -0.674319)
 shape = SubResource("CylinderShape3D_tbq4g")
-debug_color = Color(0.97, 0.1455, 0, 1)
-
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="Engine/HoverDetectionArea"]
-transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 1.28433, -0.00987818, -0.494919)
-shape = SubResource("CylinderShape3D_bseor")
 debug_color = Color(0.97, 0.1455, 0, 1)
 
 [node name="Inputs" type="Node" parent="Engine"]
@@ -1508,6 +1501,15 @@ QuantityChangeInReceipe = 2
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Engine"]
 stream = ExtResource("12_08ed0")
+
+[node name="VFX" type="Node3D" parent="Engine"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.3919, -0.0799956, 0)
+
+[node name="Core" parent="Engine/VFX" instance=ExtResource("2_48mkp")]
+transform = Transform3D(-4.37114e-08, -1, -4.37114e-08, 0, -4.37114e-08, 1, -1, 4.37114e-08, 1.91069e-15, 12.6814, 0.104022, -0.714224)
+
+[node name="JetEngineFire" parent="Engine/VFX" instance=ExtResource("3_tbq4g")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 16.2612, 0.164202, -0.49879)
 
 [node name="SolidWasteBurner" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.0648, -4.89146, 0)
@@ -1596,6 +1598,14 @@ debug_color = Color(0.97, 0.1455, 0, 1)
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Incinerator"]
 stream = ExtResource("13_7tpya")
+
+[node name="SFX" type="Node3D" parent="Incinerator"]
+
+[node name="Fire3" parent="Incinerator/SFX" instance=ExtResource("15_n4w76")]
+transform = Transform3D(1.8397, -0.277667, 0, 0.531732, 0.960677, 0, 0, 0, 0.41, 1.12213, -0.713615, -0.158945)
+
+[node name="Fire4" parent="Incinerator/SFX" instance=ExtResource("15_n4w76")]
+transform = Transform3D(-1.8397, -0.277667, 0, -0.531732, 0.960677, 0, 0, 0, 0.41, 1.12213, -0.713615, 1.27602)
 
 [node name="CarbonScrubber" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.2931, -5.00677, 0)
@@ -1785,14 +1795,6 @@ debug_color = Color(0.97, 0.1455, 0, 1)
 stream = ExtResource("18_o1i5q")
 
 [node name="SpaceshipVisuals" parent="." instance=ExtResource("14_xifwb")]
-
-[node name="VFX" type="Node3D" parent="."]
-
-[node name="Core" parent="VFX" instance=ExtResource("2_48mkp")]
-transform = Transform3D(-4.37114e-08, -1, -4.37114e-08, 0, -4.37114e-08, 1, -1, 4.37114e-08, 1.91069e-15, 12.6814, 0.104022, -0.714224)
-
-[node name="JetEngineFire" parent="VFX" instance=ExtResource("3_tbq4g")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 16.2612, 0.164202, -0.49879)
 
 [node name="Elevator" parent="." instance=ExtResource("15_mx31c")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.65611, 4.2355, -0.687846)

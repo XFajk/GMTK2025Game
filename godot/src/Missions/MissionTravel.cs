@@ -49,13 +49,13 @@ public partial class MissionTravel : TimedMission, IMission {
     public override void OnStart(Ship ship) {
         base.OnStart(ship);
         foreach (Engine e in _engines) {
-            e.EnginePower = TargetEnginePower;
+            e.SetEnginePower(TargetEnginePower);
         }
     }
 
     public override void OnCompletion(Ship ship) {
         foreach (Engine e in _engines) {
-            e.EnginePower = Engine.DefaultEnginePower;
+            e.SetEnginePower(Engine.DefaultEnginePower);
         }
     }
 }

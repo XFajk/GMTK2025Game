@@ -37,13 +37,13 @@ public partial class MissionEngineRev : TimedMission, IMission {
     public override void OnStart(Ship ship) {
         base.OnStart(ship);
         foreach (Engine e in _engines) {
-            e.EnginePower = TargetEnginePower;
+            e.SetEnginePower(TargetEnginePower);
         }
     }
 
     public override void OnCompletion(Ship ship) {
         foreach (Engine e in _engines) {
-            e.EnginePower = FinalEnginePower;
+            e.SetEnginePower(FinalEnginePower);
         }
     }
 }
