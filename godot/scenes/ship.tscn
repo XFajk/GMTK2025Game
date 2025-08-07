@@ -1,4 +1,4 @@
-[gd_scene load_steps=155 format=4 uid="uid://cgccmqaeo11dk"]
+[gd_scene load_steps=166 format=4 uid="uid://cgccmqaeo11dk"]
 
 [ext_resource type="Script" uid="uid://c41j8f7y8s5pn" path="res://src/Ship.cs" id="1_q631a"]
 [ext_resource type="PackedScene" uid="uid://cwfaolgkx8pib" path="res://scenes/vfx/core.tscn" id="2_48mkp"]
@@ -26,7 +26,10 @@
 [ext_resource type="PackedScene" uid="uid://bt6ui4eqq7ngq" path="res://scenes/vfx/incinerator_fire.tscn" id="15_n4w76"]
 [ext_resource type="AudioStream" uid="uid://bjndktdrdlxj0" path="res://assets/audio/WashingDishesSFX.wav" id="15_u7rkd"]
 [ext_resource type="Script" uid="uid://c27surc38gk72" path="res://src/entities/Floor.cs" id="16_fs4we"]
+[ext_resource type="Texture2D" uid="uid://b8pwdv14b6rv6" path="res://assets/vfx/dark_smoke.png" id="18_kwpx1"]
 [ext_resource type="AudioStream" uid="uid://bh5b62ltfi5f0" path="res://assets/audio/GreenhouseSFXv3.wav" id="18_o1i5q"]
+[ext_resource type="Script" uid="uid://dkjjx5173sptn" path="res://src/Machines/CarbonScrubber.cs" id="18_qy1vx"]
+[ext_resource type="Script" uid="uid://cam78kw0af0j3" path="res://src/entities/ActivationLight.cs" id="19_qy1vx"]
 [ext_resource type="AudioStream" uid="uid://d0rck0sihqe4f" path="res://assets/audio/SonarSFX.wav" id="20_u7rkd"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xd7rh"]
@@ -787,7 +790,48 @@ size = Vector3(2.5407, 0.779785, 3.37769)
 viewport_path = NodePath("ViewPort")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_dschd"]
-size = Vector3(1.33887, 2.98541, 1)
+size = Vector3(1.46417, 2.98541, 1)
+
+[sub_resource type="Curve" id="Curve_ud00f"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.482375, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_rrmbv"]
+curve = SubResource("Curve_ud00f")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_rxy3i"]
+angle_min = -720.0
+angle_max = 720.0
+direction = Vector3(0, 1, 0)
+spread = 95.0
+initial_velocity_min = 1.0
+initial_velocity_max = 2.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.7
+scale_curve = SubResource("CurveTexture_rrmbv")
+color = Color(1, 1, 1, 0.556863)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sm207"]
+transparency = 1
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("18_kwpx1")
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_g7uqr"]
+material = SubResource("StandardMaterial3D_sm207")
+size = Vector2(2, 2)
+
+[sub_resource type="SphereMesh" id="SphereMesh_10t3h"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_re7e4"]
+emission_enabled = true
+emission = Color(0.02, 1, 0.0363333, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_wrc1v"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_mx31c"]
 viewport_path = NodePath("ViewPort")
@@ -1566,7 +1610,7 @@ _processingPerSecond = 2.0
 [node name="1" type="Node" parent="Incinerator/Inputs"]
 script = ExtResource("3_4tobq")
 Resource = 11
-MaxQuantity = 2
+MaxQuantity = 4
 QuantityChangeInReceipe = 1
 
 [node name="2" type="Node" parent="Incinerator/Inputs"]
@@ -1613,9 +1657,8 @@ transform = Transform3D(1.8397, -0.277667, 0, 0.531732, 0.960677, 0, 0, 0, 0.41,
 transform = Transform3D(-1.8397, -0.277667, 0, -0.531732, 0.960677, 0, 0, 0, 0.41, 1.12213, -0.713615, 1.27602)
 
 [node name="CarbonScrubber" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.2931, -5.00677, 0)
-script = ExtResource("2_gudjc")
-_processingPerSecond = 0.2
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.2931, -5.00677, 2.93155)
+script = ExtResource("18_qy1vx")
 
 [node name="Inputs" type="Node" parent="CarbonScrubber"]
 
@@ -1638,16 +1681,38 @@ MaxQuantity = 100
 QuantityChangeInReceipe = 1
 
 [node name="MachineStatusInterface" parent="CarbonScrubber" instance=ExtResource("8_bseor")]
-transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0.644054, 0.41531, 0.735577)
+transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0.492668, 0.41531, -1.02263)
 texture = SubResource("ViewportTexture_tlr80")
 
 [node name="HoverDetectionArea" type="Area3D" parent="CarbonScrubber"]
 script = ExtResource("8_tlr80")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CarbonScrubber/HoverDetectionArea"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0727539, 0.331573, -1.89106)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0101023, 0.331573, -1.89106)
 shape = SubResource("BoxShape3D_dschd")
 debug_color = Color(0.97, 0.1455, 0, 1)
+
+[node name="VFX" type="Node3D" parent="CarbonScrubber"]
+
+[node name="Smoke" type="GPUParticles3D" parent="CarbonScrubber/VFX"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.377632, -0.0462747, -1.86201)
+cast_shadow = 0
+amount = 12
+collision_base_size = 0.0
+process_material = SubResource("ParticleProcessMaterial_rxy3i")
+draw_pass_1 = SubResource("QuadMesh_g7uqr")
+
+[node name="ActivationLight" type="MeshInstance3D" parent="CarbonScrubber"]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0.266195, 0.907472, -1.88067)
+mesh = SubResource("SphereMesh_10t3h")
+skeleton = NodePath("../VFX")
+surface_material_override/0 = SubResource("StandardMaterial3D_re7e4")
+script = ExtResource("19_qy1vx")
+
+[node name="Ring" type="MeshInstance3D" parent="CarbonScrubber/ActivationLight"]
+transform = Transform3D(1.17, 0, 0, 0, 0.1, 0, 0, 0, 1.17, 0, -0.1, 0)
+mesh = SubResource("CylinderMesh_wrc1v")
+skeleton = NodePath("../../VFX")
 
 [node name="CrewQuarters" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5.50422, 0)

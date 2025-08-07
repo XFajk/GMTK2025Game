@@ -11,6 +11,7 @@ public partial class Engine : Machine {
     public float GetEnginePower() => _enginePower;
     public void SetEnginePower(float powerFactor) {
         _enginePower = powerFactor;
+        _processingPerSecond = _maxProcessingPerSecond * _enginePower;
         _jetFireVfx.SetEnginePower(_enginePower);
         _coreVfx.SetEnginePower(_enginePower);
     }
@@ -27,11 +28,5 @@ public partial class Engine : Machine {
 
         base._Ready();
         SetEnginePower(DefaultEnginePower);
-    }
-
-
-    public override void _Process(double deltaTime) {
-        _processingPerSecond = _maxProcessingPerSecond * _enginePower;
-        base._Process(deltaTime);
     }
 }
