@@ -37,6 +37,15 @@ near = 0.5
 far = 200.0
 
 [node name="Ship" parent="." instance=ExtResource("2_lnu2h")]
+_initialResources = Dictionary[int, int]({
+1: 100,
+2: 100,
+4: 500,
+5: 20,
+8: 400,
+10: 8,
+11: 16
+})
 
 [node name="MissionsAndEvents" type="Node" parent="."]
 script = ExtResource("5_gee14")
@@ -99,11 +108,11 @@ MissionToWaitFor = NodePath("../TravelToSequin")
 [node name="HighPowerScan" type="Node" parent="MissionsAndEvents"]
 script = ExtResource("9_vtaks")
 TargetSolarSystemName = "Sequin"
-Duration = 10
+Duration = 20
 
 [node name="AFewSecondsIntoHighPowerScan" type="Node" parent="MissionsAndEvents" node_paths=PackedStringArray("MissionToWaitFor")]
 script = ExtResource("6_0tnpc")
-TimeDelaySeconds = 5
+TimeDelaySeconds = 15
 TimeDelayStartsWhen = 4
 MissionToWaitFor = NodePath("../HighPowerScan")
 

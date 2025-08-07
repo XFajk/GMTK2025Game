@@ -16,3 +16,7 @@ mono_crash.*.json
 .DS_Store
 
 .vscode/
+
+# backup files
+.~lock.*
+.$*.drawio.dtmp

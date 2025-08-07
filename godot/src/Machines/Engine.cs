@@ -26,6 +26,7 @@ public partial class Engine : Machine {
         _coreVfx = vfx.GetNode<Core>("Core");
 
         base._Ready();
+        SetEnginePower(DefaultEnginePower);
     }
 
 

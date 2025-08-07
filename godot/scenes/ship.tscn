@@ -925,12 +925,7 @@ point_count = 8
 [node name="Ship" type="Node3D"]
 script = ExtResource("1_q631a")
 ConnectionTransferRate = 50.0
-_initialResources = Dictionary[int, int]({
-4: 500,
-5: 10,
-8: 300,
-11: 16
-})
+_initialResources = Dictionary[int, int]({})
 MaxConnectionCount = 2
 
 [node name="Connections" type="Node" parent="."]
@@ -1359,7 +1354,7 @@ max_distance = 6.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.04783, 0.466765, -2.01365)
 script = ExtResource("2_gudjc")
 _isLossless = false
-_processingPerSecond = 4.0
+_processingPerSecond = 5.0
 
 [node name="Inputs" type="Node" parent="Hydrolysis"]
 
@@ -1374,7 +1369,6 @@ QuantityChangeInReceipe = 1
 [node name="OxygenOutput" type="Node" parent="Hydrolysis/Outputs"]
 script = ExtResource("3_4tobq")
 Resource = 8
-MaxQuantity = 2
 QuantityChangeInReceipe = 1
 
 [node name="MachineStatusInterface" parent="Hydrolysis" instance=ExtResource("8_bseor")]
@@ -1392,7 +1386,7 @@ debug_color = Color(0.97, 0.1455, 0, 1)
 [node name="Condensator" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.54221, -0.144722, 0)
 script = ExtResource("2_gudjc")
-_processingPerSecond = 10.0
+_processingPerSecond = 0.2
 
 [node name="MachineStatusInterface" parent="Condensator" instance=ExtResource("8_bseor")]
 transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0.838345, 0.545111, 1.44457)
@@ -1411,7 +1405,6 @@ debug_color = Color(0.97, 0.1455, 0, 1)
 [node name="HumidityInput" type="Node" parent="Condensator/Inputs"]
 script = ExtResource("3_4tobq")
 Resource = 3
-MaxQuantity = 12
 QuantityChangeInReceipe = 10
 
 [node name="Outputs" type="Node" parent="Condensator"]
@@ -1432,20 +1425,20 @@ max_distance = 6.0
 [node name="Radiator" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.1138, 0.207263, 0)
 script = ExtResource("2_gudjc")
-_processingPerSecond = 10.0
+_processingPerSecond = 6.0
 
 [node name="Inputs" type="Node" parent="Radiator"]
 
 [node name="CoolantHotInput" type="Node" parent="Radiator/Inputs"]
 script = ExtResource("3_4tobq")
 Resource = 1
-MaxQuantity = 200
+MaxQuantity = 240
 QuantityChangeInReceipe = 1
 
 [node name="WaterInput" type="Node" parent="Radiator/Inputs"]
 script = ExtResource("3_4tobq")
 Resource = 4
-MaxQuantity = 10
+MaxQuantity = 12
 QuantityChangeInReceipe = 2
 
 [node name="Outputs" type="Node" parent="Radiator"]
@@ -1453,7 +1446,7 @@ QuantityChangeInReceipe = 2
 [node name="CoolantColdOutput" type="Node" parent="Radiator/Outputs"]
 script = ExtResource("3_4tobq")
 Resource = 2
-MaxQuantity = 100
+MaxQuantity = 120
 QuantityChangeInReceipe = 1
 
 [node name="MachineStatusInterface" parent="Radiator" instance=ExtResource("8_bseor")]
@@ -1537,7 +1530,6 @@ QuantityChangeInReceipe = 1
 [node name="2" type="Node" parent="SolidWasteBurner/Inputs"]
 script = ExtResource("3_4tobq")
 Resource = 8
-MaxQuantity = 2
 QuantityChangeInReceipe = 1
 
 [node name="Outputs" type="Node" parent="SolidWasteBurner"]
@@ -1545,7 +1537,6 @@ QuantityChangeInReceipe = 1
 [node name="1" type="Node" parent="SolidWasteBurner/Outputs"]
 script = ExtResource("3_4tobq")
 Resource = 9
-MaxQuantity = 2
 QuantityChangeInReceipe = 1
 
 [node name="MachineStatusInterface" parent="SolidWasteBurner" instance=ExtResource("8_bseor")]
@@ -1624,7 +1615,7 @@ transform = Transform3D(-1.8397, -0.277667, 0, -0.531732, 0.960677, 0, 0, 0, 0.4
 [node name="CarbonScrubber" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.2931, -5.00677, 0)
 script = ExtResource("2_gudjc")
-_processingPerSecond = 0.1
+_processingPerSecond = 0.2
 
 [node name="Inputs" type="Node" parent="CarbonScrubber"]
 
@@ -1783,7 +1774,6 @@ QuantityChangeInReceipe = 1
 [node name="2" type="Node" parent="Greenhouse/Inputs"]
 script = ExtResource("3_4tobq")
 Resource = 9
-MaxQuantity = 2
 QuantityChangeInReceipe = 1
 
 [node name="Outputs" type="Node" parent="Greenhouse"]
@@ -1791,7 +1781,6 @@ QuantityChangeInReceipe = 1
 [node name="1" type="Node" parent="Greenhouse/Outputs"]
 script = ExtResource("3_4tobq")
 Resource = 8
-MaxQuantity = 3
 QuantityChangeInReceipe = 2
 
 [node name="2" type="Node" parent="Greenhouse/Outputs"]
