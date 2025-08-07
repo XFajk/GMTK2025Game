@@ -24,6 +24,7 @@ public partial class Ship : Node, IContainer {
 
     private Queue<Connection> _connections = new();
     private Node _connectionsNode;
+    private Node _garbageNode;
     private Pipes _pipes;
     public List<Floor> Floors;
     public List<Person> Crew;
@@ -46,6 +47,7 @@ public partial class Ship : Node, IContainer {
             }
         }
         _connectionsNode = GetNode("Connections");
+        _garbageNode = GetNode("Garbage");
         _pipes = GetNode<Pipes>("Pipes");
 
         _floatingResourceManager.Ready(Machines, GetNode("FloatingResources"));
@@ -78,12 +80,12 @@ public partial class Ship : Node, IContainer {
         Shuffle(Crew);
 
         foreach (Person p in Crew) {
-            if (p.ThrowGarbage()) return;
+            if (p.ThrowGarbage(_garbageNode)) return;
         }
 
         // spawn anywhere
         Vector3 randomMachinePosition = Machines[_rng.RandiRange(0, Machines.Count - 1)].Position;
-        Person.SpawnGarbageAt(this, randomMachinePosition);
+        Person.SpawnGarbageAt(_garbageNode, randomMachinePosition);
     }
 
     public override void _Process(double deltaTime) {
@@ -146,6 +148,8 @@ public partial class Ship : Node, IContainer {
             float current = totals.GetValueOrDefault(buffer.GetResource(), 0);
             totals[buffer.GetResource()] = current + buffer.GetQuantity();
         }
+
+        totals[Resource.Garbage] += _garbageNode.GetChildCount();
 
         return totals;
     }
@@ -227,6 +231,8 @@ public partial class Ship : Node, IContainer {
 
         crewMember.SetCurrentTask(task, location);
     }
+
+    public Person GetRandomPerson() => Crew[_rng.RandiRange(0, Crew.Count - 1)];
 
     private Person GetClosestCrew(Vector3 position, Person crewMember, int? floor = null) {
         float leastDistance = float.MaxValue;

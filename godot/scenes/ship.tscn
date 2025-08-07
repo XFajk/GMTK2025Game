@@ -926,13 +926,16 @@ point_count = 8
 script = ExtResource("1_q631a")
 ConnectionTransferRate = 50.0
 _initialResources = Dictionary[int, int]({
-2: 200,
-4: 250,
+4: 500,
 5: 10,
-8: 200,
+8: 300,
 11: 16
 })
 MaxConnectionCount = 2
+
+[node name="Connections" type="Node" parent="."]
+
+[node name="Garbage" type="Node" parent="."]
 
 [node name="Pipes" type="Node" parent="."]
 script = ExtResource("2_tlr80")
@@ -1241,8 +1244,6 @@ surface_material_override/0 = SubResource("StandardMaterial3D_kt5sn")
 
 [node name="__Deactivated" type="Node3D" parent="Pipes"]
 
-[node name="Connections" type="Node" parent="."]
-
 [node name="FloatingResources" type="Node" parent="."]
 
 [node name="Oxygen" type="Node" parent="FloatingResources"]
@@ -1489,7 +1490,7 @@ debug_color = Color(0.97, 0.1455, 0, 1)
 [node name="CoolantColdInput" type="Node" parent="Engine/Inputs"]
 script = ExtResource("3_4tobq")
 Resource = 2
-MaxQuantity = 200
+MaxQuantity = 100
 QuantityChangeInReceipe = 1
 
 [node name="Outputs" type="Node" parent="Engine"]
@@ -1497,7 +1498,7 @@ QuantityChangeInReceipe = 1
 [node name="CoolantHotOutput" type="Node" parent="Engine/Outputs"]
 script = ExtResource("3_4tobq")
 Resource = 1
-MaxQuantity = 50
+MaxQuantity = 100
 QuantityChangeInReceipe = 1
 
 [node name="HumidityOutput" type="Node" parent="Engine/Outputs"]
@@ -1657,10 +1658,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0727539, 0.331573, -1.8910
 shape = SubResource("BoxShape3D_dschd")
 debug_color = Color(0.97, 0.1455, 0, 1)
 
-[node name="CreqQuarters" type="Node3D" parent="."]
+[node name="CrewQuarters" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5.50422, 0)
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="CreqQuarters"]
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="CrewQuarters"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6.18395)
 stream = ExtResource("14_q0sdf")
 autoplay = true

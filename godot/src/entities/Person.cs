@@ -83,11 +83,11 @@ public partial class Person : PathFollow3D {
         SetTarget(new ShipLocation(FloorNumber, _rng.Randf()));
     }
 
-    public bool ThrowGarbage() {
+    public bool ThrowGarbage(Node parent) {
         if (InElevator) return false;
 
         var garbage = GarbageScene.Instantiate<Pickupable>();
-        ParentFloorPath.GetParent().AddChild(garbage);
+        parent.AddChild(garbage);
         var offset = new Vector3(0.0f, 0.1f, 0.0f);
         offset.X += _rng.RandfRange(-2f, 1f); 
         offset.Z += _rng.RandfRange(-2f, 1f); 

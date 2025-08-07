@@ -9,7 +9,6 @@ public partial class EventCrewSick : Node, IEvent {
     [Export]
     public Person Target;
 
-    [Export]
     public Node3D CrewQuarters;
 
     [Export(PropertyHint.Range, "0, 2")]
@@ -17,10 +16,12 @@ public partial class EventCrewSick : Node, IEvent {
 
     IEvent.Properties IEvent.GetProperties() => new() {
         Description = $"One of our crew has fallen ill. We will be using some additional disposables for hygiene",
-        IconPosition = Target.Position
+        IconPosition = CrewQuarters.Position
     };
 
     public void ApplyEffect(Ship ship) {
+        CrewQuarters = ship.GetNode<Node3D>("CrewQuarters");
+        Target ??= ship.GetRandomPerson();
         ship.ScheduleCrewTask(new CrewTask() {
             Location = CrewQuarters.Position,
             Duration = RecoveryTimeSeconds,
@@ -41,7 +42,7 @@ public partial class EventCrewSick : Node, IEvent {
                     Container = ship.GetContainer(Resource.Garbage, Ship.Select.OnlyInputs),
                 },
             ],
-            MaxCycles = (DisposablesUsedPerSecond * ratio.Key)
+            MaxCycles = (RecoveryTimeSeconds * DisposablesUsedPerSecond)
         };
 
         ship.ActiveEffects.Add(_conversionEffect);
