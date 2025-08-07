@@ -1,0 +1,80 @@
+[gd_scene load_steps=7 format=3 uid="uid://bp0edgrn6vm3p"]
+
+[ext_resource type="Environment" uid="uid://c3kvjjeurfhoc" path="res://misc/camera_enviroment.tres" id="1_r8nnk"]
+[ext_resource type="LightmapGIData" uid="uid://b6uyj4lu0t63r" path="res://gitest.lmbake" id="2_uyljp"]
+
+[sub_resource type="Environment" id="Environment_0cffk"]
+background_mode = 1
+
+[sub_resource type="QuadMesh" id="QuadMesh_uyljp"]
+lightmap_size_hint = Vector2i(52, 52)
+add_uv2 = true
+size = Vector2(10, 10)
+orientation = 1
+
+[sub_resource type="BoxMesh" id="BoxMesh_0cffk"]
+lightmap_size_hint = Vector2i(14, 21)
+add_uv2 = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_mvuwk"]
+lightmap_size_hint = Vector2i(9, 13)
+add_uv2 = true
+size = Vector3(0.5, 0.5, 0.5)
+
+[node name="Node3D" type="Node3D"]
+
+[node name="LightmapGI" type="LightmapGI" parent="."]
+transform = Transform3D(1, -2.98023e-08, 1.49012e-08, 2.98023e-08, 1, 0, 1.49012e-08, 0, 1, 1.29221e-08, -5.96046e-08, 0)
+quality = 3
+directional = true
+light_data = ExtResource("2_uyljp")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.497593, 0.342474, -0.79694, 0.011227, 0.916137, 0.400707, 0.867338, -0.208336, 0.452019, -4.06668, 1.72442, 1.59608)
+environment = ExtResource("1_r8nnk")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_0cffk")
+
+[node name="Floor" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.47192, 0)
+mesh = SubResource("QuadMesh_uyljp")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.684063, 0, -0.729422, 0, 1, 0, 0.729422, 0, 0.684063, -0.967972, -1.08411, 0.844382)
+mesh = SubResource("BoxMesh_0cffk")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.684063, 0, -0.729422, 0, 1, 0, 0.729422, 0, 0.684063, 0.718663, -1.22434, -0.73737)
+mesh = SubResource("BoxMesh_mvuwk")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.996906, 0, 0.0785983, 0, 1, 0, -0.0785983, 0, 0.996906, 0.616017, -1.08411, 0.670648)
+mesh = SubResource("BoxMesh_0cffk")
+
+[node name="SpotLight3D" type="SpotLight3D" parent="."]
+transform = Transform3D(0.799664, -0.241998, -0.549521, -0.272469, -0.961784, 0.0270531, -0.535068, 0.128094, -0.835042, -1.69567, -0.988604, -1.57454)
+light_color = Color(1, 1, 0, 1)
+light_energy = 2.0
+light_bake_mode = 1
+shadow_enabled = true
+spot_range = 7.70511
+spot_angle = 56.6734
+
+[node name="SpotLight3D2" type="SpotLight3D" parent="."]
+transform = Transform3D(0.970198, 0.0163874, -0.241758, 0.02632, -0.998934, 0.037915, -0.240879, -0.0431471, -0.969595, -0.122538, -0.918181, -2.6075)
+light_color = Color(1, 0, 1, 1)
+light_energy = 2.0
+light_bake_mode = 1
+shadow_enabled = true
+spot_range = 9.18508
+spot_angle = 56.6734
+
+[node name="SpotLight3D3" type="SpotLight3D" parent="."]
+transform = Transform3D(0.232562, 0.0163874, -0.972443, 0.0457771, -0.998934, -0.005885, -0.971504, -0.0431471, -0.233063, -2.80142, -1.07545, 0.016216)
+light_color = Color(0, 1, 1, 1)
+light_energy = 2.0
+light_bake_mode = 1
+shadow_enabled = true
+spot_range = 9.18508
+spot_angle = 56.6734

@@ -97,12 +97,18 @@ draw_pass_1 = SubResource("RibbonTrailMesh_i57x2")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.40933)
+visible = false
 light_color = Color(0.215686, 1, 0.411765, 1)
+light_indirect_energy = 2.665
+light_bake_mode = 1
 shadow_enabled = true
 omni_range = 7.6072
 
 [node name="OmniLight3D2" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 11.6371)
+visible = false
 light_color = Color(0.215686, 1, 0.411765, 1)
+light_indirect_energy = 1.869
+light_bake_mode = 1
 shadow_enabled = true
 omni_range = 7.6072

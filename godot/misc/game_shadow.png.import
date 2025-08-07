@@ -1,0 +1,27 @@
+[remap]
+
+importer="2d_array_texture"
+type="CompressedTexture2DArray"
+uid="uid://bcbmwcct0sj51"
+path.s3tc="res://.godot/imported/game_shadow.png-d3618d8f4ea1b8a9ee8bfbef9e522eff.s3tc.ctexarray"
+metadata={
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
+}
+
+[deps]
+
+source_file="res://misc/game_shadow.png"
+dest_files=["res://.godot/imported/game_shadow.png-d3618d8f4ea1b8a9ee8bfbef9e522eff.s3tc.ctexarray"]
+
+[params]
+
+compress/mode=2
+compress/high_quality=false
+compress/lossy_quality=0.7
+compress/hdr_compression=1
+compress/channel_pack=1
+mipmaps/generate=false
+mipmaps/limit=-1
+slices/horizontal=1
+slices/vertical=1
