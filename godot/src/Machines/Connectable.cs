@@ -14,6 +14,8 @@ public abstract partial class Connectable : Node3D {
 
     [Export]
     public Connectable SharedConnectable = null;
+    [Export]
+    public bool IsPlayerConnectable = true;
 
     protected Area3D _hoverDetectionArea = null;
     protected StatusInterface _statusInterface = null;
@@ -116,5 +118,4 @@ public abstract partial class Connectable : Node3D {
             outlineMesh.MaterialOverride = show ? material : null;
         }
     }
-
 }

@@ -2,7 +2,6 @@ using Godot;
 using System;
 
 public partial class CarbonScrubber : Machine {
-    [Export]
     public bool IsActive = false;
 
     private float _standardProcessingPerSecond;

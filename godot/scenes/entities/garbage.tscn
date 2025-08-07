@@ -3,11 +3,11 @@
 [ext_resource type="Script" uid="uid://krog3faufiju" path="res://src/entities/Pickupable.cs" id="1_8dtw3"]
 [ext_resource type="Texture2D" uid="uid://b8pwdv14b6rv6" path="res://assets/vfx/dark_smoke.png" id="2_y4bc4"]
 [ext_resource type="AudioStream" uid="uid://dgpgc6p4eqvby" path="res://assets/audio/pickup.wav" id="3_xajnn"]
-[ext_resource type="Material" uid="uid://b6byqbxouelii" path="res://assets/3d/materials/garbage.tres" id="4_kwcvy"]
-[ext_resource type="Material" uid="uid://clma7wmrh34g1" path="res://assets/3d/materials/outline.tres" id="5_j31y4"]
+[ext_resource type="Material" path="res://assets/3d/materials/garbage.tres" id="4_kwcvy"]
+[ext_resource type="Material" path="res://assets/3d/materials/outline.tres" id="5_j31y4"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_lxx88"]
-radius = 0.199723
+radius = 0.251928
 
 [sub_resource type="Curve" id="Curve_xajnn"]
 _data = [Vector2(0.00185528, 0.526786), 0.0, 0.0, 0, 0, Vector2(1, 0.165179), 0.0, 0.0, 0, 0]

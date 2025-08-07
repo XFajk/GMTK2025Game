@@ -21,7 +21,7 @@
 [ext_resource type="Script" uid="uid://cgjaj1ali2bgb" path="res://src/Missions/MissionIceAstroidMining.cs" id="16_ssvqc"]
 [ext_resource type="Script" uid="uid://we4sm7cygymp" path="res://src/Events/EventSolarFlare.cs" id="18_264po"]
 [ext_resource type="Environment" uid="uid://c3kvjjeurfhoc" path="res://misc/camera_enviroment.tres" id="22_37s47"]
-[ext_resource type="LightmapGIData" uid="uid://bpwijcomcgfsg" path="res://misc/game.lmbake" id="22_bt5mj"]
+[ext_resource type="LightmapGIData" path="res://misc/game.lmbake" id="22_bt5mj"]
 
 [node name="Game" type="Node"]
 script = ExtResource("1_yqjtg")

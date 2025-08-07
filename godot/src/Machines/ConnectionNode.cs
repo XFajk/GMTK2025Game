@@ -54,11 +54,4 @@ public partial class ConnectionNode : Area3D {
         ConnectedTo = null;
         if (_particlesNode != null) _particlesNode.Emitting = false;
     }
-
-    public void DeclineConnection() {
-        // _activeTween = GetTree().CreateTween();
-        // _activeTween.TweenProperty(_material, "albedo_color", oldColor, 1);
-        // _activeTween.TweenCallback(Callable.From(() => _activeTween = null));
-        // _activeTween.TweenCallback(Callable.From(UpdateMaterial));
-    }
 }
