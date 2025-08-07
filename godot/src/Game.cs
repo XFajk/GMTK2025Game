@@ -70,8 +70,10 @@ public partial class Game : Node {
         if (_selectedMachine == null) {
             _selectedMachine = machine;
             _selectedNode = node;
+            _selectedMachine.SetHighlight(true);
         } else if (_selectedMachine == machine) {
             _selectedNode.DisconnectNode();
+            _selectedMachine.SetHighlight(false);
             _selectedMachine = null;
             _selectedNode = null;
         } else if (_shipNode.CanConnect(_selectedMachine, machine)) {
@@ -87,19 +89,17 @@ public partial class Game : Node {
                 // disconnect.QueueFree();
             }
 
+            _selectedMachine.SetHighlight(false);
             _selectedMachine = null;
             _selectedNode = null;
         } else {
             _selectedNode.DeclineConnection();
             node.DeclineConnection();
+            _selectedMachine.SetHighlight(false);
 
             _selectedMachine = null;
             _selectedNode = null;
         }
-
-        string nameOfSelectedMachine = (_selectedMachine != null) ? _selectedMachine.Name : "null";
-        string nameOfSelectedNode = (_selectedNode != null) ? _selectedNode.Name : "null";
-        GD.Print($"_selectedMachine = {nameOfSelectedMachine}, _selectedNode = {nameOfSelectedNode}");
     }
 
 }

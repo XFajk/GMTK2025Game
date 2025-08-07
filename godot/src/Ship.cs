@@ -208,6 +208,7 @@ public partial class Ship : Node, IContainer {
 
     public Connection AddConnection(Connection connection) {
         Connection toRemove = null;
+
         if (_connections.Count == MaxConnectionCount) {
             toRemove = _connections.Dequeue();
             _pipes.GetPipe(toRemove.aMachine, toRemove.bMachine).Visible = false;
@@ -221,6 +222,7 @@ public partial class Ship : Node, IContainer {
 
     // previously HireForTask
     // if crewMember is null, we find one that is available
+
     public void ScheduleCrewTask(CrewTask task, Person crewMember = null) {
         // make sure we take the floor location, not the floating location
         task.Location.Y -= 1;

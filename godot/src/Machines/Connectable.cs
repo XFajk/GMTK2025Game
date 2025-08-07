@@ -7,18 +7,25 @@ public abstract partial class Connectable : Node3D {
     [Signal]
     // Handled by Game.cs
     public delegate void OnConnectionClickEventHandler(Connectable machine, ConnectionNode point);
+
     [Export]
-    public Connectable SharedConnectable = null;
+    public Connectable SharedWith = null;
 
     protected Area3D _hoverDetectionArea = null;
+
     protected StatusInterface _statusInterface = null;
 
-    public override void _Ready() {
+    private Tween _blinkTween;
+    private Node3D _visuals;
 
+    public override void _Ready() {
         _statusInterface = GetNodeOrNull<StatusInterface>("MachineStatusInterface");
         if (_statusInterface != null) _statusInterface.MachineNameLabel.Text = Name;
 
         _hoverDetectionArea = GetNode<Area3D>("HoverDetectionArea");
+
+        _visuals = GetNodeOrNull<Node3D>("Visuals");
+        _visuals ??= SharedWith.GetNode<Node3D>("Visuals");
 
         _hoverDetectionArea.SetCollisionLayerValue(1, false);
         _hoverDetectionArea.SetCollisionMaskValue(1, false);
@@ -27,7 +34,6 @@ public abstract partial class Connectable : Node3D {
         _hoverDetectionArea.SetCollisionMaskValue(5, true);
 
         _hoverDetectionArea.AddToGroup("MachineDetectionAreas");
-
 
         if (_hoverDetectionArea != null) {
             _hoverDetectionArea.MouseEntered += () => {
@@ -43,16 +49,12 @@ public abstract partial class Connectable : Node3D {
             };
         }
 
-        foreach (Node child in GetChildren()) {
-            if (child is ConnectionNode node) {
-                node.InputEvent += (_, eventType, _, _, _) => {
-                    if (eventType.IsActionPressed("interact")) {
-                        EmitSignal(SignalName.OnConnectionClick, this, node);
-                    }
-                };
-
-                GD.Print($"Added connection node {node.Name}");
-            }
+        if (_hoverDetectionArea is ConnectionNode node) {
+            _hoverDetectionArea.InputEvent += (_, eventType, _, _, _) => {
+                if (eventType.IsActionPressed("interact")) {
+                    EmitSignal(SignalName.OnConnectionClick, this, node);
+                }
+            };
         }
     }
 
@@ -76,9 +78,23 @@ public abstract partial class Connectable : Node3D {
         return false;
     }
 
-    internal static Connection ConnectNodes(Connectable aMachine, ConnectionNode aNode, Connectable bMachine, ConnectionNode bNode) {
+    public static Connection ConnectNodes(Connectable aMachine, ConnectionNode aNode, Connectable bMachine, ConnectionNode bNode) {
         ConnectionNode.ConnectNodes(aNode, bNode);
         return new(aMachine, aNode, bMachine, bNode);
     }
 
+    public void SetHighlight(bool visible) {
+        if (visible) {
+            _visuals.Visible = false;
+            _blinkTween = GetTree().CreateTween().SetLoops();
+            _blinkTween.TweenCallback(Callable.From(() => _visuals.Visible = true))
+                        .SetDelay(0.1f);
+            _blinkTween.TweenCallback(Callable.From(() => _visuals.Visible = false))
+                        .SetDelay(0.3f);
+        } else {
+            _blinkTween?.Kill();
+            _visuals.Visible = true;
+        }
+
+    }
 }
