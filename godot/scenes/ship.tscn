@@ -1567,13 +1567,14 @@ debug_color = Color(0.97, 0.1455, 0, 1)
 [node name="Incinerator" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.2654, -4.66538, 0)
 script = ExtResource("2_gudjc")
+_processingPerSecond = 2.0
 
 [node name="Inputs" type="Node" parent="Incinerator"]
 
 [node name="1" type="Node" parent="Incinerator/Inputs"]
 script = ExtResource("3_4tobq")
 Resource = 11
-MaxQuantity = 100
+MaxQuantity = 2
 QuantityChangeInReceipe = 1
 
 [node name="2" type="Node" parent="Incinerator/Inputs"]
@@ -1856,13 +1857,13 @@ FloorPath = NodePath("../../FloorPath0")
 metadata/_custom_type_script = "uid://c27surc38gk72"
 
 [node name="ElevatorPipe" type="MeshInstance3D" parent="Elevator"]
-transform = Transform3D(-4.37114e-06, -100, -4.37114e-06, 0, -4.37114e-06, 100, -100, 4.37114e-06, 1.91069e-13, 0, -3.93858, 0)
+transform = Transform3D(-4.37114e-06, -100, -4.37114e-06, 0, -4.37114e-06, 100, -100, 4.37114e-06, 1.91069e-13, 0, -4.43624, 0)
 mesh = SubResource("ArrayMesh_xifwb")
 skeleton = NodePath("")
 surface_material_override/0 = SubResource("StandardMaterial3D_swuwe")
 
 [node name="ElevatorRings" type="MeshInstance3D" parent="Elevator/ElevatorPipe"]
-transform = Transform3D(-4.37114e-08, -1, -4.37114e-08, 1, -4.37114e-08, -1.19209e-07, 1.19209e-07, -4.37114e-08, 1, 0, 0, 0)
+transform = Transform3D(-4.37114e-08, -1, -4.37114e-08, 1, -4.37114e-08, -1.19209e-07, 1.19209e-07, -4.37114e-08, 1, 0, 0, 0.00540151)
 mesh = SubResource("ArrayMesh_fkumr")
 skeleton = NodePath("")
 

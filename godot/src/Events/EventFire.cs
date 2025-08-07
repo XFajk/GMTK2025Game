@@ -56,8 +56,6 @@ public partial class EventFire : Node3D, IEvent, IRepairable {
             Location = Position,
             Duration = SecondsToExtinguish,
         });
-
-        ship.AddChild(this);
     }
 
     bool IRepairable.IsWorking() => false;
@@ -65,7 +63,6 @@ public partial class EventFire : Node3D, IEvent, IRepairable {
     Node3D IRepairable.AsNode() => this;
 
     void IRepairable.SetRepaired() {
-        _ship.RemoveChild(this);
         _ship.ActiveEffects.Remove(_fireConversionEffect);
         _fireSfx.QueueFree();
 

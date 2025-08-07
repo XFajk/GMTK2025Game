@@ -24,15 +24,15 @@ public partial class EventSolarFlare : Node, IEvent {
             Conversion = [
                 new InputOutput() {
                     QuantityChangeInReceipe = -(ratioCoolant.Key * ratioHumidity.Key),
-                    Container = ship.GetContainer(Resource.CoolantCold),
+                    Container = ship.GetContainer(Resource.CoolantCold, Ship.Select.OnlyOutputs),
                 },
                 new InputOutput() {
                     QuantityChangeInReceipe = ratioCoolant.Value,
-                    Container = ship.GetContainer(Resource.CoolantHot),
+                    Container = ship.GetContainer(Resource.CoolantHot, Ship.Select.OnlyInputs),
                 },
                 new InputOutput() {
                     QuantityChangeInReceipe = ratioHumidity.Value,
-                    Container = ship.GetContainer(Resource.Humidity),
+                    Container = ship.GetContainer(Resource.Humidity, Ship.Select.OnlyInputs),
                 }
             ]
         };

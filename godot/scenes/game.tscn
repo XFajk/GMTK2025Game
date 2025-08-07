@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://0rmy461ykeb"]
+[gd_scene load_steps=35 format=3 uid="uid://0rmy461ykeb"]
 
 [ext_resource type="Script" uid="uid://bp0g8sc4t5qhs" path="res://src/Game.cs" id="1_yqjtg"]
 [ext_resource type="PackedScene" uid="uid://cgccmqaeo11dk" path="res://scenes/ship.tscn" id="2_lnu2h"]
@@ -52,8 +52,10 @@ script = ExtResource("6_0tnpc")
 TimeDelaySeconds = 20
 TimeDelayStartsWhen = 2
 
-[node name="CrewGetsSick" type="Node" parent="MissionsAndEvents"]
+[node name="CrewGetsSick" type="Node" parent="MissionsAndEvents" node_paths=PackedStringArray("Target", "CrewQuarters")]
 script = ExtResource("8_dinhu")
+Target = NodePath("../../Ship/FloorPath1/Person2")
+CrewQuarters = NodePath("../../Ship/CreqQuarters")
 DisposablesUsedPerSecond = 0.5
 
 [node name="WaitForPepareFinish" type="Node" parent="MissionsAndEvents" node_paths=PackedStringArray("MissionToWaitFor")]
@@ -195,8 +197,10 @@ TimeDelaySeconds = 7
 TimeDelayStartsWhen = 4
 MissionToWaitFor = NodePath("../PizzaTime")
 
-[node name="CrewGetsSick2" type="Node" parent="MissionsAndEvents"]
+[node name="CrewGetsSick2" type="Node" parent="MissionsAndEvents" node_paths=PackedStringArray("Target", "CrewQuarters")]
 script = ExtResource("8_dinhu")
+Target = NodePath("../../Ship/FloorPath1/Person3")
+CrewQuarters = NodePath("../../Ship/CreqQuarters")
 DisposablesUsedPerSecond = 0.1
 
 [node name="AFewSecondsLater3" type="Node" parent="MissionsAndEvents"]
@@ -394,3 +398,5 @@ Duration = 10
 [node name="WaitUntilEverythingIsCalmAgain4" type="Node" parent="TestMissions"]
 script = ExtResource("6_0tnpc")
 TimeDelaySeconds = 3
+
+[editable path="Ship"]
