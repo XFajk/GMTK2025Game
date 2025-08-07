@@ -22,6 +22,7 @@ public partial class PlayerContoller : Camera3D {
     private Node _global; // Cache for the Global singleton
 
     public override void _Ready() {
+        //GetViewport().DebugDraw = Viewport.DebugDrawEnum.Overdraw;
         _previousePosition = new Vector2(Position.X, Position.Y);
 
         _previouseMousePosition = GetViewport().GetMousePosition();
@@ -31,7 +32,7 @@ public partial class PlayerContoller : Camera3D {
         AddChild(_pickupRay);
         
         _subViewport = GetNode<SubViewport>("SubViewportContainer/SubViewport");
-        _subViewportCamera = GetNode<Camera3D>("SubViewportContainer/SubViewport/Camera3D");
+        _subViewportCamera = GetNode<Camera3D>("SubViewportContainer/SubViewport/ThroughWallCamera");
         _global = GetNode("/root/Global");
     }
     public override void _Process(double delta) {

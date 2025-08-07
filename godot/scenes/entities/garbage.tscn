@@ -10,6 +10,8 @@ radius = 0.199723
 [sub_resource type="SphereMesh" id="SphereMesh_s5ogl"]
 radius = 0.1
 height = 0.2
+radial_segments = 5
+rings = 5
 
 [sub_resource type="Curve" id="Curve_xajnn"]
 _data = [Vector2(0.00185528, 0.526786), 0.0, 0.0, 0, 0, Vector2(1, 0.165179), 0.0, 0.0, 0, 0]
