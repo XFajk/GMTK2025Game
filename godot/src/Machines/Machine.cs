@@ -24,6 +24,8 @@ public partial class Machine : Connectable, IRepairable {
     public override IEnumerable<MachineBuffer> Outputs() => _recipeParts.Where(c => c.QuantityChangeInReceipe > 0);
 
     public bool IsWorking = true;
+    public bool IsPlayerConnectable;
+
 
     public override void _Ready() {
         base._Ready();
@@ -45,6 +47,8 @@ public partial class Machine : Connectable, IRepairable {
         _statusInterface.SetRecepiePartsIntoInterface(_recipeParts);
 
         if (_isLossless) Resources.VerifyLossless(_recipeParts, Name);
+
+        IsPlayerConnectable = _recipeParts.Any(buffer => Resources.RequiresPipe(buffer.Resource));
     }
 
     public override void _Process(double deltaTime) {

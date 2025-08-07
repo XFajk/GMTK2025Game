@@ -15,7 +15,7 @@ public abstract partial class Connectable : Node3D {
 
     protected StatusInterface _statusInterface = null;
 
-    private Tween _blinkTween;
+    private Tween _highlightTween;
     private Node3D _visuals;
 
     public override void _Ready() {
@@ -83,18 +83,46 @@ public abstract partial class Connectable : Node3D {
         return new(aMachine, aNode, bMachine, bNode);
     }
 
-    public void SetHighlight(bool visible) {
-        if (visible) {
-            _visuals.Visible = false;
-            _blinkTween = GetTree().CreateTween().SetLoops();
-            _blinkTween.TweenCallback(Callable.From(() => _visuals.Visible = true))
-                        .SetDelay(0.1f);
-            _blinkTween.TweenCallback(Callable.From(() => _visuals.Visible = false))
-                        .SetDelay(0.3f);
-        } else {
-            _blinkTween?.Kill();
-            _visuals.Visible = true;
-        }
+    public void SetHighlight(HighlighType type) {
+        PrepareNewHighlight();
+        
+        switch (type) {
+            case HighlighType.Off:
+                return;
 
+            case HighlighType.Selected:
+                _visuals.Visible = false;
+                _highlightTween = GetTree().CreateTween().SetLoops();
+                _highlightTween.TweenCallback(Callable.From(() => _visuals.Visible = true))
+                            .SetDelay(0.1f);
+                _highlightTween.TweenCallback(Callable.From(() => _visuals.Visible = false))
+                            .SetDelay(0.3f);
+                return;
+
+            case HighlighType.ConectionRefused:
+                // TODO
+
+                // don't forget to return to Off later!
+                _highlightTween = GetTree().CreateTween();
+                _highlightTween.TweenCallback(Callable.From(() => SetHighlight(HighlighType.Off)))
+                            .SetDelay(1f);
+                return;
+
+            case HighlighType.Hovered:
+                // todo
+                return;
+        }
+    }
+
+    private void PrepareNewHighlight() {
+        _highlightTween?.Kill();
+        _visuals.Visible = true;
+    }
+
+    public enum HighlighType {
+        Off,
+        Hovered,
+        Selected,
+        ConectionRefused,
     }
 }

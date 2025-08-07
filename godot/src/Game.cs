@@ -33,6 +33,9 @@ public partial class Game : Node {
 
         // _Ready of child nodes will always be first
         foreach (Connectable connectable in _shipNode.Connectables) {
+            // some machines cannot be connected to directly
+            if (connectable is Machine m && !m.IsPlayerConnectable) continue;
+
             connectable.OnConnectionClick += OnConnectionClick;
         }
     }
@@ -70,10 +73,10 @@ public partial class Game : Node {
         if (_selectedMachine == null) {
             _selectedMachine = machine;
             _selectedNode = node;
-            _selectedMachine.SetHighlight(true);
+            _selectedMachine.SetHighlight(Connectable.HighlighType.Selected);
         } else if (_selectedMachine == machine) {
             _selectedNode.DisconnectNode();
-            _selectedMachine.SetHighlight(false);
+            _selectedMachine.SetHighlight(Connectable.HighlighType.Off);
             _selectedMachine = null;
             _selectedNode = null;
         } else if (_shipNode.CanConnect(_selectedMachine, machine)) {
@@ -89,13 +92,13 @@ public partial class Game : Node {
                 // disconnect.QueueFree();
             }
 
-            _selectedMachine.SetHighlight(false);
+            _selectedMachine.SetHighlight(Connectable.HighlighType.Off);
             _selectedMachine = null;
             _selectedNode = null;
         } else {
             _selectedNode.DeclineConnection();
             node.DeclineConnection();
-            _selectedMachine.SetHighlight(false);
+            _selectedMachine.SetHighlight(Connectable.HighlighType.ConectionRefused);
 
             _selectedMachine = null;
             _selectedNode = null;

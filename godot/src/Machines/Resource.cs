@@ -39,10 +39,16 @@ public class Resources {
 
     public const float AirPercentageFactor = 0.1f;
 
-    /// returns true if this resource can flow without a connection
+    /// returns true if this resource can flow freely, without requiring a pipe connection
     public static bool IsFloating(Resource resource) => resource switch {
         Resource.Humidity or Resource.Oxygen or Resource.CarbonDioxide => true,
         _ => false,
+    };
+
+    /// returns true if this resource can only flow via pipes.
+    public static bool RequiresPipe(Resource resource) => resource switch {
+        Resource.Humidity or Resource.Oxygen or Resource.CarbonDioxide or Resource.Garbage or Resource.Disposables => false,
+        _ => true,
     };
 
     public static string ToUnit(Resource resource, int quantity) {
