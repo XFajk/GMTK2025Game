@@ -1,7 +1,6 @@
-[gd_scene load_steps=15 format=3 uid="uid://bhngnitl3kxl7"]
+[gd_scene load_steps=14 format=3 uid="uid://bt6ui4eqq7ngq"]
 
 [ext_resource type="Texture2D" uid="uid://b8pwdv14b6rv6" path="res://assets/vfx/dark_smoke.png" id="1_mfk2i"]
-[ext_resource type="AudioStream" uid="uid://5uftrr7ccsmr" path="res://assets/audio/fire_sound.wav" id="2_3pme6"]
 
 [sub_resource type="Curve" id="Curve_184s5"]
 _data = [Vector2(0, 0.379464), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -94,8 +93,3 @@ interp_to_end = 0.04
 explosiveness = 0.3
 process_material = SubResource("ParticleProcessMaterial_ie5bg")
 draw_pass_1 = SubResource("SphereMesh_j48lf")
-
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
-stream = ExtResource("2_3pme6")
-autoplay = true
-max_distance = 20.0

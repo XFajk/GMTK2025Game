@@ -362,7 +362,6 @@ TimeDelaySeconds = 3
 environment = ExtResource("22_37s47")
 
 [node name="TestMissions" type="Node" parent="."]
-script = ExtResource("5_gee14")
 
 [node name="TravelToSequin" type="Node" parent="TestMissions"]
 script = ExtResource("4_iywne")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=154 format=4 uid="uid://cgccmqaeo11dk"]
+[gd_scene load_steps=155 format=4 uid="uid://cgccmqaeo11dk"]
 
 [ext_resource type="Script" uid="uid://c41j8f7y8s5pn" path="res://src/Ship.cs" id="1_q631a"]
 [ext_resource type="PackedScene" uid="uid://cwfaolgkx8pib" path="res://scenes/vfx/core.tscn" id="2_48mkp"]
@@ -23,10 +23,11 @@
 [ext_resource type="AudioStream" uid="uid://bukxo77rsechd" path="res://assets/audio/SnoringSFX.wav" id="14_q0sdf"]
 [ext_resource type="PackedScene" uid="uid://lrow5co8e61y" path="res://scenes/spaceship_graphics.tscn" id="14_xifwb"]
 [ext_resource type="PackedScene" uid="uid://btfhevum5xp06" path="res://scenes/entities/elevator.tscn" id="15_mx31c"]
-[ext_resource type="PackedScene" path="res://scenes/vfx/incinerator_fire.tscn" id="15_n4w76"]
+[ext_resource type="PackedScene" uid="uid://bt6ui4eqq7ngq" path="res://scenes/vfx/incinerator_fire.tscn" id="15_n4w76"]
 [ext_resource type="AudioStream" uid="uid://bjndktdrdlxj0" path="res://assets/audio/WashingDishesSFX.wav" id="15_u7rkd"]
 [ext_resource type="Script" uid="uid://c27surc38gk72" path="res://src/entities/Floor.cs" id="16_fs4we"]
 [ext_resource type="AudioStream" uid="uid://bh5b62ltfi5f0" path="res://assets/audio/GreenhouseSFXv3.wav" id="18_o1i5q"]
+[ext_resource type="AudioStream" uid="uid://d0rck0sihqe4f" path="res://assets/audio/SonarSFX.wav" id="20_u7rkd"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xd7rh"]
 
@@ -1348,7 +1349,10 @@ shape = SubResource("BoxShape3D_03y04")
 debug_color = Color(0.97, 0.1455, 0, 1)
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="WaterFiltration"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6.18395)
 stream = ExtResource("11_cnrms")
+autoplay = true
+max_distance = 6.0
 
 [node name="Hydrolysis" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.04783, 0.466765, -2.01365)
@@ -1418,9 +1422,11 @@ MaxQuantity = 100
 QuantityChangeInReceipe = 10
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Condensator"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.59004, 0.611487, -2.01365)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.59004, 0.611487, 6.1071)
 stream = ExtResource("11_cnrms")
 pitch_scale = 2.0
+autoplay = true
+max_distance = 6.0
 
 [node name="Radiator" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.1138, 0.207263, 0)
@@ -1500,7 +1506,10 @@ Resource = 3
 QuantityChangeInReceipe = 2
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Engine"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6.18395)
 stream = ExtResource("12_08ed0")
+autoplay = true
+max_distance = 6.0
 
 [node name="VFX" type="Node3D" parent="Engine"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.3919, -0.0799956, 0)
@@ -1597,7 +1606,10 @@ shape = SubResource("BoxShape3D_vbj2c")
 debug_color = Color(0.97, 0.1455, 0, 1)
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Incinerator"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6.18395)
 stream = ExtResource("13_7tpya")
+autoplay = true
+max_distance = 6.0
 
 [node name="SFX" type="Node3D" parent="Incinerator"]
 
@@ -1645,14 +1657,31 @@ shape = SubResource("BoxShape3D_dschd")
 debug_color = Color(0.97, 0.1455, 0, 1)
 
 [node name="CreqQuarters" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5.50422, 0)
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="CreqQuarters"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6.18395)
 stream = ExtResource("14_q0sdf")
+autoplay = true
+max_distance = 6.0
 
 [node name="Canteen" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.89629, 4.11378, 0)
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Canteen"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6.18395)
 stream = ExtResource("15_u7rkd")
+autoplay = true
+max_distance = 6.0
+
+[node name="SonarSuite" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.28, 0, 0)
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="SonarSuite"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6.19195)
+stream = ExtResource("20_u7rkd")
+autoplay = true
+max_distance = 6.0
 
 [node name="WaterStorage" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.81954, -1.32266, 0)
@@ -1792,7 +1821,10 @@ shape = SubResource("BoxShape3D_08ed0")
 debug_color = Color(0.97, 0.1455, 0, 1)
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Greenhouse"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.89771, 6.18395)
 stream = ExtResource("18_o1i5q")
+autoplay = true
+max_distance = 6.0
 
 [node name="SpaceshipVisuals" parent="." instance=ExtResource("14_xifwb")]
 
