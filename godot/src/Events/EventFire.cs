@@ -52,17 +52,25 @@ public partial class EventFire : Node3D, IEvent, IRepairable {
 
         ship.ActiveEffects.Add(_fireConversionEffect);
 
+        ScheduleExtinguishTask(ship);
+    }
+
+    private void ScheduleExtinguishTask(Ship ship) {
         ship.ScheduleCrewTask(new CrewTask() {
-            Location = Position,
+            Location = GlobalPosition,
             Duration = SecondsToExtinguish,
+            ActionType = CrewTask.Type.Extinguish,
+            OnTaskComplete = p => SetRepaired(),
+            OnTaskAbort = p => ScheduleExtinguishTask(ship),
         });
     }
 
-    bool IRepairable.IsWorking() => false;
 
-    Node3D IRepairable.AsNode() => this;
+    public bool IsWorking() => false;
 
-    void IRepairable.SetRepaired() {
+    public Node3D AsNode() => this;
+
+    public void SetRepaired() {
         _ship.ActiveEffects.Remove(_fireConversionEffect);
         _fireSfx.QueueFree();
 

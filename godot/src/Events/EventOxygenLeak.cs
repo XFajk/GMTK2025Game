@@ -44,19 +44,27 @@ public partial class EventOxygenLeak : Node3D, IEvent, IRepairable {
         };
         ship.ActiveEffects.Add(_effect);
 
-        ship.ScheduleCrewTask(new CrewTask() {
-            Location = Position,
-            Duration = SecondsToRepair
-        });
+        ScheduleRepairTask(ship);
 
         ship.AddChild(this);
     }
 
-    bool IRepairable.IsWorking() => false;
+    private void ScheduleRepairTask(Ship ship) {
+        ship.ScheduleCrewTask(new CrewTask() {
+            Location = GlobalPosition,
+            Duration = SecondsToRepair,
+            ActionType = CrewTask.Type.Repair,
+            OnTaskComplete = p => SetRepaired(),
+            OnTaskAbort = p => ScheduleRepairTask(ship),
+        });
+    }
 
-    Node3D IRepairable.AsNode() => this;
 
-    void IRepairable.SetRepaired() {
+    public bool IsWorking() => false;
+
+    public Node3D AsNode() => this;
+
+    public void SetRepaired() {
         _ship.RemoveChild(this);
         _ship.ActiveEffects.Remove(_effect);
         _leakSfx.QueueFree();

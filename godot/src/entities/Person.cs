@@ -70,8 +70,15 @@ public partial class Person : PathFollow3D {
         RecalculateTimer.Timeout += () => {
             RecalculateTimer.Stop();
 
+            if (_currentTask != null) {
+                // task completed
+                _currentTask.OnTaskComplete.Invoke(this);
+                HandleActionType(_currentTask, false);
+                _currentTask = null;
+            }
+
             // This code makes sure that the new floor we want to transport the player to is different than the floor he is currently on
-            int targetFloor;
+                int targetFloor;
             if (numberOfFloors < 1) {
                 targetFloor = 0;
             } else {
@@ -135,7 +142,7 @@ public partial class Person : PathFollow3D {
         }
 
         if (Mathf.IsEqualApprox(ProgressRatio, ShipTargets[0].Ratio) && RecalculateTimer.IsStopped()) {
-            if (ShipTargets[0].IsElevator) {
+            if (ShipTargets[0].IsElevator && ShipTargets.Count > 1) {
                 var elevator = ParentFloorPath.FloorElevator;
                 var detector = GetNode<Area3D>("ElevatorDetector");
                 elevator.OnAreaEntered(detector);
@@ -143,10 +150,12 @@ public partial class Person : PathFollow3D {
             }
 
             if (_currentTask != null) {
-                // task completed
-                _currentTask.OnTaskComplete.Invoke(this);
+                // task starts
+                GD.Print($"Person {Name} started with task {_currentTask.ActionType}");
                 RecalculateTimer.WaitTime = _currentTask.Duration;
                 RecalculateTimer.Start();
+                HandleActionType(_currentTask, true);
+
             } else {
                 // idle about
                 RecalculateTimer.Start(_rng.RandfRange(MinRecalculationTime, MaxRecalculationTime));
@@ -155,19 +164,26 @@ public partial class Person : PathFollow3D {
         }
     }
 
+    private void HandleActionType(CrewTask task, bool whenStarting) {
+        if (task.ActionType == CrewTask.Type.Disappear) {
+            Visible = whenStarting ? false : true;
+        }
+    }
+
+
     public void SetTarget(ShipLocation location) {
         ShipTargets.Clear();
         RecalculateTimer.Stop();
-        if (location.Floor == FloorNumber) {
-            ShipTargets.Add(location);
-            return;
+
+        if (location.Floor != FloorNumber) {
+            ShipTargets.Add(new ShipLocation(FloorNumber, ParentFloorPath.ElevatorRatio, true));
         }
 
-        ShipTargets.Add(new ShipLocation(FloorNumber, ParentFloorPath.ElevatorRatio, true));
         ShipTargets.Add(location);
     }
 
     public void SetCurrentTask(CrewTask task, ShipLocation location = null) {
+        GD.Print($"Person {Name} will do task {task.ActionType}");
         ShipTargets.Clear();
         if (location != null) SetTarget(location);
 

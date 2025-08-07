@@ -37,7 +37,7 @@ public partial class MissionTravel : TimedMission, IMission {
             if (m is Engine e) {
                 _engines.Add(e);
                 ship.ScheduleCrewTask(new CrewTask() {
-                    Location = e.Position,
+                    Location = e.GlobalPosition,
                     Duration = Duration + PreparationTime
                 });
             }

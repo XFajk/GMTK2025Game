@@ -22,14 +22,19 @@ public partial class EventCrewSick : Node, IEvent {
     public void ApplyEffect(Ship ship) {
         CrewQuarters = ship.GetNode<Node3D>("CrewQuarters");
         Target ??= ship.GetRandomPerson();
-        ship.ScheduleCrewTask(new CrewTask() {
-            Location = CrewQuarters.Position,
-            Duration = RecoveryTimeSeconds,
-        });
+
+        ship.ScheduleCrewTask(
+            new CrewTask() {
+                Location = CrewQuarters.GlobalPosition,
+                Duration = RecoveryTimeSeconds,
+                ActionType = CrewTask.Type.Disappear,
+            },
+            Target
+        );
 
         // set an effect to make it simpler
         var ratio = Resources.GetRatio(Resource.Disposables, Resource.Garbage);
-        
+
         EventEffectResourceConvert _conversionEffect = new() {
             ConversionPerSecond = DisposablesUsedPerSecond,
             Conversion = [

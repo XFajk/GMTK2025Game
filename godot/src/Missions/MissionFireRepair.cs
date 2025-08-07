@@ -35,7 +35,8 @@ public partial class MissionFireRepair : Node, IMission {
         foreach (var pair in Properties.ResourceMinimumRequirements) {
             ship.RemoveResource(pair.Key, pair.Value);
         }
-        ScheduleRepair(ship);
+        // we need to wait until all resources are collected
+        // ScheduleRepair(ship);
     }
 
     private void ScheduleRepair(Ship ship) {

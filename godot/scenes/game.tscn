@@ -31,7 +31,7 @@ transform = Transform3D(-0.713192, 0.1158, -0.691338, -0.683938, 0.101127, 0.722
 shadow_enabled = true
 
 [node name="Player" parent="." instance=ExtResource("3_lnu2h")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.12614, 9.218)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.0809, -0.147917, 9.218)
 fov = 40.0
 near = 0.5
 far = 200.0
@@ -371,34 +371,12 @@ environment = ExtResource("22_37s47")
 
 [node name="TestMissions" type="Node" parent="."]
 
-[node name="TravelToSequin" type="Node" parent="TestMissions"]
-script = ExtResource("4_iywne")
-TargetSolarSystemName = "TEST"
-TargetEnginePower = 1.0
-PreparationTime = 5
-Duration = 10
+[node name="CrewGetsSick3" type="Node" parent="TestMissions"]
+script = ExtResource("8_dinhu")
+RecoveryTimeSeconds = 20
+DisposablesUsedPerSecond = 0.5
 
-[node name="WaitUntilEverythingIsCalmAgain" type="Node" parent="TestMissions"]
+[node name="afterEVent2" type="Node" parent="TestMissions"]
 script = ExtResource("6_0tnpc")
-TimeDelaySeconds = 3
-
-[node name="TravelToSequin3" type="Node" parent="TestMissions"]
-script = ExtResource("4_iywne")
-TargetSolarSystemName = "TEST"
-PreparationTime = 5
-Duration = 10
-
-[node name="WaitUntilEverythingIsCalmAgain3" type="Node" parent="TestMissions"]
-script = ExtResource("6_0tnpc")
-TimeDelaySeconds = 3
-
-[node name="TravelToSequin4" type="Node" parent="TestMissions"]
-script = ExtResource("4_iywne")
-TargetSolarSystemName = "TEST"
-TargetEnginePower = 0.05
-PreparationTime = 5
-Duration = 10
-
-[node name="WaitUntilEverythingIsCalmAgain4" type="Node" parent="TestMissions"]
-script = ExtResource("6_0tnpc")
-TimeDelaySeconds = 3
+TimeDelaySeconds = 100000
+TimeDelayStartsWhen = 7

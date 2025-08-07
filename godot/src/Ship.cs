@@ -222,6 +222,8 @@ public partial class Ship : Node, IContainer {
     // previously HireForTask
     // if crewMember is null, we find one that is available
     public void ScheduleCrewTask(CrewTask task, Person crewMember = null) {
+        // make sure we take the floor location, not the floating location
+        task.Location.Y -= 1;
         ShipLocation location = ShipLocation.ClosesToPoint(task.Location, Floors);
 
         // if not set, pick one from the same floor

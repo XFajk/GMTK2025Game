@@ -19,7 +19,7 @@ public partial class EventMachineBreakdown : Node, IEvent {
 
     private void ScheduleRepair(Ship ship) {
         ship.ScheduleCrewTask(new CrewTask() {
-            Location = Target.Position,
+            Location = Target.GlobalPosition,
             Duration = SecondsToRepair,
             OnTaskComplete = (p => Target.IsWorking = true),
             OnTaskAbort = (p => ScheduleRepair(ship))

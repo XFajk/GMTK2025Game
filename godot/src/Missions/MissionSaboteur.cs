@@ -39,10 +39,10 @@ public partial class MissionSaboteur : Node, IMission {
     public IMission.Properties GetMissionProperties() => Properties;
 
     public void OnStart(Ship ship) {
-        EverybodyGoTo(GatherLocation.Position, ship);
+        EverybodyGoTo(GatherLocation.GlobalPosition, ship);
 
         Tween tween = GetTree().CreateTween();
-        tween.TweenCallback(Callable.From(() => EverybodyGoTo(Airlock.Position, ship))).SetDelay(5);
+        tween.TweenCallback(Callable.From(() => EverybodyGoTo(Airlock.GlobalPosition, ship))).SetDelay(5);
         tween.TweenCallback(Callable.From(() => _isFinished = true)).SetDelay(2);
     }
 
