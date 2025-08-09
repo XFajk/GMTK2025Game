@@ -74,3 +74,8 @@ draw_pass_1 = SubResource("QuadMesh_uou3c")
 stream = ExtResource("3_xajnn")
 volume_db = 80.0
 unit_size = 27.9
+
+[node name="SpotLight3D" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.340433, 0)
+spot_range = 0.417
+spot_angle = 22.8462

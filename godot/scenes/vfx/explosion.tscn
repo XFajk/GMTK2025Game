@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://dxtvfkqfm6jpl"]
+[gd_scene load_steps=18 format=3 uid="uid://dxtvfkqfm6jpl"]
 
 [ext_resource type="Texture2D" uid="uid://b8pwdv14b6rv6" path="res://assets/vfx/dark_smoke.png" id="1_6d3yd"]
 [ext_resource type="AudioStream" uid="uid://bcs1au4gh0w86" path="res://assets/audio/MetalSFX.wav" id="2_rckmw"]
@@ -76,10 +76,10 @@ material = SubResource("StandardMaterial3D_70bji")
 radius = 0.1
 height = 0.2
 radial_segments = 8
-rings = 8
+rings = 4
 
 [sub_resource type="Animation" id="Animation_oyqju"]
-resource_name = "new_animation"
+resource_name = "Explosion"
 tracks/0/type = "method"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -94,10 +94,38 @@ tracks/0/keys = {
 "method": &"queue_free"
 }]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("OmniLight3D:omni_range")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.333333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.147259, 4.772]
+}
+
+[sub_resource type="Animation" id="Animation_rckmw"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("OmniLight3D:omni_range")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [4.772]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_m88p2"]
 _data = {
-&"new_animation": SubResource("Animation_oyqju")
+&"Explosion": SubResource("Animation_oyqju"),
+&"RESET": SubResource("Animation_rckmw")
 }
 
 [node name="Explosion" type="Node3D"]
@@ -119,8 +147,14 @@ draw_pass_1 = SubResource("SphereMesh_hfipw")
 libraries = {
 &"": SubResource("AnimationLibrary_m88p2")
 }
-autoplay = "new_animation"
+autoplay = "Explosion"
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("2_rckmw")
 autoplay = true
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+light_color = Color(0.961351, 1, 0.606013, 1)
+light_energy = 2.067
+shadow_enabled = true
+omni_range = 4.772

@@ -77,7 +77,7 @@ material = SubResource("StandardMaterial3D_k4dht")
 radius = 0.1
 height = 0.2
 radial_segments = 8
-rings = 8
+rings = 5
 
 [node name="Fire" type="Node3D"]
 
@@ -99,3 +99,8 @@ draw_pass_1 = SubResource("SphereMesh_j48lf")
 stream = ExtResource("2_184s5")
 autoplay = true
 max_distance = 20.0
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.587763, 0)
+light_color = Color(1, 0.827451, 0.407843, 1)
+omni_range = 1.40857

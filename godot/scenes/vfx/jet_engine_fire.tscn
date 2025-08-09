@@ -1,6 +1,6 @@
 [gd_scene load_steps=14 format=3 uid="uid://dukwlj0ulc4yj"]
 
-[ext_resource type="Script" uid="uid://dw5wi2lucpo4l" path="res://src/entities/JetEngineFire.cs" id="1_5qdab"]
+[ext_resource type="Script" path="res://src/entities/JetEngineFire.cs" id="1_5qdab"]
 
 [sub_resource type="Gradient" id="Gradient_stukx"]
 offsets = PackedFloat32Array(0, 0.19883, 0.992203, 1)
@@ -42,6 +42,7 @@ cull_mode = 2
 vertex_color_use_as_albedo = true
 emission_enabled = true
 emission = Color(0.412, 1, 0.37, 1)
+emission_energy_multiplier = 4.36
 use_particle_trails = true
 
 [sub_resource type="RibbonTrailMesh" id="RibbonTrailMesh_5qdab"]
@@ -72,7 +73,7 @@ use_particle_trails = true
 
 [sub_resource type="RibbonTrailMesh" id="RibbonTrailMesh_i57x2"]
 material = SubResource("StandardMaterial3D_dkoye")
-section_segments = 10
+section_segments = 4
 curve = SubResource("Curve_rfiu7")
 
 [node name="JetEngineFire" type="Node3D"]
@@ -101,14 +102,18 @@ draw_pass_1 = SubResource("RibbonTrailMesh_i57x2")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.40933)
+visible = false
 light_color = Color(0.215686, 1, 0.411765, 1)
 light_size = 1.0
+light_bake_mode = 1
 shadow_enabled = true
 omni_range = 7.0
 
 [node name="OmniLight3D2" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 11.8947)
+visible = false
 light_color = Color(0.215686, 1, 0.411765, 1)
 light_size = 1.0
+light_bake_mode = 1
 shadow_enabled = true
 omni_range = 7.0

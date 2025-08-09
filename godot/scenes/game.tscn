@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://0rmy461ykeb"]
+[gd_scene load_steps=23 format=3 uid="uid://0rmy461ykeb"]
 
 [ext_resource type="Script" uid="uid://bp0g8sc4t5qhs" path="res://src/Game.cs" id="1_yqjtg"]
 [ext_resource type="PackedScene" uid="uid://cgccmqaeo11dk" path="res://scenes/ship.tscn" id="2_lnu2h"]
@@ -21,6 +21,7 @@
 [ext_resource type="Script" uid="uid://cgjaj1ali2bgb" path="res://src/Missions/MissionIceAstroidMining.cs" id="16_ssvqc"]
 [ext_resource type="Script" uid="uid://we4sm7cygymp" path="res://src/Events/EventSolarFlare.cs" id="18_264po"]
 [ext_resource type="Environment" uid="uid://c3kvjjeurfhoc" path="res://misc/camera_enviroment.tres" id="22_37s47"]
+[ext_resource type="LightmapGIData" uid="uid://bpwijcomcgfsg" path="res://misc/game.lmbake" id="22_bt5mj"]
 
 [node name="Game" type="Node"]
 script = ExtResource("1_yqjtg")
@@ -28,6 +29,8 @@ _missionPopup = ExtResource("2_u5sy4")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.713192, 0.1158, -0.691338, -0.683938, 0.101127, 0.722497, 0.153579, 0.988111, 0.00707713, -12.7482, 15.9498, 10.8814)
+light_indirect_energy = 8.5
+light_bake_mode = 1
 shadow_enabled = true
 
 [node name="Player" parent="." instance=ExtResource("3_lnu2h")]
@@ -389,3 +392,9 @@ DisposablesUsedPerSecond = 0.5
 script = ExtResource("6_0tnpc")
 TimeDelaySeconds = 100000
 TimeDelayStartsWhen = 7
+
+[node name="LightmapGI" type="LightmapGI" parent="."]
+supersampling = true
+directional = true
+interior = true
+light_data = ExtResource("22_bt5mj")

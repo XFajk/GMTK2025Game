@@ -1,6 +1,6 @@
 [gd_scene load_steps=13 format=3 uid="uid://cwfaolgkx8pib"]
 
-[ext_resource type="Script" uid="uid://binvtcbsh004" path="res://src/entities/Core.cs" id="1_b70x6"]
+[ext_resource type="Script" path="res://src/entities/Core.cs" id="1_b70x6"]
 [ext_resource type="Texture2D" uid="uid://bjb8f24u8t1p0" path="res://assets/vfx/smoke3.png" id="1_g8egp"]
 
 [sub_resource type="CurveTexture" id="CurveTexture_b70x6"]
@@ -24,7 +24,6 @@ hue_variation_max = 0.4
 transparency = 1
 blend_mode = 1
 shading_mode = 0
-diffuse_mode = 3
 vertex_color_use_as_albedo = true
 albedo_color = Color(0.949827, 0.949827, 0.949827, 1)
 albedo_texture = ExtResource("1_g8egp")
@@ -65,7 +64,7 @@ use_particle_trails = true
 material = SubResource("StandardMaterial3D_1vqs3")
 size = 0.5
 section_length = 0.1
-section_segments = 10
+section_segments = 4
 curve = SubResource("Curve_heoph")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6bn0j"]
@@ -107,6 +106,9 @@ cast_shadow = 0
 mesh = SubResource("SphereMesh_jmq2a")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
+visible = false
 light_color = Color(0.215686, 1, 0.411765, 1)
+light_indirect_energy = 5.227
+light_bake_mode = 1
 shadow_enabled = true
 omni_range = 7.6072
