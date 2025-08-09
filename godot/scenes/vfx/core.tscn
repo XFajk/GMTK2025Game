@@ -1,6 +1,6 @@
 [gd_scene load_steps=13 format=3 uid="uid://cwfaolgkx8pib"]
 
-[ext_resource type="Script" path="res://src/entities/Core.cs" id="1_b70x6"]
+[ext_resource type="Script" uid="uid://binvtcbsh004" path="res://src/entities/Core.cs" id="1_b70x6"]
 [ext_resource type="Texture2D" uid="uid://bjb8f24u8t1p0" path="res://assets/vfx/smoke3.png" id="1_g8egp"]
 
 [sub_resource type="CurveTexture" id="CurveTexture_b70x6"]

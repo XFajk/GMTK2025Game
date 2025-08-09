@@ -34,6 +34,8 @@ public partial class Game : Node {
         // _Ready of child nodes will always be first
         foreach (Connectable connectable in _shipNode.Connectables) {
             connectable.OnConnectionClick += OnConnectionClick;
+            connectable.OnHoverStart += OnHoverStart;
+            connectable.OnHoverEnd += OnHoverEnd;
         }
     }
 
@@ -72,6 +74,7 @@ public partial class Game : Node {
             _selectedNode = node;
         } else if (_selectedMachine == machine) {
             _selectedNode.DisconnectNode();
+            _selectedMachine.ShowOutline(false);
             _selectedMachine = null;
             _selectedNode = null;
         } else if (_shipNode.CanConnect(_selectedMachine, machine)) {
@@ -86,6 +89,9 @@ public partial class Game : Node {
                 disconnect.aNode.DisconnectNode();
                 // disconnect.QueueFree();
             }
+
+            _selectedMachine.ShowOutline(false);
+            machine.ShowOutline(false);
 
             _selectedMachine = null;
             _selectedNode = null;
@@ -102,4 +108,29 @@ public partial class Game : Node {
         GD.Print($"_selectedMachine = {nameOfSelectedMachine}, _selectedNode = {nameOfSelectedNode}");
     }
 
+    private void OnHoverStart(Connectable machine) {
+        if (_selectedMachine != null && _selectedMachine != machine) {
+            if (!_shipNode.CanConnect(_selectedMachine, machine)) {
+                _selectedMachine.ShowOutline(true, Connectable.HoverBadMaterial);
+                machine.ShowOutline(true, Connectable.HoverBadMaterial);
+                return;
+            } else {
+                _selectedMachine.ShowOutline(true, Connectable.HoverGoodMaterial);
+                machine.ShowOutline(true, Connectable.HoverGoodMaterial);
+                return;
+            }
+        } else if (_selectedMachine == machine) {
+            return;
+        }
+        machine.ShowOutline(true, Connectable.HoverMaterial);
+    }
+
+    private void OnHoverEnd(Connectable machine) {
+        if (_selectedMachine != null && _selectedMachine != machine) {
+            _selectedMachine.ShowOutline(true, Connectable.HoverMaterial);
+        } else if (_selectedMachine == machine) {
+            return;
+        }
+        machine.ShowOutline(false);
+    }
 }

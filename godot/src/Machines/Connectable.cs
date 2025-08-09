@@ -7,11 +7,22 @@ public abstract partial class Connectable : Node3D {
     [Signal]
     // Handled by Game.cs
     public delegate void OnConnectionClickEventHandler(Connectable machine, ConnectionNode point);
+    [Signal]
+    public delegate void OnHoverStartEventHandler(Connectable machine);
+    [Signal]
+    public delegate void OnHoverEndEventHandler(Connectable machine);
+
     [Export]
     public Connectable SharedConnectable = null;
 
     protected Area3D _hoverDetectionArea = null;
     protected StatusInterface _statusInterface = null;
+
+    public static StandardMaterial3D HoverMaterial = GD.Load<StandardMaterial3D>("res://assets/3d/materials/outline.tres");
+    public static StandardMaterial3D HoverBadMaterial = GD.Load<StandardMaterial3D>("res://assets/3d/materials/outline_bad.tres");
+    public static StandardMaterial3D HoverGoodMaterial = GD.Load<StandardMaterial3D>("res://assets/3d/materials/outline_good.tres");
+
+    public List<MeshInstance3D> OutlineMeshes = [];
 
     public override void _Ready() {
 
@@ -28,17 +39,35 @@ public abstract partial class Connectable : Node3D {
 
         _hoverDetectionArea.AddToGroup("MachineDetectionAreas");
 
+        var meshNode = GetNodeOrNull<Node>("Mesh");
+        if (meshNode != null) {
+            // WARNING! this code here is recursive 
+            // it goes and search the tree of a node for Nodes named Outline 
+            // and recursion is the easiest and most readable way to do this 
+            void FindOutlineMeshes(Node node) {
+                if (node.Name == "Outline" && node is MeshInstance3D meshInstance) {
+                    OutlineMeshes.Add(meshInstance);
+                }
+                foreach (Node child in node.GetChildren()) {
+                    FindOutlineMeshes(child);
+                }
+            }
+            FindOutlineMeshes(meshNode);
+        }
+
 
         if (_hoverDetectionArea != null) {
             _hoverDetectionArea.MouseEntered += () => {
                 if (_statusInterface != null) {
                     _statusInterface.Visible = true;
+                    EmitSignalOnHoverStart(this);
                 }
             };
 
             _hoverDetectionArea.MouseExited += () => {
                 if (_statusInterface != null) {
                     _statusInterface.Visible = false;
+                    EmitSignalOnHoverEnd(this);
                 }
             };
         }
@@ -79,6 +108,13 @@ public abstract partial class Connectable : Node3D {
     internal static Connection ConnectNodes(Connectable aMachine, ConnectionNode aNode, Connectable bMachine, ConnectionNode bNode) {
         ConnectionNode.ConnectNodes(aNode, bNode);
         return new(aMachine, aNode, bMachine, bNode);
+    }
+
+    public void ShowOutline(bool show, StandardMaterial3D material = null) {
+        foreach (MeshInstance3D outlineMesh in OutlineMeshes) {
+            outlineMesh.Visible = show;
+            outlineMesh.MaterialOverride = show ? material : null;
+        }
     }
 
 }
