@@ -18,12 +18,20 @@ public partial class Pickupable : Area3D {
     private float _zDelta = 0.0f;
     private RayCast3D _machineDetectionRay = null;
 
+    public Node3D Outline = null;
+    public bool LookingAt = false;
+
     public override void _Ready() {
         SetCollisionLayerValue(1, false);
         SetCollisionMaskValue(1, false);
 
         SetCollisionLayerValue(4, true);
         SetCollisionMaskValue(4, true);
+
+        Outline = GetNodeOrNull<Node3D>("Outline");
+        if (Outline != null) {
+            Outline.Visible = false;
+        }
 
         OriginalPosition = GlobalPosition;
         _camera = GetViewport().GetCamera3D();
@@ -34,6 +42,12 @@ public partial class Pickupable : Area3D {
     }
 
     public override void _Process(double delta) {
+        if (LookingAt) {
+            LookingAt = false;
+        } else {
+            Outline.Visible = false;
+        }
+
         if (IsPickedUp) {
             Vector2 mousePosition = GetViewport().GetMousePosition();
             GlobalPosition = _camera.ProjectPosition(mousePosition, _zDelta - 2.0f);

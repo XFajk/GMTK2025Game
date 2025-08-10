@@ -42,15 +42,7 @@ public partial class PlayerContoller : Camera3D {
         _subViewportCamera.GlobalPosition = GlobalPosition;
         _subViewportCamera.GlobalRotation = GlobalRotation;
 
-        if (Input.IsActionJustPressed("interact")) {
-            _pickupRay.TargetPosition = ToLocal(ProjectPosition(GetViewport().GetMousePosition(), 100.0f));
-            _pickupRay.ForceRaycastUpdate();
-
-            GodotObject collider = _pickupRay.GetCollider();
-            if (collider is Pickupable pickupable) {
-                pickupable.InteractedWith();
-            }
-        }
+        HandlePickupRayInteraction();
 
         if (Input.IsActionPressed("drag")) {
             Vector2 mousePositionDifference = _previouseMousePosition - GetViewport().GetMousePosition();
@@ -91,6 +83,22 @@ public partial class PlayerContoller : Camera3D {
         // Update DragScalar from the Global singleton
         if (_global != null && _global.HasMethod("get")) {
             DragScalar = (float)(double)_global.Get("mouse_drag_sensitivity");
+        }
+    }
+
+    private void HandlePickupRayInteraction()
+    {
+        _pickupRay.TargetPosition = ToLocal(ProjectPosition(GetViewport().GetMousePosition(), 100.0f));
+        _pickupRay.ForceRaycastUpdate();
+
+        GodotObject collider = _pickupRay.GetCollider();
+        if (collider is Pickupable pickupable)
+        {
+            pickupable.LookingAt = true;
+            pickupable.Outline.Visible = true;
+            if (Input.IsActionJustPressed("interact")) {
+                pickupable.InteractedWith();
+            }
         }
     }
 }
