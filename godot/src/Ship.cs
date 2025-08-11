@@ -100,20 +100,15 @@ public partial class Ship : Node, IContainer {
 
         // activate highlights on pickup
         garbage.OnPickup += pickupable => {
-            GD.Print($"_possibleGarbageDroppoints.Count == {_possibleGarbageDroppoints}");
             foreach (Connectable container in _possibleGarbageDroppoints) {
                 container.ShowOutline(true, Connectable.HoverGoodMaterial);
-                GD.Print($"garbage highlight container => {container.Name}");
             }
         };
         garbage.OnDropdown += pickupable => {
-            GD.Print($"_possibleGarbageDroppoints.Count == {_possibleGarbageDroppoints}");
             foreach (Connectable container in _possibleGarbageDroppoints) {
                 container.ShowOutline(false);
-                GD.Print($"garbage highlight container off => {container.Name}");
             }
         };
-        GD.Print($"Added signals to {garbage.Name}");
 
         Shuffle(Crew);
         foreach (Person p in Crew) {

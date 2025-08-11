@@ -103,7 +103,6 @@ public partial class Pickupable : Area3D {
 
         IsPickedUp = true;
         EmitSignalOnPickup(this);
-        GD.Print($"OnPickup {Name}");
 
         _machineDetectionRay = new() {
             CollideWithAreas = true,
@@ -140,7 +139,6 @@ public partial class Pickupable : Area3D {
             container.AddQuantity(1);
             IsPickedUp = false;
             EmitSignalOnDropdown(this);
-            GD.Print($"OnDropdown {Name}");
             QueueFree();
             return;
         }
