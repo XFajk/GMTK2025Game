@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Dynamic;
 
 public partial class Person : PathFollow3D {
+    public const float GarbageThrowRadius = 1.0f;
+
     [Export]
     public float Speed = 0.01f;
     [Export]
@@ -32,8 +34,6 @@ public partial class Person : PathFollow3D {
     public Sprite3D AlienSprite;
     private float _alienSpriteAnimatinTimerValue = 0.0f;
     private int _alienSpriteAnimationRotationChanger = 1;
-
-    private static PackedScene GarbageScene = GD.Load<PackedScene>("res://scenes/entities/garbage.tscn");
 
     public static Texture2D[] AlienSpriteTextures = {
         GD.Load<Texture2D>("res://assets/sprites/simon.png"),
@@ -90,25 +90,14 @@ public partial class Person : PathFollow3D {
         SetTarget(new ShipLocation(FloorNumber, _rng.Randf()));
     }
 
-    public bool ThrowGarbage(Node parent) {
+    public bool ThrowGarbage(Pickupable garbage) {
         if (InElevator) return false;
-
-        var garbage = GarbageScene.Instantiate<Pickupable>();
-        parent.AddChild(garbage);
         var offset = new Vector3(0.0f, 0.1f, 0.0f);
-        offset.X += _rng.RandfRange(-2f, 1f); 
-        offset.Z += _rng.RandfRange(-2f, 1f); 
+        offset.X += _rng.RandfRange(-GarbageThrowRadius, GarbageThrowRadius); 
+        offset.Z += _rng.RandfRange(-GarbageThrowRadius, GarbageThrowRadius); 
 
         garbage.GlobalPosition = GlobalPosition + offset;
-        garbage.OriginalPosition = GlobalPosition + offset;
-        return true;
-    }
-
-    public static bool SpawnGarbageAt(Node parent, Vector3 position) {
-        var garbage = GarbageScene.Instantiate<Pickupable>();
-        parent.AddChild(garbage);
-        garbage.GlobalPosition = position + new Vector3(0.0f, 1.0f, 0.0f) * 0.1f;
-        garbage.OriginalPosition = position + new Vector3(0.0f, 1.0f, 0.0f) * 0.1f;
+        garbage.OriginalPosition = garbage.GlobalPosition;
         return true;
     }
 

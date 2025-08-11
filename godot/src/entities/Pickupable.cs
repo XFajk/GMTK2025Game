@@ -2,6 +2,11 @@ using Godot;
 using System;
 
 public partial class Pickupable : Area3D {
+    [Signal]
+    public delegate void OnPickupEventHandler(Pickupable what);
+    [Signal]
+    public delegate void OnDropdownEventHandler(Pickupable what);
+
     [Export]
     public Resource Resource = Resource.Unset;
 
@@ -73,9 +78,9 @@ public partial class Pickupable : Area3D {
                     return;
                 }
                 if (connectable is Machine machine) {
-                    AssingSelfToMachine(machine);
-                } else if (connectable is StorageContainer container) {
-                    AssingSelfToContainer(container);
+                    TryAddTo(machine);
+                } else if (connectable is IContainer container) {
+                    TryAddTo(container);
                 }
             }
         } else {
@@ -87,6 +92,8 @@ public partial class Pickupable : Area3D {
 
         if (IsPickedUp) {
             IsPickedUp = false;
+            EmitSignalOnDropdown(this);
+            
             if (_machineDetectionRay != null) {
                 _machineDetectionRay.QueueFree();
                 _machineDetectionRay = null;
@@ -95,6 +102,8 @@ public partial class Pickupable : Area3D {
         }
 
         IsPickedUp = true;
+        EmitSignalOnPickup(this);
+        GD.Print($"OnPickup {Name}");
 
         _machineDetectionRay = new() {
             CollideWithAreas = true,
@@ -114,31 +123,24 @@ public partial class Pickupable : Area3D {
         if (!area.IsInGroup("MachineDetectionAreas")) {
             return null;
         }
-        Connectable parent = area.GetParent() as Connectable;
-        if (parent is null) {
-            return null;
+        if (area.GetParent() is Connectable c) {
+            return c;
         }
-        if (parent.Name != ConnecatableName) {
-            return null;
-        }
-        return parent;
+        return null;
     }
 
-    private void AssingSelfToMachine(Machine machine) {
+    private void TryAddTo(Machine machine) {
         foreach (MachineBuffer buffer in machine.Inputs()) {
-            if (buffer.Resource == Resource) {
-                buffer.Quantity += Quantity;
-                IsPickedUp = false;
-                QueueFree();
-                return;
-            }
+            TryAddTo(buffer);
         }
     }
 
-    private void AssingSelfToContainer(StorageContainer container) {
-        if (container.Resource == Resource) {
-            container.Quantity += Quantity;
+    private void TryAddTo(IContainer container) {
+        if (container.GetResource() == Resource.Garbage) {
+            container.AddQuantity(1);
             IsPickedUp = false;
+            EmitSignalOnDropdown(this);
+            GD.Print($"OnDropdown {Name}");
             QueueFree();
             return;
         }

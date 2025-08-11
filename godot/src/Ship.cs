@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 
 public partial class Ship : Node, IContainer {
     [Export]
@@ -14,6 +15,8 @@ public partial class Ship : Node, IContainer {
     [Export]
     private int MaxConnectionCount = 1;
 
+    private static PackedScene GarbageScene = GD.Load<PackedScene>("res://scenes/entities/garbage.tscn");
+
     private FloatingResourceManager _floatingResourceManager = new();
     public List<Machine> Machines { get; private set; } = new();
     public List<StorageContainer> Containers { get; private set; } = new();
@@ -24,7 +27,8 @@ public partial class Ship : Node, IContainer {
 
     private Queue<Connection> _connections = new();
     private Node _connectionsNode;
-    private Node _garbageNode;
+    private Node _pickupablesNode;
+    private List<Connectable> _possibleGarbageDroppoints = new();
     private Pipes _pipes;
     public List<Floor> Floors;
     public List<Person> Crew;
@@ -47,7 +51,7 @@ public partial class Ship : Node, IContainer {
             }
         }
         _connectionsNode = GetNode("Connections");
-        _garbageNode = GetNode("Garbage");
+        _pickupablesNode = GetNode("Garbage");
         _pipes = GetNode<Pipes>("Pipes");
 
         _floatingResourceManager.Ready(Machines, GetNode("FloatingResources"));
@@ -55,6 +59,20 @@ public partial class Ship : Node, IContainer {
         // initialize resource buffers
         foreach (var entry in _initialResources) {
             AddResource(entry.Key, entry.Value);
+        }
+
+        foreach (StorageContainer container in Containers) {
+            if (container.GetResource() == Resource.Garbage) {
+                _possibleGarbageDroppoints.Add(container);
+            }
+        }
+        foreach (Machine machine in Machines) {
+            foreach (MachineBuffer buffer in machine.Inputs()) {
+                if (buffer.GetResource() == Resource.Garbage) {
+                    _possibleGarbageDroppoints.Add(machine);
+                    break;
+                }
+            }
         }
     }
 
@@ -77,15 +95,36 @@ public partial class Ship : Node, IContainer {
     }
 
     public void CreateGarbage() {
-        Shuffle(Crew);
+        var garbage = GarbageScene.Instantiate<Pickupable>();
+        AddChild(garbage);
 
+        // activate highlights on pickup
+        garbage.OnPickup += pickupable => {
+            GD.Print($"_possibleGarbageDroppoints.Count == {_possibleGarbageDroppoints}");
+            foreach (Connectable container in _possibleGarbageDroppoints) {
+                container.ShowOutline(true, Connectable.HoverGoodMaterial);
+                GD.Print($"garbage highlight container => {container.Name}");
+            }
+        };
+        garbage.OnDropdown += pickupable => {
+            GD.Print($"_possibleGarbageDroppoints.Count == {_possibleGarbageDroppoints}");
+            foreach (Connectable container in _possibleGarbageDroppoints) {
+                container.ShowOutline(false);
+                GD.Print($"garbage highlight container off => {container.Name}");
+            }
+        };
+        GD.Print($"Added signals to {garbage.Name}");
+
+        Shuffle(Crew);
         foreach (Person p in Crew) {
-            if (p.ThrowGarbage(_garbageNode)) return;
+            if (p.ThrowGarbage(garbage)) return;
         }
 
-        // spawn anywhere
-        Vector3 randomMachinePosition = Machines[_rng.RandiRange(0, Machines.Count - 1)].Position;
-        Person.SpawnGarbageAt(_garbageNode, randomMachinePosition);
+        // failed to spawn garbage for any crew; spawn randomly on a path
+        FloorPath randomPath = Floors[_rng.RandiRange(0, Floors.Count - 1)].FloorPath;
+        Vector3 randomPosition = randomPath.Curve.SampleBaked(_rng.Randf());
+        garbage.GlobalPosition = randomPosition + new Vector3(0.0f, 1.0f, 0.0f) * 0.1f;
+        garbage.OriginalPosition = garbage.GlobalPosition;
     }
 
     public override void _Process(double deltaTime) {
@@ -149,7 +188,7 @@ public partial class Ship : Node, IContainer {
             totals[buffer.GetResource()] = current + buffer.GetQuantity();
         }
 
-        totals[Resource.Garbage] += _garbageNode.GetChildCount();
+        totals[Resource.Garbage] += _pickupablesNode.GetChildCount();
 
         return totals;
     }
