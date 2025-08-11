@@ -75,7 +75,7 @@ public abstract partial class Connectable : Node3D {
         foreach (Node child in GetChildren()) {
             if (child is ConnectionNode node) {
                 node.InputEvent += (_, eventType, _, _, _) => {
-                    if (eventType.IsActionPressed("interact") && this is not CarbonScrubber) {
+                    if (eventType.IsActionPressed("interact")) {
                         EmitSignal(SignalName.OnConnectionClick, this, node);
                     }
                 };
