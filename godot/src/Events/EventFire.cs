@@ -15,7 +15,7 @@ public partial class EventFire : Node3D, IEvent, IRepairable {
 
     private Ship _ship;
     private EventEffectResourceConvert _fireConversionEffect;
-    private Node3D _fireSfx; 
+    private Node3D _fireSfx;
 
     private static readonly PackedScene FireSFX = GD.Load<PackedScene>("res://scenes/vfx/fire.tscn");
 
@@ -77,13 +77,15 @@ public partial class EventFire : Node3D, IEvent, IRepairable {
         float co2Created = _fireConversionEffect.TotalChangeOf(Resource.CarbonDioxide);
         var ratio = Resources.GetRatio(Resource.CarbonDioxide, Resource.Disposables);
         float equivalentDisposableCost = (co2Created * ratio.Key) / ratio.Value;
-
-        _ship.ScheduleEvent(new MissionFireRepair() {
-            // ceil, so it costs at least as much as the carbon gained
-            Quantity = Mathf.CeilToInt(equivalentDisposableCost),
-            Location = Position,
-            SecondsToRepair = SecondsToRepair,
-            RepairMissionPopup = RepairMissionPopup
-        });
+        // floor, because otherwise it may be impossible
+        int trueQuantity = Mathf.FloorToInt(equivalentDisposableCost);
+        if (trueQuantity > 0) {
+            _ship.ScheduleEvent(new MissionFireRepair() {
+                Quantity = Mathf.FloorToInt(equivalentDisposableCost),
+                Location = Position,
+                SecondsToRepair = SecondsToRepair,
+                RepairMissionPopup = RepairMissionPopup
+            });
+        }
     }
 }

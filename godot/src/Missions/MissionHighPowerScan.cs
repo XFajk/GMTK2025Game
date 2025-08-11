@@ -22,7 +22,7 @@ public partial class MissionHighPowerScan : TimedMission {
                 "End of Brief"
             ],
             Debrief = [
-                "So the scan was... Prematurely ended... "
+                "It looks like we had a... little fire in the control room "
                 + "We will have to explore this solar system the old-fashioned way. "
             ],
         };
