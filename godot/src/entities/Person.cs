@@ -78,7 +78,7 @@ public partial class Person : PathFollow3D {
             }
 
             // This code makes sure that the new floor we want to transport the player to is different than the floor he is currently on
-                int targetFloor;
+            int targetFloor;
             if (numberOfFloors < 1) {
                 targetFloor = 0;
             } else {
@@ -93,8 +93,8 @@ public partial class Person : PathFollow3D {
     public bool ThrowGarbage(Pickupable garbage) {
         if (InElevator) return false;
         var offset = new Vector3(0.0f, 0.1f, 0.0f);
-        offset.X += _rng.RandfRange(-GarbageThrowRadius, GarbageThrowRadius); 
-        offset.Z += _rng.RandfRange(-GarbageThrowRadius, GarbageThrowRadius); 
+        offset.X += _rng.RandfRange(-GarbageThrowRadius, GarbageThrowRadius);
+        offset.Z += _rng.RandfRange(-GarbageThrowRadius, GarbageThrowRadius);
 
         garbage.GlobalPosition = GlobalPosition + offset;
         garbage.OriginalPosition = garbage.GlobalPosition;
@@ -187,4 +187,6 @@ public partial class Person : PathFollow3D {
             RecalculateTimer.Start(_rng.RandfRange(0, 2));
         }
     }
+
+    public bool HasTask() => (_currentTask != null);
 }

@@ -4,7 +4,7 @@ using Godot;
 public class CrewTask {
     public Vector3 Location;
     public float Duration;
-    public Type ActionType = Type.Repair;
+    public Type ActionType = Type.JustStandThere;
 
     public Action<Person> OnTaskComplete = p => { };
     public Action<Person> OnTaskAbort = p => { };

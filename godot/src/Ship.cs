@@ -261,18 +261,19 @@ public partial class Ship : Node, IContainer {
         ShipLocation location = ShipLocation.ClosesToPoint(task.Location, Floors);
 
         // if not set, pick one from the same floor
-        crewMember ??= GetClosestCrew(task.Location, crewMember, location.Floor);
+        crewMember ??= GetClosestFreeCrew(task.Location, crewMember, location.Floor);
         // still nothing? anyone will do then
-        crewMember ??= GetClosestCrew(task.Location, crewMember);
+        crewMember ??= GetClosestFreeCrew(task.Location, crewMember);
 
         crewMember.SetCurrentTask(task, location);
     }
 
     public Person GetRandomPerson() => Crew[_rng.RandiRange(0, Crew.Count - 1)];
 
-    private Person GetClosestCrew(Vector3 position, Person crewMember, int? floor = null) {
+    private Person GetClosestFreeCrew(Vector3 position, Person crewMember, int? floor = null) {
         float leastDistance = float.MaxValue;
         foreach (Person person in Crew) {
+            if (person.HasTask()) continue;
             if (floor != null && person.FloorNumber != floor) continue;
 
             float distance = person.Position.DistanceSquaredTo(position);
