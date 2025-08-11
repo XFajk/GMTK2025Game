@@ -32,11 +32,12 @@ public partial class MissionFireRepair : Node, IMission {
     public IMission.Properties GetMissionProperties() => Properties;
 
     public void OnStart(Ship ship) {
+        GD.Print("MissionFireRepair started");
         foreach (var pair in Properties.ResourceMinimumRequirements) {
             ship.RemoveResource(pair.Key, pair.Value);
         }
         // we need to wait until all resources are collected
-        // ScheduleRepair(ship);
+        ScheduleRepair(ship);
     }
 
     private void ScheduleRepair(Ship ship) {

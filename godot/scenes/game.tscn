@@ -407,8 +407,6 @@ TimeDelayStartsWhen = 7
 environment = ExtResource("22_37s47")
 
 [node name="TestMissions" type="Node" parent="."]
-script = ExtResource("5_gee14")
-InitialTimeDelay = 1
 
 [node name="FireInTheScannerRoom4" type="Node3D" parent="TestMissions"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.1698, -1.7394, -0.152532)
