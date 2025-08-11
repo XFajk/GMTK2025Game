@@ -74,9 +74,9 @@ public partial class EventFire : Node3D, IEvent, IRepairable {
         _ship.ActiveEffects.Remove(_fireConversionEffect);
         _fireSfx.QueueFree();
 
-        float co2Taken = -_fireConversionEffect.TotalChangeOf(Resource.CarbonDioxide);
+        float co2Created = _fireConversionEffect.TotalChangeOf(Resource.CarbonDioxide);
         var ratio = Resources.GetRatio(Resource.CarbonDioxide, Resource.Disposables);
-        float equivalentDisposableCost = (co2Taken * ratio.Value) / ratio.Key;
+        float equivalentDisposableCost = (co2Created * ratio.Key) / ratio.Value;
 
         _ship.ScheduleEvent(new MissionFireRepair() {
             // ceil, so it costs at least as much as the carbon gained

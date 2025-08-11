@@ -70,7 +70,7 @@ DisposablesUsedPerSecond = 0.5
 
 [node name="WaitForPepareFinish" type="Node" parent="MissionsAndEvents" node_paths=PackedStringArray("MissionToWaitFor")]
 script = ExtResource("6_0tnpc")
-TimeDelaySeconds = 10
+TimeDelaySeconds = 30
 TimeDelayStartsWhen = 5
 MissionToWaitFor = NodePath("../Prepare")
 
@@ -78,11 +78,11 @@ MissionToWaitFor = NodePath("../Prepare")
 script = ExtResource("4_iywne")
 TargetSolarSystemName = "Sequin"
 TargetEnginePower = 1.0
-Duration = 40
+Duration = 60
 
 [node name="AFewSecondsIntoTravelToSequin" type="Node" parent="MissionsAndEvents" node_paths=PackedStringArray("MissionToWaitFor")]
 script = ExtResource("6_0tnpc")
-TimeDelaySeconds = 5
+TimeDelaySeconds = 15
 TimeDelayStartsWhen = 4
 MissionToWaitFor = NodePath("../TravelToSequin")
 
@@ -104,7 +104,7 @@ ConversionPerSecond = 50.0
 
 [node name="WaitForTravelFinish" type="Node" parent="MissionsAndEvents" node_paths=PackedStringArray("MissionToWaitFor")]
 script = ExtResource("6_0tnpc")
-TimeDelaySeconds = 3
+TimeDelaySeconds = 10
 TimeDelayStartsWhen = 5
 MissionToWaitFor = NodePath("../TravelToSequin")
 
@@ -120,14 +120,26 @@ TimeDelayStartsWhen = 4
 MissionToWaitFor = NodePath("../HighPowerScan")
 
 [node name="FireInTheScannerRoom" type="Node3D" parent="MissionsAndEvents"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 2, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.1698, -1.7394, -0.152532)
+script = ExtResource("10_kvuet")
+OxygenLossPerSecond = 5.0
+SecondsToExtinguish = 5
+
+[node name="FireInTheScannerRoom2" type="Node3D" parent="MissionsAndEvents"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.9266, -1.7394, -1.16467)
+script = ExtResource("10_kvuet")
+OxygenLossPerSecond = 5.0
+SecondsToExtinguish = 5
+
+[node name="FireInTheScannerRoom3" type="Node3D" parent="MissionsAndEvents"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.6773, -1.7394, 1.16404)
 script = ExtResource("10_kvuet")
 OxygenLossPerSecond = 5.0
 SecondsToExtinguish = 5
 
 [node name="WaitUntilEverythingIsCalmAgain" type="Node" parent="MissionsAndEvents"]
 script = ExtResource("6_0tnpc")
-TimeDelaySeconds = 3
+TimeDelaySeconds = 10
 
 [node name="AstroidMining" type="Node" parent="MissionsAndEvents"]
 script = ExtResource("15_ca42v")
