@@ -4,6 +4,7 @@ var disable_saving: bool = false
 var save_file_path = "user://game.data"
 	
 func load_game() -> void:
+	print("Loading game...")
 	if not FileAccess.file_exists(save_file_path):
 		push_warning("No save file to load")
 		return 

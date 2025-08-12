@@ -48,12 +48,11 @@ public partial class Game : Node {
         AddChild(dialog);
 
         void unpause() => GetTree().Paused = false;
-        dialog.Confirmed += unpause;
-        dialog.Canceled += unpause;
+        dialog.DialogClosed += unpause;
         GetTree().Paused = true;
 
         IMission.Properties properties = mission.GetMissionProperties();
-        dialog.ShowMission(briefing ? "New Mission" : "Mission Success", properties.Title, briefing ? properties.Briefing : properties.Debrief);
+        dialog.ShowMission(properties.Title, briefing ? properties.Briefing : properties.Debrief);
     }
 
     public override void _Process(double delta) {

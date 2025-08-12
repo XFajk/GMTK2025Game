@@ -1,6 +1,5 @@
-[gd_scene load_steps=6 format=3 uid="uid://bsyipwqe6h25u"]
+[gd_scene load_steps=5 format=3 uid="uid://bsyipwqe6h25u"]
 
-[ext_resource type="Theme" uid="uid://slxggstqjbqr" path="res://misc/core_ui_theame.tres" id="1_11bs7"]
 [ext_resource type="Texture2D" uid="uid://cdwh4c8y3kr7b" path="res://icon.svg" id="2_onll6"]
 [ext_resource type="Script" uid="uid://qkydg65ids2g" path="res://src/ui/StatusBar.cs" id="2_ve5g5"]
 
@@ -36,7 +35,6 @@ offset_top = 52.0
 offset_right = 25.0
 offset_bottom = 252.0
 grow_horizontal = 2
-theme = ExtResource("1_11bs7")
 theme_override_styles/background = SubResource("StyleBoxFlat_cobfd")
 theme_override_styles/fill = SubResource("StyleBoxFlat_ve5g5")
 value = 24.46

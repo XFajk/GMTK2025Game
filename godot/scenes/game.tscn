@@ -38,6 +38,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.0809, -0.147917, 9.218)
 fov = 40.0
 near = 0.5
 far = 200.0
+BoundingBox = AABB(-20, -37, 0, 40, 74, 2)
 
 [node name="Ship" parent="." instance=ExtResource("2_lnu2h")]
 _initialResources = Dictionary[int, int]({

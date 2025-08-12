@@ -17,14 +17,14 @@ public partial class Saver : Node {
     [Export]
     public Array<StringName> PropertiesToSave { get; set; } = new();
 
-    private Node parent;
+    private Node _parent;
 
     /// <summary>
     /// Called when the node enters the scene tree.
     /// Adds this node to the "Savers" group.
     /// </summary>
     public override void _Ready() {
-        parent = GetParent();
+        _parent = GetParent();
         AddToGroup("Savers");
     }
 
@@ -36,7 +36,7 @@ public partial class Saver : Node {
         var result = new Dictionary<StringName, string>();
 
         foreach (StringName property in PropertiesToSave) {
-            result[property] = GD.VarToStr(parent.Get(property));
+            result[property] = GD.VarToStr(_parent.Get(property));
         }
 
         GD.Print(result);
@@ -51,7 +51,7 @@ public partial class Saver : Node {
         GD.Print(data);
 
         foreach (var (property, value) in data) {
-            parent.Set(property, GD.StrToVar(value));
+            _parent.Set(property, GD.StrToVar(value));
         }
     }
 }
