@@ -31,7 +31,7 @@ _missionPopup = ExtResource("2_u5sy4")
 transform = Transform3D(-0.713192, 0.1158, -0.691338, -0.683938, 0.101127, 0.722497, 0.153579, 0.988111, 0.00707713, -12.7482, 15.9498, 10.8814)
 light_indirect_energy = 8.5
 light_bake_mode = 1
-shadow_enabled = true
+light_cull_mask = 4294967291
 
 [node name="Player" parent="." instance=ExtResource("3_lnu2h")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.0809, -0.147917, 9.218)
@@ -396,5 +396,6 @@ TimeDelayStartsWhen = 7
 [node name="LightmapGI" type="LightmapGI" parent="."]
 supersampling = true
 directional = true
+use_texture_for_bounces = false
 interior = true
 light_data = ExtResource("22_bt5mj")
