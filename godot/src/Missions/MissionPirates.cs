@@ -8,8 +8,8 @@ public partial class MissionPirates : TimedMission {
     public int DisposablesQuantityToPrepare = 10;
     public IMission.Properties Properties;
 
-    public override void MissionReady(Ship ship) {
-        base.MissionReady(ship);
+    public override void MissionReady(Ship ship, MissionManager.Clock missionClock) {
+        base.MissionReady(ship, missionClock);
 
         Properties = new() {
             Title = "Mission: friendly ship",
@@ -31,7 +31,4 @@ public partial class MissionPirates : TimedMission {
     }
 
     public override IMission.Properties GetMissionProperties() => Properties;
-
-    public override void OnCompletion(Ship ship) {
-    }
 }

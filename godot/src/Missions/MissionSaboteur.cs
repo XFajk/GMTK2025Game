@@ -20,7 +20,7 @@ public partial class MissionSaboteur : Node, IMission {
 
     private bool _isFinished = false;
 
-    void IMission.MissionReady(Ship ship) {
+    void IMission.MissionReady(Ship ship, MissionManager.Clock missionClock) {
         Properties = new() {
             Title = "Mission: Saboteur",
             Briefing = [

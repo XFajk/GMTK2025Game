@@ -11,7 +11,7 @@ public partial class MissionManager : Node {
     public Action<IMission> ShowDebriefCallback;
     public Ship Ship;
 
-    private double _gameTimeSecond = 0;
+    private Clock _missionClock = new();
     private int progress = -1;
 
     [Export]
@@ -27,7 +27,8 @@ public partial class MissionManager : Node {
 
 
     public override void _Process(double delta) {
-        _gameTimeSecond += delta;
+        _missionClock.delta = delta;
+        _missionClock.time += delta;
 
         if (_currentDelay == null) {
             GD.PrintErr($"_currentDelay = null, progress = {progress}, ActiveMission = {ActiveMission}");
@@ -40,7 +41,7 @@ public partial class MissionManager : Node {
             }
         }
 
-        if (_currentDelay.AreWeThereYet(MissionsInPreparation, ActiveMission, _gameTimeSecond)) {
+        if (_currentDelay.AreWeThereYet(MissionsInPreparation, ActiveMission, _missionClock.time)) {
             _currentDelay = null;
         }
 
@@ -50,7 +51,7 @@ public partial class MissionManager : Node {
             // game end?
             if (eventNode == null) break;
 
-            GD.Print($"Time = {_gameTimeSecond}, Node = {progress} ({eventNode.Name})");
+            GD.Print($"Time = {_missionClock.time}, Node = {progress} ({eventNode.Name})");
             ExecuteEventsOfNode(eventNode);
         }
 
@@ -81,7 +82,7 @@ public partial class MissionManager : Node {
     private void ExecuteEventsOfNode(Node eventNode) {
         if (eventNode is IMission newMission) {
             // 1: `Ready` is called
-            newMission.MissionReady(Ship);
+            newMission.MissionReady(Ship, _missionClock);
 
             /// 2: the player sees the Briefing
             if (newMission.GetMissionProperties().Popup) {
@@ -100,4 +101,9 @@ public partial class MissionManager : Node {
     }
 
     public void AddEvent(Node eventNode) => ExecuteEventsOfNode(eventNode);
+
+    public class Clock {
+        public double time = 0;
+        public double delta = 0;
+    }
 }

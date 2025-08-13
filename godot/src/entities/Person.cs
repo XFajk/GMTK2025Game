@@ -175,7 +175,7 @@ public partial class Person : PathFollow3D {
     }
 
     public void SetCurrentTask(CrewTask task, ShipLocation location = null) {
-        GD.Print($"Person {Name} will do task {task.ActionType}");
+
         ShipTargets.Clear();
         if (location != null) SetTarget(location);
 
@@ -188,6 +188,8 @@ public partial class Person : PathFollow3D {
         if (task == null) {
             // explicitly start iding
             RecalculateTimer.Start(_rng.RandfRange(0, 2));
+        } else {
+            GD.Print($"Person {Name} will do task {task.ActionType}");
         }
     }
 

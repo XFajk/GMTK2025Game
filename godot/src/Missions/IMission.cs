@@ -16,7 +16,7 @@ public interface IMission {
     Properties GetMissionProperties();
 
     // will be called just before the Briefing. _Ready is called way earlier
-    virtual void MissionReady(Ship ship) { }
+    virtual void MissionReady(Ship ship, MissionManager.Clock missionClock) { }
     bool IsPreparationFinished();
     void OnStart(Ship ship);
     bool IsMissionFinised();
@@ -27,6 +27,13 @@ public interface IMission {
         var allResources = ship.GetTotalResourceQuantities();
         return props.ResourceMinimumRequirements.All(req => allResources[req.Key] >= req.Value)
             && props.ResourceMaximumRequirements.All(req => allResources[req.Key] <= req.Value);
+    }
+
+    public enum State {
+        NotReady,
+        Preparing,
+        Started,
+        Finished
     }
 
     public class Properties {

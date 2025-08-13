@@ -13,7 +13,7 @@ public partial class MissionPizza : Node, IMission {
 
     private Ship _ship;
 
-    void IMission.MissionReady(Ship ship) {
+    void IMission.MissionReady(Ship ship, MissionManager.Clock missionClock) {
         _ship = ship;
         Properties = new() {
             Title = $"Mission: {ActualFoodName} time!",

@@ -3,6 +3,7 @@ using Godot;
 public partial class Engine : Machine {
     public const double ChangeDuration = 2f;
     public const float DefaultEnginePower = 0.1f;
+
     private float _enginePower = DefaultEnginePower;
     private float _maxProcessingPerSecond;
     private JetEngineFire _jetFireVfx;
@@ -15,7 +16,6 @@ public partial class Engine : Machine {
         _jetFireVfx.SetEnginePower(_enginePower);
         _coreVfx.SetEnginePower(_enginePower);
     }
-
 
     public override void _Ready() {
         _maxProcessingPerSecond = _processingPerSecond;

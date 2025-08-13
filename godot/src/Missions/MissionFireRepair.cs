@@ -13,7 +13,7 @@ public partial class MissionFireRepair : Node, IMission {
     public IMission.Properties Properties;
     public bool RepairMissionPopup;
 
-    void IMission.MissionReady(Ship ship) {
+    void IMission.MissionReady(Ship ship, MissionManager.Clock missionClock) {
         _ship = ship;
         Properties = new() {
             Title = "Mission: Reparations",

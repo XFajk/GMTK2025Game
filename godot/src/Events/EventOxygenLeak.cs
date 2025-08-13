@@ -45,8 +45,6 @@ public partial class EventOxygenLeak : Node3D, IEvent, IRepairable {
         ship.ActiveEffects.Add(_effect);
 
         ScheduleRepairTask(ship);
-
-        ship.AddChild(this);
     }
 
     private void ScheduleRepairTask(Ship ship) {
@@ -65,7 +63,6 @@ public partial class EventOxygenLeak : Node3D, IEvent, IRepairable {
     public Node3D AsNode() => this;
 
     public void SetRepaired() {
-        _ship.RemoveChild(this);
         _ship.ActiveEffects.Remove(_effect);
         _leakSfx.QueueFree();
     }

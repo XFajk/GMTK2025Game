@@ -29,7 +29,7 @@ public partial class MissionIceAstroidMining : Node, IMission {
     public IMission.Properties Properties;
     private Ship _ship;
 
-    void IMission.MissionReady(Ship ship) {
+    void IMission.MissionReady(Ship ship, MissionManager.Clock missionClock) {
         _ship = ship;
         var carbonToOxygen = Resources.GetRatio(Resource.CarbonDioxide, Resource.Oxygen);
         var disposablesToCarbon = Resources.GetRatio(Resource.Disposables, Resource.CarbonDioxide);

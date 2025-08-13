@@ -113,15 +113,16 @@ TimeDelaySeconds = 10
 
 [node name="AstroidMining" type="Node" parent="MissionsAndEvents" node_paths=PackedStringArray("AirLock")]
 script = ExtResource("15_ca42v")
-Duration = 30
+PreparationTime = 60
+Duration = 60
 RequiredDisposables = 20
 CrewCount = 4
 AirLock = NodePath("../../Ship/AirLock")
 
-[node name="AFewSecondsIntoAstroidMining" type="Node" parent="MissionsAndEvents" node_paths=PackedStringArray("MissionToWaitFor")]
+[node name="AFewSecondsIntoPreparation" type="Node" parent="MissionsAndEvents" node_paths=PackedStringArray("MissionToWaitFor")]
 script = ExtResource("6_0tnpc")
 TimeDelaySeconds = 4
-TimeDelayStartsWhen = 4
+TimeDelayStartsWhen = 7
 MissionToWaitFor = NodePath("../AstroidMining")
 
 [node name="Fire" type="Node3D" parent="MissionsAndEvents"]
@@ -138,6 +139,11 @@ TimeDelayStartsWhen = 7
 [node name="MachineBreakdown" type="Node" parent="MissionsAndEvents"]
 script = ExtResource("14_1kice")
 SecondsToRepair = 8.0
+
+[node name="OneSecondLater" type="Node" parent="MissionsAndEvents"]
+script = ExtResource("6_0tnpc")
+TimeDelaySeconds = 1
+TimeDelayStartsWhen = 7
 
 [node name="Fire2" type="Node3D" parent="MissionsAndEvents"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, -1.60779, 0)

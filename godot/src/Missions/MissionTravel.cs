@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public partial class MissionTravel : TimedMission, IMission {
 
@@ -15,8 +16,8 @@ public partial class MissionTravel : TimedMission, IMission {
 
     private List<Engine> _engines = new();
 
-    void IMission.MissionReady(Ship ship) {
-        base.MissionReady(ship);
+    void IMission.MissionReady(Ship ship, MissionManager.Clock missionClock) {
+        base.MissionReady(ship, missionClock);
         _ship = ship;
 
         Properties = new() {
@@ -46,6 +47,11 @@ public partial class MissionTravel : TimedMission, IMission {
 
     public override IMission.Properties GetMissionProperties() => Properties;
 
+    public override void _Process(double delta) {
+        if (_state == IMission.State.Started && _engines.Any(e => !e.IsProcessing)) _missionEndTime += delta;
+    }
+
+
     public override void OnStart(Ship ship) {
         base.OnStart(ship);
         foreach (Engine e in _engines) {
@@ -54,6 +60,7 @@ public partial class MissionTravel : TimedMission, IMission {
     }
 
     public override void OnCompletion(Ship ship) {
+        base.OnCompletion(ship);
         foreach (Engine e in _engines) {
             e.SetEnginePower(Engine.DefaultEnginePower);
         }

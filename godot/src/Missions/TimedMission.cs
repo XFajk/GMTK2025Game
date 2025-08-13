@@ -7,28 +7,33 @@ public abstract partial class TimedMission : Node, IMission {
     public int PreparationTime = 10;
     [Export]
     public int Duration;
-    
-    protected ulong _preparationStartTime;
-    protected ulong _startTime;
 
-    public virtual void MissionReady(Ship ship) {
-        _preparationStartTime = Time.GetTicksUsec();
+    protected MissionManager.Clock _missionClock;
+    protected double _preparationEndTime;
+    protected double _missionEndTime;
+    protected IMission.State _state { get; private set; }
+
+    public virtual void MissionReady(Ship ship, MissionManager.Clock missionClock) {
+        _missionClock = missionClock;
+        _preparationEndTime = missionClock.time + PreparationTime;
+        _state = IMission.State.Preparing;
     }
 
     public virtual void OnStart(Ship ship) {
-        _startTime = Time.GetTicksUsec();
+        _missionEndTime = _missionClock.time + Duration;
+        _state = IMission.State.Started;
     }
 
     public virtual bool IsPreparationFinished() {
-        double timePassed = (double)(Time.GetTicksUsec() - _preparationStartTime) / 1E6;
-        return _preparationStartTime != 0 && timePassed > PreparationTime;
+        return _preparationEndTime != 0 && _missionClock.time > _preparationEndTime;
     }
 
     public virtual bool IsMissionFinised() {
-        double timePassed = (double)(Time.GetTicksUsec() - _startTime) / 1E6;
-        return _startTime != 0 && timePassed > (PreparationTime + Duration);
+        return _missionEndTime != 0 && _missionClock.time > _missionEndTime;
     }
 
     public abstract IMission.Properties GetMissionProperties();
-    public abstract void OnCompletion(Ship ship);
+    public virtual void OnCompletion(Ship ship) {
+        _state = IMission.State.Finished;
+    }
 }

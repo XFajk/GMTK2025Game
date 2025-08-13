@@ -11,8 +11,8 @@ public partial class MissionEngineRev : TimedMission, IMission {
 
     private List<Engine> _engines = new();
 
-    void IMission.MissionReady(Ship ship) {
-        base.MissionReady(ship);
+    void IMission.MissionReady(Ship ship, MissionManager.Clock missionClock) {
+        base.MissionReady(ship, missionClock);
         FinalEnginePower = Mathf.Lerp(Engine.DefaultEnginePower, TargetEnginePower, 0.5f);
 
         Properties = new() {
@@ -42,6 +42,7 @@ public partial class MissionEngineRev : TimedMission, IMission {
     }
 
     public override void OnCompletion(Ship ship) {
+        base.OnCompletion(ship);
         foreach (Engine e in _engines) {
             e.SetEnginePower(FinalEnginePower);
         }

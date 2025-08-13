@@ -24,6 +24,7 @@ public partial class Machine : Connectable, IRepairable {
     public override IEnumerable<MachineBuffer> Outputs() => _recipeParts.Where(c => c.QuantityChangeInReceipe > 0);
 
     public bool IsWorking = true;
+    public bool IsProcessing = true;
 
     public override void _Ready() {
         base._Ready();
@@ -53,6 +54,7 @@ public partial class Machine : Connectable, IRepairable {
         // check if all ingredients are present and enough output space available
         foreach (MachineBuffer container in _recipeParts) {
             if (!CanCycle(container)) {
+                IsProcessing = false;
                 _processProgress = 0;
                 return;
             }
@@ -60,6 +62,7 @@ public partial class Machine : Connectable, IRepairable {
 
         // now run the machine
         _processProgress += _processingPerSecond * (float)deltaTime;
+        IsProcessing = true;
 
         while (_processProgress > 1) {
             _processProgress -= 1;

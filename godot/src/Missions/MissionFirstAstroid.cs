@@ -30,7 +30,7 @@ public partial class MissionFirstAstroid : Node, IMission {
     private Ship _ship;
     private List<Engine> _engines = new();
 
-    void IMission.MissionReady(Ship ship) {
+    void IMission.MissionReady(Ship ship, MissionManager.Clock missionClock) {
         _ship = ship;
         var carbonToOxygen = Resources.GetRatio(Resource.CarbonDioxide, Resource.Oxygen);
         var disposablesToCarbon = Resources.GetRatio(Resource.Disposables, Resource.CarbonDioxide);

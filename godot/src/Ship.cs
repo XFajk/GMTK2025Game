@@ -92,9 +92,7 @@ public partial class Ship : Node, IContainer {
         while (n > 1) {
             n--;
             int k = _rng.RandiRange(0, n);
-            T value = list[k];
-            list[k] = list[n];
-            list[n] = value;
+            (list[n], list[k]) = (list[k], list[n]);
         }
     }
 
@@ -276,6 +274,14 @@ public partial class Ship : Node, IContainer {
         crewMember ??= GetClosestFreeCrew(task.Location, crewMember, location.Floor);
         // still nothing? anyone will do then
         crewMember ??= GetClosestFreeCrew(task.Location, crewMember);
+
+        if (crewMember == null) {
+            // try again in 1 second
+            GetTree().CreateTween()
+                .TweenCallback(Callable.From(() => ScheduleCrewTask(task)))
+                .SetDelay(1.0f);
+            return;
+        }
 
         crewMember.SetCurrentTask(task, location);
     }

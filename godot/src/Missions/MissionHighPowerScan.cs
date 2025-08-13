@@ -10,8 +10,8 @@ public partial class MissionHighPowerScan : TimedMission {
 
     private List<Machine> _disabledMachines = new();
 
-    public override void MissionReady(Ship ship) {
-        base.MissionReady(ship);
+    public override void MissionReady(Ship ship, MissionManager.Clock missionClock) {
+        base.MissionReady(ship, missionClock);
 
         Properties = new() {
             Title = "Mission: High power scan",
@@ -42,6 +42,7 @@ public partial class MissionHighPowerScan : TimedMission {
     public override IMission.Properties GetMissionProperties() => Properties;
 
     public override void OnCompletion(Ship ship) {
+        base.OnCompletion(ship);
         _disabledMachines.ForEach(m => m.IsWorking = true);
     }
 }
