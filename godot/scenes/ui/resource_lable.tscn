@@ -1,9 +1,18 @@
-[gd_scene load_steps=7 format=3 uid="uid://bqyjx3w8kmd7v"]
+[gd_scene load_steps=8 format=3 uid="uid://bqyjx3w8kmd7v"]
 
 [ext_resource type="Texture2D" uid="uid://cdwh4c8y3kr7b" path="res://icon.svg" id="1_bh6qd"]
 [ext_resource type="Theme" uid="uid://slxggstqjbqr" path="res://misc/core_ui_theame.tres" id="1_hcg0y"]
 [ext_resource type="Script" uid="uid://bcukv1e4vufk1" path="res://src/ui/ResourceLable.cs" id="2_nt3qu"]
 [ext_resource type="FontFile" uid="uid://rs5nkn4vh4tx" path="res://assets/fonts/wwDigital.ttf" id="3_y24sm"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nt3qu"]
+bg_color = Color(0.145098, 0.737255, 0.101961, 0.368627)
+skew = Vector2(-0.32, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.662745, 0.8, 0.301961, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_y24sm"]
 font = ExtResource("3_y24sm")
@@ -21,27 +30,37 @@ offset_bottom = 40.0
 theme = ExtResource("1_hcg0y")
 script = ExtResource("2_nt3qu")
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="Background" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_nt3qu")
+
+[node name="TextureRect" type="TextureRect" parent="Background"]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
+offset_left = 7.455
 offset_top = -15.0
-offset_right = 30.0
+offset_right = 37.455
 offset_bottom = 15.0
 grow_vertical = 2
 theme = ExtResource("1_hcg0y")
 texture = ExtResource("1_bh6qd")
 expand_mode = 1
 
-[node name="ResourceName" type="Label" parent="."]
+[node name="ResourceName" type="Label" parent="Background"]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_left = 34.0
+offset_left = 40.21
 offset_top = -11.5
-offset_right = 74.0
+offset_right = 176.21
 offset_bottom = 11.5
 grow_vertical = 2
 theme = ExtResource("1_hcg0y")
@@ -49,7 +68,7 @@ text = "<Resource name> : "
 label_settings = SubResource("LabelSettings_y24sm")
 vertical_alignment = 1
 
-[node name="Amount" type="Label" parent="ResourceName"]
+[node name="Amount" type="Label" parent="Background/ResourceName"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0

@@ -1,51 +1,62 @@
-[gd_scene load_steps=4 format=3 uid="uid://2d2hbkqmfrx"]
+[gd_scene load_steps=5 format=3 uid="uid://2d2hbkqmfrx"]
 
 [ext_resource type="Theme" uid="uid://slxggstqjbqr" path="res://misc/core_ui_theame.tres" id="1_w8hnu"]
 [ext_resource type="Script" uid="uid://cud78w8qt4qsb" path="res://src/ui/MissionDialog.cs" id="2_qufku"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_w8hnu"]
-font_size = 22
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w8hnu"]
+bg_color = Color(0, 0.407843, 0.196078, 0.792157)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.350144, 1, 0.321415, 1)
 
-[node name="MissionDialog" type="AcceptDialog"]
-process_mode = 3
-auto_translate_mode = 1
-mode = 4
-title = "ERR_NO_MISSION"
-initial_position = 2
-size = Vector2i(661, 436)
-visible = true
-exclusive = false
-unresizable = true
+[sub_resource type="LabelSettings" id="LabelSettings_w8hnu"]
+font_size = 35
+outline_size = 2
+outline_color = Color(0.780392, 1, 0, 1)
+
+[node name="MissionDialog" type="Control"]
+process_mode = 2
+layout_mode = 3
+anchors_preset = 0
 theme = ExtResource("1_w8hnu")
 script = ExtResource("2_qufku")
 
-[node name="UI" type="Control" parent="."]
-layout_mode = 3
-anchor_left = 0.0121029
-anchor_top = 0.0229358
-anchor_right = 0.987897
-anchor_bottom = 0.885321
-offset_left = 3.0
-offset_top = 3.0
-offset_right = 658.0
-offset_bottom = 391.0
+[node name="BackGround" type="Panel" parent="."]
+custom_minimum_size = Vector2(700, 500)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 225.0
+offset_top = 70.0
+offset_right = 925.0
+offset_bottom = 570.0
 grow_horizontal = 2
 grow_vertical = 2
-metadata/_edit_use_anchors_ = true
+theme_override_styles/panel = SubResource("StyleBoxFlat_w8hnu")
 
-[node name="MissionTitle" type="Label" parent="UI"]
+[node name="MissionTitle" type="Label" parent="BackGround"]
 layout_mode = 1
-offset_right = 233.0
-offset_bottom = 26.0
+offset_left = 30.0
+offset_top = 13.47
+offset_right = 294.0
+offset_bottom = 57.47
 text = "Some Crazy Title"
 label_settings = SubResource("LabelSettings_w8hnu")
 
-[node name="Description" type="RichTextLabel" parent="UI"]
+[node name="Description" type="RichTextLabel" parent="BackGround"]
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.12234
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 30.0
+offset_right = -30.0
+offset_bottom = -30.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_w8hnu")
@@ -55,3 +66,17 @@ Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapi
 
 Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos."
 metadata/_edit_use_anchors_ = true
+
+[node name="Close" type="Button" parent="BackGround"]
+z_index = -1
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -60.595
+offset_top = -38.405
+offset_right = -17.595
+offset_bottom = 2.595
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 28
+text = "X"

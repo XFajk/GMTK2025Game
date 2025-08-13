@@ -1,0 +1,84 @@
+[gd_resource type="Theme" load_steps=9 format=3 uid="uid://cusb8x135x335"]
+
+[ext_resource type="FontFile" uid="uid://rs5nkn4vh4tx" path="res://assets/fonts/wwDigital.ttf" id="1_qpfe0"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g5bti"]
+bg_color = Color(0.00630138, 0.189371, 1.3236e-07, 0.592157)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.330496, 0.441569, 0, 1)
+border_blend = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yvtb5"]
+bg_color = Color(0.145098, 0.737255, 0.101961, 0.368627)
+skew = Vector2(-0.32, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.662745, 0.8, 0.301961, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qrkc0"]
+bg_color = Color(0.145098, 0.737255, 0.101961, 0.368627)
+skew = Vector2(-0.32, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.662745, 0.8, 0.301961, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k7elv"]
+bg_color = Color(0.145098, 0.737255, 0.101961, 0.368627)
+skew = Vector2(-0.32, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.662745, 0.8, 0.301961, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bxde6"]
+bg_color = Color(0.145098, 0.737255, 0.101961, 0.368627)
+skew = Vector2(-0.32, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.662745, 0.8, 0.301961, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fftnl"]
+bg_color = Color(0.145098, 0.737255, 0.101961, 0.368627)
+skew = Vector2(-0.32, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.662745, 0.8, 0.301961, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7tmg1"]
+bg_color = Color(0, 0.556863, 0.196078, 0.466667)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.350144, 1, 0.321415, 1)
+
+[resource]
+default_font_size = 24
+AcceptDialog/font_sizes/title_font_size = 16
+AcceptDialog/fonts/title_font = ExtResource("1_qpfe0")
+AcceptDialog/styles/embedded_border = null
+AcceptDialog/styles/panel = SubResource("StyleBoxFlat_g5bti")
+Button/font_sizes/font_size = 20
+Button/fonts/font = ExtResource("1_qpfe0")
+Button/styles/disabled = SubResource("StyleBoxFlat_yvtb5")
+Button/styles/focus = SubResource("StyleBoxFlat_qrkc0")
+Button/styles/hover = SubResource("StyleBoxFlat_k7elv")
+Button/styles/normal = SubResource("StyleBoxFlat_bxde6")
+Button/styles/pressed = SubResource("StyleBoxFlat_fftnl")
+Label/font_sizes/font_size = 16
+Label/fonts/font = ExtResource("1_qpfe0")
+Panel/styles/panel = SubResource("StyleBoxFlat_7tmg1")
+ProgressBar/fonts/font = ExtResource("1_qpfe0")
+RichTextLabel/fonts/normal_font = ExtResource("1_qpfe0")
