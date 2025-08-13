@@ -120,32 +120,10 @@ TimeDelayStartsWhen = 4
 MissionToWaitFor = NodePath("../HighPowerScan")
 
 [node name="FireInTheScannerRoom" type="Node3D" parent="MissionsAndEvents"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.1698, -1.7394, -0.152532)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.9202, -1.7394, -0.152532)
 script = ExtResource("10_kvuet")
 OxygenLossPerSecond = 5.0
-SecondsToExtinguish = 5
-
-[node name="OneSecondLater" type="Node" parent="MissionsAndEvents"]
-script = ExtResource("6_0tnpc")
-TimeDelaySeconds = 1
-TimeDelayStartsWhen = 7
-
-[node name="FireInTheScannerRoom2" type="Node3D" parent="MissionsAndEvents"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.9266, -1.7394, -1.16467)
-script = ExtResource("10_kvuet")
-OxygenLossPerSecond = 3.0
-SecondsToExtinguish = 5
-
-[node name="OneSecondLater2" type="Node" parent="MissionsAndEvents"]
-script = ExtResource("6_0tnpc")
-TimeDelaySeconds = 1
-TimeDelayStartsWhen = 7
-
-[node name="FireInTheScannerRoom3" type="Node3D" parent="MissionsAndEvents"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.6773, -1.7394, 1.16404)
-script = ExtResource("10_kvuet")
-OxygenLossPerSecond = 3.0
-SecondsToExtinguish = 5
+SecondsToExtinguish = 10
 
 [node name="WaitUntilEverythingIsCalmAgain" type="Node" parent="MissionsAndEvents"]
 script = ExtResource("6_0tnpc")

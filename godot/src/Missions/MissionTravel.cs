@@ -20,7 +20,7 @@ public partial class MissionTravel : TimedMission, IMission {
         _ship = ship;
 
         Properties = new() {
-            Title = "Mission: Reparations",
+            Title = "Mission: Travel",
             Briefing = [
                 $"Today we will travel to the {TargetSolarSystemName} solar system. "
                 + $"We will run the engine at {TargetEnginePower * 100}% capacity, rather than the usual {Engine.DefaultEnginePower * 100}%. "

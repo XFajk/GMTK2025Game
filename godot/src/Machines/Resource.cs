@@ -37,7 +37,8 @@ public class Resources {
         GD.Load<Texture2D>("res://assets/sprites/garbage.png"),
     };
 
-    public const float AirPercentageFactor = 0.1f;
+    public const float AirPercentageFactor = 0.05f;
+    public const float HumidityPercentageFactor = 0.1f;
 
     /// returns true if this resource can flow without a connection
     public static bool IsFloating(Resource resource) => resource switch {
@@ -48,7 +49,8 @@ public class Resources {
     public static string ToUnit(Resource resource, int quantity) {
         return resource switch {
             Resource.CoolantHot or Resource.CoolantCold => $"{quantity * 4} L",
-            Resource.Humidity or Resource.Oxygen or Resource.CarbonDioxide => string.Format("{0,3:F1} %", quantity * AirPercentageFactor),
+            Resource.Humidity => string.Format("{0,3:F1} %", quantity * HumidityPercentageFactor),
+            Resource.Oxygen or Resource.CarbonDioxide => string.Format("{0,3:F1} %", quantity * AirPercentageFactor),
             Resource.Water => $"{quantity / 10} L",
             Resource.Food => $"{quantity / 5.0f} KG",
             Resource.SolidWaste => $"{quantity / 10.0f} KG",
