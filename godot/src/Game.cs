@@ -13,7 +13,6 @@ public partial class Game : Node {
     private GameUi _ui;
 
     private Connectable _selectedMachine;
-    private ConnectionNode _selectedNode;
 
     public override void _Ready() {
         _shipNode = GetNode<Ship>("Ship");
@@ -75,42 +74,34 @@ public partial class Game : Node {
     private void OnConnectionClick(Connectable machine, ConnectionNode node) {
         if (_selectedMachine == null) {
             _selectedMachine = machine;
-            _selectedNode = node;
             _selectedMachine.ShowOutline(true);
         } else if (_selectedMachine == machine) {
-            _selectedNode.DisconnectNode();
             _selectedMachine.ShowOutline(false);
             _selectedMachine = null;
-            _selectedNode = null;
         } else if (_shipNode.CanConnect(_selectedMachine, machine)) {
 
-            Connection connection = Connectable.ConnectNodes(_selectedMachine, _selectedNode, machine, node);
+            Connection connection = new(_selectedMachine, machine);
             Connection disconnect = _shipNode.AddConnection(connection);
 
             GD.Print($"Connected {connection.aMachine.Name} and {connection.bMachine.Name}");
 
             if (disconnect != null) {
                 GD.Print($"Disconnected {connection.aMachine.Name} and {connection.bMachine.Name}");
-                disconnect.aNode.DisconnectNode();
-                // disconnect.QueueFree();
             }
 
             _selectedMachine.ShowOutline(false);
             machine.ShowOutline(false);
 
             _selectedMachine = null;
-            _selectedNode = null;
         } else {
             _selectedMachine.ShowOutline(false);
             machine.ShowOutline(false);
 
             _selectedMachine = null;
-            _selectedNode = null;
         }
 
         string nameOfSelectedMachine = (_selectedMachine != null) ? _selectedMachine.Name : "null";
-        string nameOfSelectedNode = (_selectedNode != null) ? _selectedNode.Name : "null";
-        GD.Print($"_selectedMachine = {nameOfSelectedMachine}, _selectedNode = {nameOfSelectedNode}");
+        GD.Print($"_selectedMachine = {nameOfSelectedMachine}");
     }
 
     private void OnHoverStart(Connectable machine) {

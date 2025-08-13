@@ -107,11 +107,6 @@ public abstract partial class Connectable : Node3D {
         return false;
     }
 
-    internal static Connection ConnectNodes(Connectable aMachine, ConnectionNode aNode, Connectable bMachine, ConnectionNode bNode) {
-        ConnectionNode.ConnectNodes(aNode, bNode);
-        return new(aMachine, aNode, bMachine, bNode);
-    }
-
     public void ShowOutline(bool show, StandardMaterial3D material = null) {
         foreach (MeshInstance3D outlineMesh in OutlineMeshes) {
             outlineMesh.Visible = show;
