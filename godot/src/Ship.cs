@@ -74,6 +74,10 @@ public partial class Ship : Node, IContainer {
                 }
             }
         }
+
+        Plants plants = (Plants)Machines.Find(m => m is Plants);
+        StorageContainer watertank = Containers.Find(m => m.Resource == Resource.Water);
+        AddConnection(new Connection(plants, watertank));
     }
 
     public FloatingResource GetFloatingResource(Resource resource) {
