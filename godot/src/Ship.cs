@@ -58,7 +58,7 @@ public partial class Ship : Node, IContainer {
 
         // initialize resource buffers
         foreach (var entry in _initialResources) {
-            AddResource(entry.Key, entry.Value);
+            AddResource(entry.Key, entry.Value, allowOutputs: true);
         }
 
         foreach (StorageContainer container in Containers) {
@@ -210,7 +210,7 @@ public partial class Ship : Node, IContainer {
         }
     }
 
-    public float AddResource(Resource resource, float quantity) {
+    public float AddResource(Resource resource, float quantity, bool allowOutputs = false) {
         float leftToAdd = quantity;
 
         if (resource == Resource.Garbage) {
@@ -218,7 +218,15 @@ public partial class Ship : Node, IContainer {
             return 0;
         }
 
-        Select selection = (quantity > 0) ? Select.OnlyInputs : Select.OnlyOutputs;
+        Select selection;
+        if (allowOutputs) {
+            selection = Select.All;
+        } else if (quantity > 0) {
+            selection = Select.OnlyInputs;
+        } else {
+            selection = Select.OnlyOutputs;
+        }
+
         foreach (IContainer c in AllContainers(selection)) {
             if (c.GetResource() == resource) {
                 leftToAdd = c.RemainderOfAdd(leftToAdd);

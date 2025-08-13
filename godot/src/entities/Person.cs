@@ -16,8 +16,7 @@ public partial class Person : PathFollow3D {
     public float MaxRecalculationTime = 3.0f;
     [Export]
     public bool IsCaptain = false;
-
-    public bool InElevator = false;
+    public State state = State.Idle;
     public int FloorNumber = 0;
 
     private RandomNumberGenerator _rng = new();
@@ -91,7 +90,7 @@ public partial class Person : PathFollow3D {
     }
 
     public bool ThrowGarbage(Pickupable garbage) {
-        if (InElevator) return false;
+        if (state == State.InElevator) return false;
         var offset = new Vector3(0.0f, 0.1f, 0.0f);
         offset.X += _rng.RandfRange(-GarbageThrowRadius, GarbageThrowRadius);
         offset.Z += _rng.RandfRange(-GarbageThrowRadius, GarbageThrowRadius);
@@ -102,7 +101,11 @@ public partial class Person : PathFollow3D {
     }
 
     public override void _Process(double delta) {
-        if (InElevator) {
+        if (state == State.Floating) {
+            AlienSprite.RotateZ(1.0f * (float) delta);
+            return;
+        }
+        if (state == State.InElevator) {
             AlienSprite.Rotation = new Vector3(0, 0, 0);
             return;
         }
@@ -189,4 +192,10 @@ public partial class Person : PathFollow3D {
     }
 
     public bool HasTask() => (_currentTask != null);
+    
+    public enum State {
+        Idle,
+        InElevator,
+        Floating
+    }
 }

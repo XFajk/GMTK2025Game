@@ -69,13 +69,11 @@ public partial class MissionSaboteur : Node, IMission {
         }
 
         // toss the captain out of the airlock
-        ship.ScheduleCrewTask(
-            new CrewTask() {
-                Location = OutOfTheAirlock.Position,
-                OnTaskComplete = p => p.QueueFree()
-            },
-            captain
-        );
+        captain.Position -= new Vector3(0, 0, 20);
+        captain.state = Person.State.Floating;
+        Tween captaintween = GetTree().CreateTween();
+        captaintween.TweenProperty(captain, "position", OutOfTheAirlock.Position, 5);
+        captaintween.TweenCallback(Callable.From(() => captain.QueueFree()));
     }
 
     public virtual bool IsPreparationFinished() {

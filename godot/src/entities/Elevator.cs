@@ -21,7 +21,7 @@ public partial class Elevator : Area3D {
         Person person = area.GetParent<Person>();
 
         if (person != null) {
-            if (person.InElevator) {
+            if (person.state == Person.State.InElevator) {
                 return;
             }
             if (person.ShipTargets.Count < 2) {
@@ -30,7 +30,7 @@ public partial class Elevator : Area3D {
             if (person.ShipTargets[0].IsElevator) {
                 var tween = GetTree().CreateTween();
                 Node personParent = person.GetParent();
-                person.InElevator = true;
+                person.state = Person.State.InElevator;
                 var storedPersonPosition = person.GlobalPosition;
 
                 personParent.RemoveChild(person);
@@ -52,7 +52,7 @@ public partial class Elevator : Area3D {
                     RemoveChild(person);
                     targetFloor.FloorPath.AddChild(person);
                     person.ProgressRatio = targetFloor.FloorPath.ElevatorRatio;
-                    person.InElevator = false;
+                    person.state = Person.State.Idle;
                     person.FloorNumber = targetFloor.FloorNumber;
                     person.ShipTargets.RemoveAt(0);
                 }));

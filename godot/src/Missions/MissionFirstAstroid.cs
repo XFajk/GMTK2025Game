@@ -76,7 +76,8 @@ public partial class MissionFirstAstroid : Node, IMission {
         for (int i = 0; i < CrewCount; i++) {
             ship.ScheduleCrewTask(new CrewTask() {
                 Duration = Duration,
-                Location = AirLock.Position
+                Location = AirLock.Position,
+                ActionType = CrewTask.Type.Disappear
             });
         }
 
