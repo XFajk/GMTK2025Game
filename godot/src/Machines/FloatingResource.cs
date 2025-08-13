@@ -9,6 +9,7 @@ public partial class FloatingResource : Node, IContainer {
     [Export]
     public int MaxQuantity = 1000;
 
+    [Export(PropertyHint.Range, "0,0,")]
     // floating-point to avoid rounding errors
     public float Quantity;
 

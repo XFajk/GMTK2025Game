@@ -9,6 +9,7 @@ public partial class StorageContainer : Connectable, IContainer {
     [Export]
     public int MaxQuantity;
 
+    [Export(PropertyHint.Range, "0,0,")]
     // floating-point to avoid rounding errors
     public float Quantity;
 
