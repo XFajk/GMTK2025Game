@@ -1,9 +1,9 @@
-[gd_scene load_steps=26 format=3 uid="uid://kv1h8f6jesp"]
+[gd_scene load_steps=29 format=3 uid="uid://kv1h8f6jesp"]
 
 [ext_resource type="PackedScene" uid="uid://bqyjx3w8kmd7v" path="res://scenes/ui/resource_lable.tscn" id="1_gwk6t"]
 [ext_resource type="Script" uid="uid://duklq3ywprpea" path="res://src/ui/GameUi.cs" id="1_v1bdg"]
 [ext_resource type="Script" uid="uid://eno67lob8bbv" path="res://src/ui/ResourceExpandButton.cs" id="2_fct72"]
-[ext_resource type="Theme" uid="uid://slxggstqjbqr" path="res://misc/core_ui_theame.tres" id="2_xjfbv"]
+[ext_resource type="Theme" uid="uid://cusb8x135x335" path="res://misc/game_ui_theame.tres" id="2_oqj4c"]
 [ext_resource type="Texture2D" uid="uid://c44niq23o40tu" path="res://assets/misc/short_arrow_icon.svg" id="4_v1bdg"]
 [ext_resource type="Texture2D" uid="uid://cdwxn7luor35t" path="res://assets/sprites/coolant_hot.png" id="6_yvtb5"]
 [ext_resource type="Texture2D" uid="uid://c5i6kuuckpmn6" path="res://assets/sprites/coolant_cold.png" id="7_k7elv"]
@@ -16,6 +16,8 @@
 [ext_resource type="Texture2D" uid="uid://ervw5a6ks581" path="res://assets/sprites/carbon_dioxide.png" id="14_20oq5"]
 [ext_resource type="Texture2D" uid="uid://bktmjphclr3b5" path="res://assets/sprites/disposables.png" id="15_plh64"]
 [ext_resource type="Texture2D" uid="uid://cimbvobggrpwe" path="res://assets/sprites/garbage.png" id="16_t1jn2"]
+[ext_resource type="Script" uid="uid://bli1ea7abkpqu" path="res://src/ui/DiagramButton.cs" id="17_5bpyr"]
+[ext_resource type="Texture2D" uid="uid://br3pd5setm87r" path="res://assets/sprites/resource_flow_diagram_drawn.png" id="17_pbku6"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qrkc0"]
 bg_color = Color(0.145098, 0.737255, 0.101961, 0.368627)
@@ -45,7 +47,7 @@ border_width_bottom = 1
 border_color = Color(0.662745, 0.8, 0.301961, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fftnl"]
-bg_color = Color(0.145098, 0.737255, 0.101961, 0.368627)
+bg_color = Color(0.102349, 0.529135, 0.0720059, 0.368627)
 skew = Vector2(-0.32, 0)
 border_width_left = 1
 border_width_top = 1
@@ -81,6 +83,9 @@ border_color = Color(0.662745, 0.8, 0.301961, 1)
 
 [sub_resource type="Theme" id="Theme_opxtl"]
 
+[sub_resource type="LabelSettings" id="LabelSettings_5bpyr"]
+font_size = 25
+
 [node name="GameUI" type="Control"]
 layout_mode = 3
 anchors_preset = 0
@@ -92,7 +97,7 @@ offset_left = 62.0
 offset_top = 37.0
 offset_right = 157.0
 offset_bottom = 71.0
-theme = ExtResource("2_xjfbv")
+theme = ExtResource("2_oqj4c")
 theme_override_styles/focus = SubResource("StyleBoxFlat_qrkc0")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_yvtb5")
 theme_override_styles/hover = SubResource("StyleBoxFlat_k7elv")
@@ -286,6 +291,60 @@ offset_top = -11.0
 offset_right = 114.0
 offset_bottom = 12.0
 text = "Garbage : "
+
+[node name="DiagramButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 1082.0
+offset_top = 596.0
+offset_right = 1136.0
+offset_bottom = 646.0
+theme = ExtResource("2_oqj4c")
+theme_override_font_sizes/font_size = 35
+toggle_mode = true
+text = "i"
+script = ExtResource("17_5bpyr")
+
+[node name="ResourceDiagram" type="Panel" parent="DiagramButton"]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.132
+anchor_right = -0.132
+offset_left = -1.872
+offset_top = -1.0
+offset_right = -1.872
+offset_bottom = -1.0
+theme = ExtResource("2_oqj4c")
+
+[node name="ResourceDiagramTextrue" type="TextureRect" parent="DiagramButton/ResourceDiagram"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 24.0
+offset_top = 34.0
+offset_right = -25.0
+offset_bottom = -11.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("17_pbku6")
+expand_mode = 1
+
+[node name="Title" type="Label" parent="DiagramButton/ResourceDiagram"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.03
+anchor_right = 0.257
+anchor_bottom = 0.065
+offset_left = 0.0499992
+offset_top = 1.0
+offset_right = 11.395
+offset_bottom = 0.369999
+grow_horizontal = 2
+grow_vertical = 2
+text = "Resoure Diagram"
+label_settings = SubResource("LabelSettings_5bpyr")
+clip_text = true
 
 [editable path="ResourceExpandButton/Resources/HotCoolant"]
 [editable path="ResourceExpandButton/Resources/Cold Coolant"]
