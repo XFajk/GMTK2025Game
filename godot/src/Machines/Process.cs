@@ -14,8 +14,10 @@ public partial class Process : Node3D {
     protected float _processingPerSecond = 1;
 
     [Export]
-    /// Processing Per Second will be randomly offset by up to this amount
-    protected float _processingRandomness = 1;
+    /// processing time will be randomized each cycle by this fraction
+    protected float _processingRandomness = 0.5f;
+    private float _currentTargetProgress = 1;
+    private RandomNumberGenerator _rng = new();
 
     /// the inputs and outputs of the recipe
     private List<InputOutput> _recipeParts = new();
@@ -39,7 +41,7 @@ public partial class Process : Node3D {
             }
         }
 
-        Resources.VerifyLossless(_recipeParts, Name);
+        if (_isLossless) Resources.VerifyLossless(_recipeParts, Name);
     }
 
     public override void _Process(double deltaTime) {
@@ -54,8 +56,9 @@ public partial class Process : Node3D {
         // now run the machine
         _processProgress += _processingPerSecond * (float)deltaTime;
 
-        while (_processProgress > 1) {
+        while (_processProgress > _currentTargetProgress) {
             _processProgress -= 1;
+            _currentTargetProgress = _rng.RandfRange(1 - _processingRandomness, 1 + _processingRandomness);
 
             foreach (InputOutput io in _recipeParts) {
                 io.Container.AddQuantity(io.QuantityChangeInReceipe);
