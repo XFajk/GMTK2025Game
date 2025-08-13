@@ -81,7 +81,7 @@ public partial class Ship : Node, IContainer {
     }
 
     public FloatingResource GetFloatingResource(Resource resource) {
-        foreach (var res in _floatingResourceManager.Resources()) {
+        foreach (var res in _floatingResourceManager.AllResources()) {
             if (res.Resource == resource) return res;
         }
         return null;
@@ -157,7 +157,7 @@ public partial class Ship : Node, IContainer {
     }
 
     public IEnumerable<IContainer> AllContainers(Select selection) {
-        foreach (FloatingResource r in _floatingResourceManager.Resources()) {
+        foreach (FloatingResource r in _floatingResourceManager.AllResources()) {
             yield return r;
         }
         foreach (StorageContainer c in Containers) {

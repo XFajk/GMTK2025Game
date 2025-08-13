@@ -7,7 +7,7 @@ public partial class FloatingResourceManager {
     private Dictionary<FloatingResource, List<IContainer>> _inputs = new();
     private Dictionary<FloatingResource, List<IContainer>> _outputs = new();
 
-    public IEnumerable<FloatingResource> Resources() => _inputs.Keys.Concat(_outputs.Keys).Distinct();
+    public IEnumerable<FloatingResource> AllResources() => _inputs.Keys.Concat(_outputs.Keys).Distinct();
 
     public void Ready(List<Machine> machines, Node floatingResourcesNode) {
         foreach (Node node in floatingResourcesNode.GetChildren()) {
@@ -49,13 +49,13 @@ public partial class FloatingResourceManager {
                 floatingBuffer.Quantity += quantityToMove;
                 io.RemoveQuantity(quantityToMove);
 
-                if (quantityToMove > 0) {
-                    // GD.Print($"Pulled {quantityToMove} {floatingBuffer.Resource} from {io.GetName()}");
+                if (io.GetQuantity() < 0) {
+                    GD.PrintErr($"{io.GetName()} {io.GetResource()} quantity negative ({io.GetQuantity()})");
                 }
+            }
 
-                if (floatingBuffer.Quantity > floatingBuffer.MaxQuantity || io.GetQuantity() < 0) {
-                    throw new Exception("quantities out of bounds");
-                }
+            if (floatingBuffer.Quantity > floatingBuffer.MaxQuantity) {
+                GD.PrintErr($"{floatingBuffer.GetName()} {floatingBuffer.GetResource()} quantity out of bounds ({floatingBuffer.Quantity} / {floatingBuffer.MaxQuantity})");
             }
         }
 
@@ -68,18 +68,18 @@ public partial class FloatingResourceManager {
             float budgetPerInput = floatingBuffer.Quantity / machineBuffers.Count;
 
             foreach (IContainer io in machineBuffers) {
-                float quantityFree = (io as IContainer).GetQuantityFree();
+                float quantityFree = io.GetQuantityFree();
                 float quantityToMove = Mathf.Min(budgetPerInput, quantityFree);
                 floatingBuffer.Quantity -= quantityToMove;
                 io.AddQuantity(quantityToMove);
 
-                if (quantityToMove > 0) {
-                    // GD.Print($"Pushed {quantityToMove} {floatingBuffer.Resource} to {io.GetName()}");
+                if (io.GetQuantity() > io.GetMaxQuantity()) {
+                    GD.PrintErr($"{io.GetName()} {io.GetResource()} quantity out of bounds ({io.GetQuantity()} / {io.GetMaxQuantity()})");
                 }
+            }
 
-                if (floatingBuffer.Quantity < 0 || io.GetQuantity() > io.GetMaxQuantity()) {
-                    throw new Exception("quantities out of bounds");
-                }
+            if (floatingBuffer.Quantity < 0) {
+                GD.PrintErr($"{floatingBuffer.GetName()} {floatingBuffer.GetResource()} quantity negative ({floatingBuffer.Quantity})");
             }
         }
     }
