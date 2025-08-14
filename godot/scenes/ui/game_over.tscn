@@ -1,0 +1,95 @@
+[gd_scene load_steps=4 format=3 uid="uid://gr0ifj3y6diu"]
+
+[ext_resource type="Theme" uid="uid://cusb8x135x335" path="res://misc/game_ui_theame.tres" id="1_60xr3"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_fu4wh"]
+font_size = 161
+font_color = Color(0.0509804, 1, 0.694118, 1)
+outline_size = 8
+outline_color = Color(0.486275, 0.847059, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_x6o8e"]
+font_size = 18
+
+[node name="GameOver" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+theme = ExtResource("1_60xr3")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 100.0
+offset_top = 50.0
+offset_right = -100.0
+offset_bottom = -50.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="Label" parent="Panel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -415.0
+offset_top = 50.98
+offset_right = 415.0
+offset_bottom = 246.98
+grow_horizontal = 2
+text = "GAME OVER"
+label_settings = SubResource("LabelSettings_fu4wh")
+vertical_alignment = 1
+
+[node name="Description" type="Label" parent="Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_top = -10.5
+offset_right = 400.0
+offset_bottom = 149.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.
+
+"
+label_settings = SubResource("LabelSettings_x6o8e")
+autowrap_mode = 3
+clip_text = true
+
+[node name="ReturnToMenu" type="Button" parent="Panel"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -256.76
+offset_top = -87.545
+offset_right = -77.76
+offset_bottom = -47.545
+grow_horizontal = 2
+grow_vertical = 0
+text = " RETRUN TO MENU "
+
+[node name="PlayAgain" type="Button" parent="Panel"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 64.405
+offset_top = -87.545
+offset_right = 243.405
+offset_bottom = -47.545
+grow_horizontal = 2
+grow_vertical = 0
+text = "PLAY AGAIN"

@@ -4,12 +4,19 @@ using System;
 public partial class StatusBar : ProgressBar {
 
     private Sprite2D _icon;
+    private Sprite2D _exclamation;
+    private Tween _exclamationTween;
+
     private StyleBoxFlat _fillStyleBox;
     private MachineBuffer _buffer;
     private StorageContainer _storageContainer;
 
     public override void _Ready() {
         _icon = GetNode<Sprite2D>("Icon");
+
+        _exclamation = GetNode<Sprite2D>("Exclamation");
+        _exclamation.Modulate = new Color(1, 1, 1, 0); // Fully transparent
+
         _fillStyleBox = (StyleBoxFlat)GetThemeStylebox("fill").Duplicate();
         AddThemeStyleboxOverride("fill", _fillStyleBox);
     }
@@ -28,6 +35,10 @@ public partial class StatusBar : ProgressBar {
             if (Value != newValue) {
                 Tween tween = GetTree().CreateTween();
                 tween.TweenProperty(this, "value", newValue, 0.2f);
+            }
+
+            if (_buffer.Critical && Value <= MinValue + Step) {
+                BlinkExclamation();
             }
         }
         if (_storageContainer != null) {
@@ -99,5 +110,17 @@ public partial class StatusBar : ProgressBar {
         }
 
         _storageContainer = container;
+    }
+
+    private void BlinkExclamation() {
+        if (_exclamation != null && _exclamationTween == null) {
+            _exclamationTween = GetTree().CreateTween();
+            _exclamationTween.TweenProperty(_exclamation, "modulate", new Color(1, 1, 1, 1), 0.2f);
+            _exclamationTween.TweenProperty(_exclamation, "modulate", new Color(1, 1, 1, 0), 0.2f);
+
+            _exclamationTween.TweenCallback(Callable.From(() => {
+                _exclamationTween = null;
+            }));
+        }
     }
 }

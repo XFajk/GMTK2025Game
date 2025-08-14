@@ -35,6 +35,7 @@ public partial class StatusInterface : Sprite3D {
 
             if (buffer.QuantityChangeInReceipe < 0) {
                 statusBar.Position += new Vector2(inputOffset, 0);
+                
                 inputOffset -= 70;
             } else {
                 statusBar.Position += new Vector2(outputOffset, 0);
