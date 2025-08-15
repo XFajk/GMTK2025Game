@@ -83,6 +83,10 @@ public partial class Game : Node {
             }
         }
 
+        if (_missionsNode.DoPanic()) {
+            // CRAB_RAVE.wav
+        }
+
         float satisfaction = _satisfaction.GetSatisfactionLevel();
         _ui.SetSatisfaction(satisfaction);
         if (satisfaction <= 0) { /* GAME_OVER */ }

@@ -28,7 +28,6 @@ public partial class MissionManager : Node {
         };
     }
 
-
     public override void _Process(double delta) {
         _missionClock.delta = delta;
         _missionClock.time += delta;
@@ -90,6 +89,11 @@ public partial class MissionManager : Node {
         if (ActiveMission != null && ActiveMission.IsDelayed() == true) {
             MissionDelayCallback(ActiveMission, delta);
         }
+    }
+
+    public bool DoPanic() {
+        // TODO
+        return false;
     }
 
     private void ExecuteEventsOfNode(Node eventNode) {
