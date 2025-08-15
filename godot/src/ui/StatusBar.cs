@@ -2,7 +2,7 @@ using Godot;
 using System;
 
 public partial class StatusBar : ProgressBar {
-
+    public const int WarnIfCriticalResourceBelowPercent = 20;
     private Sprite2D _icon;
     private Sprite2D _exclamation;
     private Tween _exclamationTween;
@@ -36,7 +36,7 @@ public partial class StatusBar : ProgressBar {
         }
 
         if (Resources.IsCritical(_target.GetResource())) {
-            if (_target is StorageContainer && Value <= MinValue + Step) {
+            if (_target is StorageContainer && newValue < WarnIfCriticalResourceBelowPercent) {
                 BlinkExclamation();
             }
         }
