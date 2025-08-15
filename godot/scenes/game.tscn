@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://0rmy461ykeb"]
+[gd_scene load_steps=23 format=3 uid="uid://0rmy461ykeb"]
 
 [ext_resource type="Script" uid="uid://bp0g8sc4t5qhs" path="res://src/Game.cs" id="1_yqjtg"]
 [ext_resource type="PackedScene" uid="uid://cgccmqaeo11dk" path="res://scenes/ship.tscn" id="2_lnu2h"]
@@ -21,6 +21,7 @@
 [ext_resource type="Script" uid="uid://cgjaj1ali2bgb" path="res://src/Missions/MissionIceAstroidMining.cs" id="16_ssvqc"]
 [ext_resource type="Environment" uid="uid://c3kvjjeurfhoc" path="res://misc/camera_enviroment.tres" id="22_37s47"]
 [ext_resource type="LightmapGIData" uid="uid://bpwijcomcgfsg" path="res://misc/game.lmbake" id="22_bt5mj"]
+[ext_resource type="Script" uid="uid://cjjsxokidqvge" path="res://src/misc/Satisfaction.cs" id="22_e1j6l"]
 
 [node name="Game" type="Node"]
 script = ExtResource("1_yqjtg")
@@ -420,3 +421,9 @@ directional = true
 use_texture_for_bounces = false
 interior = true
 light_data = ExtResource("22_bt5mj")
+
+[node name="Node" type="Node" parent="."]
+script = ExtResource("22_e1j6l")
+MaximumSatisfaction = 1000
+CrewFoodOxygenPenalty = 5
+MissionCompleteReward = 500

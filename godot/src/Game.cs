@@ -11,12 +11,13 @@ public partial class Game : Node {
     private MissionManager _missionsNode;
 
     private GameUi _ui;
-
+    private Satisfaction _satisfaction;
     private Connectable _selectedMachine;
 
     public override void _Ready() {
         _shipNode = GetNode<Ship>("Ship");
         _ui = GetNode<GameUi>("Player/GameUI");
+        _satisfaction = GetNode<Satisfaction>("Satisfaction");
 
         _missionsNode = GetNode<MissionManager>("MissionsAndEvents");
 
@@ -71,6 +72,10 @@ public partial class Game : Node {
                 _missionsNode.AddEvent(eventNode);
             }
         }
+
+        float satisfaction = _satisfaction.GetSatisfactionLevel();
+        _ui.SetSatisfaction(satisfaction);
+        if (satisfaction <= 0) { /* GAME_OVER */ }
     }
 
     private void OnConnectionClick(Connectable machine, ConnectionNode node) {
