@@ -61,7 +61,7 @@ public partial class Satisfaction : Node {
     }
 
     public void TriggerMissionComplete() {
-        _value += MissionCompleteReward;
+        _value += Mathf.Clamp(_value + MissionCompleteReward, 0, MaximumSatisfaction);
     }
 
 }
