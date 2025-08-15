@@ -31,7 +31,7 @@ public partial class StatusInterface : Sprite3D {
             VisualBarsViewPort.AddChild(statusBar);
 
             statusBar._Ready();
-            statusBar.SetStatusFromMachineBuffer(buffer);
+            statusBar.SetStatusFrom(buffer);
 
             if (buffer.QuantityChangeInReceipe < 0) {
                 statusBar.Position += new Vector2(inputOffset, 0);
@@ -58,7 +58,7 @@ public partial class StatusInterface : Sprite3D {
         VisualBarsViewPort.AddChild(statusBar);
 
         statusBar._Ready();
-        statusBar.SetStatusFromStorageContainer(storageContainer);
+        statusBar.SetStatusFrom(storageContainer);
 
         statusBar.Position += new Vector2(0, 0); // adjust position if needed
         StatusBars.Add(statusBar);

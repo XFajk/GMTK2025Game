@@ -8,8 +8,7 @@ public partial class StatusBar : ProgressBar {
     private Tween _exclamationTween;
 
     private StyleBoxFlat _fillStyleBox;
-    private MachineBuffer _buffer;
-    private StorageContainer _storageContainer;
+    private IContainer _target;
 
     public override void _Ready() {
         _icon = GetNode<Sprite2D>("Icon");
@@ -22,94 +21,50 @@ public partial class StatusBar : ProgressBar {
     }
 
     public override void _Process(double delta) {
-        if (_buffer != null) {
-            double newValue;
-            if (_buffer.Quantity == 0) {
-                newValue = 0;
-            } else if (Resources.IsFloating(_buffer.Resource)) {
-                // floating is either empty or full
-                newValue = (_buffer.Quantity >= _buffer.MaxQuantity) ? 100.0f : 0;
-            } else {
-                newValue = (_buffer.Quantity / _buffer.MaxQuantity * 100.0);
-            }
-            if (Value != newValue) {
-                Tween tween = GetTree().CreateTween();
-                tween.TweenProperty(this, "value", newValue, 0.2f);
-            }
+        double newValue;
+        if (_target.GetQuantity() == 0) {
+            newValue = 0;
+        } else if (Resources.IsFloating(_target.GetResource())) {
+            // floating is either empty or full
+            newValue = (_target.GetQuantity() >= _target.GetMaxQuantity()) ? 100.0f : 0;
+        } else {
+            newValue = (_target.GetQuantity() / _target.GetMaxQuantity() * 100.0);
+        }
+        if (Value != newValue) {
+            Tween tween = GetTree().CreateTween();
+            tween.TweenProperty(this, "value", newValue, 0.2f);
+        }
 
-            if (Resources.IsCritical(_buffer.Resource) && Value <= MinValue + Step) {
+        if (Resources.IsCritical(_target.GetResource())) {
+            if (_target is StorageContainer && Value <= MinValue + Step) {
                 BlinkExclamation();
             }
         }
-        if (_storageContainer != null) {
-            double newValue;
-            if (_storageContainer.Quantity == 0) {
-                newValue = 0;
-            } else if (Resources.IsFloating(_storageContainer.Resource)) {
-                // floating is either empty or full
-                newValue = (_storageContainer.Quantity >= _storageContainer.MaxQuantity) ? 100.0f : 0;
-            } else {
-                newValue = (_storageContainer.Quantity / _storageContainer.MaxQuantity * 100.0);
-            }
-            if (Value != newValue) {
-                Tween tween = GetTree().CreateTween();
-                tween.TweenProperty(this, "value", newValue, 0.2f);
-            }
-        }
     }
 
-    public void SetStatusFromMachineBuffer(MachineBuffer buffer) {
-
-        if (buffer.Resource == Resource.Unset) {
+    public void SetStatusFrom(IContainer buffer) {
+        if (buffer.GetResource() == Resource.Unset) {
             _icon.Visible = false;
             Value = 0;
             return;
         }
 
         _icon.Visible = true;
-        _icon.Texture = Resources.GetResourceIcon(buffer.Resource);
-        _fillStyleBox.BgColor = Resources.GetResourceColor(buffer.Resource);
+        _icon.Texture = Resources.GetResourceIcon(buffer.GetResource());
+        _fillStyleBox.BgColor = Resources.GetResourceColor(buffer.GetResource());
 
         double newValue = 0.0;
-        if (buffer.Quantity == 0) {
+        if (buffer.GetQuantity() == 0) {
             newValue = 0.0;
         } else {
-            newValue = (buffer.Quantity / buffer.MaxQuantity * 100.0);
+            newValue = (buffer.GetQuantity() / buffer.GetMaxQuantity() * 100.0);
         }
 
         if (Value != newValue) {
             Tween tween = GetTree().CreateTween();
             tween.TweenProperty(this, "value", newValue, 0.2f);
         }
-
-        _buffer = buffer;
-    }
-
-    public void SetStatusFromStorageContainer(StorageContainer container) {
-
-        if (container.Resource == Resource.Unset) {
-            _icon.Visible = false;
-            Value = 0;
-            return;
-        }
-
-        _icon.Visible = true;
-        _icon.Texture = Resources.GetResourceIcon(container.Resource);
-        _fillStyleBox.BgColor = Resources.GetResourceColor(container.Resource);
-
-        double newValue = 0.0;
-        if (container.Quantity == 0) {
-            newValue = 0.0;
-        } else {
-            newValue = (container.Quantity / container.MaxQuantity * 100.0);
-        }
-
-        if (Value != newValue) {
-            Tween tween = GetTree().CreateTween();
-            tween.TweenProperty(this, "value", newValue, 0.2f);
-        }
-
-        _storageContainer = container;
+        _target = buffer;
     }
 
     private void BlinkExclamation() {
