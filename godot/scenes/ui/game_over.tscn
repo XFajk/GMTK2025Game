@@ -13,7 +13,7 @@ outline_color = Color(0.486275, 0.847059, 0, 1)
 font_size = 18
 
 [node name="GameOver" type="Control"]
-process_mode = 2
+process_mode = 3
 layout_mode = 3
 anchors_preset = 0
 offset_right = 1152.0

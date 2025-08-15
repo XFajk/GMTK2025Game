@@ -13,11 +13,13 @@ public partial class Game : Node {
     private GameUi _ui;
     private Satisfaction _satisfaction;
     private Connectable _selectedMachine;
+    private MusicPlayer _musicPlayer;
 
     public override void _Ready() {
         _shipNode = GetNode<Ship>("Ship");
         _ui = GetNode<GameUi>("Player/GameUI");
         _satisfaction = GetNode<Satisfaction>("Satisfaction");
+        _musicPlayer = GetNode<MusicPlayer>("MusicPlayer");
 
         _missionsNode = GetNode<MissionManager>("MissionsAndEvents");
 
@@ -84,12 +86,14 @@ public partial class Game : Node {
         }
 
         if (_missionsNode.DoPanic()) {
-            // CRAB_RAVE.wav
+            _musicPlayer.ChangeTrack(MusicPlayer.MusicTrack.Alarm);
+        } else {
+            _musicPlayer.ChangeTrack(MusicPlayer.MusicTrack.Main);
         }
 
         float satisfaction = _satisfaction.GetSatisfactionLevel();
         _ui.SetSatisfaction(satisfaction);
-        if (satisfaction <= 0) { /* GAME_OVER */ }
+        if (satisfaction <= 0) GameOver.TriggerGameOver(this, "Satisfaction reached 0%"); // would be nice if you could extract why the satisfaction dropped to 0 aka lack of food etc.
     }
 
     private void OnConnectionClick(Connectable machine, ConnectionNode node) {
