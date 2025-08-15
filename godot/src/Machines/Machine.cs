@@ -23,8 +23,8 @@ public partial class Machine : Connectable, IRepairable {
     public override IEnumerable<MachineBuffer> Inputs() => _recipeParts.Where(c => c.QuantityChangeInReceipe < 0);
     public override IEnumerable<MachineBuffer> Outputs() => _recipeParts.Where(c => c.QuantityChangeInReceipe > 0);
 
-    public bool IsWorking = true;
-    public bool IsProcessing = true;
+    public bool MachineIsWorking = true;
+    public bool MachineIsProcessing = true;
 
     public override void _Ready() {
         base._Ready();
@@ -49,12 +49,12 @@ public partial class Machine : Connectable, IRepairable {
     }
 
     public override void _Process(double deltaTime) {
-        if (!IsWorking) return;
+        if (!MachineIsWorking) return;
 
         // check if all ingredients are present and enough output space available
         foreach (MachineBuffer container in _recipeParts) {
             if (!CanCycle(container)) {
-                IsProcessing = false;
+                MachineIsProcessing = false;
                 _processProgress = 0;
                 return;
             }
@@ -62,7 +62,7 @@ public partial class Machine : Connectable, IRepairable {
 
         // now run the machine
         _processProgress += _processingPerSecond * (float)deltaTime;
-        IsProcessing = true;
+        MachineIsProcessing = true;
 
         while (_processProgress > 1) {
             _processProgress -= 1;
@@ -88,9 +88,9 @@ public partial class Machine : Connectable, IRepairable {
         return quantityAfterCycle >= 0 && quantityAfterCycle <= container.MaxQuantity;
     }
 
-    bool IRepairable.IsWorking() => IsWorking;
+    bool IRepairable.IsWorking() => MachineIsWorking;
 
     Node3D IRepairable.AsNode() => this;
 
-    void IRepairable.SetRepaired() => IsWorking = true;
+    void IRepairable.SetRepaired() => MachineIsWorking = true;
 }

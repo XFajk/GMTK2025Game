@@ -32,7 +32,7 @@ public partial class MissionHighPowerScan : TimedMission {
         base.OnStart(ship);
         foreach (Machine m in ship.Machines) {
             if (m is not Plants) {
-                m.IsWorking = false;
+                m.MachineIsWorking = false;
                 _disabledMachines.Add(m);
             }
         }
@@ -43,6 +43,6 @@ public partial class MissionHighPowerScan : TimedMission {
 
     public override void OnCompletion(Ship ship) {
         base.OnCompletion(ship);
-        _disabledMachines.ForEach(m => m.IsWorking = true);
+        _disabledMachines.ForEach(m => m.MachineIsWorking = true);
     }
 }

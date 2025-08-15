@@ -13,7 +13,7 @@ public partial class EventMachineBreakdown : Node, IEvent {
     };
 
     public void ApplyEffect(Ship ship) {
-        Target.IsWorking = false;
+        Target.MachineIsWorking = false;
         ScheduleRepair(ship);
     }
 
@@ -21,7 +21,7 @@ public partial class EventMachineBreakdown : Node, IEvent {
         ship.ScheduleCrewTask(new CrewTask() {
             Location = Target.GlobalPosition,
             Duration = SecondsToRepair,
-            OnTaskComplete = (p => Target.IsWorking = true),
+            OnTaskComplete = (p => Target.MachineIsWorking = true),
             OnTaskAbort = (p => ScheduleRepair(ship))
         });
     }
