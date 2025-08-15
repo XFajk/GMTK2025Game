@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://kv1h8f6jesp"]
+[gd_scene load_steps=33 format=3 uid="uid://kv1h8f6jesp"]
 
 [ext_resource type="PackedScene" uid="uid://bqyjx3w8kmd7v" path="res://scenes/ui/resource_lable.tscn" id="1_gwk6t"]
 [ext_resource type="Script" uid="uid://duklq3ywprpea" path="res://src/ui/GameUi.cs" id="1_v1bdg"]
@@ -94,6 +94,18 @@ events = [SubResource("InputEventKey_i3ans")]
 
 [sub_resource type="LabelSettings" id="LabelSettings_5bpyr"]
 font_size = 25
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i3ans"]
+bg_color = Color(0.180392, 0.364706, 0.184314, 0.576471)
+skew = Vector2(0.6, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.824582, 0.839681, 7.70092e-07, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_84uof"]
+font_size = 18
 
 [node name="GameUI" type="Control"]
 layout_mode = 3
@@ -355,6 +367,45 @@ grow_vertical = 2
 text = "Resoure Diagram"
 label_settings = SubResource("LabelSettings_5bpyr")
 clip_text = true
+
+[node name="CrewSatisfactionBar" type="ProgressBar" parent="."]
+layout_mode = 0
+offset_left = 202.0
+offset_top = 47.0
+offset_right = 1136.0
+offset_bottom = 62.0
+theme = ExtResource("2_oqj4c")
+value = 9.13
+show_percentage = false
+
+[node name="TitleBackGround" type="Panel" parent="CrewSatisfactionBar"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -102.5
+offset_top = -24.75
+offset_right = 103.5
+offset_bottom = 1.25
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_i3ans")
+
+[node name="CrewSatisfactionTitle" type="Label" parent="CrewSatisfactionBar/TitleBackGround"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -71.0
+offset_top = -11.5
+offset_right = 71.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Crew Satisfaction"
+label_settings = SubResource("LabelSettings_84uof")
+vertical_alignment = 1
 
 [editable path="ResourceExpandButton/Resources/HotCoolant"]
 [editable path="ResourceExpandButton/Resources/Cold Coolant"]

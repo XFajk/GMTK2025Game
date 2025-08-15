@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=9 format=3 uid="uid://cusb8x135x335"]
+[gd_resource type="Theme" load_steps=11 format=3 uid="uid://cusb8x135x335"]
 
 [ext_resource type="FontFile" uid="uid://rs5nkn4vh4tx" path="res://assets/fonts/wwDigital.ttf" id="1_qpfe0"]
 
@@ -64,6 +64,19 @@ border_width_right = 3
 border_width_bottom = 3
 border_color = Color(0.350144, 1, 0.321415, 1)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qpfe0"]
+bg_color = Color(0.180392, 0.364706, 0.184314, 0.576471)
+skew = Vector2(-0.6, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.824582, 0.839681, 7.70092e-07, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qbfpn"]
+bg_color = Color(0.555596, 0.652394, 0, 1)
+skew = Vector2(-0.6, 0)
+
 [resource]
 default_font_size = 24
 AcceptDialog/font_sizes/title_font_size = 16
@@ -81,4 +94,6 @@ Label/font_sizes/font_size = 16
 Label/fonts/font = ExtResource("1_qpfe0")
 Panel/styles/panel = SubResource("StyleBoxFlat_7tmg1")
 ProgressBar/fonts/font = ExtResource("1_qpfe0")
+ProgressBar/styles/background = SubResource("StyleBoxFlat_qpfe0")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_qbfpn")
 RichTextLabel/fonts/normal_font = ExtResource("1_qpfe0")
