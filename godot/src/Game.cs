@@ -30,6 +30,8 @@ public partial class Game : Node {
         _missionsNode.Ship = _shipNode;
         _missionsNode.ShowBriefCallback = (mission) => ShowMissionDialog(mission, true);
         _missionsNode.ShowDebriefCallback = (mission) => ShowMissionDialog(mission, false);
+        _missionsNode.MissionCompleteCallback = (mission) => _satisfaction.CheckMissionComplete(mission);
+        _missionsNode.MissionDelayCallback = (mission, delta) => _satisfaction.TriggerMissionDelay(delta);
 
         // _Ready of child nodes will always be first
         foreach (Connectable connectable in _shipNode.Connectables) {
@@ -40,6 +42,14 @@ public partial class Game : Node {
 
             connectable.OnHoverStart += OnHoverStart;
             connectable.OnHoverEnd += OnHoverEnd;
+        }
+
+        foreach (Process process in _shipNode.Processes) {
+            process.OnProcessingFailed += _satisfaction.CheckProcessFailure;
+        }
+
+        foreach (Machine machine in _shipNode.Machines) {
+            machine.OnProcessingFailed += _satisfaction.CheckMachineFailure;
         }
     }
 
@@ -71,6 +81,10 @@ public partial class Game : Node {
                 // we adopt it as our own
                 _missionsNode.AddEvent(eventNode);
             }
+        }
+
+        if (_missionsNode.DoPanic()) {
+            // CRAB_RAVE.wav
         }
 
         float satisfaction = _satisfaction.GetSatisfactionLevel();

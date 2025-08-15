@@ -45,4 +45,6 @@ public partial class MissionHighPowerScan : TimedMission {
         base.OnCompletion(ship);
         _disabledMachines.ForEach(m => m.MachineIsWorking = true);
     }
+
+    public override bool IsDelayed() => false;
 }

@@ -2,15 +2,9 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public partial class MissionIceAstroidMining : Node, IMission {
+public partial class MissionIceAstroidMining : TimedMission, IMission {
     // measured in 0.1% per second
     private const float CarbonDumpPerSecond = 10f;
-
-    [Export(PropertyHint.Range, "0,300,1")]
-    public int PreparationTime = 10;
-
-    [Export(PropertyHint.Range, "0,600,10")]
-    public int Duration;
 
     [Export]
     public int RequiredDisposables;
@@ -30,6 +24,7 @@ public partial class MissionIceAstroidMining : Node, IMission {
     private Ship _ship;
 
     void IMission.MissionReady(Ship ship, MissionManager.Clock missionClock) {
+        base.MissionReady(ship, missionClock);
         _ship = ship;
         var carbonToOxygen = Resources.GetRatio(Resource.CarbonDioxide, Resource.Oxygen);
         var disposablesToCarbon = Resources.GetRatio(Resource.Disposables, Resource.CarbonDioxide);
@@ -54,10 +49,10 @@ public partial class MissionIceAstroidMining : Node, IMission {
         };
     }
     
-    public IMission.Properties GetMissionProperties() => Properties;
+    public override IMission.Properties GetMissionProperties() => Properties;
 
-    public void OnStart(Ship ship) {
-        _startTime = Time.GetTicksUsec();
+    public override void OnStart(Ship ship) {
+        base.OnStart(ship);
         foreach (var pair in Properties.ResourceMinimumRequirements) {
             ship.RemoveResource(pair.Key, pair.Value);
         }
@@ -76,18 +71,12 @@ public partial class MissionIceAstroidMining : Node, IMission {
         });
     }
 
-    public bool IsPreparationFinished() {
-        double timePassed = (double)(Time.GetTicksUsec() - _preparationStartTime) / 1E6;
-        // delay finished until we have the materials
-        return _preparationStartTime != 0 && timePassed > PreparationTime && (this as IMission).CheckMaterialRequirements(_ship);
+    public override bool IsPreparationFinished() {
+        return base.IsPreparationFinished() && (this as IMission).CheckMaterialRequirements(_ship);
     }
 
-    public bool IsMissionFinised() {
-        double timePassed = (double)(Time.GetTicksUsec() - _startTime) / 1E6;
-        return _startTime != 0 && timePassed > Duration;
-    }
-
-    public void OnCompletion(Ship ship) {
+    public override void OnCompletion(Ship ship) {
+        base.OnCompletion(ship);
         ship.ActiveEffects.Add(new EventEffectResourceAdd() {
             AdditionPerSecond = CarbonDumpPerSecond,
             MaxResourcesToAdd = CarbonDioxideReturnQuantity,
@@ -96,5 +85,9 @@ public partial class MissionIceAstroidMining : Node, IMission {
 
         // fill up everything with water
         ship.AddResource(Resource.Water, float.MaxValue);
+    }
+
+    public override bool IsDelayed() {
+        return base.IsPreparationFinished() && !(this as IMission).CheckMaterialRequirements(_ship);
     }
 }

@@ -54,4 +54,6 @@ public partial class MissionPrepare : Node, IMission {
     public void OnCompletion(Ship ship) {
         GD.Print("MissionPrepare OnCompletion!");
     }
+
+    public bool IsDelayed() => false;
 }

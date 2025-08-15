@@ -1,10 +1,14 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Godot;
 
 /// Machines that draw their requirements by themselves, without requiring connections.
 /// They do not have buffers
 public partial class Process : Node3D {
+    [Signal]
+    public delegate void OnProcessingFailedEventHandler(Process process, double deltaTime);
+
     [Export]
     private bool _isLossless = true;
 
@@ -46,11 +50,10 @@ public partial class Process : Node3D {
 
     public override void _Process(double deltaTime) {
         // check if all ingredients are present and enough output space available
-        foreach (InputOutput io in _recipeParts) {
-            if (!CanCycle(io)) {
-                _processProgress = 0;
-                return;
-            }
+        if (!_recipeParts.All(CanCycle)) {
+            _processProgress = 0;
+            EmitSignalOnProcessingFailed(this, deltaTime);
+            return;
         }
 
         // now run the machine
@@ -65,11 +68,9 @@ public partial class Process : Node3D {
             }
 
             // check again if we can continue to cycle
-            foreach (InputOutput io in _recipeParts) {
-                if (!CanCycle(io)) {
-                    _processProgress = 0;
-                    return;
-                }
+            if (!_recipeParts.All(CanCycle)) {
+                return;
+
             }
         }
     }

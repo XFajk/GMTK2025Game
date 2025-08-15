@@ -3,12 +3,15 @@ using System;
 using System.Collections.Generic;
 
 public partial class MissionManager : Node {
+
     // we only have one active mission at any time, but we can prepare multiple in parallel
     public List<IMission> MissionsInPreparation = new();
     public IMission ActiveMission = null;
 
     public Action<IMission> ShowBriefCallback;
     public Action<IMission> ShowDebriefCallback;
+    public Action<IMission> MissionCompleteCallback;
+    public Action<IMission, double> MissionDelayCallback;
     public Ship Ship;
 
     private Clock _missionClock = new();
@@ -24,7 +27,6 @@ public partial class MissionManager : Node {
             TimeDelaySeconds = InitialTimeDelay
         };
     }
-
 
     public override void _Process(double delta) {
         _missionClock.delta = delta;
@@ -70,6 +72,7 @@ public partial class MissionManager : Node {
             if (ActiveMission.IsMissionFinised()) {
                 /// 6: `OnCompletion` is called
                 ActiveMission.OnCompletion(Ship);
+                MissionCompleteCallback(ActiveMission);
                 /// 7: the player sees the Debrief
                 if (ActiveMission.GetMissionProperties().Popup) {
                     ShowDebriefCallback.Invoke(ActiveMission);
@@ -77,6 +80,20 @@ public partial class MissionManager : Node {
                 ActiveMission = null;
             }
         }
+
+        foreach (IMission mission in MissionsInPreparation) {
+            if (mission.IsDelayed()) {
+                MissionDelayCallback(mission, delta);
+            }
+        }
+        if (ActiveMission != null && ActiveMission.IsDelayed() == true) {
+            MissionDelayCallback(ActiveMission, delta);
+        }
+    }
+
+    public bool DoPanic() {
+        // TODO
+        return false;
     }
 
     private void ExecuteEventsOfNode(Node eventNode) {

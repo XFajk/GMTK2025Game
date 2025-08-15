@@ -22,6 +22,9 @@ public interface IMission {
     bool IsMissionFinised();
     void OnCompletion(Ship ship);
 
+    // true if the crew satisfaction should be negatively influenced by the current state of the mission
+    bool IsDelayed();
+
     bool CheckMaterialRequirements(Ship ship) {
         Properties props = GetMissionProperties();
         var allResources = ship.GetTotalResourceQuantities();

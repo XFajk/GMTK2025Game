@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public partial class MissionEngineRev : TimedMission, IMission {
 
@@ -31,6 +32,8 @@ public partial class MissionEngineRev : TimedMission, IMission {
             }
         }
     }
+
+    public override bool IsDelayed() => _state == IMission.State.Started && _engines.Any(e => !e.MachineIsProcessing);
 
     public override IMission.Properties GetMissionProperties() => Properties;
 

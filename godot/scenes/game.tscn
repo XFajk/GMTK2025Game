@@ -46,7 +46,7 @@ _initialResources = Dictionary[int, int]({
 2: 100,
 4: 500,
 5: 20,
-8: 400,
+8: 800,
 10: 8,
 11: 16
 })
@@ -114,11 +114,11 @@ TimeDelaySeconds = 10
 
 [node name="AstroidMining" type="Node" parent="MissionsAndEvents" node_paths=PackedStringArray("AirLock")]
 script = ExtResource("15_ca42v")
-PreparationTime = 60
-Duration = 60
 RequiredDisposables = 20
 CrewCount = 4
 AirLock = NodePath("../../Ship/AirLock")
+PreparationTime = 60
+Duration = 60
 
 [node name="AFewSecondsIntoPreparation" type="Node" parent="MissionsAndEvents" node_paths=PackedStringArray("MissionToWaitFor")]
 script = ExtResource("6_0tnpc")
@@ -226,9 +226,9 @@ MissionToWaitFor = NodePath("../EngineRev")
 
 [node name="IceAstroid" type="Node" parent="MissionsAndEvents"]
 script = ExtResource("16_ssvqc")
-Duration = 50
 RequiredDisposables = 20
 CrewCount = 4
+Duration = 50
 
 [node name="AFewSecondsIntoIceAstroid" type="Node" parent="MissionsAndEvents" node_paths=PackedStringArray("MissionToWaitFor")]
 script = ExtResource("6_0tnpc")
@@ -422,8 +422,8 @@ use_texture_for_bounces = false
 interior = true
 light_data = ExtResource("22_bt5mj")
 
-[node name="Node" type="Node" parent="."]
+[node name="Satisfaction" type="Node" parent="."]
 script = ExtResource("22_e1j6l")
-MaximumSatisfaction = 1000
+MaximumSatisfaction = 500
 CrewFoodOxygenPenalty = 5
-MissionCompleteReward = 500
+MissionCompleteReward = 100

@@ -5,7 +5,6 @@ using System.Collections.Generic;
 // ඞ
 public partial class MissionSaboteur : Node, IMission {
     public IMission.Properties Properties;
-
     [Export(PropertyHint.Range, "0,60")]
     public int TimeUntilEmergencyMeeting = 10;
     [Export]
@@ -16,9 +15,10 @@ public partial class MissionSaboteur : Node, IMission {
     private Node3D Airlock;
     [Export]
     private Node3D OutOfTheAirlock;
-    protected ulong _preparationStartTime;
 
     private bool _isFinished = false;
+    private MissionManager.Clock _missionClock;
+    private double _startTime;
 
     void IMission.MissionReady(Ship ship, MissionManager.Clock missionClock) {
         Properties = new() {
@@ -32,8 +32,9 @@ public partial class MissionSaboteur : Node, IMission {
                 "Well, It's been a pleasure"
             ],
         };
-        
-        _preparationStartTime = Time.GetTicksUsec();
+
+        _missionClock = missionClock;
+        _startTime = _missionClock.time;
     }
 
     public IMission.Properties GetMissionProperties() => Properties;
@@ -77,9 +78,11 @@ public partial class MissionSaboteur : Node, IMission {
     }
 
     public virtual bool IsPreparationFinished() {
-        double timePassed = (double)(Time.GetTicksUsec() - _preparationStartTime) / 1E6;
-        return _preparationStartTime != 0 && timePassed > TimeUntilEmergencyMeeting;
+        double timePassed = (double)(_missionClock.time - _startTime) / 1E6;
+        return _startTime != 0 && timePassed > TimeUntilEmergencyMeeting;
     }
 
     public bool IsMissionFinised() => _isFinished;
+
+    public bool IsDelayed() => false;
 }

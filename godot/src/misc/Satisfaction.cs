@@ -26,6 +26,24 @@ public partial class Satisfaction : Node {
         return (float)_value / MaximumSatisfaction;
     }
 
+    public void CheckProcessFailure(Process failedProcess, double deltaTime) {
+        if (failedProcess.Name == "CrewGarbageProcess") {
+            TriggerCrewGarbageProcessFailure(deltaTime);
+        } else if (failedProcess.Name == "CrewFoodProcess") {
+            TriggerCrewFoodProcessFailure(deltaTime);
+        }
+    }
+
+    public void CheckMachineFailure(Machine failedMachine, double deltaTime) {
+        if (failedMachine is Engine) {
+            TriggerEngineProcessFailure(deltaTime);
+        }
+    }
+
+    public void CheckMissionComplete(IMission mission) {
+        if (mission is not MissionFireRepair) TriggerMissionComplete();
+    }
+
     public void TriggerCrewFoodProcessFailure(double deltaTime) {
         _value -= CrewFoodOxygenPenalty * deltaTime;
     }
@@ -43,6 +61,7 @@ public partial class Satisfaction : Node {
     }
 
     public void TriggerMissionComplete() {
-        _value += MissionCompleteReward;
+        _value += Mathf.Clamp(_value + MissionCompleteReward, 0, MaximumSatisfaction);
     }
+
 }

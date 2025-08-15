@@ -36,4 +36,6 @@ public abstract partial class TimedMission : Node, IMission {
     public virtual void OnCompletion(Ship ship) {
         _state = IMission.State.Finished;
     }
+
+    public abstract bool IsDelayed();
 }

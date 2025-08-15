@@ -6,6 +6,9 @@ using System.Linq;
 
 /// a connectable machine that processes receipes
 public partial class Machine : Connectable, IRepairable {
+    [Signal]
+    public delegate void OnProcessingFailedEventHandler(Machine machine, double deltaTime);
+
     [Export]
     private bool _isLossless = true;
 
@@ -13,7 +16,7 @@ public partial class Machine : Connectable, IRepairable {
     /// number of times per second a cycle is executed.
     /// Every cycle executes the changes defined by the inputs and outputs once
     protected float _processingPerSecond = 1;
-    
+
     /// the inputs and outputs of the recipe
     protected List<MachineBuffer> _recipeParts = new();
 
@@ -52,12 +55,11 @@ public partial class Machine : Connectable, IRepairable {
         if (!MachineIsWorking) return;
 
         // check if all ingredients are present and enough output space available
-        foreach (MachineBuffer container in _recipeParts) {
-            if (!CanCycle(container)) {
-                MachineIsProcessing = false;
-                _processProgress = 0;
-                return;
-            }
+        if (!_recipeParts.All(CanCycle)) {
+            MachineIsProcessing = false;
+            EmitSignalOnProcessingFailed(this, deltaTime);
+            _processProgress = 0;
+            return;
         }
 
         // now run the machine
@@ -72,19 +74,14 @@ public partial class Machine : Connectable, IRepairable {
             }
 
             // check again if we can continue to cycle
-            foreach (MachineBuffer container in _recipeParts) {
-                if (!CanCycle(container)) {
-                    _processProgress = 0;
-                    return;
-                }
-            }
+            if (!_recipeParts.All(CanCycle)) break;
         }
     }
 
     // returns true if we can execute the receipe at least once
     // returns false if we don't have ingredients or space
     protected static bool CanCycle(MachineBuffer container) {
-        int quantityAfterCycle = (int) container.Quantity + container.QuantityChangeInReceipe;
+        int quantityAfterCycle = (int)container.Quantity + container.QuantityChangeInReceipe;
         return quantityAfterCycle >= 0 && quantityAfterCycle <= container.MaxQuantity;
     }
 
