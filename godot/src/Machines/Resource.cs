@@ -46,6 +46,11 @@ public class Resources {
         _ => false,
     };
 
+    public static bool IsCritical(Resource resource) => resource switch {
+        Resource.Oxygen or Resource.Food or Resource.CoolantCold or Resource.Water or Resource.Disposables=> true,
+        _ => false,
+    };
+
     public static string ToUnit(Resource resource, int quantity) {
         return resource switch {
             Resource.CoolantHot or Resource.CoolantCold => $"{quantity * 4} L",

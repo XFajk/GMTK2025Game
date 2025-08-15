@@ -13,9 +13,6 @@ public partial class MachineBuffer : Node, IContainer {
     /// change caused by a single execution cycle of the machine
     public int QuantityChangeInReceipe;
 
-    [Export]
-    public bool Critical = false;
-
     [Export(PropertyHint.Range, "0,0,")]
     // floating-point to avoid rounding errors
     public float Quantity;

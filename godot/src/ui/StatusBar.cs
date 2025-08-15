@@ -37,7 +37,7 @@ public partial class StatusBar : ProgressBar {
                 tween.TweenProperty(this, "value", newValue, 0.2f);
             }
 
-            if (_buffer.Critical && Value <= MinValue + Step) {
+            if (Resources.IsCritical(_buffer.Resource) && Value <= MinValue + Step) {
                 BlinkExclamation();
             }
         }
