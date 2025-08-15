@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://gr0ifj3y6diu"]
+[gd_scene load_steps=5 format=3 uid="uid://cr2inl0fw34bo"]
 
 [ext_resource type="Theme" uid="uid://cusb8x135x335" path="res://misc/game_ui_theame.tres" id="1_60xr3"]
+[ext_resource type="Script" uid="uid://b0ihvjtlmd8v6" path="res://src/ui/GameOver.cs" id="2_fu4wh"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_fu4wh"]
 font_size = 161
@@ -12,13 +13,15 @@ outline_color = Color(0.486275, 0.847059, 0, 1)
 font_size = 18
 
 [node name="GameOver" type="Control"]
+process_mode = 2
 layout_mode = 3
 anchors_preset = 0
 offset_right = 1152.0
 offset_bottom = 648.0
 theme = ExtResource("1_60xr3")
+script = ExtResource("2_fu4wh")
 
-[node name="Panel" type="Panel" parent="."]
+[node name="BackPanel" type="Panel" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -30,7 +33,7 @@ offset_bottom = -50.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Title" type="Label" parent="Panel"]
+[node name="Title" type="Label" parent="BackPanel"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -44,7 +47,7 @@ text = "GAME OVER"
 label_settings = SubResource("LabelSettings_fu4wh")
 vertical_alignment = 1
 
-[node name="Description" type="Label" parent="Panel"]
+[node name="Reason" type="Label" parent="BackPanel"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -64,7 +67,7 @@ label_settings = SubResource("LabelSettings_x6o8e")
 autowrap_mode = 3
 clip_text = true
 
-[node name="ReturnToMenu" type="Button" parent="Panel"]
+[node name="ReturnToMenu" type="Button" parent="BackPanel"]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -79,7 +82,7 @@ grow_horizontal = 2
 grow_vertical = 0
 text = " RETRUN TO MENU "
 
-[node name="PlayAgain" type="Button" parent="Panel"]
+[node name="PlayAgain" type="Button" parent="BackPanel"]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5

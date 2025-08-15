@@ -1,8 +1,7 @@
-[gd_scene load_steps=32 format=3 uid="uid://kv1h8f6jesp"]
+[gd_scene load_steps=31 format=3 uid="uid://kv1h8f6jesp"]
 
 [ext_resource type="PackedScene" uid="uid://bqyjx3w8kmd7v" path="res://scenes/ui/resource_lable.tscn" id="1_gwk6t"]
 [ext_resource type="Script" uid="uid://duklq3ywprpea" path="res://src/ui/GameUi.cs" id="1_v1bdg"]
-[ext_resource type="PackedScene" uid="uid://gr0ifj3y6diu" path="res://scenes/ui/game_over.tscn" id="2_5bpyr"]
 [ext_resource type="Script" uid="uid://eno67lob8bbv" path="res://src/ui/ResourceExpandButton.cs" id="2_fct72"]
 [ext_resource type="Theme" uid="uid://cusb8x135x335" path="res://misc/game_ui_theame.tres" id="2_oqj4c"]
 [ext_resource type="Texture2D" uid="uid://c44niq23o40tu" path="res://assets/misc/short_arrow_icon.svg" id="4_v1bdg"]
@@ -100,11 +99,6 @@ font_size = 25
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_v1bdg")
-
-[node name="GameOver" parent="." instance=ExtResource("2_5bpyr")]
-layout_mode = 1
-offset_top = -817.22
-offset_bottom = -169.22
 
 [node name="ResourceExpandButton" type="Button" parent="."]
 layout_mode = 0
