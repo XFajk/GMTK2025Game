@@ -46,8 +46,11 @@ public partial class Game : Node {
         MissionDialog dialog = _missionPopup.Instantiate<MissionDialog>();
         AddChild(dialog);
 
-        void unpause() => GetTree().Paused = false;
-        dialog.DialogClosed += unpause;
+        _ui.Visible = false;
+        dialog.DialogClosed += () => {
+            _ui.Visible = true;
+            GetTree().Paused = false;
+        };
         GetTree().Paused = true;
 
         IMission.Properties properties = mission.GetMissionProperties();

@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://bsyipwqe6h25u"]
+[gd_scene load_steps=6 format=3 uid="uid://bsyipwqe6h25u"]
 
 [ext_resource type="Texture2D" uid="uid://cdwh4c8y3kr7b" path="res://icon.svg" id="2_onll6"]
 [ext_resource type="Script" uid="uid://qkydg65ids2g" path="res://src/ui/StatusBar.cs" id="2_ve5g5"]
+[ext_resource type="Texture2D" uid="uid://vhvmvjtjirj3" path="res://assets/misc/exclamation.svg" id="3_ve5g5"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cobfd"]
 bg_color = Color(0.182873, 0.182873, 0.182873, 0.345098)
@@ -46,3 +47,8 @@ script = ExtResource("2_ve5g5")
 position = Vector2(24, -22)
 scale = Vector2(0.296875, 0.296875)
 texture = ExtResource("2_onll6")
+
+[node name="Exclamation" type="Sprite2D" parent="."]
+position = Vector2(25, 108)
+scale = Vector2(0.0975001, 0.160403)
+texture = ExtResource("3_ve5g5")
