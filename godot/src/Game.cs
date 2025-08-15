@@ -30,6 +30,7 @@ public partial class Game : Node {
         _missionsNode.Ship = _shipNode;
         _missionsNode.ShowBriefCallback = (mission) => ShowMissionDialog(mission, true);
         _missionsNode.ShowDebriefCallback = (mission) => ShowMissionDialog(mission, false);
+        _missionsNode.ShowDebriefCallback = (mission) => _satisfaction.CheckMissionComplete(mission);
 
         // _Ready of child nodes will always be first
         foreach (Connectable connectable in _shipNode.Connectables) {
@@ -40,6 +41,14 @@ public partial class Game : Node {
 
             connectable.OnHoverStart += OnHoverStart;
             connectable.OnHoverEnd += OnHoverEnd;
+        }
+
+        foreach (Process process in _shipNode.Processes) {
+            process.OnProcessingFailed += _satisfaction.CheckProcessFailure;
+        }
+
+        foreach (Machine machine in _shipNode.Machines) {
+            machine.OnProcessingFailed += _satisfaction.CheckMachineFailure;
         }
     }
 

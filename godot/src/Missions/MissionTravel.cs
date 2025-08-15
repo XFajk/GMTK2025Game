@@ -48,7 +48,10 @@ public partial class MissionTravel : TimedMission, IMission {
     public override IMission.Properties GetMissionProperties() => Properties;
 
     public override void _Process(double delta) {
-        if (_state == IMission.State.Started && _engines.Any(e => !e.MachineIsProcessing)) _missionEndTime += delta;
+        if (_state == IMission.State.Started && _engines.Any(e => !e.MachineIsProcessing)) {
+            
+            _missionEndTime += delta;
+        }
     }
 
 

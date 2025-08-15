@@ -46,7 +46,7 @@ _initialResources = Dictionary[int, int]({
 2: 100,
 4: 500,
 5: 20,
-8: 400,
+8: 800,
 10: 8,
 11: 16
 })
@@ -422,8 +422,8 @@ use_texture_for_bounces = false
 interior = true
 light_data = ExtResource("22_bt5mj")
 
-[node name="Node" type="Node" parent="."]
+[node name="Satisfaction" type="Node" parent="."]
 script = ExtResource("22_e1j6l")
-MaximumSatisfaction = 1000
+MaximumSatisfaction = 500
 CrewFoodOxygenPenalty = 5
-MissionCompleteReward = 500
+MissionCompleteReward = 100

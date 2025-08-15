@@ -19,6 +19,7 @@ public partial class Ship : Node, IContainer {
 
     private FloatingResourceManager _floatingResourceManager = new();
     public List<Machine> Machines { get; private set; } = new();
+    public List<Process> Processes { get; private set; } = new();
     public List<StorageContainer> Containers { get; private set; } = new();
     /// all machines and containers
     public List<Connectable> Connectables => [.. Machines, .. Containers];
@@ -48,6 +49,9 @@ public partial class Ship : Node, IContainer {
             }
             if (node is StorageContainer container) {
                 Containers.Add(container);
+            }
+            if (node is Process process) {
+                Processes.Add(process);
             }
         }
         _connectionsNode = GetNode("Connections");

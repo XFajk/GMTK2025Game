@@ -5,7 +5,7 @@ public partial class GameUi : Control {
 
     public Dictionary<Resource, ResourceLable> ResourceLables = new();
 
-    public ProgressBar SatisfactionIndicator;
+    public ProgressBar _satisfactionIndicator;
 
     public override void _Ready() {
         Node resourcesNode = GetNode("ResourceExpandButton/Resources");
@@ -14,9 +14,11 @@ public partial class GameUi : Control {
                 ResourceLables.Add(resourceLable.Resource, resourceLable);
             }
         }
+
+        _satisfactionIndicator = GetNode<ProgressBar>("CrewSatisfactionBar");
     }
 
     public void SetSatisfaction(float fraction) {
-        SatisfactionIndicator.Value = Mathf.Lerp(SatisfactionIndicator.MinValue, SatisfactionIndicator.MaxValue, fraction);
+        _satisfactionIndicator.Value = Mathf.Lerp(_satisfactionIndicator.MinValue, _satisfactionIndicator.MaxValue, fraction);
     }
 }
