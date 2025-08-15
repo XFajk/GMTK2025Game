@@ -73,4 +73,6 @@ public partial class MissionPizza : Node, IMission {
 
     public void OnCompletion(Ship ship) {
     }
+
+    public bool IsDelayed() => false;
 }

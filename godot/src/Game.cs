@@ -30,7 +30,8 @@ public partial class Game : Node {
         _missionsNode.Ship = _shipNode;
         _missionsNode.ShowBriefCallback = (mission) => ShowMissionDialog(mission, true);
         _missionsNode.ShowDebriefCallback = (mission) => ShowMissionDialog(mission, false);
-        _missionsNode.ShowDebriefCallback = (mission) => _satisfaction.CheckMissionComplete(mission);
+        _missionsNode.MissionCompleteCallback = (mission) => _satisfaction.CheckMissionComplete(mission);
+        _missionsNode.MissionDelayCallback = (mission, delta) => _satisfaction.TriggerMissionDelay(delta);
 
         // _Ready of child nodes will always be first
         foreach (Connectable connectable in _shipNode.Connectables) {

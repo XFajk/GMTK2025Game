@@ -55,4 +55,6 @@ public partial class MissionFireRepair : Node, IMission {
     public bool IsMissionFinised() => _repairCompleted;
 
     public void OnCompletion(Ship ship) { }
+
+    public bool IsDelayed() => false;
 }

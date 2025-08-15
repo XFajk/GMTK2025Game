@@ -31,4 +31,6 @@ public partial class MissionPirates : TimedMission {
     }
 
     public override IMission.Properties GetMissionProperties() => Properties;
+
+    public override bool IsDelayed() => false;
 }
