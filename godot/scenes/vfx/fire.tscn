@@ -54,7 +54,7 @@ curve = SubResource("Curve_xn2cr")
 direction = Vector3(0, 1, 0)
 spread = 53.233
 initial_velocity_min = 1.0
-initial_velocity_max = 3.0
+initial_velocity_max = 5.0
 gravity = Vector3(0, 0, 0)
 linear_accel_min = 1.73
 linear_accel_max = 1.73
@@ -88,10 +88,10 @@ process_material = SubResource("ParticleProcessMaterial_kv17e")
 draw_pass_1 = SubResource("QuadMesh_ykm6b")
 
 [node name="Fire" type="GPUParticles3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.422544, 0)
 cast_shadow = 0
 amount = 50
-interp_to_end = 0.09
+lifetime = 2.0
+interp_to_end = 0.06
 process_material = SubResource("ParticleProcessMaterial_ie5bg")
 draw_pass_1 = SubResource("SphereMesh_j48lf")
 
