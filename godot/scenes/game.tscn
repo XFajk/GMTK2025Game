@@ -119,7 +119,7 @@ RequiredDisposables = 20
 CrewCount = 4
 AirLock = NodePath("../../Ship/AirLock")
 PreparationTime = 60
-Duration = 60
+Duration = 40
 
 [node name="AFewSecondsIntoPreparation" type="Node" parent="MissionsAndEvents" node_paths=PackedStringArray("MissionToWaitFor")]
 script = ExtResource("6_0tnpc")
@@ -138,9 +138,10 @@ script = ExtResource("6_0tnpc")
 TimeDelaySeconds = 7
 TimeDelayStartsWhen = 7
 
-[node name="MachineBreakdown" type="Node" parent="MissionsAndEvents"]
+[node name="MachineBreakdown" type="Node" parent="MissionsAndEvents" node_paths=PackedStringArray("Target")]
 script = ExtResource("14_1kice")
 SecondsToRepair = 8.0
+Target = NodePath("../../Ship/SolidWasteBurner")
 
 [node name="OneSecondLater" type="Node" parent="MissionsAndEvents"]
 script = ExtResource("6_0tnpc")
@@ -162,11 +163,12 @@ TimeDelayStartsWhen = 7
 [node name="OxygenLeak" type="Node3D" parent="MissionsAndEvents"]
 transform = Transform3D(-0.930839, 0.365429, 0, -0.365429, -0.930839, 0, 0, 0, 1, -2.73522, 7.21839, 0)
 script = ExtResource("15_5newe")
-SecondsToRepair = 8.0
+LossPerSecond = 2.0
+SecondsToRepair = 6.0
 
 [node name="WaitUntilAstroidMiningComplete" type="Node" parent="MissionsAndEvents" node_paths=PackedStringArray("MissionToWaitFor")]
 script = ExtResource("6_0tnpc")
-TimeDelaySeconds = 10
+TimeDelaySeconds = 20
 TimeDelayStartsWhen = 5
 MissionToWaitFor = NodePath("../AstroidMining")
 
@@ -394,11 +396,11 @@ script = ExtResource("6_0tnpc")
 TimeDelaySeconds = 1
 TimeDelayStartsWhen = 7
 
-[node name="FireInTheScannerRoom5" type="Node3D" parent="TestMissions"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.9266, -1.7394, -1.16467)
-script = ExtResource("10_kvuet")
-OxygenLossPerSecond = 3.0
-SecondsToExtinguish = 5
+[node name="OxygenLeak4" type="Node3D" parent="TestMissions"]
+transform = Transform3D(-0.930839, 0.365429, 0, -0.365429, -0.930839, 0, 0, 0, 1, -2.73522, 7.21839, 0)
+script = ExtResource("15_5newe")
+LossPerSecond = 2.0
+SecondsToRepair = 6.0
 
 [node name="OneSecondLater4" type="Node" parent="TestMissions"]
 script = ExtResource("6_0tnpc")

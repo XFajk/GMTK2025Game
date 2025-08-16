@@ -55,5 +55,8 @@ draw_pass_1 = SubResource("QuadMesh_ch8nq")
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("2_rsc07")
-pitch_scale = 3.0
+volume_db = -10.0
+unit_size = 5.0
+max_db = 2.0
+pitch_scale = 5.0
 autoplay = true
