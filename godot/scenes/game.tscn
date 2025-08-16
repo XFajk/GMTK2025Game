@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://0rmy461ykeb"]
+[gd_scene load_steps=25 format=3 uid="uid://0rmy461ykeb"]
 
 [ext_resource type="Script" uid="uid://bp0g8sc4t5qhs" path="res://src/Game.cs" id="1_yqjtg"]
 [ext_resource type="PackedScene" uid="uid://cgccmqaeo11dk" path="res://scenes/ship.tscn" id="2_lnu2h"]
@@ -19,6 +19,7 @@
 [ext_resource type="Script" uid="uid://c72ahasknc46o" path="res://src/Missions/MissionEngineRev.cs" id="15_ssvqc"]
 [ext_resource type="Script" uid="uid://288tx64nh6c5" path="res://src/Missions/MissionPirates.cs" id="16_rysoc"]
 [ext_resource type="Script" uid="uid://cgjaj1ali2bgb" path="res://src/Missions/MissionIceAstroidMining.cs" id="16_ssvqc"]
+[ext_resource type="Script" uid="uid://w5jk28xssui5" path="res://src/Missions/MissionGameFinished.cs" id="20_e1j6l"]
 [ext_resource type="Environment" uid="uid://c3kvjjeurfhoc" path="res://misc/camera_enviroment.tres" id="22_37s47"]
 [ext_resource type="LightmapGIData" uid="uid://bpwijcomcgfsg" path="res://misc/game.lmbake" id="22_bt5mj"]
 [ext_resource type="Script" uid="uid://cjjsxokidqvge" path="res://src/misc/Satisfaction.cs" id="22_e1j6l"]
@@ -116,7 +117,7 @@ TimeDelaySeconds = 10
 [node name="AstroidMining" type="Node" parent="MissionsAndEvents" node_paths=PackedStringArray("AirLock")]
 script = ExtResource("15_ca42v")
 RequiredDisposables = 20
-CrewCount = 4
+CrewCount = 3
 AirLock = NodePath("../../Ship/AirLock")
 PreparationTime = 60
 Duration = 40
@@ -184,7 +185,7 @@ TimeDelaySeconds = 3
 
 [node name="PizzaTime" type="Node" parent="MissionsAndEvents"]
 script = ExtResource("14_trtic")
-TargetFoodQuantity = 100
+TargetFoodQuantity = 60
 
 [node name="AFewSecondsIntoPizzaTime2" type="Node" parent="MissionsAndEvents" node_paths=PackedStringArray("MissionToWaitFor")]
 script = ExtResource("6_0tnpc")
@@ -214,7 +215,7 @@ TimeDelayStartsWhen = 7
 
 [node name="MachineBreakdown2" type="Node" parent="MissionsAndEvents" node_paths=PackedStringArray("Target")]
 script = ExtResource("14_1kice")
-SecondsToRepair = 8.0
+SecondsToRepair = 12.0
 Target = NodePath("../../Ship/SolidWasteBurner")
 
 [node name="WaitForEngineRevFinish" type="Node" parent="MissionsAndEvents" node_paths=PackedStringArray("MissionToWaitFor")]
@@ -227,6 +228,7 @@ MissionToWaitFor = NodePath("../EngineRev")
 script = ExtResource("16_ssvqc")
 RequiredDisposables = 20
 CrewCount = 4
+PreparationTime = 20
 Duration = 50
 
 [node name="AFewSecondsIntoIceAstroid" type="Node" parent="MissionsAndEvents" node_paths=PackedStringArray("MissionToWaitFor")]
@@ -371,7 +373,10 @@ SecondsToRepair = 2.0
 script = ExtResource("6_0tnpc")
 TimeDelaySeconds = 3
 
-[node name="GameFinish" type="Node" parent="MissionsAndEvents"]
+[node name="Credits" type="Node" parent="MissionsAndEvents"]
+script = ExtResource("20_e1j6l")
+
+[node name="WaitForeverToAvoidCrashingTheGame" type="Node" parent="MissionsAndEvents"]
 script = ExtResource("6_0tnpc")
 TimeDelaySeconds = 100000
 TimeDelayStartsWhen = 7
@@ -383,17 +388,10 @@ environment = ExtResource("22_37s47")
 script = ExtResource("5_gee14")
 InitialTimeDelay = 5
 
-[node name="Amogus2" type="Node" parent="TestMissions" node_paths=PackedStringArray("GatherLocation", "Airlock")]
-script = ExtResource("13_kvuet")
-GatherLocation = NodePath("../../Ship/CrewQuarters")
-GatherTimeSeconds = 10
-Airlock = NodePath("../../Ship/AirLock")
+[node name="Credits2" type="Node" parent="TestMissions"]
+script = ExtResource("20_e1j6l")
 
-[node name="WaitUntilEverythingIsCalmAgain4" type="Node" parent="TestMissions"]
-script = ExtResource("6_0tnpc")
-TimeDelaySeconds = 3
-
-[node name="GameFinish" type="Node" parent="TestMissions"]
+[node name="WaitForeverToAvoidCrashingTheGame2" type="Node" parent="TestMissions"]
 script = ExtResource("6_0tnpc")
 TimeDelaySeconds = 100000
 TimeDelayStartsWhen = 7
