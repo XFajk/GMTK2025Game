@@ -7,6 +7,8 @@ public interface IEvent {
 
     Properties GetProperties();
 
+    bool DoPanic();
+
     public class Properties {
         public string Description;
         public Vector3 IconPosition;

@@ -39,4 +39,6 @@ public partial class EventSolarFlare : Node, IEvent {
 
         ship.ActiveEffects.Add(_conversionEffect);
     }
+
+    public bool DoPanic() => false;
 }

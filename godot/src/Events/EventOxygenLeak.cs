@@ -9,6 +9,7 @@ public partial class EventOxygenLeak : Node3D, IEvent, IRepairable {
 
     private Ship _ship;
     private Node3D _leakSfx;
+    private bool _isFixed = false;
 
     private EventEffectResourceAdd _effect;
     private static readonly PackedScene ExplosionSfx = GD.Load<PackedScene>("res://scenes/vfx/explosion.tscn");
@@ -57,8 +58,9 @@ public partial class EventOxygenLeak : Node3D, IEvent, IRepairable {
         });
     }
 
+    public bool DoPanic() => !_isFixed;
 
-    public bool IsWorking() => false;
+    public bool IsWorking() => _isFixed;
 
     public Node3D AsNode() => this;
 

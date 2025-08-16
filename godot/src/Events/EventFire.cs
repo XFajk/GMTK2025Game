@@ -16,6 +16,7 @@ public partial class EventFire : Node3D, IEvent, IRepairable {
     private Ship _ship;
     private EventEffectResourceConvert _fireConversionEffect;
     private Node3D _fireSfx;
+    private bool _isFixed = false;
 
     private static readonly PackedScene FireSFX = GD.Load<PackedScene>("res://scenes/vfx/fire.tscn");
 
@@ -65,8 +66,9 @@ public partial class EventFire : Node3D, IEvent, IRepairable {
         });
     }
 
+    public bool DoPanic() => !_isFixed;
 
-    public bool IsWorking() => false;
+    public bool IsWorking() => _isFixed;
 
     public Node3D AsNode() => this;
 

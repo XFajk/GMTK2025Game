@@ -16,4 +16,6 @@ public partial class EventPlantDeath : Node, IEvent {
     public void ApplyEffect(Ship ship) {
         Greenhouse.PlantHealth *= (percentageLost / 100.0f);
     }
+
+    public bool DoPanic() => false;
 }
