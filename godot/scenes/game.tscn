@@ -172,15 +172,11 @@ TimeDelaySeconds = 20
 TimeDelayStartsWhen = 5
 MissionToWaitFor = NodePath("../AstroidMining")
 
-[node name="Amogus" type="Node" parent="MissionsAndEvents" node_paths=PackedStringArray("GatherLocation", "Airlock", "OutOfTheAirlock")]
+[node name="Amogus" type="Node" parent="MissionsAndEvents" node_paths=PackedStringArray("GatherLocation", "Airlock")]
 script = ExtResource("13_kvuet")
 GatherLocation = NodePath("../../Ship/CrewQuarters")
 GatherTimeSeconds = 10
 Airlock = NodePath("../../Ship/AirLock")
-OutOfTheAirlock = NodePath("Outside")
-
-[node name="Outside" type="Node3D" parent="MissionsAndEvents/Amogus"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32.728, 17.794, -10)
 
 [node name="WaitUntilEverythingIsCalmAgain2" type="Node" parent="MissionsAndEvents"]
 script = ExtResource("6_0tnpc")
@@ -384,34 +380,18 @@ TimeDelayStartsWhen = 7
 environment = ExtResource("22_37s47")
 
 [node name="TestMissions" type="Node" parent="."]
+script = ExtResource("5_gee14")
+InitialTimeDelay = 5
 
-[node name="FireInTheScannerRoom4" type="Node3D" parent="TestMissions"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.1698, -1.7394, -0.152532)
-script = ExtResource("10_kvuet")
-OxygenLossPerSecond = 5.0
-SecondsToExtinguish = 5
+[node name="Amogus2" type="Node" parent="TestMissions" node_paths=PackedStringArray("GatherLocation", "Airlock")]
+script = ExtResource("13_kvuet")
+GatherLocation = NodePath("../../Ship/CrewQuarters")
+GatherTimeSeconds = 10
+Airlock = NodePath("../../Ship/AirLock")
 
-[node name="OneSecondLater3" type="Node" parent="TestMissions"]
+[node name="WaitUntilEverythingIsCalmAgain4" type="Node" parent="TestMissions"]
 script = ExtResource("6_0tnpc")
-TimeDelaySeconds = 1
-TimeDelayStartsWhen = 7
-
-[node name="OxygenLeak4" type="Node3D" parent="TestMissions"]
-transform = Transform3D(-0.930839, 0.365429, 0, -0.365429, -0.930839, 0, 0, 0, 1, -2.73522, 7.21839, 0)
-script = ExtResource("15_5newe")
-LossPerSecond = 2.0
-SecondsToRepair = 6.0
-
-[node name="OneSecondLater4" type="Node" parent="TestMissions"]
-script = ExtResource("6_0tnpc")
-TimeDelaySeconds = 1
-TimeDelayStartsWhen = 7
-
-[node name="FireInTheScannerRoom6" type="Node3D" parent="TestMissions"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.6773, -1.7394, 1.16404)
-script = ExtResource("10_kvuet")
-OxygenLossPerSecond = 3.0
-SecondsToExtinguish = 5
+TimeDelaySeconds = 3
 
 [node name="GameFinish" type="Node" parent="TestMissions"]
 script = ExtResource("6_0tnpc")

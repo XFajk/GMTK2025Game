@@ -4,32 +4,33 @@ using System.Collections.Generic;
 
 // ඞ
 public partial class MissionSaboteur : Node, IMission {
+    private const float CrewGatherOffset = 0.8f;
+
     public IMission.Properties Properties;
-    [Export(PropertyHint.Range, "0,60")]
-    public int TimeUntilEmergencyMeeting = 10;
     [Export]
     private Node3D GatherLocation;
     [Export]
     private int GatherTimeSeconds;
     [Export]
     private Node3D Airlock;
-    [Export]
-    private Node3D OutOfTheAirlock;
 
     private bool _isFinished = false;
     private MissionManager.Clock _missionClock;
     private double _startTime;
 
+
     void IMission.MissionReady(Ship ship, MissionManager.Clock missionClock) {
         Properties = new() {
             Title = "Mission: Saboteur",
             Briefing = [
-                "I suspect that one of our crew is sabotaging our mission. ",
+                "I suspect that one of our crew is sabotaging our mission.",
                 "Don't worry, we will try to find the impostor ourselves.",
-                "End of Brief"
+                "EMERGENCY MEETING!"
             ],
             Debrief = [
-                "Well, It's been a pleasure"
+                "It looks like they've thrown me out.",
+                "Oh well.",
+                "Good luck."
             ],
         };
 
@@ -43,11 +44,13 @@ public partial class MissionSaboteur : Node, IMission {
         EverybodyGoTo(GatherLocation.GlobalPosition, ship);
 
         Tween tween = GetTree().CreateTween();
-        tween.TweenCallback(Callable.From(() => EverybodyGoTo(Airlock.GlobalPosition, ship))).SetDelay(5);
-        tween.TweenCallback(Callable.From(() => _isFinished = true)).SetDelay(2);
+        tween.TweenCallback(Callable.From(() => EverybodyGoTo(Airlock.GlobalPosition, ship))).SetDelay(20);
+        tween.TweenCallback(Callable.From(() => _isFinished = true)).SetDelay(13);
     }
 
     private static void EverybodyGoTo(Vector3 location, Ship ship) {
+        location.X -= (ship.Crew.Count / 2f) * CrewGatherOffset;
+
         foreach (Person crewMember in ship.Crew) {
             ship.ScheduleCrewTask(
                 new CrewTask() {
@@ -57,6 +60,8 @@ public partial class MissionSaboteur : Node, IMission {
                 },
                 crewMember
             );
+            // make sure they do not all clump up
+            location.X += CrewGatherOffset;
         }
     }
 
@@ -70,17 +75,14 @@ public partial class MissionSaboteur : Node, IMission {
         }
 
         // toss the captain out of the airlock
-        captain.Position -= new Vector3(0, 0, 20);
+        captain.Position = Airlock.Position + new Vector3(0, 0, -5);
         captain.state = Person.State.Floating;
         Tween captaintween = GetTree().CreateTween();
-        captaintween.TweenProperty(captain, "position", OutOfTheAirlock.Position, 5);
+        captaintween.TweenProperty(captain, "position", new Vector3(-50, 30, -10), 60);
         captaintween.TweenCallback(Callable.From(() => captain.QueueFree()));
     }
 
-    public virtual bool IsPreparationFinished() {
-        double timePassed = (double)(_missionClock.time - _startTime) / 1E6;
-        return _startTime != 0 && timePassed > TimeUntilEmergencyMeeting;
-    }
+    public virtual bool IsPreparationFinished() => true;
 
     public bool IsMissionFinised() => _isFinished;
 
