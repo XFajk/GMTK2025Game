@@ -60,11 +60,22 @@ public partial class Ship : Node, IContainer {
 
         _floatingResourceManager.Ready(Machines, GetNode("FloatingResources"));
 
-        // initialize resource buffers
+        // handle initial resources
+        // first fill all critical machine inputs
+        foreach (Machine machine in Machines) {
+            foreach (MachineBuffer buffer in machine.Inputs()) {
+                Resource resource = buffer.GetResource();
+                if (Resources.IsCritical(resource) && _initialResources.TryGetValue(resource, out int value)) {
+                    _initialResources[resource] = (int)(buffer as IContainer).RemainderOfAdd(value);
+                }
+            }
+        }
+        // then add wherever we can leave it
         foreach (var entry in _initialResources) {
             AddResource(entry.Key, entry.Value, allowOutputs: true);
         }
 
+        // garbage dropoff points
         foreach (StorageContainer container in Containers) {
             if (container.GetResource() == Resource.Garbage) {
                 _possibleGarbageDroppoints.Add(container);

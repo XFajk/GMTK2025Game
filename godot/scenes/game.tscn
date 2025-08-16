@@ -427,8 +427,9 @@ light_data = ExtResource("22_bt5mj")
 
 [node name="Satisfaction" type="Node" parent="."]
 script = ExtResource("22_e1j6l")
-MaximumSatisfaction = 500
+MaximumSatisfaction = 200
 CrewFoodOxygenPenalty = 5
-MissionCompleteReward = 100
+MissionDelayPenalty = 2
+MissionCompleteReward = 50
 
 [node name="MusicPlayer" parent="." instance=ExtResource("23_bt5mj")]

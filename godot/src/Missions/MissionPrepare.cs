@@ -23,9 +23,9 @@ public partial class MissionPrepare : Node, IMission {
             Title = "Mission: System rebalance",
             Briefing = [
                 "Are you booted up? yes? Good.",
-                "We are having difficulties with our food situation. "
-                + $"Our plants are dying, even though they have enough water, and now we have only {Resources.ToUnit(Resource.Food, foodQuantitiy)} of food supplies left.",
-                $"Figure out why the plants are dying and make sure we have {Resources.ToUnit(Resource.Food, FoodRequired)} of food ASAP. ",
+                $"Our plants are dying, even though they have enough water, and now we have only {Resources.ToUnit(Resource.Food, foodQuantitiy)} of food supplies left.",
+                $"Figure out what it is that the plants need, and make sure we have {Resources.ToUnit(Resource.Food, FoodRequired)} of food in our foodstorage ASAP. ",
+                "Do not let the foodstorage run empty!",
                 "While you're at it, clean up the floors as well. "
                 + "Just toss the garbage in the Incinterator.",
             ],

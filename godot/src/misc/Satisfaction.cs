@@ -22,6 +22,8 @@ public partial class Satisfaction : Node {
     }
 
     public float GetSatisfactionLevel() {
+        _value = Mathf.Clamp(_value, 0, MaximumSatisfaction);
+        
         if (_value < 0) return 0;
         return (float)_value / MaximumSatisfaction;
     }
