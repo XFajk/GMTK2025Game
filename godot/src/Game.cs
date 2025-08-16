@@ -134,9 +134,7 @@ public partial class Game : Node {
             return;
         }
 
-        if (_selectedMachine == null && !machine.IsPlayerConnectable) {
-            machine.ShowOutline(true, Connectable.HoverBadMaterial);
-        } else if (_selectedMachine == null) {
+        if (_selectedMachine == null) {
             machine.ShowOutline(true, Connectable.HoverMaterial);
         } else if (!_shipNode.CanConnect(_selectedMachine, machine)) {
             _selectedMachine.ShowOutline(true, Connectable.HoverBadMaterial);
