@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://0rmy461ykeb"]
+[gd_scene load_steps=24 format=3 uid="uid://0rmy461ykeb"]
 
 [ext_resource type="Script" uid="uid://bp0g8sc4t5qhs" path="res://src/Game.cs" id="1_yqjtg"]
 [ext_resource type="PackedScene" uid="uid://cgccmqaeo11dk" path="res://scenes/ship.tscn" id="2_lnu2h"]
@@ -22,6 +22,7 @@
 [ext_resource type="Environment" uid="uid://c3kvjjeurfhoc" path="res://misc/camera_enviroment.tres" id="22_37s47"]
 [ext_resource type="LightmapGIData" uid="uid://bpwijcomcgfsg" path="res://misc/game.lmbake" id="22_bt5mj"]
 [ext_resource type="Script" uid="uid://cjjsxokidqvge" path="res://src/misc/Satisfaction.cs" id="22_e1j6l"]
+[ext_resource type="PackedScene" uid="uid://s14st0xpu0eh" path="res://scenes/music_player.tscn" id="23_bt5mj"]
 
 [node name="Game" type="Node"]
 script = ExtResource("1_yqjtg")
@@ -427,3 +428,5 @@ script = ExtResource("22_e1j6l")
 MaximumSatisfaction = 500
 CrewFoodOxygenPenalty = 5
 MissionCompleteReward = 100
+
+[node name="MusicPlayer" parent="." instance=ExtResource("23_bt5mj")]

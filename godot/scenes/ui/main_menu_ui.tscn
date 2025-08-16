@@ -132,7 +132,7 @@ theme_override_constants/separation = 70
 [node name="SoundsVolume" type="HSlider" parent="SettingsPanel/Sliders"]
 custom_minimum_size = Vector2(422, 16)
 layout_mode = 2
-max_value = 1.0
+max_value = 3.0
 step = 0.01
 value = 0.69
 
@@ -152,7 +152,7 @@ label_settings = SubResource("LabelSettings_3bauu")
 [node name="MusicVolume" type="HSlider" parent="SettingsPanel/Sliders"]
 custom_minimum_size = Vector2(422, 16)
 layout_mode = 2
-max_value = 1.0
+max_value = 3.0
 step = 0.01
 value = 0.23
 

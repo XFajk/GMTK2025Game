@@ -51,6 +51,30 @@ public class Resources {
         _ => false,
     };
 
+    public static bool IsAtCriticalLevel(Resource resource, int amount) {
+        int minAmount = -1;
+
+        switch (resource) {
+            case Resource.Oxygen:
+                minAmount = 100; // 5%
+                break;
+            case Resource.Food:
+                minAmount = 20; // 4KG
+                break;
+            case Resource.CoolantCold:
+                minAmount = 25;
+                break;
+            case Resource.Water:
+                minAmount = 50; // 5;
+                break;
+            case Resource.Disposables:
+                minAmount = 0;
+                break;
+        }
+
+        return amount <= minAmount;
+    }
+
     public static string ToUnit(Resource resource, int quantity) {
         return resource switch {
             Resource.CoolantHot or Resource.CoolantCold => $"{quantity * 4} L",

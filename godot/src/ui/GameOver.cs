@@ -29,11 +29,13 @@ public partial class GameOver : Control {
 
         // After _Ready() initialization
         gameOver._reasonLabel.Text = reason;
+        parent.GetTree().Paused = true;
 
-        Tween tween = gameOver.GetTree().CreateTween();
+        Tween tween = gameOver.CreateTween();
 
-        tween.TweenProperty(gameOver, "position", new Vector2(0, 0), 0.5f);
-        tween.TweenCallback(Callable.From(() => gameOver.GetTree().Paused = true));  
+        tween.TweenProperty(gameOver, "position", new Vector2(0, 0), 1.0f)
+             .SetTrans(Tween.TransitionType.Cubic)
+             .SetEase(Tween.EaseType.Out);
     }
 
     private void OnPlayAgainPressed() {
