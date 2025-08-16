@@ -7,6 +7,7 @@ public partial class MissionManager : Node {
     // we only have one active mission at any time, but we can prepare multiple in parallel
     public List<IMission> MissionsInPreparation = new();
     public IMission ActiveMission = null;
+    public List<IEvent> CausesForPanic = new();
 
     public Action<IMission> ShowBriefCallback;
     public Action<IMission> ShowDebriefCallback;
@@ -57,6 +58,8 @@ public partial class MissionManager : Node {
             ExecuteEventsOfNode(eventNode);
         }
 
+        CausesForPanic.RemoveAll(e => !e.DoPanic());
+
         if (ActiveMission == null) {
             foreach (IMission mission in MissionsInPreparation) {
                 // 3: we wait until `IsPreparationFinished`
@@ -92,8 +95,7 @@ public partial class MissionManager : Node {
     }
 
     public bool DoPanic() {
-        // TODO
-        return false;
+        return CausesForPanic.Count > 0;
     }
 
     private void ExecuteEventsOfNode(Node eventNode) {
@@ -111,6 +113,7 @@ public partial class MissionManager : Node {
 
         } else if (eventNode is IEvent newEvent) {
             newEvent.ApplyEffect(Ship);
+            CausesForPanic.Add(newEvent);
 
         } else if (eventNode is Delay delay) {
             _currentDelay = delay;

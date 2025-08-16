@@ -73,6 +73,7 @@ public partial class EventFire : Node3D, IEvent, IRepairable {
     public Node3D AsNode() => this;
 
     public void SetRepaired() {
+        _isFixed = true;
         _ship.ActiveEffects.Remove(_fireConversionEffect);
         _fireSfx.QueueFree();
 

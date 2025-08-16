@@ -65,6 +65,7 @@ public partial class EventOxygenLeak : Node3D, IEvent, IRepairable {
     public Node3D AsNode() => this;
 
     public void SetRepaired() {
+        _isFixed = true;
         _ship.ActiveEffects.Remove(_effect);
         _leakSfx.QueueFree();
     }

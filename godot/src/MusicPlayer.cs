@@ -7,10 +7,16 @@ public partial class MusicPlayer : AudioStreamPlayer {
         Alarm,
     }
 
-    public void ChangeTrack(MusicTrack track) {
+    private MusicTrack _current;
+
+    public void SetTrack(MusicTrack track) {
+        if (track == _current) return;
+
+        _current = track;
         var basicPlayback = GetStreamPlayback();
         if (basicPlayback is AudioStreamPlaybackInteractive playback) {
             playback.SwitchToClip((int)track);
+            GD.Print($"Now playing track {track}");
         }
     }
 }

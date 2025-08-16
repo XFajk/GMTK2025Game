@@ -86,9 +86,9 @@ public partial class Game : Node {
         }
 
         if (_missionsNode.DoPanic()) {
-            _musicPlayer.ChangeTrack(MusicPlayer.MusicTrack.Alarm);
+            _musicPlayer.SetTrack(MusicPlayer.MusicTrack.Alarm);
         } else {
-            _musicPlayer.ChangeTrack(MusicPlayer.MusicTrack.Main);
+            _musicPlayer.SetTrack(MusicPlayer.MusicTrack.Main);
         }
 
         float satisfaction = _satisfaction.GetSatisfactionLevel();
