@@ -129,7 +129,7 @@ TimeDelayStartsWhen = 7
 MissionToWaitFor = NodePath("../AstroidMining")
 
 [node name="Fire" type="Node3D" parent="MissionsAndEvents"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.5479, 3.06349, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.3749, 2.67907, 0)
 script = ExtResource("10_kvuet")
 OxygenLossPerSecond = 2.0
 SecondsToRepair = 5
@@ -150,7 +150,7 @@ TimeDelaySeconds = 1
 TimeDelayStartsWhen = 7
 
 [node name="Fire2" type="Node3D" parent="MissionsAndEvents"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, -1.60779, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.52818, -2.03568, 0)
 script = ExtResource("10_kvuet")
 OxygenLossPerSecond = 3.0
 SecondsToExtinguish = 3
@@ -260,7 +260,7 @@ script = ExtResource("15_5newe")
 SecondsToRepair = 8.0
 
 [node name="Fire4" type="Node3D" parent="MissionsAndEvents"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, -1.55033, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.0279, -1.55033, -0.697445)
 script = ExtResource("10_kvuet")
 OxygenLossPerSecond = 1.0
 SecondsToExtinguish = 5
@@ -268,7 +268,7 @@ SecondsToRepair = 5
 RepairMissionPopup = false
 
 [node name="Fire5" type="Node3D" parent="MissionsAndEvents"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0398674, -6.80179, -0.874157)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.21019, -6.80179, -0.874157)
 script = ExtResource("10_kvuet")
 OxygenLossPerSecond = 1.0
 SecondsToExtinguish = 5
@@ -281,7 +281,7 @@ TimeDelaySeconds = 2
 TimeDelayStartsWhen = 7
 
 [node name="OxygenLeak3" type="Node3D" parent="MissionsAndEvents"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.264, -5.93177, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.39312, -6.3417, 0)
 script = ExtResource("15_5newe")
 SecondsToRepair = 8.0
 
@@ -352,7 +352,7 @@ script = ExtResource("15_5newe")
 SecondsToRepair = 8.0
 
 [node name="Fire8" type="Node3D" parent="MissionsAndEvents"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 5.80958, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.0936, 3.48245, -2.66925)
 script = ExtResource("10_kvuet")
 OxygenLossPerSecond = 1.0
 SecondsToExtinguish = 8
@@ -385,8 +385,6 @@ TimeDelayStartsWhen = 7
 environment = ExtResource("22_37s47")
 
 [node name="TestMissions" type="Node" parent="."]
-script = ExtResource("5_gee14")
-InitialTimeDelay = 5
 
 [node name="Credits2" type="Node" parent="TestMissions"]
 script = ExtResource("20_e1j6l")

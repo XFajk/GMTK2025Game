@@ -21,10 +21,11 @@ public partial class MissionPizza : Node, IMission {
                 $"Hey Ship, new captain here. "
                 + $"Starting today, we will no longer eat that dry, tasteless junk anymore. "
                 + $"From now on, we're eating {ActualFoodName}. ",
-                "We've throw away whatever was left over, and reconfigured the plants to make {ActualFoodName}",
+                $"We've throw away whatever was left over, and reconfigured the plants to make {ActualFoodName}",
                 $"Make sure we have about {TargetFoodQuantity} of {ActualFoodName} before tomorrow. "
             ],
             Debrief = [
+                $"It's {ActualFoodName} time!"
             ],
             ResourceMinimumRequirements = [KeyValuePair.Create(Resource.Food, TargetFoodQuantity)]
         };

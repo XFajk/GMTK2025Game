@@ -105,13 +105,16 @@ public partial class Game : Node {
             _selectedMachine = null;
         } else if (_shipNode.CanConnect(_selectedMachine, machine)) {
 
-            Connection connection = new(_selectedMachine, machine);
-            Connection disconnect = _shipNode.AddConnection(connection);
+            bool hadConnection = _shipNode.RemoveConnection(_selectedMachine, machine);
+            if (!hadConnection) {
+                Connection connection = new(_selectedMachine, machine);
+                Connection disconnect = _shipNode.AddConnection(connection);
 
-            GD.Print($"Connected {connection.aMachine.Name} and {connection.bMachine.Name}");
+                GD.Print($"Connected {connection.aMachine.Name} and {connection.bMachine.Name}");
 
-            if (disconnect != null) {
-                GD.Print($"Disconnected {connection.aMachine.Name} and {connection.bMachine.Name}");
+                if (disconnect != null) {
+                    GD.Print($"Disconnected {connection.aMachine.Name} and {connection.bMachine.Name}");
+                }
             }
 
             _selectedMachine.ShowOutline(false);

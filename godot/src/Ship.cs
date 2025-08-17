@@ -26,7 +26,7 @@ public partial class Ship : Node, IContainer {
 
     public List<IEventEffect> ActiveEffects = new();
 
-    private Queue<Connection> _connections = new();
+    private List<Connection> _connections = new();
     private Node _connectionsNode;
     private Node _pickupablesNode;
     private List<Connectable> _possibleGarbageDroppoints = new();
@@ -268,14 +268,25 @@ public partial class Ship : Node, IContainer {
     public Connection AddConnection(Connection connection) {
         Connection toRemove = null;
         if (_connections.Count == MaxConnectionCount) {
-            toRemove = _connections.Dequeue();
+            toRemove = _connections[0];
+            _connections.RemoveAt(0);
+            
             _pipes.GetPipe(toRemove.aMachine, toRemove.bMachine).Visible = false;
         }
 
-        _connections.Enqueue(connection);
+        _connections.Add(connection);
         _pipes.GetPipe(connection.aMachine, connection.bMachine).Visible = true;
 
         return toRemove;
+    }
+
+    public bool RemoveConnection(Connectable aMachine, Connectable bMachine) {
+        Connection toRemove = _connections.Find(c => (c.aMachine == aMachine && c.bMachine == bMachine) || (c.aMachine == bMachine && c.bMachine == aMachine));
+        if (toRemove == null) return false;
+
+        _connections.Remove(toRemove);
+        _pipes.GetPipe(toRemove.aMachine, toRemove.bMachine).Visible = false;
+        return true;
     }
 
     // previously HireForTask
