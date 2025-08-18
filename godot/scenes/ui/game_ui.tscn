@@ -167,11 +167,10 @@ Resource = 1
 texture = ExtResource("6_yvtb5")
 
 [node name="ResourceName" parent="ResourceExpandButton/Resources/HotCoolant/Background" index="1"]
-offset_left = 40.0
-offset_top = -11.0
-offset_right = 141.0
-offset_bottom = 12.0
 text = "Hot Coolant : "
+
+[node name="Amount" parent="ResourceExpandButton/Resources/HotCoolant/Background" index="2"]
+offset_left = 143.0
 
 [node name="Cold Coolant" parent="ResourceExpandButton/Resources" instance=ExtResource("1_gwk6t")]
 layout_mode = 2
@@ -187,6 +186,9 @@ offset_right = 144.0
 offset_bottom = 12.0
 text = "Cold Coolant : "
 
+[node name="Amount" parent="ResourceExpandButton/Resources/Cold Coolant/Background" index="2"]
+offset_left = 144.0
+
 [node name="Humidity" parent="ResourceExpandButton/Resources" instance=ExtResource("1_gwk6t")]
 layout_mode = 2
 Resource = 3
@@ -200,6 +202,9 @@ offset_top = -11.0
 offset_right = 118.0
 offset_bottom = 12.0
 text = "Humidity : "
+
+[node name="Amount" parent="ResourceExpandButton/Resources/Humidity/Background" index="2"]
+offset_left = 120.0
 
 [node name="Water" parent="ResourceExpandButton/Resources" instance=ExtResource("1_gwk6t")]
 layout_mode = 2
@@ -215,6 +220,9 @@ offset_right = 98.0
 offset_bottom = 12.0
 text = "Water : "
 
+[node name="Amount" parent="ResourceExpandButton/Resources/Water/Background" index="2"]
+offset_left = 101.0
+
 [node name="Food" parent="ResourceExpandButton/Resources" instance=ExtResource("1_gwk6t")]
 layout_mode = 2
 Resource = 5
@@ -228,6 +236,9 @@ offset_top = -11.0
 offset_right = 91.0
 offset_bottom = 12.0
 text = "Food : "
+
+[node name="Amount" parent="ResourceExpandButton/Resources/Food/Background" index="2"]
+offset_left = 95.0
 
 [node name="FluidWaste" parent="ResourceExpandButton/Resources" instance=ExtResource("1_gwk6t")]
 layout_mode = 2
@@ -243,6 +254,9 @@ offset_right = 136.0
 offset_bottom = 12.0
 text = "Fluid Waste : "
 
+[node name="Amount" parent="ResourceExpandButton/Resources/FluidWaste/Background" index="2"]
+offset_left = 137.0
+
 [node name="SolidWaste" parent="ResourceExpandButton/Resources" instance=ExtResource("1_gwk6t")]
 layout_mode = 2
 Resource = 7
@@ -256,6 +270,9 @@ offset_top = -11.0
 offset_right = 137.0
 offset_bottom = 12.0
 text = "Solid Waste : "
+
+[node name="Amount" parent="ResourceExpandButton/Resources/SolidWaste/Background" index="2"]
+offset_left = 137.0
 
 [node name="Oxygen" parent="ResourceExpandButton/Resources" instance=ExtResource("1_gwk6t")]
 layout_mode = 2
@@ -271,6 +288,9 @@ offset_right = 106.0
 offset_bottom = 12.0
 text = "Oxygen : "
 
+[node name="Amount" parent="ResourceExpandButton/Resources/Oxygen/Background" index="2"]
+offset_left = 109.0
+
 [node name="CarbonDioxide" parent="ResourceExpandButton/Resources" instance=ExtResource("1_gwk6t")]
 layout_mode = 2
 Resource = 9
@@ -284,6 +304,9 @@ offset_top = -11.0
 offset_right = 158.0
 offset_bottom = 12.0
 text = "Carbon Dioxide : "
+
+[node name="Amount" parent="ResourceExpandButton/Resources/CarbonDioxide/Background" index="2"]
+offset_left = 157.0
 
 [node name="Disposables" parent="ResourceExpandButton/Resources" instance=ExtResource("1_gwk6t")]
 layout_mode = 2
@@ -299,6 +322,9 @@ offset_right = 136.0
 offset_bottom = 12.0
 text = "Disposables : "
 
+[node name="Amount" parent="ResourceExpandButton/Resources/Disposables/Background" index="2"]
+offset_left = 138.0
+
 [node name="Garbage" parent="ResourceExpandButton/Resources" instance=ExtResource("1_gwk6t")]
 layout_mode = 2
 Resource = 11
@@ -312,6 +338,9 @@ offset_top = -11.0
 offset_right = 114.0
 offset_bottom = 12.0
 text = "Garbage : "
+
+[node name="Amount" parent="ResourceExpandButton/Resources/Garbage/Background" index="2"]
+offset_left = 118.0
 
 [node name="DiagramButton" type="Button" parent="."]
 layout_mode = 0

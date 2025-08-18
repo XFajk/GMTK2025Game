@@ -113,7 +113,7 @@ public partial class Ship : Node, IContainer {
 
     public void CreateGarbage() {
         var garbage = GarbageScene.Instantiate<Pickupable>();
-        AddChild(garbage);
+        _pickupablesNode.AddChild(garbage);
 
         // activate highlights on pickup
         garbage.OnPickup += pickupable => {
@@ -195,12 +195,51 @@ public partial class Ship : Node, IContainer {
 
     public Dictionary<Resource, float> GetTotalResourceQuantities() {
         Dictionary<Resource, float> totals = new();
+        foreach (Resource r in Enum.GetValues(typeof(Resource))) {
+            totals[r] = 0;
+        }
+            
         foreach (IContainer buffer in AllContainers(Select.All)) {
-            float current = totals.GetValueOrDefault(buffer.GetResource(), 0);
-            totals[buffer.GetResource()] = current + buffer.GetQuantity();
+            totals[buffer.GetResource()] += buffer.GetQuantity();
+        }
+        
+        totals[Resource.Garbage] += _pickupablesNode.GetChildCount();
+
+        return totals;
+    }
+
+    public Dictionary<Resource, float> GetAvailableResourceQuantities() {
+        Dictionary<Resource, float> totals = new();
+        foreach (Resource r in Enum.GetValues(typeof(Resource))) {
+            totals[r] = 0;
         }
 
-        totals[Resource.Garbage] += _pickupablesNode.GetChildCount();
+        // first only floating and storage containers
+        foreach (IContainer buffer in AllContainers(Select.NoMachines)) {
+            totals[buffer.GetResource()] += buffer.GetQuantity();
+        }
+
+        // resource-specific counts
+        totals[Resource.Garbage] = _pickupablesNode.GetChildCount();
+
+        foreach (Machine m in Machines) {
+            foreach (IContainer buffer in m.Inputs()) {
+                // count engine coolant
+                if (m is Engine && buffer.GetResource() == Resource.CoolantCold) {
+                    totals[Resource.CoolantCold] += buffer.GetQuantity();
+                }
+                // count hot coolant in the radiator
+                if (buffer.GetResource() == Resource.CoolantHot) {
+                    totals[Resource.CoolantHot] += buffer.GetQuantity();
+                }
+            }
+            foreach (IContainer buffer in m.Outputs()) {
+                // count all disposables generators
+                if (buffer.GetResource() == Resource.Disposables) {
+                    totals[Resource.Disposables] += buffer.GetQuantity();
+                }
+            }
+        }
 
         return totals;
     }
@@ -270,7 +309,7 @@ public partial class Ship : Node, IContainer {
         if (_connections.Count == MaxConnectionCount) {
             toRemove = _connections[0];
             _connections.RemoveAt(0);
-            
+
             _pipes.GetPipe(toRemove.aMachine, toRemove.bMachine).Visible = false;
         }
 

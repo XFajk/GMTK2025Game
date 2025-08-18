@@ -71,9 +71,13 @@ public partial class Game : Node {
     }
 
     public override void _Process(double delta) {
-        var quantities = _shipNode.GetTotalResourceQuantities();
-        foreach (KeyValuePair<Resource, float> pair in quantities) {
-            _ui.ResourceLables[pair.Key].Amount = (int)Mathf.Round(pair.Value);
+        var availableQuantities = _shipNode.GetAvailableResourceQuantities();
+        var totalQuantities = _shipNode.GetTotalResourceQuantities();
+        foreach (Resource res in _ui.ResourceLables.Keys) {
+            _ui.ResourceLables[res].SetAmount(
+                Mathf.RoundToInt(availableQuantities.GetValueOrDefault(res, 0)),
+                Mathf.RoundToInt(totalQuantities[res])
+            );
         }
 
         Node eventNode;
