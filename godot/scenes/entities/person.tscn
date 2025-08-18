@@ -41,3 +41,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
 shape = SubResource("CapsuleShape3D_lgq1u")
 
 [node name="RecalculateTimer" type="Timer" parent="."]
+process_callback = 0
+
+[node name="StuckDetectionTimer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 5.0

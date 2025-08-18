@@ -5,6 +5,7 @@ using System.Dynamic;
 
 public partial class Person : PathFollow3D {
     public const float GarbageThrowRadius = 1.0f;
+    private const double StuckTimeoutSec = 5f;
 
     [Export]
     public float Speed = 0.01f;
@@ -34,6 +35,8 @@ public partial class Person : PathFollow3D {
     private float _alienSpriteAnimatinTimerValue = 0.0f;
     private int _alienSpriteAnimationRotationChanger = 1;
 
+    private Timer StuckDetectionTimer;
+
     public static Texture2D[] AlienSpriteTextures = {
         GD.Load<Texture2D>("res://assets/sprites/simon.png"),
         GD.Load<Texture2D>("res://assets/sprites/matej_goc.png"),
@@ -42,6 +45,7 @@ public partial class Person : PathFollow3D {
         GD.Load<Texture2D>("res://assets/sprites/oliver.png"),
         GD.Load<Texture2D>("res://assets/sprites/kristian.png"),
     };
+
 
     public override void _Ready() {
         _rng.Randomize();
@@ -64,6 +68,7 @@ public partial class Person : PathFollow3D {
 
         ProgressRatio = _rng.Randf();
         RecalculateTimer = GetNode<Timer>("RecalculateTimer");
+        StuckDetectionTimer = GetNode<Timer>("StuckDetectionTimer");
 
         // This sets a callback that resets everything and sets a new target
         RecalculateTimer.Timeout += () => {
@@ -86,6 +91,12 @@ public partial class Person : PathFollow3D {
             SetTarget(new ShipLocation(targetFloor, _rng.Randf()));
         };
 
+        StuckDetectionTimer.Timeout += () => {
+            GD.PrintErr($"Unstucking {Name} from task '{_currentTask}'");
+            // this will handle all edge-cases, like aborting tasks as well
+            SetCurrentTask(null);
+        };
+
         SetTarget(new ShipLocation(FloorNumber, _rng.Randf()));
     }
 
@@ -102,9 +113,17 @@ public partial class Person : PathFollow3D {
 
     public override void _Process(double delta) {
         if (state == State.Floating) {
-            AlienSprite.RotateZ(1.0f * (float) delta);
+            AlienSprite.RotateZ(1.0f * (float)delta);
             return;
         }
+        
+        // make sure one of the timers is always running, but never both
+        if (RecalculateTimer.IsStopped() && StuckDetectionTimer.IsStopped()) {
+            StuckDetectionTimer.Start(StuckTimeoutSec);
+        } else if (!RecalculateTimer.IsStopped() && !StuckDetectionTimer.IsStopped()) {
+            StuckDetectionTimer.Stop();
+        }
+
         if (state == State.InElevator) {
             AlienSprite.Rotation = new Vector3(0, 0, 0);
             return;
@@ -119,6 +138,7 @@ public partial class Person : PathFollow3D {
         }
 
         float adjustedSpeed = (_currentTask == null) ? Speed : SpeedWithTask;
+        float previousProgressRatio = ProgressRatio;
         ProgressRatio = Mathf.MoveToward(ProgressRatio, ShipTargets[0].Ratio, (float)delta * adjustedSpeed);
         if (ShipTargets[0].Ratio - ProgressRatio < 0.0f) {
             AlienSprite.FlipH = true;
@@ -131,6 +151,11 @@ public partial class Person : PathFollow3D {
             _alienSpriteAnimatinTimerValue = 0.0f;
             _alienSpriteAnimationRotationChanger *= -1;
             AlienSprite.RotateZ(Mathf.DegToRad(20 * _alienSpriteAnimationRotationChanger));
+        }
+
+        if (!Mathf.IsEqualApprox(previousProgressRatio, ProgressRatio)) {
+            // we moved, so reset the stuck timer to 0
+            StuckDetectionTimer.Start(StuckTimeoutSec);
         }
 
         if (Mathf.IsEqualApprox(ProgressRatio, ShipTargets[0].Ratio) && RecalculateTimer.IsStopped()) {
@@ -194,7 +219,7 @@ public partial class Person : PathFollow3D {
     }
 
     public bool HasTask() => (_currentTask != null);
-    
+
     public enum State {
         Idle,
         InElevator,
