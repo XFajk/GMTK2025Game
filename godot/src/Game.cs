@@ -97,7 +97,10 @@ public partial class Game : Node {
 
         float satisfaction = _satisfaction.GetSatisfactionLevel();
         _ui.SetSatisfaction(satisfaction);
-        if (satisfaction <= 0) GameOver.TriggerGameOver(this, "Satisfaction reached 0%"); // would be nice if you could extract why the satisfaction dropped to 0 aka lack of food etc.
+        if (satisfaction <= 0) {
+            _ui.Visible = false;
+            GameOver.TriggerGameOver(this, "Satisfaction reached 0%"); // would be nice if you could extract why the satisfaction dropped to 0 aka lack of food etc.
+        }
     }
 
     private void OnConnectionClick(Connectable machine, ConnectionNode node) {
