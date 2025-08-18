@@ -15,10 +15,10 @@ public partial class EventFire : Node3D, IEvent, IRepairable {
 
     private Ship _ship;
     private EventEffectResourceConvert _fireConversionEffect;
-    private Node3D _fireSfx;
+    private Node3D _fireVfx;
     private bool _isFixed = false;
 
-    private static readonly PackedScene FireSFX = GD.Load<PackedScene>("res://scenes/vfx/fire.tscn");
+    private static readonly PackedScene FireVfx = GD.Load<PackedScene>("res://scenes/vfx/fire.tscn");
 
     IEvent.Properties IEvent.GetProperties() => new() {
         Description = $"A fire has broken out! A crewmember is on its way to extinguish it.",
@@ -28,9 +28,9 @@ public partial class EventFire : Node3D, IEvent, IRepairable {
     public void ApplyEffect(Ship ship) {
         _ship = ship;
 
-        _fireSfx = FireSFX.Instantiate<Node3D>();
-        ship.AddChild(_fireSfx);
-        _fireSfx.GlobalPosition = GlobalPosition;
+        _fireVfx = FireVfx.Instantiate<Node3D>();
+        ship.AddChild(_fireVfx);
+        _fireVfx.GlobalPosition = GlobalPosition;
 
         FloatingResource oxygen = ship.GetFloatingResource(Resource.Oxygen);
         FloatingResource co2 = ship.GetFloatingResource(Resource.CarbonDioxide);
@@ -75,7 +75,7 @@ public partial class EventFire : Node3D, IEvent, IRepairable {
     public void SetRepaired() {
         _isFixed = true;
         _ship.ActiveEffects.Remove(_fireConversionEffect);
-        _fireSfx.QueueFree();
+        _fireVfx.QueueFree();
 
         float co2Created = _fireConversionEffect.TotalChangeOf(Resource.CarbonDioxide);
         var ratio = Resources.GetRatio(Resource.CarbonDioxide, Resource.Disposables);

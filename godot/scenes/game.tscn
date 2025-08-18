@@ -181,7 +181,7 @@ Airlock = NodePath("../../Ship/AirLock")
 
 [node name="WaitUntilEverythingIsCalmAgain2" type="Node" parent="MissionsAndEvents"]
 script = ExtResource("6_0tnpc")
-TimeDelaySeconds = 3
+TimeDelaySeconds = 5
 
 [node name="PizzaTime" type="Node" parent="MissionsAndEvents"]
 script = ExtResource("14_trtic")
@@ -189,7 +189,7 @@ TargetFoodQuantity = 60
 
 [node name="AFewSecondsIntoPizzaTime2" type="Node" parent="MissionsAndEvents" node_paths=PackedStringArray("MissionToWaitFor")]
 script = ExtResource("6_0tnpc")
-TimeDelaySeconds = 5
+TimeDelaySeconds = 20
 TimeDelayStartsWhen = 4
 MissionToWaitFor = NodePath("../PizzaTime")
 
@@ -216,7 +216,7 @@ TimeDelayStartsWhen = 7
 [node name="MachineBreakdown2" type="Node" parent="MissionsAndEvents" node_paths=PackedStringArray("Target")]
 script = ExtResource("14_1kice")
 SecondsToRepair = 12.0
-Target = NodePath("../../Ship/SolidWasteBurner")
+Target = NodePath("../../Ship/Condensator")
 
 [node name="WaitForEngineRevFinish" type="Node" parent="MissionsAndEvents" node_paths=PackedStringArray("MissionToWaitFor")]
 script = ExtResource("6_0tnpc")

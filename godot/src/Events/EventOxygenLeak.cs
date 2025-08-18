@@ -12,8 +12,8 @@ public partial class EventOxygenLeak : Node3D, IEvent, IRepairable {
     private bool _isFixed = false;
 
     private EventEffectResourceAdd _effect;
-    private static readonly PackedScene ExplosionSfx = GD.Load<PackedScene>("res://scenes/vfx/explosion.tscn");
-    private static readonly PackedScene LeakSfx = GD.Load<PackedScene>("res://scenes/vfx/air_lock_air.tscn");
+    private static readonly PackedScene ExplosionVfx = GD.Load<PackedScene>("res://scenes/vfx/explosion.tscn");
+    private static readonly PackedScene LeakVfx = GD.Load<PackedScene>("res://scenes/vfx/air_lock_air.tscn");
 
     IEvent.Properties IEvent.GetProperties() => new() {
         Description = $"Oxygen is leaking through the hull! A crewmember is on its way to close the hole.",
@@ -23,12 +23,12 @@ public partial class EventOxygenLeak : Node3D, IEvent, IRepairable {
     public void ApplyEffect(Ship ship) {
         _ship = ship;
 
-        _leakSfx = LeakSfx.Instantiate<Node3D>();
+        _leakSfx = LeakVfx.Instantiate<Node3D>();
         ship.AddChild(_leakSfx);
         _leakSfx.GlobalPosition = GlobalPosition;
         _leakSfx.GlobalRotation = GlobalRotation;
 
-        Node3D _explosionSfx = ExplosionSfx.Instantiate<Node3D>();
+        Node3D _explosionSfx = ExplosionVfx.Instantiate<Node3D>();
         ship.AddChild(_explosionSfx);
         _explosionSfx.GlobalPosition = GlobalPosition;
 
