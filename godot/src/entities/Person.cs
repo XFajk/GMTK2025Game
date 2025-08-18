@@ -92,7 +92,7 @@ public partial class Person : PathFollow3D {
         };
 
         StuckDetectionTimer.Timeout += () => {
-            GD.PrintErr($"Unstucking {Name} from task '{_currentTask}'");
+            GD.PrintErr($"Unstucking {Name} from task '{_currentTask.ActionType}'");
             // this will handle all edge-cases, like aborting tasks as well
             SetCurrentTask(null);
         };

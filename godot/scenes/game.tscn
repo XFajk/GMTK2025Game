@@ -48,7 +48,7 @@ _initialResources = Dictionary[int, int]({
 2: 100,
 4: 500,
 5: 20,
-8: 800,
+8: 600,
 10: 8,
 11: 16
 })
