@@ -44,7 +44,7 @@ material = SubResource("StandardMaterial3D_kv17e")
 size = Vector2(5, 5)
 
 [sub_resource type="Curve" id="Curve_xn2cr"]
-_data = [Vector2(0, 0.428571), 0.0, 0.0, 0, 0, Vector2(1e-05, 1), 0.0, 0.0, 0, 0, Vector2(0.497217, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+_data = [Vector2(0, 0.428571), 0.0, 0.0, 0, 0, Vector2(1e-05, 1), 0.0, 0.0, 0, 0, Vector2(0.510158, 1), 0.0, 0.0, 0, 0, Vector2(0.722348, 0), 0.0, 0.0, 0, 0]
 point_count = 4
 
 [sub_resource type="CurveTexture" id="CurveTexture_taat2"]
@@ -52,9 +52,9 @@ curve = SubResource("Curve_xn2cr")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ie5bg"]
 direction = Vector3(0, 1, 0)
-spread = 53.233
-initial_velocity_min = 1.0
-initial_velocity_max = 5.0
+spread = 29.431
+initial_velocity_min = 3.0
+initial_velocity_max = 6.0
 gravity = Vector3(0, 0, 0)
 linear_accel_min = 1.73
 linear_accel_max = 1.73
