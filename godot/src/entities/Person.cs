@@ -158,7 +158,7 @@ public partial class Person : PathFollow3D {
 
     private void HandleActionType(CrewTask task, bool whenStarting) {
         if (task.ActionType == CrewTask.Type.Disappear) {
-            Visible = whenStarting ? false : true;
+            Visible = !whenStarting;
         }
     }
 

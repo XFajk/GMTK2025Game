@@ -388,8 +388,11 @@ environment = ExtResource("22_37s47")
 script = ExtResource("5_gee14")
 InitialTimeDelay = 5
 
-[node name="Credits2" type="Node" parent="TestMissions"]
-script = ExtResource("20_e1j6l")
+[node name="Fire" type="Node3D" parent="TestMissions"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.8993, 3.03201, -0.958488)
+script = ExtResource("10_kvuet")
+OxygenLossPerSecond = 2.0
+SecondsToRepair = 5
 
 [node name="WaitForeverToAvoidCrashingTheGame2" type="Node" parent="TestMissions"]
 script = ExtResource("6_0tnpc")
