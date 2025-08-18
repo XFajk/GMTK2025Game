@@ -58,9 +58,8 @@ _initialResources = Dictionary[int, int]({
 script = ExtResource("5_gee14")
 InitialTimeDelay = 2
 
-[node name="Jump" type="Node" parent="MissionsAndEvents" node_paths=PackedStringArray("ToNode")]
+[node name="Jump" type="Node" parent="MissionsAndEvents"]
 script = ExtResource("6_pl11u")
-ToNode = NodePath("../PirateEncounter")
 
 [node name="Prepare" type="Node" parent="MissionsAndEvents"]
 script = ExtResource("4_p57ef")
