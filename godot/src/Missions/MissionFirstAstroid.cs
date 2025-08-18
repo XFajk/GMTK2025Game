@@ -3,8 +3,8 @@ using System;
 using System.Collections.Generic;
 
 public partial class MissionFirstAstroid : TimedMission, IMission {
-    // measured in 0.1% per second
-    private const float CarbonDumpPerSecond = 10f;
+    // measured in 0.2% per second
+    private const float CarbonDumpPerSecond = 20f;
     [Export]
     public int RequiredDisposables;
     [Export(PropertyHint.Range, "0,6")]

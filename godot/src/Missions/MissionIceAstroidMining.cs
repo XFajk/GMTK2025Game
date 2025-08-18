@@ -3,8 +3,7 @@ using System;
 using System.Collections.Generic;
 
 public partial class MissionIceAstroidMining : TimedMission, IMission {
-    // measured in 0.1% per second
-    private const float CarbonDumpPerSecond = 10f;
+    private const float CarbonDumpPerSecond = 20f;
 
     [Export]
     public int RequiredDisposables;
@@ -44,7 +43,7 @@ public partial class MissionIceAstroidMining : TimedMission, IMission {
             ],
             ResourceMinimumRequirements = [KeyValuePair.Create(Resource.Disposables, RequiredDisposables)],
             Debrief = [
-                "Mission completed, enjoy the new stuff!"
+                "Mission completed, enjoy the water!"
             ]
         };
     }
@@ -60,7 +59,8 @@ public partial class MissionIceAstroidMining : TimedMission, IMission {
         for (int i = 0; i < CrewCount; i++) {
             ship.ScheduleCrewTask(new CrewTask() {
                 Duration = Duration,
-                Location = AirLock.GlobalPosition
+                Location = AirLock.GlobalPosition,
+                ActionType = CrewTask.Type.Disappear
             });
         }
 

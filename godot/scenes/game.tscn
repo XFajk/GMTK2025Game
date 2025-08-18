@@ -49,7 +49,7 @@ _initialResources = Dictionary[int, int]({
 2: 100,
 4: 500,
 5: 20,
-8: 600,
+8: 800,
 10: 8,
 11: 16
 })
@@ -58,8 +58,9 @@ _initialResources = Dictionary[int, int]({
 script = ExtResource("5_gee14")
 InitialTimeDelay = 2
 
-[node name="Jump" type="Node" parent="MissionsAndEvents"]
+[node name="Jump" type="Node" parent="MissionsAndEvents" node_paths=PackedStringArray("ToNode")]
 script = ExtResource("6_pl11u")
+ToNode = NodePath("../PirateEncounter")
 
 [node name="Prepare" type="Node" parent="MissionsAndEvents"]
 script = ExtResource("4_p57ef")
@@ -168,8 +169,7 @@ TimeDelayStartsWhen = 7
 [node name="OxygenLeak" type="Node3D" parent="MissionsAndEvents"]
 transform = Transform3D(-0.930839, 0.365429, 0, -0.365429, -0.930839, 0, 0, 0, 1, -2.73522, 7.21839, 0)
 script = ExtResource("15_5newe")
-LossPerSecond = 2.0
-SecondsToRepair = 6.0
+LossPerSecond = 6.0
 
 [node name="WaitUntilAstroidMiningComplete" type="Node" parent="MissionsAndEvents" node_paths=PackedStringArray("MissionToWaitFor")]
 script = ExtResource("6_0tnpc")
@@ -250,11 +250,16 @@ SecondsToRepair = 20
 
 [node name="WaitUntilEverythingIsCalmAgain4" type="Node" parent="MissionsAndEvents"]
 script = ExtResource("6_0tnpc")
+TimeDelaySeconds = 1
+
+[node name="MakeSureWeHaveNoFireRepairMission" type="Node" parent="MissionsAndEvents"]
+script = ExtResource("6_0tnpc")
 TimeDelaySeconds = 10
 
 [node name="PirateEncounter" type="Node" parent="MissionsAndEvents"]
 script = ExtResource("16_rysoc")
 DisposablesQuantityToPrepare = 100
+PreparationTime = 20
 Duration = 120
 
 [node name="OnceThePiratesHit" type="Node" parent="MissionsAndEvents" node_paths=PackedStringArray("MissionToWaitFor")]
@@ -265,15 +270,27 @@ MissionToWaitFor = NodePath("../PirateEncounter")
 [node name="OxygenLeak2" type="Node3D" parent="MissionsAndEvents"]
 transform = Transform3D(1, 0, 0, 0, -0.876273, -0.481815, 0, 0.481815, -0.876273, -15.887, 0, -2.79287)
 script = ExtResource("15_5newe")
-SecondsToRepair = 8.0
+LossPerSecond = 8.0
+SecondsToRepair = 4.0
 
 [node name="Fire4" type="Node3D" parent="MissionsAndEvents"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.0519, -1.47691, -0.697445)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.81639, -2.12379, -0.697445)
 script = ExtResource("10_kvuet")
 OxygenLossPerSecond = 1.0
 SecondsToExtinguish = 5
 SecondsToRepair = 5
 RepairMissionPopup = false
+
+[node name="OxygenLeak3" type="Node3D" parent="MissionsAndEvents"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.9632, -2.09145, 0)
+script = ExtResource("15_5newe")
+LossPerSecond = 4.0
+SecondsToRepair = 10.0
+
+[node name="AFewSecondsLater5" type="Node" parent="MissionsAndEvents"]
+script = ExtResource("6_0tnpc")
+TimeDelaySeconds = 10
+TimeDelayStartsWhen = 7
 
 [node name="Fire5" type="Node3D" parent="MissionsAndEvents"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.21019, -6.80179, -0.874157)
@@ -283,19 +300,9 @@ SecondsToExtinguish = 5
 SecondsToRepair = 5
 RepairMissionPopup = false
 
-[node name="AFewSecondsLater5" type="Node" parent="MissionsAndEvents"]
-script = ExtResource("6_0tnpc")
-TimeDelaySeconds = 2
-TimeDelayStartsWhen = 7
-
-[node name="OxygenLeak3" type="Node3D" parent="MissionsAndEvents"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.39312, -6.3417, 0)
-script = ExtResource("15_5newe")
-SecondsToRepair = 8.0
-
 [node name="AFewSecondsLater6" type="Node" parent="MissionsAndEvents"]
 script = ExtResource("6_0tnpc")
-TimeDelaySeconds = 5
+TimeDelaySeconds = 6
 TimeDelayStartsWhen = 7
 
 [node name="MachineBreakdown3" type="Node" parent="MissionsAndEvents" node_paths=PackedStringArray("Target")]
@@ -303,83 +310,163 @@ script = ExtResource("14_1kice")
 SecondsToRepair = 8.0
 Target = NodePath("../../Ship/Condensator")
 
-[node name="Fire6" type="Node3D" parent="MissionsAndEvents"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.496, 3.02183, -1.12943)
+[node name="FireOfMachine" type="Node3D" parent="MissionsAndEvents"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.74861, 0.943037, -0.693943)
 script = ExtResource("10_kvuet")
 OxygenLossPerSecond = 1.0
-SecondsToExtinguish = 5
-SecondsToRepair = 5
+SecondsToExtinguish = 8
 RepairMissionPopup = false
+
+[node name="OxygenLeak13" type="Node3D" parent="MissionsAndEvents"]
+transform = Transform3D(1, 0, 0, 0, -0.204701, -0.978825, 0, 0.978825, -0.204701, -12.9535, 0, -3.46448)
+script = ExtResource("15_5newe")
+LossPerSecond = 2.0
+SecondsToRepair = 20.0
 
 [node name="AFewSecondsLater7" type="Node" parent="MissionsAndEvents"]
 script = ExtResource("6_0tnpc")
-TimeDelaySeconds = 3
+TimeDelaySeconds = 12
 TimeDelayStartsWhen = 7
+
+[node name="OxygenLeak14" type="Node3D" parent="MissionsAndEvents"]
+transform = Transform3D(-0.28142, 0.959585, 0, -0.959585, -0.28142, 0, 0, 0, 1, -19.8958, -1.61892, 0)
+script = ExtResource("15_5newe")
+LossPerSecond = 4.0
+SecondsToRepair = 6.0
 
 [node name="OxygenLeak5" type="Node3D" parent="MissionsAndEvents"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.08796, -7.00048, 0)
 script = ExtResource("15_5newe")
-SecondsToRepair = 8.0
+LossPerSecond = 4.0
+SecondsToRepair = 6.0
 
 [node name="AFewSecondsLater8" type="Node" parent="MissionsAndEvents"]
 script = ExtResource("6_0tnpc")
-TimeDelaySeconds = 7
+TimeDelaySeconds = 8
 TimeDelayStartsWhen = 7
+
+[node name="Fire6" type="Node3D" parent="MissionsAndEvents"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.1724, -6.15467, -0.874157)
+script = ExtResource("10_kvuet")
+SecondsToExtinguish = 14
+SecondsToRepair = 5
+RepairMissionPopup = false
 
 [node name="OxygenLeak6" type="Node3D" parent="MissionsAndEvents"]
 transform = Transform3D(-0.597233, -0.802068, 0, 0.802068, -0.597233, 0, 0, 0, 1, 16.0237, 0, 1.42803)
 script = ExtResource("15_5newe")
-SecondsToRepair = 8.0
+LossPerSecond = 3.0
+SecondsToRepair = 4.0
 
 [node name="Fire7" type="Node3D" parent="MissionsAndEvents"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.4637, -0.200638, 0)
 script = ExtResource("10_kvuet")
 OxygenLossPerSecond = 1.0
-SecondsToExtinguish = 5
+SecondsToExtinguish = 8
 SecondsToRepair = 5
 RepairMissionPopup = false
 
+[node name="OxygenLeak15" type="Node3D" parent="MissionsAndEvents"]
+transform = Transform3D(1, 0, 0, 0, -0.994524, 0.104511, 0, -0.104511, -0.994524, -19.216, 1.13784, 0)
+script = ExtResource("15_5newe")
+LossPerSecond = 2.0
+SecondsToRepair = 8.0
+
 [node name="AFewSecondsLater9" type="Node" parent="MissionsAndEvents"]
 script = ExtResource("6_0tnpc")
-TimeDelaySeconds = 5
+TimeDelaySeconds = 16
 TimeDelayStartsWhen = 7
 
 [node name="OxygenLeak7" type="Node3D" parent="MissionsAndEvents"]
 transform = Transform3D(1, 0, 0, 0, -0.204701, -0.978825, 0, 0.978825, -0.204701, 6.09844, 0, -3.46448)
 script = ExtResource("15_5newe")
+LossPerSecond = 3.0
 SecondsToRepair = 8.0
 
 [node name="AFewSecondsLater11" type="Node" parent="MissionsAndEvents"]
 script = ExtResource("6_0tnpc")
-TimeDelaySeconds = 12
+TimeDelaySeconds = 8
 TimeDelayStartsWhen = 7
 
 [node name="OxygenLeak8" type="Node3D" parent="MissionsAndEvents"]
-transform = Transform3D(1, 0, 0, 0, -0.994524, 0.104511, 0, -0.104511, -0.994524, -10.118, 5.56558, 0)
+transform = Transform3D(1, 0, 0, 0, -0.994524, 0.104511, 0, -0.104511, -0.994524, 2.40023, 6.17172, 0)
 script = ExtResource("15_5newe")
-SecondsToRepair = 8.0
+LossPerSecond = 2.0
+SecondsToRepair = 12.0
 
 [node name="Fire8" type="Node3D" parent="MissionsAndEvents"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.0112, 3.48245, -0.693943)
 script = ExtResource("10_kvuet")
 OxygenLossPerSecond = 1.0
 SecondsToExtinguish = 8
-SecondsToRepair = 20
+SecondsToRepair = 5
+RepairMissionPopup = false
+
+[node name="AFewSecondsLater14" type="Node" parent="MissionsAndEvents"]
+script = ExtResource("6_0tnpc")
+TimeDelaySeconds = 12
+TimeDelayStartsWhen = 7
+
+[node name="OxygenLeak12" type="Node3D" parent="MissionsAndEvents"]
+transform = Transform3D(1, 0, 0, 0, -0.994524, 0.104511, 0, -0.104511, -0.994524, 11.9071, 6.28147, 0)
+script = ExtResource("15_5newe")
+LossPerSecond = 4.0
+SecondsToRepair = 4.0
+
+[node name="Fire10" type="Node3D" parent="MissionsAndEvents"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.12789, -6.55787, -0.693943)
+script = ExtResource("10_kvuet")
+OxygenLossPerSecond = 1.0
+SecondsToExtinguish = 8
+SecondsToRepair = 5
 RepairMissionPopup = false
 
 [node name="AFewSecondsLater10" type="Node" parent="MissionsAndEvents"]
 script = ExtResource("6_0tnpc")
-TimeDelaySeconds = 4
+TimeDelaySeconds = 10
+TimeDelayStartsWhen = 7
+
+[node name="OxygenLeak10" type="Node3D" parent="MissionsAndEvents"]
+transform = Transform3D(1, 0, 0, 0, -0.204701, -0.978825, 0, 0.978825, -0.204701, -2.87481, 0, -3.46448)
+script = ExtResource("15_5newe")
+LossPerSecond = 2.0
+SecondsToRepair = 16.0
+
+[node name="AFewSecondsLater12" type="Node" parent="MissionsAndEvents"]
+script = ExtResource("6_0tnpc")
+TimeDelaySeconds = 20
+TimeDelayStartsWhen = 7
+
+[node name="OxygenLeak11" type="Node3D" parent="MissionsAndEvents"]
+transform = Transform3D(1, 0, 0, 0, -0.994524, 0.104511, 0, -0.104511, -0.994524, -9.88421, 5.75583, -1.7497)
+script = ExtResource("15_5newe")
+LossPerSecond = 4.0
+SecondsToRepair = 8.0
+
+[node name="Fire9" type="Node3D" parent="MissionsAndEvents"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.0112, 3.48245, -0.693943)
+script = ExtResource("10_kvuet")
+OxygenLossPerSecond = 1.0
+SecondsToExtinguish = 12
+SecondsToRepair = 5
+RepairMissionPopup = false
+
+[node name="AFewSecondsLater13" type="Node" parent="MissionsAndEvents"]
+script = ExtResource("6_0tnpc")
+TimeDelaySeconds = 12
 TimeDelayStartsWhen = 7
 
 [node name="OxygenLeak9" type="Node3D" parent="MissionsAndEvents"]
 transform = Transform3D(-0.28142, 0.959585, 0, -0.959585, -0.28142, 0, 0, 0, 1, -19.8958, -1.61892, 0)
 script = ExtResource("15_5newe")
-SecondsToRepair = 2.0
+LossPerSecond = 2.0
+SecondsToRepair = 4.0
 
-[node name="WaitUntilEverythingIsCalmAgain3" type="Node" parent="MissionsAndEvents"]
+[node name="WaitUntilEverythingIsCalmAgain3" type="Node" parent="MissionsAndEvents" node_paths=PackedStringArray("MissionToWaitFor")]
 script = ExtResource("6_0tnpc")
-TimeDelaySeconds = 3
+TimeDelaySeconds = 5
+TimeDelayStartsWhen = 5
+MissionToWaitFor = NodePath("../PirateEncounter")
 
 [node name="Credits" type="Node" parent="MissionsAndEvents"]
 script = ExtResource("20_e1j6l")

@@ -7,10 +7,10 @@ public class EventEffectResourceAdd : IEventEffect {
     // to drain a resource, set this to negative
     public float AdditionPerSecond;
 
-    // when draining a resource, set this to negative
+    // when draining a resource, set this to positive (max resources to drain)
     public float MaxResourcesToAdd = float.MaxValue;
 
-    // when draining a resource, this is negative
+    // when draining a resource, set this to positive (max resources to drain)
     public float TotalResourcesAdded;
 
     public void Process(double deltaTime) {
@@ -18,12 +18,21 @@ public class EventEffectResourceAdd : IEventEffect {
 
         float addition = AdditionPerSecond * (float)deltaTime;
 
-        if (TotalResourcesAdded + addition > MaxResourcesToAdd) {
-            addition = MaxResourcesToAdd - TotalResourcesAdded;
+        if (AdditionPerSecond > 0) {
+            if (TotalResourcesAdded + addition > MaxResourcesToAdd) {
+                addition = MaxResourcesToAdd - TotalResourcesAdded;
+            }
+        } else {
+            if (TotalResourcesAdded - addition > MaxResourcesToAdd) {
+                addition = -(MaxResourcesToAdd - TotalResourcesAdded);
+            }
         }
 
+        // if addition is negative, notAdded is negative as well
         float notAdded = Target.RemainderOfAdd(addition);
-        TotalResourcesAdded += (addition - notAdded);
+        // -x - -y = -(x - y)
+        TotalResourcesAdded += Mathf.Abs(addition - notAdded);
+
     }
 
     public bool Finished => Mathf.Abs(TotalResourcesAdded) >= Mathf.Abs(MaxResourcesToAdd);
