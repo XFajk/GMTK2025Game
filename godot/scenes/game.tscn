@@ -200,7 +200,7 @@ MissionToWaitFor = NodePath("../PizzaTime")
 [node name="EngineRev" type="Node" parent="MissionsAndEvents"]
 script = ExtResource("15_ssvqc")
 PreparationTime = 0
-Duration = 10
+Duration = 30
 
 [node name="AFewSecondsIntoPizzaTime" type="Node" parent="MissionsAndEvents" node_paths=PackedStringArray("MissionToWaitFor")]
 script = ExtResource("6_0tnpc")
