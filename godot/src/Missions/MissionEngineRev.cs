@@ -19,10 +19,10 @@ public partial class MissionEngineRev : TimedMission, IMission {
         Properties = new() {
             Title = "Mission: Getting around Quicker",
             Briefing = [
-                $"We're done crawling around the solar system, we'll be running the engine at {TargetEnginePower * 100} from now on"
+                $"We're done crawling around the solar system, we'll be running the engine at {TargetEnginePower * 100}% from now on"
             ],
             Debrief = [
-                $"So as it turns out, running the engine requires water. We decide to run the engine on {FinalEnginePower * 100} instead"
+                $"So as it turns out, running the engine requires water. We decide to run the engine on {FinalEnginePower * 100}% instead"
             ],
         };
 

@@ -87,7 +87,5 @@ public partial class MissionIceAstroidMining : TimedMission, IMission {
         ship.AddResource(Resource.Water, float.MaxValue);
     }
 
-    public override bool IsDelayed() {
-        return base.IsPreparationFinished() && !(this as IMission).CheckMaterialRequirements(_ship);
-    }
+    public override bool IsDelayed() => false;
 }

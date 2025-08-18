@@ -220,20 +220,21 @@ Target = NodePath("../../Ship/Condensator")
 
 [node name="WaitForEngineRevFinish" type="Node" parent="MissionsAndEvents" node_paths=PackedStringArray("MissionToWaitFor")]
 script = ExtResource("6_0tnpc")
-TimeDelaySeconds = 3
+TimeDelaySeconds = 10
 TimeDelayStartsWhen = 5
 MissionToWaitFor = NodePath("../EngineRev")
 
-[node name="IceAstroid" type="Node" parent="MissionsAndEvents"]
+[node name="IceAstroid" type="Node" parent="MissionsAndEvents" node_paths=PackedStringArray("AirLock")]
 script = ExtResource("16_ssvqc")
 RequiredDisposables = 20
 CrewCount = 4
-PreparationTime = 20
+AirLock = NodePath("../../Ship/AirLock")
+PreparationTime = 1
 Duration = 50
 
 [node name="AFewSecondsIntoIceAstroid" type="Node" parent="MissionsAndEvents" node_paths=PackedStringArray("MissionToWaitFor")]
 script = ExtResource("6_0tnpc")
-TimeDelaySeconds = 7
+TimeDelaySeconds = 20
 TimeDelayStartsWhen = 4
 MissionToWaitFor = NodePath("../IceAstroid")
 
@@ -241,8 +242,11 @@ MissionToWaitFor = NodePath("../IceAstroid")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.32622, 2.20241, -2.38192)
 script = ExtResource("10_kvuet")
 OxygenLossPerSecond = 1.0
-SecondsToExtinguish = 5
 SecondsToRepair = 20
+
+[node name="WaitUntilEverythingIsCalmAgain4" type="Node" parent="MissionsAndEvents"]
+script = ExtResource("6_0tnpc")
+TimeDelaySeconds = 10
 
 [node name="PirateEncounter" type="Node" parent="MissionsAndEvents"]
 script = ExtResource("16_rysoc")
@@ -385,85 +389,6 @@ TimeDelayStartsWhen = 7
 environment = ExtResource("22_37s47")
 
 [node name="TestMissions" type="Node" parent="."]
-
-[node name="Fire" type="Node3D" parent="TestMissions"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.80171, 3.03201, -0.958488)
-script = ExtResource("10_kvuet")
-OxygenLossPerSecond = 2.0
-SecondsToRepair = 5
-RepairMissionPopup = false
-
-[node name="AFewSecondsLater12" type="Node" parent="TestMissions"]
-script = ExtResource("6_0tnpc")
-TimeDelaySeconds = 1
-TimeDelayStartsWhen = 7
-
-[node name="Fire3" type="Node3D" parent="TestMissions"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.16118, -5.9363, -0.958488)
-script = ExtResource("10_kvuet")
-OxygenLossPerSecond = 2.0
-SecondsToRepair = 5
-RepairMissionPopup = false
-
-[node name="AFewSecondsLater13" type="Node" parent="TestMissions"]
-script = ExtResource("6_0tnpc")
-TimeDelaySeconds = 2
-TimeDelayStartsWhen = 7
-
-[node name="Fire2" type="Node3D" parent="TestMissions"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.80171, -1.29383, -0.958488)
-script = ExtResource("10_kvuet")
-OxygenLossPerSecond = 2.0
-SecondsToRepair = 5
-RepairMissionPopup = false
-
-[node name="AFewSecondsLater14" type="Node" parent="TestMissions"]
-script = ExtResource("6_0tnpc")
-TimeDelaySeconds = 5
-TimeDelayStartsWhen = 7
-
-[node name="Fire4" type="Node3D" parent="TestMissions"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.7334, 3.03201, -0.958488)
-script = ExtResource("10_kvuet")
-OxygenLossPerSecond = 2.0
-SecondsToRepair = 5
-RepairMissionPopup = false
-
-[node name="AFewSecondsLater15" type="Node" parent="TestMissions"]
-script = ExtResource("6_0tnpc")
-TimeDelaySeconds = 2
-TimeDelayStartsWhen = 7
-
-[node name="Fire6" type="Node3D" parent="TestMissions"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.16118, -5.9363, -0.958488)
-script = ExtResource("10_kvuet")
-OxygenLossPerSecond = 2.0
-SecondsToRepair = 5
-RepairMissionPopup = false
-
-[node name="AFewSecondsLater16" type="Node" parent="TestMissions"]
-script = ExtResource("6_0tnpc")
-TimeDelaySeconds = 2
-TimeDelayStartsWhen = 7
-
-[node name="Fire7" type="Node3D" parent="TestMissions"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.80171, -1.29383, -0.958488)
-script = ExtResource("10_kvuet")
-OxygenLossPerSecond = 2.0
-SecondsToRepair = 5
-RepairMissionPopup = false
-
-[node name="AFewSecondsLater17" type="Node" parent="TestMissions"]
-script = ExtResource("6_0tnpc")
-TimeDelaySeconds = 2
-TimeDelayStartsWhen = 7
-
-[node name="Fire8" type="Node3D" parent="TestMissions"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.7334, 3.03201, -0.958488)
-script = ExtResource("10_kvuet")
-OxygenLossPerSecond = 2.0
-SecondsToRepair = 5
-RepairMissionPopup = false
 
 [node name="WaitForeverToAvoidCrashingTheGame2" type="Node" parent="TestMissions"]
 script = ExtResource("6_0tnpc")
