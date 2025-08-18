@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://0rmy461ykeb"]
+[gd_scene load_steps=26 format=3 uid="uid://0rmy461ykeb"]
 
 [ext_resource type="Script" uid="uid://bp0g8sc4t5qhs" path="res://src/Game.cs" id="1_yqjtg"]
 [ext_resource type="PackedScene" uid="uid://cgccmqaeo11dk" path="res://scenes/ship.tscn" id="2_lnu2h"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://rjfdxfxufa01" path="res://src/Missions/MissionPrepare.cs" id="4_p57ef"]
 [ext_resource type="Script" uid="uid://b5m2vkdgw7neg" path="res://src/Missions/MissionManager.cs" id="5_gee14"]
 [ext_resource type="Script" uid="uid://invodjqpf3vs" path="res://src/Missions/Delay.cs" id="6_0tnpc"]
+[ext_resource type="Script" uid="uid://cfc7t8ql0ivov" path="res://src/Missions/JumpToMission.cs" id="6_pl11u"]
 [ext_resource type="Script" uid="uid://c64yhiv3h44qm" path="res://src/Events/EventCrewSick.cs" id="8_dinhu"]
 [ext_resource type="Script" uid="uid://bj5ttgseqiplq" path="res://src/Missions/MissionHighPowerScan.cs" id="9_vtaks"]
 [ext_resource type="Script" uid="uid://b2qjkn4sqpybs" path="res://src/Events/EventFire.cs" id="10_kvuet"]
@@ -56,6 +57,9 @@ _initialResources = Dictionary[int, int]({
 [node name="MissionsAndEvents" type="Node" parent="."]
 script = ExtResource("5_gee14")
 InitialTimeDelay = 2
+
+[node name="Jump" type="Node" parent="MissionsAndEvents"]
+script = ExtResource("6_pl11u")
 
 [node name="Prepare" type="Node" parent="MissionsAndEvents"]
 script = ExtResource("4_p57ef")

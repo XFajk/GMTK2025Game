@@ -117,6 +117,9 @@ public partial class MissionManager : Node {
 
         } else if (eventNode is Delay delay) {
             _currentDelay = delay;
+
+        } else if (eventNode is JumpToMission jump && jump.ToNode != null) {
+            progress = jump.ToNode.GetIndex() - 1;
         }
     }
 
