@@ -129,7 +129,7 @@ TimeDelayStartsWhen = 7
 MissionToWaitFor = NodePath("../AstroidMining")
 
 [node name="Fire" type="Node3D" parent="MissionsAndEvents"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.3749, 2.67907, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.5213, 3.09065, 0)
 script = ExtResource("10_kvuet")
 OxygenLossPerSecond = 2.0
 SecondsToRepair = 5
@@ -260,7 +260,7 @@ script = ExtResource("15_5newe")
 SecondsToRepair = 8.0
 
 [node name="Fire4" type="Node3D" parent="MissionsAndEvents"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.0279, -1.55033, -0.697445)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.0519, -1.47691, -0.697445)
 script = ExtResource("10_kvuet")
 OxygenLossPerSecond = 1.0
 SecondsToExtinguish = 5
@@ -352,7 +352,7 @@ script = ExtResource("15_5newe")
 SecondsToRepair = 8.0
 
 [node name="Fire8" type="Node3D" parent="MissionsAndEvents"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.0936, 3.48245, -2.66925)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.0112, 3.48245, -0.693943)
 script = ExtResource("10_kvuet")
 OxygenLossPerSecond = 1.0
 SecondsToExtinguish = 8

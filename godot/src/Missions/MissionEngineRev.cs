@@ -6,15 +6,15 @@ using System.Linq;
 public partial class MissionEngineRev : TimedMission, IMission {
 
     [Export(PropertyHint.Range, "0,1,0.05")]
-    public float TargetEnginePower = Engine.DefaultEnginePower * 4;
-    public float FinalEnginePower;
+    public float TargetEnginePower = 0.5f;
+    [Export(PropertyHint.Range, "0,1,0.05")]
+    public float FinalEnginePower = Engine.DefaultEnginePower * 2;
     public IMission.Properties Properties;
 
     private List<Engine> _engines = new();
 
     void IMission.MissionReady(Ship ship, MissionManager.Clock missionClock) {
         base.MissionReady(ship, missionClock);
-        FinalEnginePower = Mathf.Lerp(Engine.DefaultEnginePower, TargetEnginePower, 0.5f);
 
         Properties = new() {
             Title = "Mission: Getting around Quicker",
@@ -22,7 +22,7 @@ public partial class MissionEngineRev : TimedMission, IMission {
                 $"We're done crawling around the solar system, we'll be running the engine at {TargetEnginePower * 100} from now on"
             ],
             Debrief = [
-                $"So as it turns out, running the engine requires water. We decide to run the engine on {TargetEnginePower * 100} instead, how's that sound "
+                $"So as it turns out, running the engine requires water. We decide to run the engine on {FinalEnginePower * 100} instead"
             ],
         };
 

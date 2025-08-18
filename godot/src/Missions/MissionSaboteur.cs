@@ -74,6 +74,7 @@ public partial class MissionSaboteur : Node, IMission {
             }
         }
 
+        ship.Crew.Remove(captain);
         // toss the captain out of the airlock
         captain.Position = Airlock.Position + new Vector3(0, 0, -5);
         captain.state = Person.State.Floating;
